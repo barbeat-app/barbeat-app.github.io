@@ -220,6 +220,7 @@ button.sn{border:0;color:var(--ink);font:700 16px Barlow,sans-serif;cursor:point
 .blk{border:1px solid var(--ln);border-radius:12px;padding:8px 10px;margin:8px 0}.bkh{margin:10px 0 2px}.xn[data-e]{cursor:pointer}.vw{position:relative;padding-top:56.25%;margin-bottom:6px}.vw iframe{position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:12px;background:#000}
 .optb{flex:0 0 auto;min-width:44px;font-size:22px;line-height:1}.optb.on{background:var(--ac);color:#fff}.mv2{display:flex;gap:8px;margin-bottom:8px}.mv2 .b{flex:1;padding:8px 6px;font-size:14px}
 #gd{position:fixed;inset:0;z-index:80;background:var(--bg);color:var(--ink);overflow:auto;padding:16px 16px 28px;display:flex;flex-direction:column;max-width:560px;margin:0 auto}#gd[hidden]{display:none}.gdh{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}.gdn{display:flex;align-items:center;gap:12px;justify-content:center;margin-top:10px}.gdn h2{font-size:26px;margin:0}.gdn .mth{width:64px;height:72px}.gdt{font-size:76px;font-weight:800;text-align:center;font-variant-numeric:tabular-nums}.gdv{display:flex;align-items:center;justify-content:center;gap:14px}.gdv b{font-size:52px;min-width:120px;text-align:center}.gdv .b{width:78px;height:64px;font-size:20px}
+.fold{display:flex;align-items:center;gap:10px;width:100%;background:none;border:0;color:inherit;text-align:left;padding:2px 0;cursor:pointer;font:inherit}.fold>span:first-child{flex:1;min-width:0}.fold b{font-size:20px;margin-left:6px}.fold .m{display:block;margin:2px 0 0}.fold i{font-style:normal;color:var(--ac);font-size:20px}.fb{margin-top:10px}
 </style>
 </head>
 <body>
@@ -929,11 +930,11 @@ function pcInfo(e){if(!(e.pc>0))return"";const m=maxOf(e.n);
  return '<span class="m" style="display:block">Max <input class="mxi" data-mx="'+esc(e.n)+'" type="number" inputmode="decimal" value="'+(m||"")+'" placeholder="kg" aria-label="Max de '+esc(e.n)+' en kg"> kg'+(m>0?' → <b>'+fnum(rd(m*e.pc/100,2.5))+' kg</b>':' · entre ton max')+'</span>'}
 $("#pl").onchange=e=>{const t=e.target;if(t.dataset.mx==null)return;const v=pnum(t.value);if(v>0)S.mxm[t.dataset.mx]=v;else delete S.mxm[t.dataset.mx];save();rProg()};
 function rProg(){lpSel();dfFill();setTimeout(pkFill,0);
- $("#pl").innerHTML=S.prog.length?S.prog.map((d,i)=>'<div class="c"><div class="row" style="border:0"><h3>'+esc(d.n)+'</h3><button class="b g" data-a="dd" data-d="'+i+'" aria-label="Supprimer la séance type">✕</button></div>'
-  +d.ex.map((e,j)=>'<div class="row"><span>'+ic(gr(e.n))+esc(e.n)+' <span class="m">'+esc(e.t||"")+(e.ss?' · superset '+esc(e.ss):'') +(e.pc?' · '+e.pc+' %':'')+(e.rpe?' · RPE '+e.rpe:'')+'</span>'+pcInfo(e)+'</span><span class="mv"><button class="b g" data-a="xu" data-d="'+i+'" data-x="'+j+'" aria-label="Monter"'+(j===0?' disabled':'')+'>↑</button><button class="b g" data-a="xd" data-d="'+i+'" data-x="'+j+'" aria-label="Descendre"'+(j===d.ex.length-1?' disabled':'')+'>↓</button></span><button class="b g" data-a="rx" data-d="'+i+'" data-x="'+j+'" aria-label="Retirer">✕</button></div>').join("")
+ $("#pl").innerHTML=S.prog.length?S.prog.map((d,i)=>'<div class="c"><button class="fold" data-a="pt" data-d="'+i+'" aria-expanded="'+!!(PRO[i]||(PP&&PP.d===i))+'"><span><b>'+esc(d.n)+'</b><span class="m">'+d.ex.length+' exercice'+(d.ex.length>1?'s':'')+'</span></span><i>'+(PRO[i]||(PP&&PP.d===i)?'▾':'▸')+'</i></button>'
+  +(PRO[i]||(PP&&PP.d===i)?'<div class="fb">'+d.ex.map((e,j)=>'<div class="row"><span>'+ic(gr(e.n))+esc(e.n)+' <span class="m">'+esc(e.t||"")+(e.ss?' · superset '+esc(e.ss):'') +(e.pc?' · '+e.pc+' %':'')+(e.rpe?' · RPE '+e.rpe:'')+'</span>'+pcInfo(e)+'</span><span class="mv"><button class="b g" data-a="xu" data-d="'+i+'" data-x="'+j+'" aria-label="Monter"'+(j===0?' disabled':'')+'>↑</button><button class="b g" data-a="xd" data-d="'+i+'" data-x="'+j+'" aria-label="Descendre"'+(j===d.ex.length-1?' disabled':'')+'>↓</button></span><button class="b g" data-a="rx" data-d="'+i+'" data-x="'+j+'" aria-label="Retirer">✕</button></div>').join("")
   +'<div class="pk" data-d="'+i+'">'+pkHTML(i)+'</div>'
   +'<button class="b g" style="margin-top:10px;width:100%" data-a="gl" data-d="'+i+'">Appliquer séries / reps / % à tous…</button>'+(PGL===i?glH(i):'')
-  +'<button class="b" style="margin-top:10px;width:100%" data-a="go" data-d="'+i+'">Lancer cette séance</button></div>').join(""):'<p class="m">Crée ta première séance type, puis ajoute-lui des exercices.</p>';
+  +'<button class="b" style="margin-top:10px;width:100%" data-a="go" data-d="'+i+'">Lancer cette séance</button><button class="b g" data-a="dd" data-d="'+i+'" style="margin-top:10px;width:100%">Supprimer cette séance type</button></div>':'')+'</div>').join(""):'<p class="m">Crée ta première séance type, puis ajoute-lui des exercices.</p>';
 }
 
 
@@ -972,8 +973,9 @@ function pkFill(){const l=$("#pkl");if(!l||!PP)return;
   +(ex?'<button class="lgi" data-a="pks" data-n="'+esc(PP.q.trim())+'"><span>Créer « '+esc(PP.q.trim())+' »</span><span class="m">Nouvel exercice</span></button>':"")
   ||'<p class="m">Aucun exercice. Tape son nom pour le créer.</p>'}
 $("#pl").oninput=e=>{if(e.target.id==="pkq"&&PP){PP.q=e.target.value;pkFill()}};
-$("#dadd").onclick=()=>{const n=$("#dn").value.trim();if(!n)return;S.prog.push({n,ex:[]});$("#dn").value="";save();rProg()};
+$("#dadd").onclick=()=>{const n=$("#dn").value.trim();if(!n)return;S.prog.push({n,ex:[]});PRO[S.prog.length-1]=true;$("#dn").value="";save();rProg()};
 $("#pl").onclick=e=>{const b=e.target.closest("button");if(!b||!b.dataset.a)return;const a=b.dataset.a,i=+b.dataset.d,d=S.prog[i];
+ if(a==="pt"){PRO[i]=!(PRO[i]||(PP&&PP.d===i));if(PP&&PP.d===i&&!PRO[i])PP=null;rProg();return}
  if(a==="gl"){PGL=PGL===i?null:i;rProg();return}
  if(a==="glc"){const V=PGLV[i]||(PGLV[i]={k:4,r:8,pc:"",rpe:""});V[b.dataset.f]=b.dataset.v===""?"":+b.dataset.v;rProg();return}
  if(a==="gla"){const V=PGLV[i]||{k:4,r:8,pc:"",rpe:""};d.ex.forEach(e=>{if(isCar(e))return;e.t=V.k+"×"+V.r;e.pc=V.pc||undefined;e.rpe=V.rpe||undefined});PGL=null;save();rProg();toast("Appliqué à "+d.ex.filter(e=>!isCar(e)).length+" exercice(s).");return}
@@ -1092,13 +1094,13 @@ const topKg=c=>c.weeks.map(w=>Math.max(0,...w.lines.map(l=>ckg(c,l)||0)));
 const nv=v=>v==null||v===""?"":v;
 $("#cadd").onclick=()=>{const p=$("#pn").value.trim(),n=$("#cn").value.trim(),m=parseFloat($("#c1").value),k=Math.max(1,Math.min(16,parseInt($("#cw").value)||4));
  if(!n||!(m>0))return;
- S.cyc.push({p:p||n,n,m,step:+$("#cs").value||2.5,weeks:Array.from({length:k},()=>({lines:[{}]}))});
+ S.cyc.push({p:p||n,n,m,step:+$("#cs").value||2.5,weeks:Array.from({length:k},()=>({lines:[{}]}))});CYO[S.cyc.length-1]=true;
  save();["#pn","#cn","#c1"].forEach(x=>$(x).value="");rCyc()};
 const PH={s:"5",r:"5",p:"70"},LB={s:"Séries",r:"Reps",p:"Pourcentage"};
+const CYO={},PRO={};
 function rCyc(){$("#cl").innerHTML=S.cyc.map((c,i)=>
- '<div class="c"><div class="row" style="border:0"><h3>'+ic(gr(c.n))+esc(c.p)+'</h3><button class="b g" data-a="cd" data-c="'+i+'" aria-label="Supprimer le programme">✕</button></div>'
- +'<p class="m">'+esc(c.n)+' · '+c.weeks.length+' semaine'+(c.weeks.length>1?'s':'')+'</p>'
- +(()=>{const cur=c.cur||0;return cur>=c.weeks.length?'<p><b>Cycle terminé</b></p><button class="b g big" data-a="cre" data-c="'+i+'">Recommencer le cycle</button>':'<button class="b big" data-a="lw" data-c="'+i+'" data-w="'+cur+'">Lancer la semaine '+(cur+1)+' sur '+c.weeks.length+'</button>'})()
+ '<div class="c"><button class="fold" data-a="ct" data-c="'+i+'" aria-expanded="'+!!CYO[i]+'"><span>'+ic(gr(c.n))+'<b>'+esc(c.p)+'</b><span class="m">'+esc(c.n)+' · '+c.weeks.length+' semaine'+(c.weeks.length>1?'s':'')+((c.cur||0)>=c.weeks.length?' · terminé':' · semaine '+((c.cur||0)+1)+'/'+c.weeks.length)+'</span></span><i>'+(CYO[i]?'▾':'▸')+'</i></button>'
+ +(CYO[i]?'<div class="fb">'+ +(()=>{const cur=c.cur||0;return cur>=c.weeks.length?'<p><b>Cycle terminé</b></p><button class="b g big" data-a="cre" data-c="'+i+'">Recommencer le cycle</button>':'<button class="b big" data-a="lw" data-c="'+i+'" data-w="'+cur+'">Lancer la semaine '+(cur+1)+' sur '+c.weeks.length+'</button>'})()
  +'<div class="chips"><button class="chip" data-a="cmx" data-c="'+i+'">Prendre mon max actuel</button></div>'
  +'<div class="r"><div><label for="cp'+i+'">Nom du programme</label><input id="cp'+i+'" data-c="'+i+'" data-f="p" value="'+esc(c.p)+'"></div><div><label for="cm'+i+'">Max (kg)</label><input id="cm'+i+'" type="number" inputmode="decimal" data-c="'+i+'" data-f="m" value="'+c.m+'"></div></div>'
  +bars(topKg(c))
@@ -1106,14 +1108,15 @@ function rCyc(){$("#cl").innerHTML=S.cyc.map((c,i)=>
   +'<div class="cl h"><span>Séries</span><span>Reps</span><span>% du max</span><span>Charge</span><span></span></div>'
   +w.lines.map((l,k)=>{const kg=ckg(c,l);return '<div class="cl">'+["s","r","p"].map(f=>'<input type="number" inputmode="decimal" data-c="'+i+'" data-w="'+j+'" data-l="'+k+'" data-f="'+f+'" value="'+nv(l[f])+'" placeholder="'+PH[f]+'" aria-label="'+LB[f]+' semaine '+(j+1)+'">').join("")+'<b class="kg">'+(kg==null?"—":kg+" kg")+'</b><button class="b g" data-a="rl" data-c="'+i+'" data-w="'+j+'" data-l="'+k+'" aria-label="Retirer la ligne">✕</button></div>'}).join("")
   +'<div class="r" style="margin-top:6px"><button class="b g" data-a="al" data-c="'+i+'" data-w="'+j+'">+ Ligne</button><button class="b" data-a="lw" data-c="'+i+'" data-w="'+j+'">Lancer</button></div></div>').join("")
- +'<div class="r" style="margin-top:12px"><button class="b g" data-a="aw" data-c="'+i+'">+ Semaine</button><button class="b g" data-a="dw" data-c="'+i+'">− Semaine</button></div></div>').join("")}
+ +'<div class="r" style="margin-top:12px"><button class="b g" data-a="aw" data-c="'+i+'">+ Semaine</button><button class="b g" data-a="dw" data-c="'+i+'">− Semaine</button></div><button class="b g" data-a="cd" data-c="'+i+'" style="margin-top:12px;width:100%">Supprimer ce programme</button></div>':'')+'</div>').join("")}
 $("#cl").onchange=e=>{const t=e.target,d=t.dataset;if(t.tagName!=="INPUT"||d.f==null)return;const c=S.cyc[+d.c];if(!c)return;
  if(d.w==null){if(d.f==="m")c.m=parseFloat(t.value)||c.m;else c.p=t.value.trim()||c.p;save();rCyc();return}
  const l=c.weeks[+d.w].lines[+d.l];l[d.f]=t.value===""?undefined:parseFloat(t.value);save();
  const kg=ckg(c,l);t.closest(".cl").querySelector(".kg").textContent=kg==null?"—":kg+" kg";
  const b=t.closest(".c").querySelector("svg.bars");if(b)b.outerHTML=bars(topKg(c))};
 $("#cl").onclick=e=>{const b=e.target.closest("button");if(!b)return;const a=b.dataset.a,i=+b.dataset.c,c=S.cyc[i],j=+b.dataset.w,k=+b.dataset.l;
- if(a==="cd"){if(!arm(b,"Sûr ?"))return;S.cyc.splice(i,1)}
+ if(a==="ct"){CYO[i]=!CYO[i];rCyc();return}
+ if(a==="cd"){if(!arm(b,"Sûr ?"))return;S.cyc.splice(i,1);delete CYO[i]}
  else if(a==="al")c.weeks[j].lines.push({});
  else if(a==="rl"){const L=c.weeks[j].lines;L.splice(k,1);if(!L.length)L.push({})}
  else if(a==="aw")c.weeks.push({lines:[{}]});
