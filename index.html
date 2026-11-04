@@ -1432,12 +1432,12 @@ function rRec(){
  const fvF=(a,b)=>(S.fav[b.n]?1:0)-(S.fav[a.n]?1:0);
  const byRec=(a,b)=>fvF(a,b)||(a.last<b.last?1:a.last>b.last?-1:a.n.localeCompare(b.n));
  const by1=(a,b)=>fvF(a,b)||((b.b1?b.b1.v:b.bk.kg)-(a.b1?a.b1.v:a.bk.kg));
- $("#rsum").textContent=R.length?R.length+(R.length>1?" exercices suivis":" exercice suivi")+". Touche un exercice pour le détail.":"Enregistre des séances pour voir tes records.";
- $("#rgc").innerHTML=R.length?[["all","Tous"],["grp","Par muscle"],["rm","Par RM"]].map(([k,t])=>'<button class="chip'+(PMODE===k&&!q?' on':'')+'" data-rm="'+k+'">'+t+'</button>').join(""):"";
+ {const nf=R.filter(r=>S.fav[r.n]).length;$("#rsum").textContent=R.length?nf+(nf>1?" favoris":" favori")+" · "+R.length+(R.length>1?" exercices suivis":" exercice suivi"):"Enregistre des séances pour voir tes records."}
+ $("#rgc").innerHTML=R.length?[["all","★ Favoris"],["grp","Par muscle"],["rm","Par RM"]].map(([k,t])=>'<button class="chip'+(PMODE===k&&!q?' on':'')+'" data-rm="'+k+'">'+t+'</button>').join(""):"";
  let ctl="",out="",rec=false;
  if(q){const L=R.filter(r=>r.n.toLowerCase().includes(q)).sort(byRec);out=L.map(oneRM).join("")||'<p class="m">Aucun exercice trouvé.</p>'}
- else if(PMODE==="all"){rec=true;ctl=R.length>1?[["rec","Récents"],["1rm","1RM"]].map(([k,t])=>'<button class="chip'+(RSO===k?' on':'')+'" data-rs="'+k+'">'+t+'</button>').join(""):"";
-  out=R.slice().sort(RSO==="1rm"?by1:byRec).map(oneRM).join("")}
+ else if(PMODE==="all"){const F=R.filter(r=>S.fav[r.n]).sort(byRec);
+  out=F.length?F.map(oneRM).join(""):'<div class="c"><p class="m" style="margin:0">'+(R.length?'Aucun favori pour l’instant. Va dans <b>Par muscle</b>, ouvre un groupe et touche l’étoile ☆ à côté d’un exercice pour le retrouver ici.':'Enregistre des séances pour voir ta progression.')+'</p></div>'}
  else if(PMODE==="grp"){
   if(!RGF){const gs=GR.map(g=>({g,L:R.filter(r=>gk(r)===g[0])})).filter(x=>x.L.length);
    out=gs.map(x=>'<button class="c rrow gbtn" data-rg="'+x.g[0]+'"><span class="rrn"><span class="rrt">'+ic(x.g[2])+'<b>'+x.g[1]+'</b></span></span><span class="rrv"><b>'+x.L.length+'</b><span class="m">'+(x.L.length>1?"exercices":"exercice")+'</span></span></button>').join("")}
@@ -1449,7 +1449,7 @@ function rRec(){
   else{ctl='<button class="chip" data-rr="0">← Nombre de RM</button><span class="m" style="align-self:center">'+RRM+' RM</span>';
    out=R.filter(r=>r.rm[RRM]).length?R.filter(r=>r.rm[RRM]).sort((a,b)=>fvF(a,b)||(b.rm[RRM].kg-a.rm[RRM].kg)).map(r=>rowH(r,fnum(r.rm[RRM].kg)+' kg',fd(r.rm[RRM].d).slice(0,5)+' · '+gMeta(gk(r))[0])).join(""):'<p class="m">Aucun exercice avec un '+RRM+' RM pour l’instant. Il apparaîtra dès que tu feras une série de '+RRM+' rep'+(RRM>1?'s':'')+'.</p>'}}
  $("#rso").innerHTML=ctl;
- const evs=rec&&!q?R.flatMap(r=>r.ev.filter(e=>!e.first).map(e=>({...e,n:r.n}))).sort((a,b)=>a.d<b.d?1:a.d>b.d?-1:0).slice(0,3):[];
+ const evs=false?R.flatMap(r=>r.ev.filter(e=>!e.first).map(e=>({...e,n:r.n}))).sort((a,b)=>a.d<b.d?1:a.d>b.d?-1:0).slice(0,3):[];
  $("#rrec").hidden=!evs.length;
  $("#rrec").innerHTML=evs.length?'<h3>Records récents</h3>'+evs.map(e=>'<div class="row"><span>'+ic(gr(e.n))+esc(e.n)+'<span class="m" style="display:block">'+fd(e.d)+'</span></span><span style="text-align:right"><b>'+fnum(e.v)+' kg</b><span class="m" style="display:block">+'+fnum(e.v-e.p)+' kg</span></span></div>').join(""):"";
  $("#rl").innerHTML=out}
