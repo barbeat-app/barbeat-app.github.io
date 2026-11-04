@@ -618,6 +618,19 @@ body:has(#sact:not([hidden])) #seance .sbn{display:none}
 .spl{height:3px;margin:22px auto 0;width:120px;background:rgba(255,255,255,.12);border-radius:3px;overflow:hidden}.spl i{display:block;height:100%;background:linear-gradient(90deg,#ff6a1a,#ffb21f);transform-origin:left;animation:spld 1.7s .1s ease-out both}
 @keyframes spld{from{transform:scaleX(0)}}
 @media (prefers-reduced-motion:reduce){#spl{display:none}}
+#auth,#cask{position:fixed;inset:0;z-index:99990;overflow:auto;display:flex;background:radial-gradient(110% 70% at 50% 25%,#5a1d06 0%,#17100c 50%,#08080a 100%);color:#fff}
+#cask{z-index:99991}
+#auth .aui,#cask .aui{margin:auto;width:100%;max-width:400px;padding:calc(env(safe-area-inset-top,0px) + 24px) 22px calc(env(safe-area-inset-bottom,0px) + 24px)}
+#auth .alg{display:block;margin:0 auto 6px;width:150px;height:auto}
+#auth h2,#cask h2{margin:6px 0 4px;text-align:center;font:800 34px/1.05 "Barlow Condensed",sans-serif;text-transform:uppercase;font-style:italic}
+#auth .m,#cask .m{color:rgba(255,255,255,.7)}#auth>.aui>p.m:first-of-type{text-align:center}
+#auth label,#cask label{color:rgba(255,255,255,.8)}
+#auth .acg{display:flex;gap:10px;align-items:flex-start;font-size:13px;line-height:1.35;margin-top:12px;text-transform:none;letter-spacing:0}
+#auth .acg input{margin-top:2px;flex:none}
+#auth #ago{margin-top:14px}
+#auth .aer{min-height:20px;text-align:center}#auth .aer.bad{color:#ff8a7a}#auth .aer.good{color:#6ee7a0}
+#auth .alk{display:flex;justify-content:space-between;gap:10px;margin-top:6px}
+#auth #aoff{display:block;margin:10px auto 0}
 #bn,#hform{display:none!important}
 #tiles .pls .pl{margin:0}
 #tiles .pl.go{background:linear-gradient(135deg,var(--ac),var(--ac3));color:var(--ac2);padding:5px 11px;cursor:pointer}
@@ -874,6 +887,12 @@ body:has(#sact:not([hidden])) #seance .sbn{display:none}
 
 <section id="reglages">
  <h2 class="rgt">Réglages</h2>
+ <details class="c rg" id="rgacc" hidden open><summary><b>Compte</b><span class="m" id="rgacs"></span></summary>
+  <p class="m" id="rgace"></p><p class="m" id="cls"></p>
+  <div class="r"><button class="b" id="clsy">Synchroniser maintenant</button><button class="b g" id="clout">Se déconnecter</button></div>
+  <button class="b g" id="cldel" style="margin-top:10px">Supprimer mon compte</button>
+  <p class="m">Tes données sont enregistrées dans ton compte à chaque modification et retrouvées sur tous tes appareils.</p>
+ </details>
  <details class="c rg"><summary><b>Apparence</b><span class="m">Thème, couleur</span></summary>
   <label for="stth">Thème</label><select id="stth"><option value="dark">Sombre (par défaut)</option><option value="auto">Automatique (comme ton téléphone)</option><option value="light">Clair</option></select>
   <label for="stac">Couleur de l’appli</label><select id="stac"><option value="">Feu (par défaut)</option><option value="bleu">Bleu</option><option value="vert">Vert</option><option value="orange">Orange</option><option value="violet">Violet</option><option value="rose">Rose</option></select>
@@ -949,7 +968,7 @@ if(!S.mxm||typeof S.mxm!=="object"||Array.isArray(S.mxm))S.mxm={};
 if(!Array.isArray(S.lib))S.lib=[];
 if(!S.set)S.set={rt:"09:00",v2:1};
 S.sessions=S.sessions.map(s=>s.sets?{d:s.d,dur:0,rpe:s.rpe,ex:[{n:s.ex,sets:s.sets}]}:s);
-function save(){try{localStorage.setItem("muscu2",JSON.stringify(S))}catch(e){}}
+function save(){try{localStorage.setItem("muscu2",JSON.stringify(S))}catch(e){}try{clQ()}catch(e){}}
 const D=()=>S.draft;
 const today=()=>{const n=new Date();return n.getFullYear()+"-"+String(n.getMonth()+1).padStart(2,"0")+"-"+String(n.getDate()).padStart(2,"0")};
 const e1=(k,r)=>r<=1?k:k*(1+r/30);
@@ -2473,7 +2492,94 @@ function draw(){secBanners();rLibMy();rReg();rTeam();rRpeD();rGch();rEx();rRx();
 calc();draw();{const h=location.hash.slice(1);if(h&&document.getElementById(h))go(h);else{const d=D();if(d.t0&&!d.t1&&d.edit==null)go("seance")}}
 if("serviceWorker" in navigator&&/^https?:/.test(location.protocol)){navigator.serviceWorker.register("sw.js").catch(()=>{})}
 
-{const sp=document.getElementById("spl");if(sp){const L=["Prêt à soulever ?","Une série après l’autre","Chaque rep compte","Régularité > motivation","Aujourd’hui, on avance","Fais-le propre, fais-le lourd"],n=S.sessions.length;
+/* ===== compte + sauvegarde cloud (Supabase) ===== */
+const CLOUD=Object.assign({url:"https://mzhpfuomfjkjwmuaurxt.supabase.co",key:"sb_publishable_pPk5Z0ExKw8oSpmyyWTeqg_gPW1Hl_J"},window.DB_CFG||{}),CL_ON=!!(CLOUD.url&&CLOUD.key);
+let DBU=null,CLT=null,CLB=false,CLL=null,AOFF=false;
+const lsg=k=>{try{return localStorage.getItem(k)}catch(e){return null}},lss=(k,v)=>{try{if(v==null)localStorage.removeItem(k);else localStorage.setItem(k,v)}catch(e){}};
+try{DBU=JSON.parse(lsg("dbauth")||"null")}catch(e){}
+const auStore=()=>lss("dbauth",DBU?JSON.stringify(DBU):null);
+async function sb(path,o){o=o||{};const h={apikey:CLOUD.key,"Content-Type":"application/json",Authorization:"Bearer "+((o.anon||!DBU)?CLOUD.key:DBU.access)};if(o.h)Object.assign(h,o.h);
+ let r;try{r=await fetch(CLOUD.url+path,{method:o.m||"GET",headers:h,body:o.b!==undefined?JSON.stringify(o.b):undefined})}catch(e){return{ok:false,net:true,s:0,j:null}}
+ let j=null;try{j=await r.json()}catch(e){}return{ok:r.ok,s:r.status,j}}
+const auOk=r=>{const j=r.j;if(j&&j.access_token){DBU={access:j.access_token,refresh:j.refresh_token,exp:Date.now()+(j.expires_in||3600)*1000,uid:j.user&&j.user.id,email:j.user&&j.user.email};auStore();return true}return false};
+async function auFresh(){if(!DBU)return false;if(DBU.exp-Date.now()>60000)return true;
+ const r=await sb("/auth/v1/token?grant_type=refresh_token",{m:"POST",b:{refresh_token:DBU.refresh},anon:true});
+ if(r.ok&&auOk(r))return true;if(!r.net&&(r.s===400||r.s===401)){DBU=null;auStore();rAcc();authUI("in")}return false}
+const clData=()=>{const d=Object.assign({},S);delete d.draft;return d};
+const hasData=x=>!!(x&&((x.sessions||[]).length||(x.prog||[]).length||(x.weight||[]).length||(x.well||[]).length||(x.cyc||[]).length||(x.recs||[]).length));
+const hhmm=()=>{const d=new Date();return String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0")};
+function clSt(t){const e=document.getElementById("cls");if(e)e.textContent=t;const s=document.getElementById("rgacs");if(s)s.textContent=DBU?t:"Non connecté"}
+function rAcc(){const c=document.getElementById("rgacc");if(!c)return;c.hidden=!CL_ON;if(!CL_ON)return;
+ document.getElementById("rgace").textContent=DBU?DBU.email||"Connecté":"Connecte-toi pour sauvegarder tes données dans le cloud.";
+ document.getElementById("clsy").textContent=DBU?"Synchroniser maintenant":"Se connecter";document.getElementById("clout").hidden=!DBU;document.getElementById("cldel").hidden=!DBU;
+ if(!DBU)clSt("")}
+function clQ(){if(!CL_ON||!DBU||CLB)return;const s=JSON.stringify(clData());if(s===CLL)return;lss("dbmod",Date.now());clearTimeout(CLT);CLT=setTimeout(()=>clPush(),2000);clSt("Synchronisation…")}
+async function clPush(first){if(!CL_ON||!DBU||CLB)return false;if(!await auFresh()){clSt("Hors ligne : en attente");return false}
+ const ts=Date.now(),str=JSON.stringify(clData()),ls=+lsg("dbsync")||0,body={data:JSON.parse(str),updated_at:new Date(ts).toISOString()};let r;
+ if(ls>0&&!first){r=await sb("/rest/v1/user_data?user_id=eq."+DBU.uid+"&updated_at=lte."+encodeURIComponent(new Date(ls).toISOString()),{m:"PATCH",b:body,h:{Prefer:"return=representation"}});
+  if(r.ok&&Array.isArray(r.j)&&!r.j.length){clPull();return false}}
+ else r=await sb("/rest/v1/user_data?on_conflict=user_id",{m:"POST",b:Object.assign({user_id:DBU.uid},body),h:{Prefer:"resolution=merge-duplicates,return=minimal"}});
+ if(r.ok){lss("dbsync",ts);CLL=str;clSt("Synchronisé à "+hhmm());return true}
+ clSt("Hors ligne : en attente");return false}
+async function clPull(){if(!CL_ON||!DBU||CLB)return;if(!await auFresh()){clSt("Hors ligne : en attente");return}
+ const r=await sb("/rest/v1/user_data?select=data,updated_at&user_id=eq."+DBU.uid);if(!r.ok){clSt("Hors ligne : en attente");return}
+ const row=r.j&&r.j[0],ls=+lsg("dbsync")||0,lm=+lsg("dbmod")||0;
+ if(!row){await clPush(true);return}
+ const ct=Date.parse(row.updated_at);
+ if(ct<=ls){if(lm>ls){await clPush()}else{CLL=JSON.stringify(clData());clSt("Synchronisé à "+hhmm())}return}
+ const same=JSON.stringify(row.data)===JSON.stringify(clData());
+ if(same){lss("dbsync",ct);CLL=JSON.stringify(clData());clSt("Synchronisé à "+hhmm());return}
+ if(!hasData(S)||lm<=ls){clApply(row);return}
+ clAsk(row)}
+function clApply(row){CLB=true;const ct=Date.parse(row.updated_at);lss("muscu2",JSON.stringify(Object.assign({},row.data,{draft:S.draft})));lss("dbsync",ct);lss("dbmod",ct);try{sessionStorage.setItem("dbskip","1")}catch(e){}location.reload()}
+function clAsk(row){let e=document.getElementById("cask");if(e)e.remove();e=document.createElement("div");e.id="cask";const nl=(S.sessions||[]).length,nc=(row.data.sessions||[]).length;
+ e.innerHTML='<div class="aui"><h2>Quelle version garder ?</h2><p class="m">Ton compte contient déjà des données, et cet appareil aussi.</p><p class="m"><b>Cet appareil :</b> '+nl+' séance'+(nl>1?'s':'')+'<br><b>Dans ton compte :</b> '+nc+' séance'+(nc>1?'s':'')+'</p><button class="b big" id="ckc">Récupérer celles du compte</button><button class="b big g" id="ckl" style="margin-top:10px">Garder celles de cet appareil</button><p class="m">L’autre version sera remplacée.</p></div>';
+ document.body.appendChild(e);document.getElementById("ckc").onclick=()=>clApply(row);document.getElementById("ckl").onclick=async()=>{e.remove();await clPush(true)}}
+function clAfterLogin(){const ex=document.getElementById("auth");if(ex)ex.remove();if(lsg("dbuid")!==DBU.uid){lss("dbsync",0)}lss("dbuid",DBU.uid);rAcc();clPull()}
+const AER={"Invalid login credentials":"Email ou mot de passe incorrect.","User already registered":"Un compte existe déjà avec cet email.","Email not confirmed":"Confirme d’abord ton email (lien reçu par mail).","Password should be at least 6 characters":"Mot de passe trop court (6 caractères minimum)."};
+const aerT=r=>{if(r.net)return"Pas de connexion internet.";const j=r.j||{},m=j.msg||j.error_description||j.message||"";for(const k in AER)if(m.indexOf(k)>=0)return AER[k];if(r.s===429)return"Trop de tentatives, réessaie dans quelques minutes.";return m?m:"Une erreur est survenue, réessaie."};
+function authUI(mode){if(!CL_ON||AOFF)return;let e=document.getElementById("auth");if(!e){e=document.createElement("div");e.id="auth";document.body.appendChild(e)}
+ const up=mode==="up",fg=mode==="fg",rec=mode==="rec";e.dataset.m=mode;
+ e.innerHTML='<div class="aui"><svg viewBox="0 50 200 100" class="alg" aria-hidden="true"><rect x="14" y="56" width="22" height="88" rx="7" fill="#ff6a1a"/><rect x="38" y="70" width="13" height="60" rx="5" fill="#ffb21f"/><rect x="164" y="56" width="22" height="88" rx="7" fill="#ff6a1a"/><rect x="149" y="70" width="13" height="60" rx="5" fill="#ffb21f"/><polyline points="54,100 80,100 93,66 112,138 127,86 137,100 146,100" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+ +'<h2>'+(rec?"Nouveau mot de passe":fg?"Mot de passe oublié":up?"Crée ton compte":"Content de te revoir")+'</h2><p class="m">'+(rec?"Choisis un nouveau mot de passe.":fg?"On t’envoie un lien par email pour en choisir un nouveau.":up?"Tes séances sont sauvegardées et tu les retrouves sur tous tes appareils.":"Connecte-toi pour retrouver tes données.")+'</p>'
+ +(rec?'':'<label for="aem">Email</label><input id="aem" type="email" autocomplete="email" inputmode="email" autocapitalize="none" spellcheck="false">')
+ +(fg?'':'<label for="apw">'+(rec?"Nouveau mot de passe":"Mot de passe")+'</label><input id="apw" type="password" autocomplete="'+(up||rec?"new-password":"current-password")+'" placeholder="6 caractères minimum">')
+ +(up?'<label class="chk acg"><input type="checkbox" id="acg"> J’accepte que mes données (séances, bien-être, poids…) soient enregistrées sur un serveur sécurisé pour être sauvegardées et retrouvées sur mes appareils.</label>':'')
+ +'<button class="b big" id="ago">'+(rec?"Enregistrer":fg?"Envoyer le lien":up?"Créer mon compte":"Se connecter")+'</button><p class="m aer" id="aer" role="alert"></p>'
+ +(rec?'':'<div class="alk"><button class="lnk" data-am="'+(up?"in":"up")+'">'+(up?"J’ai déjà un compte":fg?"Retour":"Créer un compte")+'</button>'+(mode==="in"?'<button class="lnk" data-am="fg">Mot de passe oublié ?</button>':'')+'</div>')
+ +'<button class="lnk" id="aoff" hidden>Continuer hors connexion</button></div>'}
+document.addEventListener("click",async e=>{const a=e.target.closest("#auth [data-am]");if(a){authUI(a.dataset.am);return}
+ if(e.target.id==="aoff"){AOFF=true;const x=document.getElementById("auth");if(x)x.remove();return}
+ if(e.target.id!=="ago")return;const box=document.getElementById("auth"),m=box.dataset.m,er=document.getElementById("aer"),btn=e.target,em=(document.getElementById("aem")||{}).value,pw=(document.getElementById("apw")||{}).value;
+ const fail=t=>{er.textContent=t;er.className="m aer bad"},okm=t=>{er.textContent=t;er.className="m aer good"};er.textContent="";
+ if(m!=="rec"&&!/^\S+@\S+\.\S+$/.test((em||"").trim()))return fail("Entre une adresse email valide.");
+ if(m!=="fg"&&(pw||"").length<6)return fail("Mot de passe trop court (6 caractères minimum).");
+ if(m==="up"&&!document.getElementById("acg").checked)return fail("Coche la case pour continuer.");
+ btn.disabled=true;let r;const mail=(em||"").trim().toLowerCase();
+ if(m==="up")r=await sb("/auth/v1/signup",{m:"POST",b:{email:mail,password:pw},anon:true});
+ else if(m==="in")r=await sb("/auth/v1/token?grant_type=password",{m:"POST",b:{email:mail,password:pw},anon:true});
+ else if(m==="fg")r=await sb("/auth/v1/recover",{m:"POST",b:{email:mail},anon:true});
+ else r=await sb("/auth/v1/user",{m:"PUT",b:{password:pw}});
+ btn.disabled=false;
+ if(!r.ok){fail(aerT(r));document.getElementById("aoff").hidden=!r.net;return}
+ if(m==="fg")return okm("C’est envoyé : regarde ta boîte mail (et les indésirables).");
+ if(m==="rec"){clAfterLogin();return}
+ if(auOk(r))return clAfterLogin();
+ okm("Compte créé. Clique sur le lien reçu par email pour le confirmer, puis connecte-toi.");setTimeout(()=>authUI("in"),2500)});
+document.addEventListener("click",async e=>{const b=e.target.closest("#rgacc button");if(!b)return;
+ if(b.id==="clsy"){if(!DBU){authUI(lsg("dbuid")?"in":"up");return}clSt("Synchronisation…");await clPull();return}
+ if(b.id==="clout"){if(!arm(b,"Confirmer la déconnexion"))return;const dirty=JSON.stringify(clData())!==CLL;if(dirty&&!await clPush()){toast("Des modifications ne sont pas encore envoyées : reconnecte-toi à internet avant de te déconnecter.");return}
+  CLB=true;["muscu2","dbmod","dbsync","dbauth","dbuid"].forEach(k=>lss(k,null));try{sessionStorage.setItem("dbskip","1")}catch(x){}location.reload();return}
+ if(b.id==="cldel"){if(!arm(b,"Confirmer : supprimer mon compte"))return;if(!await auFresh())return toast("Connexion impossible, réessaie.");const r=await sb("/rest/v1/rpc/delete_my_account",{m:"POST",b:{}});
+  if(!r.ok)return toast("Suppression impossible pour l’instant.");CLB=true;["dbmod","dbsync","dbauth","dbuid"].forEach(k=>lss(k,null));toast("Compte supprimé. Tes données restent sur cet appareil.");setTimeout(()=>location.reload(),1500)}});
+window.addEventListener("online",()=>{clPull()});document.addEventListener("visibilitychange",()=>{if(!document.hidden)clPull()});
+(async function clStart(){if(!CL_ON)return;rAcc();
+ const h=location.hash;if(h.indexOf("access_token=")>=0){const p=new URLSearchParams(h.slice(1));DBU={access:p.get("access_token"),refresh:p.get("refresh_token"),exp:Date.now()+(+p.get("expires_in")||3600)*1000};
+  const r=await sb("/auth/v1/user");try{history.replaceState(null,"",location.pathname+location.search)}catch(x){}
+  if(r.ok&&r.j&&r.j.id){DBU.uid=r.j.id;DBU.email=r.j.email;auStore();if(p.get("type")==="recovery"){authUI("rec");return}clAfterLogin();return}DBU=null}
+ if(DBU){clPull()}else authUI(lsg("dbuid")?"in":"up")})();
+
+{const sp=document.getElementById("spl");try{if(sp&&sessionStorage.getItem("dbskip")){sessionStorage.removeItem("dbskip");sp.remove()}}catch(x){}if(document.getElementById("spl")){const L=["Prêt à soulever ?","Une série après l’autre","Chaque rep compte","Régularité > motivation","Aujourd’hui, on avance","Fais-le propre, fais-le lourd"],n=S.sessions.length;
  document.getElementById("spt").textContent=n>0?n+(n>1?" séances au compteur":" séance au compteur"):L[new Date().getDate()%L.length];
  const bye=()=>{if(sp.classList.contains("out"))return;sp.classList.add("out");setTimeout(()=>sp.remove(),600)};sp.addEventListener("click",bye);setTimeout(bye,1900)}}
 if(!S.set.tuto)tutoOpen();
