@@ -1515,6 +1515,7 @@ const plsH=(e,s)=>{if(eqi(e)!=="barre"||!(s.kg>0))return"";const b=barOf(e);if(s
  return'<span class="m">Par côté :</span> '+r.used.map(u=>'<b>'+u.n+' × '+String(u.w).replace(".",",")+'</b>').join(' + ')+(r.rest>0?'<span class="m"> · '+fnum(r.got)+' kg possible</span>':'')+'<span class="pd" aria-hidden="true">'+r.used.flatMap(u=>Array.from({length:u.n},()=>'<i style="background:'+u.c+'"></i>')).join("")+'</span>'};
 const rtxt=s=>Math.floor(s/60)+"min "+(s%60)+"s";
 function rEx(){
+ try{fAuto()}catch(_){}
  $("#exl").innerHTML=names().map(n=>'<option value="'+esc(n)+'">').join("");
  $("#ex").innerHTML=D().ex.map((e,i)=>{const l=lastEx(e.n),gi=e.g?D().ex.filter(x=>x.g===e.g):[],gp=gi.indexOf(e);
   e.id=e.id||uid();const id=e.id,rs=er(e),car=isCar(e),mvH='<div class="mv2"><button class="b g" data-a="up" data-e="'+i+'" aria-label="Monter l’exercice"'+(i===0?' disabled':'')+'>↑ Monter</button><button class="b g" data-a="dn" data-e="'+i+'" aria-label="Descendre l’exercice"'+(i===D().ex.length-1?' disabled':'')+'>↓ Descendre</button><button class="b g" data-a="dx" data-e="'+i+'" aria-label="Retirer l’exercice">✕ Retirer</button></div>';
@@ -1581,7 +1582,7 @@ $("#ex").onclick=e=>{const hx=e.target.closest(".xn");if(hx&&hx.dataset.e!=null&
  else if(a==="rpo"){const v=($("#rp"+i).value||"").trim();if(v){ensureLib(v);const l=lastEx(v);x.n=v;x.eq=undefined;x.bar=undefined;x.note=undefined;
    x.sets=l?l.sets.map(s=>({kg:s.kg,r:s.r,rpe:s.rpe,d:s.d,t:s.t,b:s.b,rest:s.rest||90,w:s.w})):x.sets.map(s=>({r:s.r,d:s.d,t:s.t,b:s.b,rest:s.rest}));RPL[x.id]=false}}
  else if(a==="sga"){const s=sugOf(x);if(s)x.sets.forEach(q=>{if(!q.ok&&!q.w)q.kg=s.kg})}
- else if(a==="as"){const p=x.sets[x.sets.length-1]||{};x.sets.push({kg:p.kg,r:p.r,rpe:p.rpe,d:p.d,t:p.t,cal:p.cal,h:p.h,b:p.b,rest:isCar(x)?(p.rest==null?60:p.rest):er(x)})}
+ else if(a==="as"){const p=x.sets[x.sets.length-1]||{};x.sets.push({kg:p.kg,k0:p.k0,r:p.r,rpe:p.rpe,d:p.d,t:p.t,cal:p.cal,h:p.h,b:p.b,rest:isCar(x)?(p.rest==null?60:p.rest):er(x)})}
  else if(a==="ds")x.sets.pop();
  else if(a==="ok"){const s=x.sets[j];s.ok=!s.ok;if(s.ok&&isBW(x.n)&&bwOf())s.bw=bwOf();else delete s.bw;if(s.ok&&isCar(x)){if(s.rest>0&&!D().t1)tstart(x,s.rest)}else if(s.ok){const l=lastEx(x.n),pv=l&&l.sets[j];
    if(s.kg==null&&pv)s.kg=pv.kg;if(s.r==null&&pv)s.r=pv.r;if(isBW(x.n)&&s.kg==null)s.kg=0;
@@ -2868,17 +2869,23 @@ function adapt(){const t=today(),fm=(S.form||{})[t],c=S.mcy,cy=!!(c&&c.on),ci=cy
  if(sy.includes("Mal de dos")){const l=ex.filter(x=>/squat|soulev|deadlift|good ?morning|rdl|roum/i.test(x.n)).map(x=>x.n);if(l.length)sw.push("Remplace « "+l.slice(0,2).join(" », « ")+" » par une variante plus douce pour le dos : presse à cuisses, goblet squat, hip thrust léger.")}
  if(sy.includes("Jambes lourdes")){const l=ex.filter(x=>/saut|jump|pliom|sprint|bond/i.test(x.n)).map(x=>x.n);if(l.length)sw.push("Réduis ou saute « "+l.slice(0,2).join(" », « ")+" » aujourd’hui.")}
  return{lvl,pct,sets,rir,title,why,tips,sw,L,cy}}
-function fShort2(n,skipFirst){let k=0;D().ex.forEach((x,i)=>{if(isCar(x)||(skipFirst&&i===0))return;let m=n;while(m>0&&x.sets.length>=3&&!x.sets[x.sets.length-1].ok){(x.rm=x.rm||[]).push(x.sets.pop());k++;m--}});return k}
+function fShort2(n,skipFirst){let k=0;D().ex.forEach((x,i)=>{if(isCar(x))return;x.fs=1;if(skipFirst&&i===0)return;let m=n;while(m>0&&x.sets.length>=3&&!x.sets[x.sets.length-1].ok){(x.rm=x.rm||[]).push(x.sets.pop());k++;m--}});return k}
 function rLearnH(){const c=S.mcy,L=cycLearn();if(!L)return'<p class="m">Pas de calcul avec un cycle irrégulier ou une contraception hormonale : l’appli se base sur ta forme du jour.</p>';
  const bar='<div style="height:10px;border-radius:6px;background:var(--ln);margin:8px 0"><div style="width:'+L.pct+'%;height:100%;border-radius:6px;background:var(--ac)"></div></div>';
  const rows=L.rows.map(r=>'<div class="row"><span><i style="display:inline-block;width:10px;height:10px;border-radius:50%;background:'+CYC_C[r.k]+';margin-right:6px"></i>'+CYC_N[r.k].replace(" probable","")+'</span><span class="m" style="text-align:right">'+(r.n>=5?(r.m.toFixed(1)+' / 5 ressenti'+(r.r?' · RPE '+r.r.toFixed(1):'')):r.n+' / 5 jours notés')+'</span></div>').join("");
  if(!L.ready)return'<p class="m"><b>Pas encore assez de données pour adapter tes séances à TON cycle.</b> Il faut environ 2 cycles complets et 5 jours de ressenti dans chaque phase. Continue de noter ta forme et ton wellness : ça se fait tout seul, en quelques secondes.</p>'+bar+'<p class="m">Progression : '+L.pct+' % · cycles notés : '+Math.min(L.cycles,2)+' / 2</p>'+rows+'<p class="m">En attendant, tes séances s’adaptent à ta forme et à tes symptômes du jour.</p>';
  const n=k=>CYC_N[k].replace(" probable","").toLowerCase();
  return'<p class="m"><b>L’appli connaît maintenant ton rythme.</b> Moyenne de ton ressenti (forme et wellness) par phase :</p>'+rows+'<p class="m" style="margin-top:8px">'+(L.low?'Chez toi, la phase la plus basse est la phase « '+n(L.low)+' » : l’appli allège un peu plus facilement ce jour-là. ':'')+(L.high?'Ta phase la plus haute est « '+n(L.high)+' » : bon moment pour pousser. ':'')+(!L.low&&!L.high?'Pas de grande différence entre tes phases : ton cycle semble peu influencer ton ressenti, l’appli ne change presque rien. ':'')+'</p><p class="m">Ce sont des tendances personnelles, pas des règles : ton ressenti du jour passe toujours en premier.</p>'}
+function fAuto(){const o=(S.form||{})[today()],al=o&&o.al;if(!al||!D()||D().edit!=null)return false;const p=al.p||0;let ch=false;
+ D().ex.forEach((x,i)=>{if(isCar(x))return;
+  if(p&&!isBW(x.n))x.sets.forEach(q=>{if(q.ok||q.w||!(q.kg>0))return;const f=v=>Math.max(0,rd(v*(1+p/100),2.5));if(q.k0!=null&&q.kg===f(q.k0))return;q.k0=q.kg;q.kg=f(q.k0);ch=true});
+  if(!x.fs){x.fs=1;if(al.l>=2&&!(al.l===2&&i===0)){let m=al.l===3?2:1;while(m>0&&x.sets.length>=3&&!x.sets[x.sets.length-1].ok){(x.rm=x.rm||[]).push(x.sets.pop());m--;ch=true}}}});
+ if(ch)save();return ch}
+document.addEventListener("change",e=>{const t=e.target;if(!t||!t.matches||!t.matches('#ex input[data-f="kg"]'))return;const o=(S.form||{})[today()];if(!(o&&o.al&&o.al.p))return;const i=+t.dataset.e,j=+t.dataset.s,q=D().ex[i]&&D().ex[i].sets[j];if(!q)return;const v=q.kg;fAuto();if(q.kg!==v){t.value=q.kg;toast(fnum(v)+" kg → "+fnum(q.kg)+" kg (version allégée)")}});
 function fAdj(pct){let n=0;D().ex.forEach(x=>{if(isCar(x)||isBW(x.n))return;x.sets.forEach(s=>{if(s.ok||s.w||!(s.kg>0))return;if(s.k0==null)s.k0=s.kg;const v=Math.max(0,rd(s.k0*(1+pct/100),2.5));s.kg=v;n++})});return n}
 function fUndo(){D().ex.forEach(x=>x.sets.forEach(s=>{if(s.k0!=null&&!s.ok){s.kg=s.k0}delete s.k0}))}
 function fShort(){let n=0;D().ex.forEach(x=>{if(isCar(x))return;const L=x.sets;if(L.length>=3&&!L[L.length-1].ok){(x.rm=x.rm||[]).push(L.pop());n++}});return n}
-function fUnshort(){D().ex.forEach(x=>{while(x.rm&&x.rm.length)x.sets.push(x.rm.pop());delete x.rm})}
+function fUnshort(){D().ex.forEach(x=>{while(x.rm&&x.rm.length)x.sets.push(x.rm.pop());delete x.rm;delete x.fs})}
 function rFchk(){const e=$("#fchk");if(!e||!FRM)return;const d=D(),act=!!(d.t0||d.ex.length)&&!d.t1;if(!act||d.edit!=null){e.innerHTML="";return}
  const fm=(S.form||{})[today()],ci=cycInfo(),cy=!!(S.mcy&&S.mcy.on);
  if(fm&&fm.f===0){e.innerHTML="";return}
