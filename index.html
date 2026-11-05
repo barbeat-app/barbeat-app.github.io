@@ -12,7 +12,6 @@
 <meta name="apple-mobile-web-app-title" content="Barbeat">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0a0a0c">
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#edf1fb;--sf:#fff;--ink:#0d1a33;--mu:#58667e;--ln:#d9e0ef;--ac:#e0420f;--ac3:#f08a00;--hi:#ffb020;--ac2:#fff;--ok:#0a8f5a;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0a0a0c;--sf:#151518;--ink:#f2f2f4;--mu:#9b9ba6;--ln:#2b2b31;--ac:#ff5a1f;--ac3:#ffb020;--ac2:#0a0a0c;--ok:#4cd39a;color-scheme:dark}}
@@ -477,7 +476,7 @@ button.wd:active{transform:scale(.95)}
 .hc .hv{font:800 30px/1.05 "Barlow Condensed","Arial Narrow",sans-serif;text-transform:uppercase;color:var(--ink);margin-top:2px}
 .hc .hv .u{font:700 15px Barlow,sans-serif;color:var(--mu);text-transform:none}
 .hc small{font:500 12px/1.3 Barlow,sans-serif;color:var(--mu);margin-top:2px}
-.c-well{--tc:#ef476f}.c-poids{--tc:#00b3b3}.c-charge{--tc:#ff7a1a}.c-sf{--tc:#6b7cff}.c-pain{--tc:#e5484d}.c-tests{--tc:#9b6bff}
+.c-well{--tc:#ef476f}.c-poids{--tc:#00b3b3}.c-charge{--tc:#ff7a1a}.c-sf{--tc:#6b7cff}.c-pain{--tc:#e5484d}.c-tests{--tc:#9b6bff}.c-regles{--tc:#e0457b}
 .c-well .hi svg{animation:beat 1.8s ease-in-out infinite}
 .c-charge .hi svg{animation:flash 4s infinite}
 .c-pain.on .hi svg{animation:pulse 1.6s ease-in-out infinite}
@@ -618,13 +617,13 @@ body:has(#sact:not([hidden])) #seance .sbn{display:none}
 .spl{height:3px;margin:22px auto 0;width:120px;background:rgba(255,255,255,.12);border-radius:3px;overflow:hidden}.spl i{display:block;height:100%;background:linear-gradient(90deg,#ff6a1a,#ffb21f);transform-origin:left;animation:spld 1.7s .1s ease-out both}
 @keyframes spld{from{transform:scaleX(0)}}
 @media (prefers-reduced-motion:reduce){#spl{display:none}}
-#auth,#cask{position:fixed;inset:0;z-index:99990;overflow:auto;display:flex;background:radial-gradient(110% 70% at 50% 25%,#5a1d06 0%,#17100c 50%,#08080a 100%);color:#fff}
+#auth,#cask,#prf{position:fixed;inset:0;z-index:99990;overflow:auto;display:flex;background:radial-gradient(110% 70% at 50% 25%,#5a1d06 0%,#17100c 50%,#08080a 100%);color:#fff}
 #cask{z-index:99991}
-#auth .aui,#cask .aui{margin:auto;width:100%;max-width:400px;padding:calc(env(safe-area-inset-top,0px) + 24px) 22px calc(env(safe-area-inset-bottom,0px) + 24px)}
+#auth .aui,#cask .aui,#prf .aui{margin:auto;width:100%;max-width:400px;padding:calc(env(safe-area-inset-top,0px) + 24px) 22px calc(env(safe-area-inset-bottom,0px) + 24px)}
 #auth .alg{display:block;margin:0 auto 6px;width:150px;height:auto}
-#auth h2,#cask h2{margin:6px 0 4px;text-align:center;font:800 34px/1.05 "Barlow Condensed",sans-serif;text-transform:uppercase;font-style:italic}
-#auth .m,#cask .m{color:rgba(255,255,255,.7)}#auth>.aui>p.m:first-of-type{text-align:center}
-#auth label,#cask label{color:rgba(255,255,255,.8)}
+#auth h2,#cask h2,#prf h2{margin:6px 0 4px;text-align:center;font:800 34px/1.05 "Barlow Condensed",sans-serif;text-transform:uppercase;font-style:italic}
+#auth .m,#cask .m,#prf .m{color:rgba(255,255,255,.7)}#auth>.aui>p.m:first-of-type{text-align:center}
+#auth label,#cask label,#prf label{color:rgba(255,255,255,.8)}
 #auth .acg{display:flex;gap:10px;align-items:flex-start;font-size:13px;line-height:1.35;margin-top:12px;text-transform:none;letter-spacing:0}
 #auth .acg input{margin-top:2px;flex:none}
 #auth #ago{margin-top:14px}
@@ -658,6 +657,45 @@ body:has(#sact:not([hidden])) #seance .sbn{display:none}
 #ex .xc .lnk{font-size:12px;margin-top:4px}
 #ex .xc .pcp{padding:4px 9px 8px;margin:0 0 6px;border-radius:12px}
 #ex .xc textarea{margin:0 0 5px}
+#prf .acg{display:flex;gap:10px;align-items:flex-start;font-size:13px;line-height:1.35;margin-top:12px;text-transform:none;letter-spacing:0}#prf .acg input{margin-top:2px;flex:none}
+#prf .aer{min-height:20px;text-align:center;color:#ff8a7a}#prf .b.big{margin-top:12px}
+#prf .pc{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+#prf .pc button{flex:1 1 40%;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.06);color:#fff;border-radius:12px;padding:12px 14px;font:700 15px Barlow,sans-serif;cursor:pointer}
+#prf .pc button.on{background:#ff6a1a;border-color:#ff6a1a}
+#prf input[type=number],#prf input[type=date]{width:100%;box-sizing:border-box}
+#prf .pbtn{display:block;width:100%;margin-top:10px;padding:14px;border:1px solid rgba(255,255,255,.28);border-radius:12px;background:rgba(255,255,255,.07);color:#fff;font:700 16px Barlow,sans-serif;cursor:pointer;text-align:center}
+#prf .pq{margin:18px 0 0;padding:14px;border-radius:14px;background:rgba(255,255,255,.05)}#prf .pq>b{display:block;font-size:17px;line-height:1.25}#prf .pq .m{margin:4px 0 8px;font-size:14px}#prf .pok{color:#6ee7a0;margin:8px 0 0}
+#prf .pst{display:flex;align-items:center;gap:10px;margin:6px 0}#prf .pst button{width:64px;height:60px;border-radius:14px;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.08);color:#fff;font:700 30px Barlow,sans-serif;cursor:pointer}#prf .pst div{flex:1;text-align:center}#prf .pst b{font:800 44px/1 "Barlow Condensed",sans-serif}#prf .pst small{display:block;color:rgba(255,255,255,.7)}
+#prf .pc button small{display:block;font:500 13px Barlow,sans-serif;opacity:.8;margin-top:3px}#prf .pc button{min-height:52px;font-size:16px;text-align:center}
+#prf .b.big{padding:16px;font-size:17px}
+.cyh{border-left:4px solid var(--cc,#8a8a99)!important;margin:0 0 10px}.cyh b{display:block;font-size:17px;margin:2px 0}.cyh .m{margin:0 0 8px}.cyh .cyk{font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:var(--cc)}
+.fck{padding:10px 12px!important;margin:0 0 8px}.fck>b{display:block;margin-bottom:6px}
+.fch{display:flex;gap:6px}.fch button{flex:1;display:flex;flex-direction:column;align-items:center;gap:1px;background:var(--bg);color:var(--ink);border:2px solid transparent;border-radius:10px;padding:6px 2px;cursor:pointer;font:600 12px Barlow,sans-serif}.fch button span{font-size:22px}.fch button.on{border-color:var(--ac);background:color-mix(in srgb,var(--ac) 18%,var(--bg))}
+.fck .r{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;align-items:center}.fck .r .b{flex:1 1 auto;padding:9px 12px;font-size:14px}.fck .r .lnk{flex:0 0 auto}
+.cbar{display:flex;height:12px;border-radius:7px;overflow:hidden;position:relative;margin:12px 0 6px;gap:2px}.cbar i{display:block;height:100%}.cmk{position:absolute;top:-3px;width:4px;height:18px;background:#fff;border-radius:2px;box-shadow:0 0 0 2px rgba(0,0,0,.5);transform:translateX(-50%)}
+.cleg{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:12px;color:var(--mu)}.cleg i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}
+.cyh .r,#rgl .r{display:flex;flex-wrap:wrap;gap:8px}.cyh .r .b,#rgl .r .b{flex:1 1 auto;padding:11px 12px;font-size:14px}
+#rgl .sys{display:flex;flex-wrap:wrap;gap:8px}.sybt{display:inline-flex;align-items:center;gap:7px;padding:11px 14px;border-radius:12px;border:2px solid #4a4a58;background:transparent;color:var(--ink);font:600 15px Barlow,sans-serif;cursor:pointer}.sybt.on{border-color:#e0457b;background:rgba(224,69,123,.2)}.sybt.on::after{content:"✓";color:#e0457b;font-weight:800}
+.rcn{display:flex;align-items:center;justify-content:space-between;margin:6px 0}.rcn .b{padding:8px 16px;font-size:20px}
+.rcg{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}.rcg small{text-align:center;color:var(--mut,#8a8a99);font-size:12px}
+.rcd{position:relative;aspect-ratio:1;border:2px solid transparent;border-radius:9px;background:var(--bg);color:var(--ink);font:600 14px Barlow,sans-serif;padding:0;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.rcd[style]{background:color-mix(in srgb,var(--pc) 32%,var(--bg));box-shadow:inset 0 -3px 0 var(--pc)}.rcd.fut{opacity:.55}.rcd.tdy{border-color:#fff}.rcd.sel{border-color:var(--ac)}
+.rcd em{position:absolute;top:0;right:3px;font-size:9px;color:#e5484d;font-style:normal}.rcd u{position:absolute;bottom:3px;left:50%;width:6px;height:6px;margin-left:-3px;border-radius:2px;background:#fff;text-decoration:none}
+.rcd.lat{border:2px dashed #e5484d}.rsq.rlt{background:transparent;border:2px dashed #e5484d;width:6px;height:6px}.rld{color:#e5484d;font-style:normal}.rsq{display:inline-block;width:8px;height:8px;border-radius:2px;background:#fff;margin-right:5px;text-decoration:none}
+.rdy{margin-top:12px;padding-top:10px;border-top:1px solid #3a3a46}.rdy p{margin:4px 0}.rdy .b{margin-top:6px}
+.pb{display:flex;align-items:center;gap:8px;margin-top:10px}.pl{width:116px;font-size:13px;white-space:nowrap;font-weight:600;display:flex;align-items:center;gap:6px}.pl i{width:10px;height:10px;border-radius:3px;display:inline-block}.pt{flex:1;height:14px;background:var(--bg);border-radius:7px;position:relative;overflow:hidden}.pt b{position:absolute;top:0;height:100%}.pz{position:absolute;left:50%;top:0;width:2px;height:100%;background:#8a8a99;z-index:1}.pv{width:62px;text-align:right;font-weight:700;font-size:14px}.ps{font-size:12.5px;margin:2px 0 0}.pin{margin:12px 0 6px;font-weight:600}
+.rnx{border-left:4px solid var(--cc)!important}.rnl{font-size:18px;font-weight:700;margin:4px 0 8px}.rnx summary{cursor:pointer;color:var(--ac);font-weight:600;padding:6px 0}.rel-faible b{color:#e8a31f}.rel-bonne b,.rel-correcte b{color:#1f9d55}
+#rpt{position:fixed;inset:0;z-index:9999;background:#fff;color:#111;overflow:auto;padding:18px;font-family:Barlow,sans-serif}.rpi{max-width:680px;margin:0 auto}.rpi h1{font-size:26px;margin:14px 0 2px}.rpi h3{margin:18px 0 6px;font-size:17px}.rpi table{width:100%;border-collapse:collapse}.rpi td,.rpi th{border-bottom:1px solid #ddd;padding:6px 4px;text-align:left;font-size:15px}.rpn{margin-top:20px;font-size:13px;color:#555}.rpb{display:flex;flex-direction:column;gap:8px}.rpb .pbtn{background:#eee;color:#111}
+@media print{body.rptp>*:not(#rpt){display:none!important}#rpt{position:static!important;overflow:visible!important;padding:0}.rpb{display:none!important}}
+.rck{display:flex;align-items:center;gap:12px;width:100%;padding:14px;border-radius:14px;border:2px solid #4a4a58;background:transparent;color:var(--ink);font:700 17px Barlow,sans-serif;text-align:left;cursor:pointer}.rck i{flex:none;width:28px;height:28px;border-radius:8px;border:2px solid #8a8a99;display:flex;align-items:center;justify-content:center;font-style:normal;color:#fff}.rck.on{border-color:#e5484d;background:rgba(229,72,77,.16)}.rck.on i{background:#e5484d;border-color:#e5484d}
+.rfd{position:absolute;top:3px;left:3px;width:calc(3px + var(--n,3)*2px);height:calc(3px + var(--n,3)*2px);border-radius:50%;background:#e5484d;display:inline-block}.rfd.rl{position:static;margin-right:5px;--n:3}
+.rgd{padding:0!important}.rgd>summary{list-style:none;cursor:pointer;padding:16px;font:700 17px Barlow,sans-serif;display:flex;justify-content:space-between;align-items:center}.rgd>summary::after{content:"▾";color:var(--ac)}.rgd[open]>summary::after{content:"▴"}.rgd>summary::-webkit-details-marker{display:none}.rgd>:not(summary){margin-left:16px;margin-right:16px}.rgd>:last-child{margin-bottom:16px}
+.lk .rck,.lk .sys{opacity:.45}.rfok{margin:12px 0 0;font-weight:600}.sys.off{opacity:.38}.sybt[disabled]{cursor:default}.rfl-t{margin:12px 0 6px;font-size:13px}.rfy{margin:6px 0 0}.rgs{margin-top:10px}.rgs summary{cursor:pointer;color:var(--ac);font-weight:600;padding:6px 0}.rgs .sys{margin-top:6px}.rfw{margin-top:4px}.rnl2{font-weight:600;color:var(--ink)!important}
+#lgx{position:fixed;inset:0;z-index:10000;background:var(--bg);color:var(--ink);overflow:auto;padding:18px}#lgx .lgz{max-width:680px;margin:0 auto;line-height:1.5}#lgx h2{margin:10px 0 2px}#lgx h3{font-size:18px;margin:16px 0 4px}#lgx p{margin:4px 0}
+#rgprvb .r{display:flex;flex-wrap:wrap;gap:8px}#rgprvb .r .b{flex:1 1 auto;padding:11px 12px;font-size:14px}#rgprvb .b.g{max-width:100%}
+#reglages .r{display:flex;flex-wrap:wrap;gap:8px}#reglages .r .b,#reglages #upd{flex:1 1 auto;max-width:100%;white-space:normal}
+.adv{margin:10px 0 8px;padding:10px 12px;border-radius:10px;background:rgba(255,255,255,.06)}.adv b{display:block}.adv .m{margin:2px 0 0}
+.cul{margin:8px 0;padding-left:18px}.cul li{margin:5px 0;line-height:1.35}
 </style>
 </head>
 <body>
@@ -673,6 +711,7 @@ body:has(#sact:not([hidden])) #seance .sbn{display:none}
 
 <section id="home" class="on">
  <div id="hhero"></div>
+ <div id="hcyc"></div>
  <div id="bn" class="c" hidden><div class="r"><span><b>Wellness du matin</b> : pas encore rempli aujourd’hui.</span><button class="b" id="bgo">Remplir</button></div></div>
  <div id="hform"></div>
  <div id="hcur"></div>
@@ -705,6 +744,7 @@ body:has(#sact:not([hidden])) #seance .sbn{display:none}
   <div class="c" id="snw" style="padding:10px 12px"><label for="snm" style="margin-top:0">Nom de la séance</label><input id="snm" maxlength="40" placeholder="Ex. Lower, Haut du corps, Séance A…" autocomplete="off"><div class="chips" id="snc"></div></div>
  <div class="sst" id="sst"></div>
   <p class="m" id="bal" hidden></p>
+  <div id="fchk"></div>
   <div id="ex"></div>
   <div class="r2"><button class="b big" id="addt">+ Exercice</button><button class="b big g" id="rdl" hidden>↺ Dernière séance</button><button class="b big g" id="supt">Superset</button></div>
   <div class="c" id="addp" hidden>
@@ -814,7 +854,7 @@ body:has(#sact:not([hidden])) #seance .sbn{display:none}
  <div class="c">
   <h3>Rappel</h3>
   <div class="r"><div><label for="rt">Heure du rappel</label><input id="rt" type="time"></div><button class="b g" id="nb">Activer les notifications</button></div>
-  <p class="m">Le message s’affiche sur l’accueil et ici à partir de cette heure, tant que le relevé du jour n’est pas rempli. Une page web ne peut pas envoyer de notification quand elle est fermée : pour être prévenu à 9 h, utilise un rappel quotidien dans l’appli Rappels de ton téléphone.</p>
+  <p class="m">Le message s’affiche sur l’accueil et ici à partir de cette heure, tant que le relevé du jour n’est pas rempli. Pour être aussi prévenu quand l’appli est fermée, active l’option ci-dessous (compte requis).</p><div id="wpush"></div>
  </div>
  <div class="c"><h3>Évolution</h3><label for="wm">Critère</label><select id="wm"></select><div id="g6"></div><div id="wh"></div></div>
 </section>
@@ -884,6 +924,11 @@ body:has(#sact:not([hidden])) #seance .sbn{display:none}
  <div class="c"><h3>Dernières mesures</h3><div id="sfl"></div></div>
 </section>
 
+<section id="regles">
+ <button class="b g" data-go="well" style="margin-bottom:10px">← Santé</button>
+ <div id="rgl"></div>
+</section>
+
 <section id="pain">
  <button class="b g" data-go="well" style="margin-bottom:10px">← Santé</button>
  <div class="c"><h2>Douleurs</h2><div id="pst"></div><div class="fig" id="pfig"></div><div id="ppan"></div></div>
@@ -914,6 +959,8 @@ body:has(#sact:not([hidden])) #seance .sbn{display:none}
   <button class="b g" id="cldel" style="margin-top:10px">Supprimer mon compte</button>
   <p class="m">Tes données sont enregistrées dans ton compte à chaque modification et retrouvées sur tous tes appareils.</p>
  </details>
+ <details class="c rg" id="rgpriv"><summary><b>Confidentialité et mes données</b><span class="m">Tes droits, politique, conditions</span></summary><div id="rgprvb"></div></details>
+ <details class="c rg" id="rgprof"><summary><b>Mon profil</b><span class="m" id="rgprs"></span></summary><div id="rgprb"></div></details>
  <details class="c rg"><summary><b>Apparence</b><span class="m">Thème, couleur</span></summary>
   <label for="stth">Thème</label><select id="stth"><option value="dark">Sombre (par défaut)</option><option value="auto">Automatique (comme ton téléphone)</option><option value="light">Clair</option></select>
   <label for="stac">Couleur de l’appli</label><select id="stac"><option value="">Feu (par défaut)</option><option value="bleu">Bleu</option><option value="vert">Vert</option><option value="orange">Orange</option><option value="violet">Violet</option><option value="rose">Rose</option></select>
@@ -989,7 +1036,7 @@ if(!S.mxm||typeof S.mxm!=="object"||Array.isArray(S.mxm))S.mxm={};
 if(!Array.isArray(S.lib))S.lib=[];
 if(!S.set)S.set={rt:"09:00",v2:1};
 S.sessions=S.sessions.map(s=>s.sets?{d:s.d,dur:0,rpe:s.rpe,ex:[{n:s.ex,sets:s.sets}]}:s);
-function save(){try{localStorage.setItem("muscu2",JSON.stringify(S))}catch(e){}try{clQ()}catch(e){}}
+function save(){try{localStorage.setItem("muscu2",JSON.stringify(S))}catch(e){}try{clQ()}catch(e){}try{pushQ()}catch(e){}}
 const D=()=>S.draft;
 const today=()=>{const n=new Date();return n.getFullYear()+"-"+String(n.getMonth()+1).padStart(2,"0")+"-"+String(n.getDate()).padStart(2,"0")};
 const e1=(k,r)=>r<=1?k:k*(1+r/30);
@@ -1057,6 +1104,7 @@ const SEC={
  charge:["Santé","Charge","bolt","#ff7a1a",()=>{try{const R=acwr(loadMap(),today());return R?"Ratio "+fnum(R.r)+" · "+rLab(R.r):"Ratio après 3 semaines"}catch(e){return ""}}],
  sf:["Santé","Sommeil et FC","moon","#6b7cff",()=>{const l=byD(S.sf).slice(-1)[0];return l?[l.sl!=null?fnum(l.sl)+" h":"",l.hr!=null?l.hr+" bpm":""].filter(Boolean).join(" · "):"Aucune mesure"}],
  pain:["Santé","Douleurs","cross","#e5484d",()=>{const pt=S.pain.find(x=>x.d===today()&&x.lk),nz=pt?Object.keys(pt.z).length:0;return pt?(nz?nz+(nz>1?" zones":" zone"):"Aucune douleur aujourd’hui"):"À renseigner aujourd’hui"}],
+ regles:["Santé","Règles et cycle","heart","#e0457b",()=>{const i=cycInfo();return !S.mcy||!S.mcy.on?"Active le suivi":i?(i.ph?"Jour "+i.day+" · "+CYC_N[i.ph]:"Jour "+i.day):"Suivi activé"}],
  tests:["Santé","Tests de forme","watch","#9b6bff",()=>{const l=byD(S.tests).slice(-1)[0];return l?esc(l.n)+" "+fnum(l.v)+" "+esc(l.u):"Aucun test"}],
  reglages:["Appli","Réglages","gear","#8a96ad",()=>"Thème, séance, sauvegarde"],
  equipe:["Santé","Équipe","users","#e5484d",()=>"Fiches des joueurs"]};
@@ -1066,11 +1114,11 @@ function secBanners(){const cur=document.querySelector("section.on");if(!cur||!S
  const h='<div class="sbt"><span class="sbe">'+eb+'</span><b class="sbh">'+ti2+'</b><small>'+st+'</small></div><div class="sba">'+SBA[art]()+'</div>';
  if(b.dataset.k!==h){b.dataset.k=h;b.innerHTML=h}b.style.setProperty("--tc",col);cur.style.setProperty("--sc",col);
  const h2=cur.querySelector("h2");if(h2)h2.classList.add("sbh-hide")}
-function go(t){if(t==="prog"&&$("#prog"))$("#prog").dataset.v="";const nt=({wellness:"well",poids:"well",forme:"well",charge:"well",sf:"well",pain:"well",tests:"well"})[t]||t;document.querySelectorAll("nav button").forEach(x=>x.setAttribute("aria-selected",x.dataset.t===nt));
+function go(t){if(t==="prog"&&$("#prog"))$("#prog").dataset.v="";const nt=({wellness:"well",poids:"well",forme:"well",charge:"well",sf:"well",pain:"well",tests:"well",regles:"well"})[t]||t;document.querySelectorAll("nav button").forEach(x=>x.setAttribute("aria-selected",x.dataset.t===nt));
  document.querySelectorAll("section").forEach(s=>s.classList.toggle("on",s.id===t));$("#back").hidden=t==="home";$("#gear").hidden=t!=="home";if(t==="home"){HWK=0;HMO=0;HSEL=null}location.hash=t;backLbl(t);rHome();secBanners();rLive();scrollTo(0,0)}
 document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>go(b.dataset.t));
 $("#bgo").onclick=()=>go("wellness");
-const PAR={seance:"muscu",prog:"muscu",semaine:"muscu",histo:"muscu",rec:"muscu",calc:"muscu",exos:"muscu",wellness:"well",poids:"well",forme:"well",charge:"well",sf:"well",pain:"well",tests:"well"},PARL={muscu:"Musculation",well:"Santé"};
+const PAR={seance:"muscu",prog:"muscu",semaine:"muscu",histo:"muscu",rec:"muscu",calc:"muscu",exos:"muscu",wellness:"well",poids:"well",forme:"well",charge:"well",sf:"well",pain:"well",tests:"well",regles:"well"},PARL={muscu:"Musculation",well:"Santé"};
 const parOf=id=>PAR[id]||"home";
 function backLbl(t){const p=parOf(t);$("#back").textContent="← "+(PARL[p]||"Accueil")}
 $("#back").onclick=()=>{const sec=document.querySelector("section.on");go(sec?parOf(sec.id):"home")};
@@ -2110,6 +2158,7 @@ function rHub(){
   +hc("charge","c-charge",ti("g"),"Charge",R?fnum(R.r):"—",R?rLab(R.r):"Ratio après 3 semaines",rb)
   +hc("sf","c-sf",ti("m"),"Sommeil · FC",ls&&ls.sl!=null?fnum(ls.sl)+'<small class="u"> h</small>':ls&&ls.hr!=null?ls.hr+'<small class="u"> bpm</small>':"—",ls?[ls.sl!=null&&ls.hr!=null?ls.hr+" bpm":"",fd(ls.d).slice(0,5)].filter(Boolean).join(" · "):"Aucune mesure",starsA)
   +hc("pain","c-pain"+(nz?" on":""),ti("d"),"Douleurs",pt?(nz?nz+(nz>1?" zones":" zone"):"Aucune"):"—",pt?(nz?"max "+Math.max(...Object.values(pt.z))+"/10":"Aucune douleur aujourd’hui"):"À renseigner","")
+  +((S.prof&&S.prof.sex==="f")||(S.mcy&&S.mcy.on)?(()=>{const i=cycInfo(),on=S.mcy&&S.mcy.on;return hc("regles","c-regles",ti("w"),"Règles",on&&i?(i.ph?"J"+i.day:"Cycle"):on?"Activé":"Activer",on&&i&&i.ph&&CYC_N?CYC_N[i.ph]:on?"Suivi du cycle":"Suivi des règles et du cycle","")})():"")
   +hc("tests","c-tests",ti("t"),"Tests",lt?fnum(lt.v)+'<small class="u"> '+esc(lt.u)+'</small>':"—",lt?esc(lt.n):"Aucun test",watchA);
  $("#whub").innerHTML=T}
 
@@ -2574,7 +2623,7 @@ function rSem(){
 $("#wkr1").onclick=e=>{const b=e.target.closest("[data-m]");if(!b)return;RMODE=b.dataset.m;rSem()};
 $("#wkp").onclick=()=>{WK--;rSem()};$("#wkn").onclick=()=>{if(WK<0){WK++;rSem()}};
 
-function draw(){secBanners();rLibMy();rReg();rTeam();rRpeD();rGch();rEx();rRx();rExos();rProg();rCyc();rWell();rHome();rHisto();rSem();rPoids();rRec();rCharge();rSf();rPain();rTests();rForme();rHub();banner()}
+function draw(){secBanners();rLibMy();rReg();rTeam();rRpeD();rGch();rEx();rFchk();rRx();rExos();rProg();rCyc();rWell();rHome();rHcyc();rProf();rRegles();rHisto();rSem();rPoids();rRec();rCharge();rSf();rPain();rTests();rForme();rHub();try{rWpush()}catch(x){}banner()}
 calc();draw();{const h=location.hash.slice(1);if(h&&document.getElementById(h))go(h);else{const d=D();if(d.t0&&!d.t1&&d.edit==null)go("seance")}}
 if("serviceWorker" in navigator&&/^https?:/.test(location.protocol)){navigator.serviceWorker.register("sw.js").catch(()=>{})}
 
@@ -2583,7 +2632,7 @@ const CLOUD=Object.assign({url:"https://mzhpfuomfjkjwmuaurxt.supabase.co",key:"s
 let DBU=null,CLT=null,CLB=false,CLL=null,AOFF=false;
 const lsg=k=>{try{return localStorage.getItem(k)}catch(e){return null}},lss=(k,v)=>{try{if(v==null)localStorage.removeItem(k);else localStorage.setItem(k,v)}catch(e){}};
 try{DBU=JSON.parse(lsg("dbauth")||"null")}catch(e){}
-const auStore=()=>lss("dbauth",DBU?JSON.stringify(DBU):null);
+const auStore=()=>{lss("dbauth",DBU?JSON.stringify(DBU):null);try{abSave()}catch(e){}try{rWpush()}catch(e){}};
 async function sb(path,o){o=o||{};const h={apikey:CLOUD.key,"Content-Type":"application/json",Authorization:"Bearer "+((o.anon||!DBU)?CLOUD.key:DBU.access)};if(o.h)Object.assign(h,o.h);
  let r;try{r=await fetch(CLOUD.url+path,{method:o.m||"GET",headers:h,body:o.b!==undefined?JSON.stringify(o.b):undefined})}catch(e){return{ok:false,net:true,s:0,j:null}}
  let j=null;try{j=await r.json()}catch(e){}return{ok:r.ok,s:r.status,j}}
@@ -2591,7 +2640,7 @@ const auOk=r=>{const j=r.j;if(j&&j.access_token){DBU={access:j.access_token,refr
 async function auFresh(){if(!DBU)return false;if(DBU.exp-Date.now()>60000)return true;
  const r=await sb("/auth/v1/token?grant_type=refresh_token",{m:"POST",b:{refresh_token:DBU.refresh},anon:true});
  if(r.ok&&auOk(r))return true;if(!r.net&&(r.s===400||r.s===401)){DBU=null;auStore();rAcc();authUI("in")}return false}
-const clData=()=>{const d=Object.assign({},S);delete d.draft;return d};
+const clData=()=>{const d=Object.assign({},S);delete d.draft;if(d.mcy&&!d.mcy.cloud)delete d.mcy;return d};
 const hasData=x=>!!(x&&((x.sessions||[]).length||(x.prog||[]).length||(x.weight||[]).length||(x.well||[]).length||(x.cyc||[]).length||(x.recs||[]).length));
 const hhmm=()=>{const d=new Date();return String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0")};
 function clSt(t){const e=document.getElementById("cls");if(e)e.textContent=t;const s=document.getElementById("rgacs");if(s)s.textContent=DBU?t:"Non connecté"}
@@ -2617,7 +2666,7 @@ async function clPull(){if(!CL_ON||!DBU||CLB)return;if(!await auFresh()){clSt("H
  if(same){lss("dbsync",ct);CLL=JSON.stringify(clData());clSt("Synchronisé à "+hhmm());return}
  if(!hasData(S)||lm<=ls){clApply(row);return}
  clAsk(row)}
-function clApply(row){CLB=true;const ct=Date.parse(row.updated_at);lss("muscu2",JSON.stringify(Object.assign({},row.data,{draft:S.draft})));lss("dbsync",ct);lss("dbmod",ct);try{sessionStorage.setItem("dbskip","1")}catch(e){}location.reload()}
+function clApply(row){CLB=true;const ct=Date.parse(row.updated_at);lss("muscu2",JSON.stringify(Object.assign({},row.data,{draft:S.draft},(S.mcy&&!S.mcy.cloud)?{mcy:S.mcy}:{})));lss("dbsync",ct);lss("dbmod",ct);try{sessionStorage.setItem("dbskip","1")}catch(e){}location.reload()}
 function clAsk(row){let e=document.getElementById("cask");if(e)e.remove();e=document.createElement("div");e.id="cask";const nl=(S.sessions||[]).length,nc=(row.data.sessions||[]).length;
  e.innerHTML='<div class="aui"><h2>Quelle version garder ?</h2><p class="m">Ton compte contient déjà des données, et cet appareil aussi.</p><p class="m"><b>Cet appareil :</b> '+nl+' séance'+(nl>1?'s':'')+'<br><b>Dans ton compte :</b> '+nc+' séance'+(nc>1?'s':'')+'</p><button class="b big" id="ckc">Récupérer celles du compte</button><button class="b big g" id="ckl" style="margin-top:10px">Garder celles de cet appareil</button><p class="m">L’autre version sera remplacée.</p></div>';
  document.body.appendChild(e);document.getElementById("ckc").onclick=()=>clApply(row);document.getElementById("ckl").onclick=async()=>{e.remove();await clPush(true)}}
@@ -2630,7 +2679,7 @@ function authUI(mode){if(!CL_ON||AOFF)return;let e=document.getElementById("auth
  +'<h2>'+(rec?"Nouveau mot de passe":fg?"Mot de passe oublié":up?"Crée ton compte":"Content de te revoir")+'</h2><p class="m">'+(rec?"Choisis un nouveau mot de passe.":fg?"On t’envoie un lien par email pour en choisir un nouveau.":up?"Tes séances sont sauvegardées et tu les retrouves sur tous tes appareils.":"Connecte-toi pour retrouver tes données.")+'</p>'
  +(rec?'':'<label for="aem">Email</label><input id="aem" type="email" autocomplete="email" inputmode="email" autocapitalize="none" spellcheck="false">')
  +(fg?'':'<label for="apw">'+(rec?"Nouveau mot de passe":"Mot de passe")+'</label><input id="apw" type="password" autocomplete="'+(up||rec?"new-password":"current-password")+'" placeholder="6 caractères minimum">')
- +(up?'<p class="m" style="font-size:12.5px;opacity:.85;margin:10px 0 4px"><b>Version test gratuite.</b> L’appli est en cours de développement : des bugs et des changements sont possibles.</p><details style="font-size:12.5px;opacity:.85;margin:0 0 8px"><summary style="cursor:pointer">Ce qui est enregistré, et pourquoi</summary><p style="margin:6px 0 0;line-height:1.45">• Ton email et ton mot de passe (chiffré) : uniquement pour ton compte.<br>• Tes séances, charges, poids et données de bien-être : pour les sauvegarder et les retrouver sur tes appareils.<br>• Hébergement sécurisé chez Supabase. Rien n’est vendu ni partagé.<br>• Tu peux exporter tes données ou supprimer ton compte (et tout effacer) à tout moment dans Réglages.<br>• Une question ? Contacte la personne qui t’a donné l’accès.</p></details><label class="chk acg"><input type="checkbox" id="acg"> J’accepte que mon email et mes données (séances, bien-être, poids…), dont des données de santé, soient enregistrés sur un serveur sécurisé pour être sauvegardés et retrouvés sur mes appareils.</label>':'')
+ +(up?'<p class="m" style="font-size:12.5px;opacity:.85;margin:10px 0 4px"><b>Version test gratuite.</b> L’appli est en cours de développement : des bugs et des changements sont possibles.</p><details style="font-size:12.5px;opacity:.85;margin:0 0 8px"><summary style="cursor:pointer">Ce qui est enregistré, et pourquoi</summary><p style="margin:6px 0 0;line-height:1.45">• Ton email et ton mot de passe (chiffré) : uniquement pour ton compte.<br>• Tes séances, charges, poids et données de bien-être : pour les sauvegarder et les retrouver sur tes appareils.<br>• Hébergement sécurisé chez Supabase. Rien n’est vendu ni partagé.<br>• Tu peux exporter tes données ou supprimer ton compte (et tout effacer) à tout moment dans Réglages.<br>• Une question ? Contacte la personne qui t’a donné l’accès.</p></details><label class="chk acg"><input type="checkbox" id="acg"> J’accepte que mon email et mes données (séances, bien-être, poids…), dont des données de santé, soient enregistrés sur un serveur sécurisé pour être sauvegardés et retrouvés sur mes appareils.</label><label class="chk acg"><input type="checkbox" id="acg2"> J’ai 15 ans ou plus (ou l’accord de mon représentant légal) et j’accepte les <button type="button" class="lnk" data-lg="cgu" style="display:inline;margin:0">conditions d’utilisation</button> et la <button type="button" class="lnk" data-lg="pol" style="display:inline;margin:0">politique de confidentialité</button>.</label>':'')
  +'<button class="b big" id="ago">'+(rec?"Enregistrer":fg?"Envoyer le lien":up?"Créer mon compte":"Se connecter")+'</button><p class="m aer" id="aer" role="alert"></p>'
  +(rec?'':'<div class="alk"><button class="lnk" data-am="'+(up?"in":"up")+'">'+(up?"J’ai déjà un compte":fg?"Retour":"Créer un compte")+'</button>'+(mode==="in"?'<button class="lnk" data-am="fg">Mot de passe oublié ?</button>':'')+'</div>')
  +'<button class="lnk" id="aoff" hidden>Continuer hors connexion</button></div>'}
@@ -2641,6 +2690,7 @@ document.addEventListener("click",async e=>{const a=e.target.closest("#auth [dat
  if(m!=="rec"&&!/^\S+@\S+\.\S+$/.test((em||"").trim()))return fail("Entre une adresse email valide.");
  if(m!=="fg"&&(pw||"").length<6)return fail("Mot de passe trop court (6 caractères minimum).");
  if(m==="up"&&!document.getElementById("acg").checked)return fail("Coche la case pour continuer.");
+ if(m==="up"&&!document.getElementById("acg2").checked)return fail("Coche aussi la case des conditions et de la politique de confidentialité.");
  btn.disabled=true;let r;const mail=(em||"").trim().toLowerCase();
  if(m==="up")r=await sb("/auth/v1/signup",{m:"POST",b:{email:mail,password:pw},anon:true});
  else if(m==="in")r=await sb("/auth/v1/token?grant_type=password",{m:"POST",b:{email:mail,password:pw},anon:true});
@@ -2650,14 +2700,15 @@ document.addEventListener("click",async e=>{const a=e.target.closest("#auth [dat
  if(!r.ok){fail(aerT(r));document.getElementById("aoff").hidden=!r.net;return}
  if(m==="fg")return okm("C’est envoyé : regarde ta boîte mail (et les indésirables).");
  if(m==="rec"){clAfterLogin();return}
+ if(m==="up"){S.cons={v:LGL.v,t:new Date().toISOString(),a15:1};save()}
  if(auOk(r))return clAfterLogin();
  okm("Compte créé. Clique sur le lien reçu par email pour le confirmer, puis connecte-toi.");setTimeout(()=>authUI("in"),2500)});
 document.addEventListener("click",async e=>{const b=e.target.closest("#rgacc button");if(!b)return;
  if(b.id==="clsy"){if(!DBU){authUI(lsg("dbuid")?"in":"up");return}clSt("Synchronisation…");await clPull();return}
  if(b.id==="clout"){if(!arm(b,"Confirmer la déconnexion"))return;const dirty=JSON.stringify(clData())!==CLL;if(dirty&&!await clPush()){toast("Des modifications ne sont pas encore envoyées : reconnecte-toi à internet avant de te déconnecter.");return}
-  CLB=true;["muscu2","dbmod","dbsync","dbauth","dbuid"].forEach(k=>lss(k,null));try{sessionStorage.setItem("dbskip","1")}catch(x){}location.reload();return}
+  CLB=true;try{await pushOff()}catch(e){}try{await abClr()}catch(e){}["muscu2","dbmod","dbsync","dbauth","dbuid"].forEach(k=>lss(k,null));try{sessionStorage.setItem("dbskip","1")}catch(x){}location.reload();return}
  if(b.id==="cldel"){if(!arm(b,"Confirmer : supprimer mon compte"))return;if(!await auFresh())return toast("Connexion impossible, réessaie.");const r=await sb("/rest/v1/rpc/delete_my_account",{m:"POST",b:{}});
-  if(!r.ok)return toast("Suppression impossible pour l’instant.");CLB=true;["dbmod","dbsync","dbauth","dbuid"].forEach(k=>lss(k,null));toast("Compte supprimé. Tes données restent sur cet appareil.");setTimeout(()=>location.reload(),1500)}});
+  if(!r.ok)return toast("Suppression impossible pour l’instant.");CLB=true;try{await abClr()}catch(e){}["dbmod","dbsync","dbauth","dbuid"].forEach(k=>lss(k,null));toast("Compte supprimé. Tes données restent sur cet appareil.");setTimeout(()=>location.reload(),1500)}});
 window.addEventListener("online",()=>{clPull()});document.addEventListener("visibilitychange",()=>{if(!document.hidden)clPull()});
 (async function clStart(){if(!CL_ON)return;rAcc();
  const h=location.hash;if(h.indexOf("access_token=")>=0){const p=new URLSearchParams(h.slice(1));DBU={access:p.get("access_token"),refresh:p.get("refresh_token"),exp:Date.now()+(+p.get("expires_in")||3600)*1000};
@@ -2668,6 +2719,358 @@ window.addEventListener("online",()=>{clPull()});document.addEventListener("visi
 {const sp=document.getElementById("spl");try{if(sp&&sessionStorage.getItem("dbskip")){sessionStorage.removeItem("dbskip");sp.remove()}}catch(x){}if(document.getElementById("spl")){const L=["Prêt à soulever ?","Une série après l’autre","Chaque rep compte","Régularité > motivation","Aujourd’hui, on avance","Fais-le propre, fais-le lourd"],n=S.sessions.length;
  document.getElementById("spt").textContent=n>0?n+(n>1?" séances au compteur":" séance au compteur"):L[new Date().getDate()%L.length];
  const bye=()=>{if(sp.classList.contains("out"))return;sp.classList.add("out");setTimeout(()=>sp.remove(),600)};sp.addEventListener("click",bye);setTimeout(bye,1900)}}
+/* aperçu claude.ai uniquement : garde la connexion d’une version à l’autre (aucun effet sur l’appli installée) */
+var ABR=null;
+function abSave(){if(ABR)ABR.set({a:DBU||null}).catch(()=>{})}
+function abClr(){return ABR?ABR.set({a:null}).catch(()=>{}):Promise.resolve()}
+(async function(){try{if(!window.claude||!window.claude.use||!CL_ON)return;const db=await claude.use("db"),us=await claude.use("user");if(!db||!us)return;const id=await us.id();if(!id)return;ABR=db.doc("data/users/"+id+"/barbeat_auth");
+ if(DBU){abSave();return}
+ const sn=await ABR.get(),d=sn.exists&&sn.data(),a=d&&d.a;if(!a||!a.refresh)return;DBU=a;auStore();
+ if(await auFresh()&&DBU){clAfterLogin()}}catch(e){}})();
+/* ===== profil, cycle, forme du jour ===== */
+var CYC_C={men:"#e5484d",fol:"#1f9d55",ov:"#e8a31f",lut:"#8a6be0"},CYC_N={men:"Règles",fol:"Phase folliculaire",ov:"Ovulation probable",lut:"Phase lutéale"},
+ CYC_T={men:"Écoute-toi : si c’est dur, allège ou fais de la mobilité.",fol:"Énergie souvent en hausse : bon moment pour pousser.",ov:"Fenêtre d’ovulation estimée : échauffe-toi bien.",lut:"Fatigue possible : garde tes charges, allonge les repos si besoin."};
+function cycLen(c){const h=(c.hist||[]).slice().sort(),df=[];for(let i=1;i<h.length;i++){const d=dnum(h[i])-dnum(h[i-1]);if(d>=20&&d<=45)df.push(d)}
+ const l=df.slice(-6);return l.length>=2?Math.round(l.reduce((a,b)=>a+b,0)/l.length):(c.len||28)}
+function cycInfo(){const c=S.mcy;if(!c||!c.on||!c.last)return null;const L=cycLen(c),since=dnum(today())-dnum(c.last);if(since<0)return null;
+ const late=since>=L,d=late?since+1:since%L+1;
+ if(c.irr||late)return{irr:!!c.irr,late,day:since+1,L,ph:"",next:0,exp:addD(c.last,L),wait:since-L};
+ const ov=L-14;let ph;if(d<=5)ph="men";else if(c.o)ph=d<ov-1?"fol":d<=ov+1?"ov":"lut";else ph=d<=ov?"fol":"lut";
+ {const fl=c.fl||{},ft=fl[today()];if(ph==="men"&&(ft===0||(ft===undefined&&fl[addD(today(),-1)]===0)))ph="fol";else if(ph!=="men"&&ft>=2&&since<15)ph="men"}
+ return{day:d,L,ph,next:L-d+1,ov,late:false,irr:false}}
+function cycStart(n){n=+n||0;const c=S.mcy;if(!c)return;const dt=addD(today(),-n),pl=c.last,ph=(c.hist||[]).slice(),pf=c.fl&&c.fl[dt];c.fl=c.fl||{};if(!(c.fl[dt]>0))c.fl[dt]=3;c.hist=[...new Set([...(c.hist||[]),dt])].sort().slice(-12);c.last=c.hist[c.hist.length-1];save();draw();
+ toastU("Début des règles noté",()=>{c.last=pl;c.hist=ph;if(pf===undefined)delete c.fl[dt];else c.fl[dt]=pf;save();draw()})}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-cy]");if(b&&b.dataset.cy==="start")cycStart(b.dataset.v)});
+/* profil : écrans */
+var PF=null,PFSEEN=false;
+function profOpen(step){const p=S.prof||{},c=S.mcy||{};PF={step:step||1,sex:p.sex||"",age:p.age||"",mode:c.on?(c.o?"o":"r"):"",last:c.last||"",dq:c.last?"o":"",len:c.len||28,irr:!!c.irr,cons:false,cloud:!!c.cloud,fs:!!(S.prof&&S.prof.done||S.prof&&S.prof.x),err:""};profDraw()}
+function profRead(){const g=id=>document.getElementById(id);if(g("pfage"))PF.age=g("pfage").value;if(g("pfd"))PF.last=g("pfd").value;if(g("pfc"))PF.cons=g("pfc").checked}
+function profDraw(){let e=$("#prf");if(!e){e=document.createElement("div");e.id="prf";e.setAttribute("role","dialog");e.setAttribute("aria-label","Ton profil");document.body.appendChild(e)}
+ const P=PF,age=+P.age,ch=(k,v,l,on)=>'<button data-pf="'+k+'" data-v="'+v+'" class="'+(on?"on":"")+'">'+l+'</button>';let h='<div class="aui">';
+ if(P.step===1){h+='<h2>Pour personnaliser</h2><p class="m">Facultatif : ça sert à adapter les suggestions de l’appli. Tu peux passer.</p><label>Tu es</label><div class="pc">'+ch("sex","f","Une femme",P.sex==="f")+ch("sex","m","Un homme",P.sex==="m")+ch("sex","n","Je préfère ne pas dire",P.sex==="n")+'</div>'
+  +'<label for="pfage">Ton âge</label><input id="pfage" type="number" inputmode="numeric" min="10" max="99" value="'+esc(P.age)+'" placeholder="Ex. 24"><p class="m aer bad" id="pfe">'+esc(P.err)+'</p><button class="b big" data-pf="n1">Continuer</button><button class="pbtn" data-pf="skip">'+(P.fs?"Annuler":"Passer cette étape")+'</button>'}
+ else if(P.step===2){h+='<h2>Adapter tes séances à ton cycle ?</h2><p class="m">Barbeat peut suivre ta phase (règles, ovulation estimée…) et te proposer d’alléger ou de pousser. Ce sont des suggestions de bon sens, pas un avis médical : tu gardes toujours le dernier mot.</p>'
+  +(age>0&&age<18?'<p class="m">À moins de 18 ans, parles-en avec un adulte de confiance si tu as des questions.</p>':'')
+  +'<div class="pc" style="flex-direction:column"><button data-pf="mode" data-v="r">Suivre mes règles<small>Je note quand elles commencent et l’appli m’indique ma phase.</small></button><button data-pf="mode" data-v="o">Suivre mes règles et mon ovulation<small>Pareil, avec une estimation de la période d’ovulation.</small></button><button data-pf="mode" data-v="">Non merci<small>Je pourrai l’activer plus tard dans Santé.</small></button></div><button class="pbtn" data-pf="back">← Retour</button>'}
+ else{const DQ=[["0","Aujourd’hui"],["1","Hier"],["3","Il y a 3 jours"],["7","Il y a 1 semaine"],["14","Il y a 2 semaines"],["o","Une autre date"]];
+  h+='<h2>Ton cycle</h2><p class="m">'+(P.mode==="o"?"On va suivre tes règles et estimer ton ovulation.":"On va suivre tes règles.")+' 3 questions, tu pourras tout modifier ensuite dans Réglages.</p>'
+  +'<div class="pq"><b>1. Quand tes dernières règles ont-elles commencé ?</b><p class="m">Le « premier jour », c’est le premier jour où tu as saigné.</p><div class="pc">'+DQ.map(x=>ch("dq",x[0],x[1],P.dq===x[0])).join("")+'</div>'
+  +(P.dq==="o"?'<input id="pfd" type="date" max="'+today()+'" value="'+esc(P.last)+'" aria-label="Date du premier jour de tes dernières règles">':'')
+  +(P.last?'<p class="m pok">✓ Premier jour : '+fd(P.last)+'</p>':'')+'</div>'
+  +'<div class="pq"><b>2. Combien de jours dure ton cycle ?</b><p class="m">Du premier jour d’une règle au premier jour de la suivante. En général entre 25 et 32 jours.</p>'
+  +'<div class="pst"><button data-pf="len" data-v="-1" aria-label="Un jour de moins">−</button><div><b>'+P.len+'</b><small>jours</small></div><button data-pf="len" data-v="1" aria-label="Un jour de plus">+</button></div>'
+  +'<button class="pbtn" data-pf="l28">Je ne sais pas : mettre 28 jours</button></div>'
+  +'<div class="pq"><b>3. Ton cycle est-il régulier ?</b><div class="pc">'+ch("irr","0","Oui, plutôt régulier",!P.irr)+ch("irr","1","Irrégulier, ou pilule / stérilet hormonal",P.irr)+'</div>'
+  +(P.irr?'<p class="m">Dans ce cas il n’y a pas de vraies phases : l’appli ne calculera rien et se basera seulement sur ton ressenti du jour.</p>':'')+'</div>'
+  +(CL_ON&&DBU?'<div class="pq"><b>Où garder ces informations ?</b><div class="pc">'+ch("cl","0","Cet appareil seulement",!P.cloud)+ch("cl","1","Mon compte (cloud)",P.cloud)+'</div></div>':'')
+  +'<label class="chk acg"><input type="checkbox" id="pfc"'+(P.cons?" checked":"")+'> J’accepte que ces informations de santé (dates de règles, symptômes) soient enregistrées '+(CL_ON&&DBU&&P.cloud?'dans mon compte':'sur cet appareil')+'. Je peux les effacer à tout moment dans Réglages.</label>'
+  +'<p class="m aer bad" id="pfe">'+esc(P.err)+'</p><button class="b big" data-pf="save">Activer le suivi</button><button class="pbtn" data-pf="back">← Retour</button>'}
+ e.innerHTML=h+'</div>'}
+function profSave(){const P=PF;S.prof={sex:P.sex,age:+P.age||0,done:1};
+ if(P.mode){S.mcy={on:1,o:P.mode==="o",last:P.last,len:Math.max(21,Math.min(45,+P.len||28)),irr:P.irr,cloud:!!(CL_ON&&DBU&&P.cloud),hist:[P.last],sym:(S.mcy&&S.mcy.sym)||{}}}
+ else if(P.step===2&&S.mcy){S.mcy.on=0}
+ save();const e=$("#prf");if(e)e.remove();PF=null;draw()}
+document.addEventListener("click",e=>{const b=e.target.closest("#prf [data-pf]");if(!b||!PF)return;profRead();const k=b.dataset.pf,v=b.dataset.v,P=PF;P.err="";
+ if(k==="sex"){P.sex=v}
+ else if(k==="skip"){if(!P.fs)S.prof={x:1};save();const x=$("#prf");if(x)x.remove();PF=null;return}
+ else if(k==="n1"){const a=+P.age;if(a&&(a<10||a>99)){P.err="Entre un âge entre 10 et 99 ans."}
+  else if(P.sex==="f"&&!a){P.err="Indique ton âge pour proposer le suivi du cycle, ou touche Passer."}
+  else if(P.sex==="f"&&a>=15)P.step=2;else{P.mode="";profSave();return}}
+ else if(k==="mode"){if(!v){P.mode="";profSave();return}P.mode=v;P.step=3}
+ else if(k==="back"){P.step=P.step===3?2:1}
+ else if(k==="l28"){P.len=28}
+ else if(k==="len"){P.len=Math.max(21,Math.min(45,P.len+ +v))}
+ else if(k==="irr"){P.irr=v==="1"}
+ else if(k==="dq"){P.dq=v;if(v!=="o")P.last=addD(today(),-(+v))}
+ else if(k==="cl"){P.cloud=v==="1"}
+ else if(k==="save"){if(!P.last||P.last>today()){P.err="Choisis quand tes dernières règles ont commencé (question 1)."}
+  else if(!(P.len>=21&&P.len<=45)){P.err="La durée du cycle doit être entre 21 et 45 jours."}
+  else if(!P.cons){P.err="Coche la case pour accepter."}else{profSave();return}}
+ profDraw()});
+setInterval(()=>{if(!S.prof&&!PFSEEN&&S.set.tuto&&!PF&&!document.getElementById("auth")&&!document.getElementById("spl")&&!document.getElementById("cask")&&document.getElementById("tuto").hidden){PFSEEN=true;profOpen(1)}},1500);
+/* Réglages : mon profil */
+function rProf(){try{rPriv()}catch(x){}const e=$("#rgprb");if(!e||!CYC_C)return;const p=S.prof||{},c=S.mcy,i=cycInfo(),SX={f:"Femme",m:"Homme",n:"Non précisé"};
+ $("#rgprs").textContent=p.sex?SX[p.sex]+(p.age?" · "+p.age+" ans":""):"Non renseigné";
+ let h='<p class="m">'+(p.sex?SX[p.sex]+(p.age?", "+p.age+" ans":""):"Rien d’enregistré.")+'</p><button class="b g" data-pfs="edit">Modifier mon profil</button>';
+ if(c&&c.on){h+='<p class="m" style="margin-top:10px"><b>Suivi du cycle activé</b> · '+(c.o?"règles + ovulation":"règles")+' · durée utilisée : '+cycLen(c)+' j'+(c.irr?' · cycle irrégulier':'')+'<br>Données gardées '+(c.cloud?'dans ton compte.':'sur cet appareil seulement.')+'</p>'
+  +'<div class="r"><button class="b g" data-pfs="start">Mes règles ont commencé</button><button class="b g" data-pfs="cy">Modifier les dates</button></div><button class="b g" data-pfs="off" style="margin-top:8px">Désactiver et effacer mes données de cycle</button>'
+  +'<p class="m">Estimation à partir de ce que tu notes, pas un avis médical. Ne sert ni à la contraception ni à la fertilité.</p>'}
+ else if(p.sex==="f"&&(p.age||0)>=15){h+='<button class="b" data-pfs="on" style="margin-top:10px">Activer le suivi du cycle</button><p class="m">Optionnel : adapte les suggestions de séance à ta phase.</p>'}
+ e.innerHTML=h}
+document.addEventListener("click",e=>{const b=e.target.closest("#rgprb [data-pfs]");if(!b)return;const k=b.dataset.pfs;
+ if(k==="edit")profOpen(1);else if(k==="on"){profOpen(2)}else if(k==="cy"){profOpen(3)}else if(k==="start")cycStart();
+ else if(k==="off"){if(!arm(b,"Effacer mes données de cycle ?"))return;try{pushOff("c")}catch(x){}delete S.mcy;save();draw();toast("Données de cycle effacées")}});
+/* forme du jour + adaptation */
+var FRM=[[1,"😵","KO"],[2,"😕","Bof"],[3,"🙂","Normal"],[4,"😀","Bien"],[5,"🔥","Top"]],SYM=["Crampes","Fatigue","Maux de tête","Ballonnements"];
+var FSEL={f:0,sy:[]};
+function fAdvice(f,i,sy){const ph=i&&i.ph||"",pn=ph?CYC_N[ph].toLowerCase():"";let pct=0,t="";
+ if(f<=2){pct=f===1?-15:-10;t=ph==="men"||ph==="lut"?"Forme basse en "+pn+" : allège aujourd’hui, ton ressenti compte plus que la théorie.":"Forme basse : allège aujourd’hui et reste propre sur chaque rep."}
+ else if(f===3){if(ph==="men"&&sy.includes("Crampes")){pct=-5;t="Règles avec crampes : charges allégées de 5 %, ou séance plus courte."}else if(ph==="lut"){t="Phase lutéale : garde les charges prévues, repos un peu plus longs si besoin."}else t="Forme normale : suis ta séance prévue."}
+ else{if(ph==="men"||ph==="lut"){t="Bonne forme malgré la "+pn+" : garde la charge prévue, monte seulement si ça passe facilement."}else{pct=5;t=(f===5?"Super forme":"Bonne forme")+(ph?" en "+pn:"")+" : tu peux pousser un peu aujourd’hui."}}
+ if(sy.length>=3&&pct>=0){pct=-5;t="Plusieurs symptômes : allège un peu aujourd’hui."}
+ return{pct,t}}
+function fAdj(pct){let n=0;D().ex.forEach(x=>{if(isCar(x)||isBW(x.n))return;x.sets.forEach(s=>{if(s.ok||s.w||!(s.kg>0))return;if(s.k0==null)s.k0=s.kg;const v=Math.max(0,rd(s.k0*(1+pct/100),2.5));s.kg=v;n++})});return n}
+function fUndo(){D().ex.forEach(x=>x.sets.forEach(s=>{if(s.k0!=null&&!s.ok){s.kg=s.k0}delete s.k0}))}
+function fShort(){let n=0;D().ex.forEach(x=>{if(isCar(x))return;const L=x.sets;if(L.length>=3&&!L[L.length-1].ok){(x.rm=x.rm||[]).push(L.pop());n++}});return n}
+function fUnshort(){D().ex.forEach(x=>{while(x.rm&&x.rm.length)x.sets.push(x.rm.pop());delete x.rm})}
+function rFchk(){const e=$("#fchk");if(!e||!FRM)return;const d=D(),act=!!(d.t0||d.ex.length)&&!d.t1;if(!act||d.edit!=null){e.innerHTML="";return}
+ const fm=(S.form||{})[today()],ci=cycInfo(),cy=!!(S.mcy&&S.mcy.on);
+ if(fm&&fm.f===0){e.innerHTML="";return}
+ if(!fm){e.innerHTML='<div class="c fck"><b>Ta forme aujourd’hui ?</b><div class="fch">'+FRM.map(x=>'<button data-fk="f" data-v="'+x[0]+'" class="'+(FSEL.f===x[0]?"on":"")+'"><span>'+x[1]+'</span><small>'+x[2]+'</small></button>').join("")+'</div>'
+  +(cy?'<p class="m" style="margin:8px 0 2px">Symptômes (facultatif)</p><div class="chips">'+SYM.map(s=>'<button class="chip'+(FSEL.sy.includes(s)?" on":"")+'" data-fk="sy" data-v="'+s+'">'+s+'</button>').join("")+'</div>':'')
+  +'<div class="r"><button class="b" data-fk="ok"'+(FSEL.f?"":" disabled")+'>Valider</button><button class="lnk" data-fk="pass" style="margin:0">Passer</button></div></div>';return}
+ const sy=(S.mcy&&S.mcy.sym&&S.mcy.sym[today()])||[],a=fAdvice(fm.f,ci,sy),fe=FRM.find(x=>x[0]===fm.f);
+ let btn;if(fm.ap==null&&a.pct!==0)btn='<div class="r"><button class="b" data-fk="ap" data-v="'+a.pct+'">Appliquer '+(a.pct>0?"+":"−")+Math.abs(a.pct)+' %</button><button class="b g" data-fk="keep">Garder la charge prévue</button></div>';
+ else if(fm.ap)btn='<p class="m" style="margin:6px 0 0">✓ Charges ajustées ('+(fm.ap>0?"+":"−")+Math.abs(fm.ap)+' %) <button class="lnk" data-fk="undo" style="display:inline;margin:0 0 0 6px">Annuler</button></p>';else btn='';
+ if(fm.f<=2){if(fm.sh==null)btn+='<div class="r"><button class="b g" data-fk="sh">Séance courte : −1 série par exercice</button></div>';else btn+='<p class="m" style="margin:6px 0 0">✓ Séance raccourcie ('+fm.sh+' série'+(fm.sh>1?'s':'')+' en moins) <button class="lnk" data-fk="unsh" style="display:inline;margin:0 0 0 6px">Annuler</button></p>'}
+ e.innerHTML='<div class="c fck"'+(ci&&ci.ph?' style="border-left:4px solid '+CYC_C[ci.ph]+'"':'')+'><b>'+fe[1]+' Forme : '+fe[2]+(ci&&ci.ph?' · '+CYC_N[ci.ph]:'')+'</b><p class="m" style="margin:4px 0">'+esc(a.t)+'</p>'+btn+'<button class="lnk" data-fk="edit" style="margin:6px 0 0">Modifier ma forme</button>'+(cy?'<p class="m" style="font-size:11.5px;margin:4px 0 0">Suggestion de bon sens, pas un avis médical.</p>':'')+'</div>'}
+document.addEventListener("click",e=>{const b=e.target.closest("#fchk [data-fk]");if(!b)return;const k=b.dataset.fk,v=b.dataset.v;S.form=S.form||{};
+ if(k==="f"){FSEL.f=+v}else if(k==="sy"){FSEL.sy=FSEL.sy.includes(v)?FSEL.sy.filter(x=>x!==v):FSEL.sy.concat(v)}
+ else if(k==="ok"){if(!FSEL.f)return;S.form[today()]={f:FSEL.f};if(S.mcy&&S.mcy.on){S.mcy.sym=S.mcy.sym||{};if(FSEL.sy.length)S.mcy.sym[today()]=FSEL.sy.slice();else delete S.mcy.sym[today()]}FSEL={f:0,sy:[]};save()}
+ else if(k==="pass"){S.form[today()]={f:0};save()}
+ else if(k==="ap"){const p=+v,n=fAdj(p);S.form[today()].ap=p;save();rEx();toast(n?n+" série"+(n>1?"s":"")+" ajustée"+(n>1?"s":""):"Aucune charge à ajuster (ajoute tes kg d’abord)")}
+ else if(k==="sh"){const n=fShort();S.form[today()].sh=n;save();rEx();toast(n?n+" série"+(n>1?"s":"")+" retirée"+(n>1?"s":""):"Rien à raccourcir")}
+ else if(k==="unsh"){fUnshort();delete S.form[today()].sh;save();rEx()}
+ else if(k==="keep"){S.form[today()].ap=0;save()}
+ else if(k==="undo"){fUndo();delete S.form[today()].ap;save();rEx()}
+ else if(k==="edit"){fUndo();fUnshort();const o=S.form[today()];FSEL={f:o?o.f:0,sy:(S.mcy&&S.mcy.sym&&S.mcy.sym[today()])||[]};delete S.form[today()];save();rEx()}
+ rFchk()});
+try{rHcyc();rProf();rFchk()}catch(x){}
+
+/* onglet Règles et cycle (Santé) */
+var RGL_T={men:["Écoute ton niveau d’énergie : charges plus légères ou mobilité si tu as des crampes.","Hydrate-toi et fais un échauffement progressif.","Pas d’obligation de performer : ton ressenti décide."],
+ fol:["L’énergie remonte souvent : bon moment pour des séries lourdes ou pour viser un record.","La récupération est en général plus facile.","Profites-en pour progresser en charge."],
+ ov:["Soigne ton échauffement, surtout genoux et chevilles avant les sauts et les changements de direction.","L’énergie est souvent bonne.","Reste attentive à tes sensations."],
+ lut:["Fatigue et chaleur possibles : garde tes charges et allonge un peu les repos.","Soigne le sommeil et l’hydratation.","Si la forme est bonne, tu peux t’entraîner normalement."]};
+var RGL_1={men:"Séance normale si l’énergie est là ; sinon −10 % ou mobilité.",fol:"Bon moment pour monter la charge ou viser un record.",ov:"Séance normale, échauffement soigné (genoux, chevilles).",lut:"Garde tes charges, repos un peu plus longs si besoin."};
+var SYI={"Crampes":"🤕","Fatigue":"😴","Maux de tête":"🤯","Ballonnements":"🎈"},RCAL=null,RSEL=null,MN=["Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","Novembre","Décembre"];
+function p2(n){return(n<10?"0":"")+n}
+function isoD(y,m,d){return y+"-"+p2(m+1)+"-"+p2(d)}
+function phOf(day,L,o){L=Math.max(21,L);const ov=L-14;if(day<=5)return"men";if(o)return day<ov-1?"fol":day<=ov+1?"ov":"lut";return day<=ov?"fol":"lut"}
+function phAt(d){const c=S.mcy;if(!c||!c.on||c.irr)return null;const h=(c.hist||[]).slice().sort();let s=null,nx=null;for(const x of h){if(x<=d)s=x;else{nx=x;break}}if(!s)return null;
+ const L0=cycLen(c),since=dnum(d)-dnum(s);let L=L0,day;
+ if(nx){L=dnum(nx)-dnum(s);day=since+1}else{const t=dnum(today()),N0=dnum(s)+L0;let N=N0;if(t>=N0)N=t+1;if(dnum(d)<N){if(since>=L0)return{ph:"",late:1,day:since+1};day=since+1}else day=(dnum(d)-N)%L0+1}
+ let ph=phOf(day,L,c.o);{const fl=c.fl||{},ft=fl[d];if(ph==="men"&&(ft===0||(ft===undefined&&fl[addD(d,-1)]===0)))ph="fol";else if(ph!=="men"&&ft>=2&&since<15)ph="men"}
+ return{ph,day,fut:d>today()}}
+function cycDiffs(c){const h=(c.hist||[]).slice().sort(),df=[];for(let i=1;i<h.length;i++){const d=dnum(h[i])-dnum(h[i-1]);if(d>=20&&d<=45)df.push(d)}return df}
+function cycRel(c){if(c.irr)return null;const df=cycDiffs(c),n=df.length,sp=n?Math.max(...df)-Math.min(...df):0;
+ if(n<3)return["faible",n+" cycle"+(n>1?"s":"")+" complet"+(n>1?"s":"")+" noté"+(n>1?"s":"")+" : plus tu en notes, plus c’est fiable"];
+ if(sp>7)return["moyenne","tes cycles varient de "+sp+" jours"];return[n>=6?"bonne":"correcte",n+" cycles notés, assez réguliers"]}
+function cycAdd(d){const c=S.mcy,ph=(c.hist||[]).slice(),pl=c.last;c.hist=[...new Set([...(c.hist||[]),d])].sort().slice(-24);c.last=c.hist[c.hist.length-1];save();draw();toastU("Date ajoutée",()=>{c.hist=ph;c.last=pl;save();draw()})}
+function cycDel(d){const c=S.mcy;if((c.hist||[]).length<2){toast("Garde au moins une date.");return}const ph=c.hist.slice(),pl=c.last;c.hist=c.hist.filter(x=>x!==d);c.last=c.hist[c.hist.length-1];save();draw();toastU("Date retirée",()=>{c.hist=ph;c.last=pl;save();draw()})}
+/* stats par phase */
+function cycStats(){const c=S.mcy;if(!c||!c.on||c.irr)return null;const mean={},avg=a=>a.reduce((p,q)=>p+q,0)/a.length;
+ const best=e=>{let b=0;e.sets.forEach(s=>{if(!s.w&&s.kg>0&&s.r>0){const v=e1(s.kg,s.r);if(v>b)b=v}});return b};
+ S.sessions.forEach(x=>x.ex.forEach(e=>{if(isCar(e)||isBW(e.n))return;const b=best(e);if(b)(mean[e.n]=mean[e.n]||[]).push(b)}));
+ const P={};["men","fol","ov","lut"].forEach(k=>P[k]={n:0,pf:[],rpe:[],fm:[]});
+ S.sessions.forEach(x=>{const a=phAt(x.d);if(!a||!a.ph)return;const o=P[a.ph];o.n++;if(x.rpe>0)o.rpe.push(x.rpe);const r=[];
+  x.ex.forEach(e=>{if(isCar(e)||isBW(e.n))return;const m=mean[e.n];if(!m||m.length<3)return;const b=best(e);if(b)r.push(b/avg(m)-1)});if(r.length)o.pf.push(avg(r))});
+ Object.keys(S.form||{}).forEach(d=>{const f=S.form[d].f;if(!(f>0))return;const a=phAt(d);if(a&&a.ph)P[a.ph].fm.push(f)});
+ let tot=0;Object.values(P).forEach(o=>tot+=o.pf.length);return{P,tot,avg}}
+function rStatsH(){const st=cycStats();if(!st)return"";const ks=S.mcy.o?["men","fol","ov","lut"]:["men","fol","lut"],A=st.avg;
+ let h='';
+ if(st.tot<8){h+='<p class="m">Pas encore assez de séances pour voir une tendance : '+st.tot+' analysée'+(st.tot>1?'s':'')+' sur 8 au minimum. Continue à noter tes séances et tes règles : après 2 ou 3 cycles, tes vraies données apparaîtront ici.</p>';return h}
+ const rows=ks.map(k=>{const o=st.P[k],pm=o.pf.length>=2?A(o.pf)*100:null;return{k,o,pm}});
+ h+='<p class="m">Force estimée de tes séances par rapport à ta moyenne sur chaque exercice.</p>'+rows.map(r=>{const w=r.pm==null?0:Math.min(50,Math.abs(r.pm)*5);
+  return'<div class="pb"><span class="pl"><i style="background:'+CYC_C[r.k]+'"></i>'+CYC_N[r.k].replace("Phase ","").replace(" probable","")+'</span><div class="pt"><i class="pz"></i>'+(r.pm==null?'':'<b style="background:'+CYC_C[r.k]+';left:'+(r.pm>=0?50:50-w)+'%;width:'+w+'%"></b>')+'</div><span class="pv">'+(r.pm==null?'—':(r.pm>0?'+':r.pm<0?'−':'')+Math.abs(r.pm).toFixed(1).replace(".",",")+' %')+'</span></div>'
+  +'<p class="m ps">'+r.o.n+' séance'+(r.o.n>1?'s':'')+(r.o.rpe.length?' · RPE moyen '+A(r.o.rpe).toFixed(1).replace(".",","):'')+(r.o.fm.length?' · forme moyenne '+A(r.o.fm).toFixed(1).replace(".",",")+'/5':'')+'</p>'}).join("");
+ const ok=rows.filter(r=>r.pm!=null&&r.o.pf.length>=3).sort((a,b)=>b.pm-a.pm);
+ h+=ok.length>=2&&ok[0].pm-ok[ok.length-1].pm>=2?'<p class="pin">À retenir : tes meilleures séances tombent plutôt en <b>'+CYC_N[ok[0].k].toLowerCase()+'</b> ('+(ok[0].pm>0?'+':'')+ok[0].pm.toFixed(1).replace(".",",")+' %), les moins fortes en '+CYC_N[ok[ok.length-1].k].toLowerCase()+'.</p>':'<p class="pin">Pas d’écart net pour l’instant : c’est normal, ça varie beaucoup d’une femme à l’autre.</p>';
+ return h+'<p class="m" style="font-size:12.5px">Ce sont tes données, pas une règle générale : d’autres facteurs jouent (sommeil, stress, progression).</p>'}
+/* calendrier */
+function rCalH(){const now=new Date();if(!RCAL)RCAL={y:now.getFullYear(),m:now.getMonth()};const y=RCAL.y,m=RCAL.m,off=(new Date(y,m,1).getDay()+6)%7,nd=new Date(y,m+1,0).getDate();
+ const ses={};S.sessions.forEach(x=>{ses[x.d]=1});const hs=new Set(S.mcy.hist||[]);let g="";for(let i=0;i<off;i++)g+="<i></i>";
+ for(let d=1;d<=nd;d++){const iso=isoD(y,m,d),a=phAt(iso),col=a&&a.ph?CYC_C[a.ph]:"";
+  g+='<button class="rcd'+(iso===today()?" tdy":"")+(iso===RSEL?" sel":"")+(a&&a.fut?" fut":"")+(a&&a.late?" lat":"")+'" data-rg="day" data-v="'+iso+'"'+(col?' style="--pc:'+col+'"':"")+' aria-label="'+d+' '+MN[m]+(a&&a.ph?", "+CYC_N[a.ph]:"")+(ses[iso]?", séance":"")+'"><span>'+d+'</span>'+(hs.has(iso)?'<em>●</em>':'')+((S.mcy.fl||{})[iso]>0?'<b class="rfd" style="--n:'+S.mcy.fl[iso]+'"></b>':'')+(ses[iso]?'<u></u>':'')+'</button>'}
+ return'<div class="c"><h3>Calendrier</h3><div class="rcn"><button class="b g" data-rg="mp" aria-label="Mois précédent">‹</button><b>'+MN[m]+' '+y+'</b><button class="b g" data-rg="mn" aria-label="Mois suivant">›</button></div>'
+  +'<div class="rcg"><small>L</small><small>M</small><small>M</small><small>J</small><small>V</small><small>S</small><small>D</small>'+g+'</div>'
+  +'<div class="cleg" style="margin-top:8px">'+(S.mcy.o?["men","fol","ov","lut"]:["men","fol","lut"]).map(k=>'<span><i style="background:'+CYC_C[k]+'"></i>'+CYC_N[k].replace("Phase ","").replace(" probable","")+'</span>').join("")+'<span><em class="rld">●</em>1er jour</span><span><u class="rsq"></u>séance</span><span><b class="rfd rl"></b>saignement</span><span><u class="rsq rlt"></u>attendues, pas encore là</span></div><p class="m" style="font-size:12.5px;margin:6px 0 0">Les jours pâles sont des prévisions : si tes règles tardent, elles se décalent chaque jour. Touche un jour pour le détail.</p>'+rDayH()+'</div>'}
+function rDayH(){const d=RSEL;if(!d)return"";const c=S.mcy,a=phAt(d),ss=S.sessions.filter(x=>x.d===d),f=(S.form||{})[d],sy=(c.sym||{})[d]||[],hs=(c.hist||[]).includes(d);
+ let h='<div class="rdy"><b>'+fd(d)+'</b>';
+ h+='<p class="m">'+(a&&a.ph?'Jour '+a.day+' · '+CYC_N[a.ph]+(a.fut?' (prévision)':''):a&&a.late?'Règles attendues : pas encore notées':c.irr?'Pas de phase calculée (cycle irrégulier)':'Avant tes premières dates notées')+'</p>';
+ if(ss.length)h+=ss.map(x=>'<p class="m">🏋️ '+esc(x.nm||"Séance")+' · '+fk(sv(x))+' kg'+(x.rpe?' · RPE '+x.rpe:'')+'</p>').join("");
+ if(f&&f.f>0){const fe=FRM.find(z=>z[0]===f.f);h+='<p class="m">Forme : '+fe[1]+' '+fe[2]+'</p>'}
+ {const fv=(c.fl||{})[d];if(fv>0)h+='<p class="m">🩸 Saignement : '+FLN[fv].toLowerCase()+'</p>';if(sy.length)h+='<p class="m">Symptômes : '+sy.map(esc).join(", ")+'</p>'}
+ if(d<=today())h+=hs?'<button class="b g" data-rg="del" data-v="'+d+'">Retirer ce 1er jour des règles</button>':'<button class="b g" data-rg="add" data-v="'+d+'">C’est le 1er jour de mes règles</button>';
+ return h+'</div>'}
+/* rappels */
+function remCheck(){try{const c=S.mcy;if(!c||!c.on||!c.rem||typeof Notification==="undefined"||Notification.permission!=="granted"||c.remD===today())return;const i=cycInfo();if(!i||i.irr)return;
+ let t="";if(i.late)t="Tes règles ont-elles commencé ? Note le jour 1 dans Barbeat.";else if(i.next===1)t="Règles attendues demain (estimation).";else if(i.next===2)t="Règles attendues dans 2 jours (estimation).";if(!t)return;
+ c.remD=today();save();const o={body:t,icon:"icon-192.png",tag:"cycle"};if(navigator.serviceWorker&&navigator.serviceWorker.ready)navigator.serviceWorker.ready.then(r=>r.showNotification("Barbeat · cycle",o)).catch(()=>{try{new Notification("Barbeat · cycle",o)}catch(x){}});else new Notification("Barbeat · cycle",o)}catch(x){}}
+document.addEventListener("visibilitychange",()=>{if(!document.hidden)remCheck()});setTimeout(remCheck,2500);
+/* export résumé */
+function rptOpen(){const c=S.mcy;if(!c)return;let e=$("#rpt");if(!e){e=document.createElement("div");e.id="rpt";e.setAttribute("role","dialog");e.setAttribute("aria-label","Résumé du cycle");document.body.appendChild(e)}
+ const h=(c.hist||[]).slice().sort(),pls=h.map(d=>perLen(c,d)).filter(n=>n>0),df=cycDiffs(c),rel=cycRel(c),st=cycStats(),cnt={},lim=addD(today(),-90);Object.keys(c.sym||{}).forEach(d=>{if(d>=lim)c.sym[d].forEach(s=>cnt[s]=(cnt[s]||0)+1)});
+ const rows=h.slice(-8).reverse().map((d,k,a)=>{const nx=a[k-1],l=nx?dnum(nx)-dnum(d):0;return'<tr><td>'+fd(d)+'</td><td>'+(l>0?l+' jours':'en cours')+'</td></tr>'}).join("");
+ let ph="";if(st&&st.tot>=8){const ks=c.o?["men","fol","ov","lut"]:["men","fol","lut"];ph='<h3>Séances selon la phase</h3><table>'+ks.map(k=>{const o=st.P[k];return'<tr><td>'+CYC_N[k]+'</td><td>'+o.n+' séance'+(o.n>1?'s':'')+'</td><td>'+(o.pf.length>=2?(st.avg(o.pf)>=0?'+':'−')+Math.abs(st.avg(o.pf)*100).toFixed(1).replace(".",",")+' % vs sa moyenne':'—')+'</td></tr>'}).join("")+'</table>'}
+ e.innerHTML='<div class="rpi"><div class="rpb"><button class="b big" data-rp="print">Imprimer / enregistrer en PDF</button><button class="pbtn" data-rp="x">Fermer</button></div><h1>Résumé de mon cycle</h1><p>Édité le '+fd(today())+' avec Barbeat'+(S.prof&&S.prof.age?' · '+S.prof.age+' ans':'')+'</p>'
+  +'<h3>Cycles</h3><p>Durée moyenne : <b>'+cycLen(c)+' jours</b>'+(pls.length?' · règles : '+Math.round(pls.reduce((a,b)=>a+b,0)/pls.length*10)/10+' jours en moyenne (de '+Math.min(...pls)+' à '+Math.max(...pls)+')':'')+(df.length?' (de '+Math.min(...df)+' à '+Math.max(...df)+' jours sur '+df.length+' cycle'+(df.length>1?'s':'')+')':'')+(c.irr?' · cycle déclaré irrégulier ou sous contraception hormonale':'')+(rel?' · fiabilité '+rel[0]:'')+'</p>'+(rows?'<table><tr><th>1er jour des règles</th><th>Durée du cycle</th></tr>'+rows+'</table>':'')
+  +'<h3>Symptômes notés (90 derniers jours)</h3>'+(Object.keys(cnt).length?'<p>'+Object.keys(cnt).map(k=>esc(k)+' : '+cnt[k]+' jour'+(cnt[k]>1?'s':'')).join(' · ')+'</p>':'<p>Aucun noté.</p>')+ph
+  +'<p class="rpn">Document établi à partir des informations saisies par l’utilisatrice. Ce sont des estimations, pas un avis ni un diagnostic médical.</p></div>';document.body.classList.add("rptp")}
+document.addEventListener("click",e=>{const b=e.target.closest("#rpt [data-rp]");if(!b)return;if(b.dataset.rp==="print")window.print();else{const r=$("#rpt");if(r)r.remove();document.body.classList.remove("rptp")}});
+/* page Règles et cycle */
+var FLN=["","Quelques gouttes","Léger","Moyen","Abondant","Très abondant"];
+function perLen(c,st){const fl=c.fl||{};let n=0;while((fl[addD(st,n)]||0)>0)n++;return n}
+function flowSet(d,lv){const c=S.mcy;if(!c)return;c.fl=c.fl||{};const pf=c.fl[d],ph=(c.hist||[]).slice(),pl=c.last;let add=false;c.fl[d]=lv;
+ if(lv>=2&&d<=today()&&!((c.fl[addD(d,-1)]||0)>0)&&!(c.hist||[]).some(h=>Math.abs(dnum(h)-dnum(d))<15)){c.hist=[...new Set([...(c.hist||[]),d])].sort().slice(-24);c.last=c.hist[c.hist.length-1];add=true}
+ save();draw();if(add)toastU("Début d’un nouveau cycle noté",()=>{c.hist=ph;c.last=pl;if(pf===undefined)delete c.fl[d];else c.fl[d]=pf;save();draw()})}
+var RGO={};
+document.addEventListener("toggle",e=>{const d=e.target;if(d&&d.dataset&&d.dataset.k)RGO[d.dataset.k]=d.open},true);
+var RGD=null;
+function rgdInit(c){const t=today();if(RGD&&RGD.d===t&&RGD.tc)return RGD;const f=(c.fl||{})[t];RGD={d:t,fl:f===undefined?0:f,sy:((c.sym||{})[t]||[]).slice(),tc:RGD&&RGD.d===t?RGD.tc:false};return RGD}
+function rDayLog(c,wf){const t=today(),vl=!!(c.val||{})[t],D=rgdInit(c),on=D.fl>0,y=(c.fl||{})[addD(t,-1)]||0,ds=vl?' disabled':'';
+ let h='<div class="rfw'+(vl?' lk':'')+'">';
+ if(wf){h+='<button class="rck'+(on?" on":"")+'"'+ds+' data-rg="df" data-v="'+(on?0:3)+'" role="checkbox" aria-checked="'+on+'"><i>'+(on?"✓":"")+'</i>J’ai mes règles aujourd’hui</button>';
+  if(y>0&&!vl&&(c.fl||{})[t]===undefined)h+='<p class="m rfy">Hier : '+FLN[y].toLowerCase()+'. Si elles sont terminées, laisse la case vide.</p>';
+  h+='<p class="m rfl-t">Abondance'+(on?'':' (coche d’abord la case)')+'</p><div class="sys'+(on?'':' off')+'">'+[1,2,3,4,5].map(v=>'<button class="sybt'+(D.fl===v?" on":"")+'"'+((on&&!vl)?'':' disabled')+' aria-pressed="'+(D.fl===v)+'" data-rg="df" data-v="'+v+'">'+FLN[v]+'</button>').join("")+'</div>'+(D.fl===5?'<p class="m" style="font-size:12.5px">Si des saignements très abondants reviennent d’un cycle à l’autre, parles-en à un médecin.</p>':'')}
+ h+='<p class="m rfl-t">Symptômes du jour</p><div class="sys">'+SYM.map(x=>'<button class="sybt'+(D.sy.includes(x)?" on":"")+'"'+ds+' aria-pressed="'+D.sy.includes(x)+'" data-rg="ds" data-v="'+x+'"><span>'+(SYI[x]||"")+'</span>'+x+'</button>').join("")+'</div>'
+ +(vl?'<p class="m rfok">✓ Enregistré pour aujourd’hui · <button class="lnk" data-rg="du" style="display:inline;margin:0">Modifier</button></p>':'<button class="b big" data-rg="dv" style="margin-top:12px">Valider</button>')+'</div>';return h}
+function rRow(k,t,inner){return'<details class="c rgd" data-k="'+k+'"'+(RGO[k]?" open":"")+'><summary>'+t+'</summary>'+inner+'</details>'}
+function rRegles(){const e=$("#rgl");if(!e||!CYC_C)return;const c=S.mcy,i=cycInfo();
+ if(!c||!c.on){e.innerHTML='<div class="c"><h2>Règles et cycle</h2><p class="m">Suis ton cycle pour que l’appli adapte tes séances à ta phase : plus de charge quand tu es en forme, plus de douceur quand c’est dur.</p><p class="m">Tu notes seulement quand tes règles commencent. Les données restent sur ton appareil, sauf si tu choisis ton compte.</p><button class="b big" data-rg="on">Activer le suivi</button><p class="m">Suggestions de bon sens, pas un avis médical. Ne sert ni à la contraception ni à la fertilité.</p></div>';return}
+ const col=i&&i.ph?CYC_C[i.ph]:"#8a8a99",rel=cycRel(c);let h='';
+ if(i&&i.irr)h+='<div class="c cyh" style="--cc:'+col+'"><span class="m cyk">Aujourd’hui</span><b style="font-size:22px">Jour '+i.day+'</b><p class="m">Cycle irrégulier ou contraception hormonale : pas de phase calculée. L’appli se base sur ta forme du jour.</p>'+rDayLog(c,true)+'</div>';
+ else if(i&&i.late)h+='<div class="c cyh" style="--cc:'+col+'"><span class="m cyk">Aujourd’hui</span><b style="font-size:22px">Tes règles ont-elles commencé ?</b><p class="m">'+(i.wait<=0?'Elles étaient prévues aujourd’hui.':'Elles étaient prévues il y a '+i.wait+' jour'+(i.wait>1?'s':'')+'.')+' Tant que tu ne notes rien, le calendrier décale chaque jour la prévision.</p><button class="b big" data-cy="start" data-v="0">Elles ont commencé aujourd’hui</button><div class="r" style="margin-top:8px"><button class="b g" data-cy="start" data-v="1">Hier</button><button class="b g" data-cy="start" data-v="2">Il y a 2 jours</button><button class="b g" data-cy="start" data-v="3">Il y a 3 jours</button></div>'+rDayLog(c,false)+'</div>';
+ else if(i){const L=i.L,ov=i.ov,seg=c.o?[["men",5],["fol",Math.max(1,ov-1-5-1)],["ov",3],["lut",Math.max(1,L-(ov+1))]]:[["men",5],["fol",Math.max(1,ov-5)],["lut",Math.max(1,L-ov)]];
+  const pos=Math.min(98,Math.max(2,(i.day-.5)/L*100));
+  h+='<div class="c cyh" style="--cc:'+col+'"><span class="m cyk">Aujourd’hui</span><b style="font-size:22px">Jour '+i.day+' · '+CYC_N[i.ph]+'</b><p class="m rnl2">'+esc(RGL_1[i.ph])+'</p>'
+   +'<div class="cbar" aria-hidden="true">'+seg.map(x=>'<i style="flex:'+x[1]+';background:'+CYC_C[x[0]]+'"></i>').join("")+'<span class="cmk" style="left:'+pos+'%"></span></div>'
+   +'<div class="cleg">'+seg.map(x=>'<span><i style="background:'+CYC_C[x[0]]+'"></i>'+CYC_N[x[0]].replace("Phase ","").replace(" probable","")+'</span>').join("")+'</div>'
+   +'<p class="m" style="margin:8px 0 12px">Prochaines règles dans ~'+i.next+' jour'+(i.next>1?'s':'')+(rel?' · fiabilité '+rel[0]:'')+'</p>'+rDayLog(c,true)+'</div>'}
+ if(!RSEL)RSEL=today();
+ h+=rCalH();
+ h+=rRow("bil","Mon bilan du cycle",rBilanH());
+ const hs=(c.hist||[]).slice().sort().reverse().slice(0,7);
+ h+=rRow("his","Historique des règles",(hs.length?hs.map((d,k)=>{const nx=hs[k-1],len=nx?dnum(nx)-dnum(d):0,pl=perLen(c,d);return'<div class="row"><span>'+fd(d)+'</span><span class="m">'+(len>0?'cycle de '+len+' jours':'en cours')+(pl?' · règles '+pl+' j':'')+'</span></div>'}).join(""):'<p class="m">Rien de noté.</p>')+'<p class="m">Durée moyenne utilisée : '+cycLen(c)+' jours.'+(rel?' Fiabilité de la prévision : <b>'+rel[0]+'</b> ('+esc(rel[1])+').':'')+'</p>');
+ const nt=typeof Notification!=="undefined",pm=nt?Notification.permission:"";
+ h+=rRow("set","Rappels, données et export",
+  (!nt?'<p class="m">Les notifications ne sont pas disponibles sur cet appareil.</p>':pm==="denied"?'<p class="m">Notifications bloquées dans ton navigateur : autorise-les dans les réglages du site pour activer le rappel.</p>':c.rem&&pm==="granted"?'<p class="m">✓ Rappel activé : tu reçois une notification à l’ouverture de l’appli quand tes règles sont attendues (ou en retard).</p><button class="b g" data-rg="rem">Désactiver le rappel</button>':'<p class="m">Reçois une notification quand tes règles sont attendues, ou « jour 1 ? » si elles sont en retard (à l’ouverture de l’appli).</p><button class="b" data-rg="rem">Activer le rappel</button>')
+  +pushBlock(c)+'<p class="m" style="margin-top:12px">Données enregistrées : dates de règles, saignements, symptômes et forme du jour, <b>'+(c.cloud?'dans ton compte Barbeat (lisibles uniquement par toi)':'sur cet appareil seulement')+'</b>.</p>'
+  +'<div class="r"><button class="b g" data-rg="rpt">Résumé PDF</button><button class="b g" data-rg="edit">Modifier mes dates</button></div><button class="b g" data-rg="off" style="margin-top:8px">Désactiver et effacer mes données</button>');
+ e.innerHTML=h}
+var c0=()=>S.mcy;
+document.addEventListener("click",e=>{const b=e.target.closest("#rgl [data-rg]");if(!b)return;const k=b.dataset.rg,v=b.dataset.v;
+ if(k==="on")profOpen(S.prof&&S.prof.age>=15?2:1);else if(k==="edit")profOpen(3);
+ else if(k==="off"){if(!arm(b,"Effacer mes données de cycle ?"))return;try{pushOff("c")}catch(x){}delete S.mcy;save();draw();toast("Données de cycle effacées")}
+ else if(k==="sy"){const c=S.mcy;if(!c)return;const dd=b.dataset.d||today();c.sym=c.sym||{};const a=c.sym[dd]||[];c.sym[dd]=a.includes(v)?a.filter(x=>x!==v):a.concat(v);if(!c.sym[dd].length)delete c.sym[dd];save();rRegles()}
+ else if(k==="df"){const D=rgdInit(c0());D.fl=+v;D.tc=true;rRegles()}
+ else if(k==="ds"){const D=rgdInit(c0());D.sy=D.sy.includes(v)?D.sy.filter(x=>x!==v):D.sy.concat(v);D.tc=true;rRegles()}
+ else if(k==="dv"){const c=S.mcy,D=rgdInit(c),t=today(),i=cycInfo();c.sym=c.sym||{};if(D.sy.length)c.sym[t]=D.sy.slice();else delete c.sym[t];c.val=c.val||{};c.val[t]=1;D.tc=false;
+  if(i&&i.late&&!i.irr){save();draw()}else flowSet(t,D.fl)}
+ else if(k==="du"){const c=S.mcy;if(c&&c.val)delete c.val[today()];RGD=null;save();rRegles()}
+ else if(k==="day"){RSEL=v;rRegles()}
+ else if(k==="bimg"){bilanImg()}
+ else if(k==="pon"){if(!arm(b,"Confirmer : j’accepte l’enregistrement de l’heure du rappel"))return;pushOn("c")}
+ else if(k==="poff"){pushOff("c").then(rRegles)}
+ else if(k==="fl"){flowSet(b.dataset.d||today(),+v)}
+ else if(k==="mp"||k==="mn"){if(!RCAL)return;RCAL.m+=k==="mn"?1:-1;if(RCAL.m<0){RCAL.m=11;RCAL.y--}if(RCAL.m>11){RCAL.m=0;RCAL.y++}rRegles()}
+ else if(k==="add"){cycAdd(v)}
+ else if(k==="del"){if(!arm(b,"Retirer cette date ?"))return;cycDel(v)}
+ else if(k==="rpt"){rptOpen()}
+ else if(k==="rem"){const c=S.mcy;if(!c)return;if(c.rem){c.rem=0;save();rRegles();return}
+  try{Notification.requestPermission().then(p=>{if(p==="granted"){c.rem=1;c.remD="";save();toast("Rappel activé")}else toast("Notifications refusées");rRegles()})}catch(x){toast("Non disponible sur cet appareil")}}});
+try{rRegles()}catch(x){}
+/* ===== V118 : séance adaptée, bilan de cycle, confidentialité, notifications ===== */
+var LGL={v:"2026-11-05",nom:"",mail:"",region:""},VAPID_PUB="BMNmpNEc1dX_oV3ncIP0sYrlDKWJ23z8ZOofFal5shLfF721oiY_wNubqEseUcWHRPYe38FjhMoLSy92CjdMGtI";
+/* --- séance adaptée sur l'accueil --- */
+function nextDay(){if(!S.prog||!S.prog.length)return -1;const L=S.sessions[S.sessions.length-1],j=L?S.prog.findIndex(p=>p.n===L.nm):-1;return(j+1)%S.prog.length}
+function dayAdv(){const i=cycInfo(),c=S.mcy;if(!i||!i.ph||!c)return null;const t=today(),fm=(S.form||{})[t],sy=(c.sym||{})[t]||[],f=fm&&fm.f>0?fm.f:3,a=fAdvice(f,i,sy),fl=(c.fl||{})[t]||0;let pct=a.pct,tx=a.t;
+ if(i.ph==="men"&&fl>=4&&pct>-10){pct=-10;tx="Règles abondantes : allège de 10 % aujourd’hui, ou fais de la mobilité."}return{pct,t:tx}}
+var HCYC_ON=false; /* bloc cycle de l’accueil masqué : le suivi vit seulement dans Santé > Règles et cycle */
+function rHcyc(){const e=$("#hcyc");if(!e)return;if(!HCYC_ON){e.innerHTML="";return}if(!CYC_C)return;const i=cycInfo();if(!i){e.innerHTML="";return}
+ const col=i.ph?CYC_C[i.ph]:"#8a8a99";let t,sub;
+ if(i.irr){t="Cycle · jour "+i.day;sub="Cycle irrégulier ou contraception : pas de phase calculée. Écoute ton ressenti."}
+ else if(i.late){t="Tes règles ont-elles commencé ?";sub=(i.wait<=0?"Prévues aujourd’hui.":"Prévues il y a "+i.wait+" jour"+(i.wait>1?"s":"")+".")+" Note-les dès qu’elles arrivent : les prévisions se décalent."}
+ else{t="Jour "+i.day+" · "+CYC_N[i.ph];sub=CYC_T[i.ph]+" · règles dans ~"+i.next+" j (estimation)"}
+ const adv=(!i.irr&&!i.late)?dayAdv():null,cur=D().ex.length,nd=nextDay(),pc=adv&&adv.pct?" ("+(adv.pct>0?"+":"−")+Math.abs(adv.pct)+" %)":"";
+ e.innerHTML='<div class="c cyh" style="--cc:'+col+'"><span class="m cyk">Cycle</span><b>'+esc(t)+'</b><p class="m">'+esc(sub)+'</p>'
+  +(adv?'<div class="adv"><b>Ta séance adaptée</b><p class="m">'+esc(adv.t)+'</p></div>':'')
+  +'<div class="r">'+(adv?'<button class="b" data-cy="adapt">'+(cur?"Appliquer à ma séance":nd>=0?"Démarrer ma séance":"Ouvrir ma séance")+pc+'</button>':(i.irr||i.late)?'<button class="b g" data-cy="start" data-v="0">Mes règles ont commencé</button>':'')+'<button class="b g" data-go="regles">Voir le détail</button></div></div>'}
+document.addEventListener("click",e=>{const b=e.target.closest('[data-cy="adapt"]');if(!b)return;const adv=dayAdv();if(!adv)return;
+ if(!D().ex.length){const j=nextDay();if(j>=0)loadDay(j)}go("seance");
+ setTimeout(()=>{let n=0;if(adv.pct)n=fAdj(adv.pct);rEx();
+  if(adv.pct&&n)toastU(n+" série"+(n>1?"s":"")+" ajustée"+(n>1?"s":"")+" ("+(adv.pct>0?"+":"−")+Math.abs(adv.pct)+" %)",()=>{fUndo();rEx()});else toast(adv.pct?"Ajoute tes charges, puis réessaie.":"Séance prête : suis ton programme.")},80)});
+/* --- bilan du cycle --- */
+function phName(k){return k==="men"?"pendant tes règles":k==="ov"?"autour de l’ovulation":"en "+CYC_N[k].toLowerCase()}
+function cycBilan(){const c=S.mcy;if(!c||!c.on||c.irr)return null;const h=(c.hist||[]).slice().sort();if(h.length<2)return null;const a=h[h.length-2],nx=h[h.length-1],L=dnum(nx)-dnum(a);if(L<15||L>60)return null;const end=addD(nx,-1),inR=(d,x,y)=>d>=x&&d<=y;
+ const n=S.sessions.filter(x=>inR(x.d,a,end)).length,per=[];for(let i=1;i<h.length-1;i++)per.push(S.sessions.filter(x=>inR(x.d,h[i-1],addD(h[i],-1))).length);
+ const avg=per.length?per.reduce((p,q)=>p+q,0)/per.length:null,P={};
+ Object.keys(S.form||{}).forEach(d=>{if(!inR(d,a,end))return;const f=S.form[d].f;if(!(f>0))return;const x=phAt(d);if(x&&x.ph)(P[x.ph]=P[x.ph]||[]).push(f)});
+ let best=null;const ks=Object.keys(P).filter(k=>P[k].length>=2).map(k=>[k,P[k].reduce((p,q)=>p+q,0)/P[k].length]).sort((x,y)=>y[1]-x[1]);if(ks.length>=2&&ks[0][1]-ks[ks.length-1][1]>=.5)best=ks[0];
+ const cnt={};Object.keys(c.sym||{}).forEach(d=>{if(inR(d,a,end))c.sym[d].forEach(s=>cnt[s]=(cnt[s]||0)+1)});
+ return{a,end,L,per:perLen(c,a),n,avg,best,sy:Object.entries(cnt).sort((x,y)=>y[1]-x[1]).slice(0,2)}}
+function rBilanH(){const b=cycBilan();if(!b)return'<p class="m">Ton premier bilan arrive dès que tu as noté un cycle complet (deux débuts de règles).</p>';
+ let h='<p><b>Cycle du '+fd(b.a).slice(0,5)+' au '+fd(b.end).slice(0,5)+'</b> · '+b.L+' jours'+(b.per?' · règles '+b.per+' j':'')+'</p>'
+  +'<p>🏋️ '+b.n+' séance'+(b.n>1?'s':'')+' ce cycle'+(b.avg!=null?(b.n>b.avg+.5?' (plus que d’habitude)':b.n<b.avg-.5?' (moins que d’habitude)':' (comme d’habitude)'):'')+'.</p>';
+ if(b.best)h+='<p>😀 Ta forme était la meilleure <b>'+phName(b.best[0])+'</b> ('+b.best[1].toFixed(1).replace(".",",")+'/5 en moyenne).</p>';
+ if(b.sy.length)h+='<p>Symptômes les plus fréquents : '+b.sy.map(x=>esc(x[0].toLowerCase())+' ('+x[1]+' j)').join(", ")+'.</p>';
+ if(b.best)h+='<p class="pin">Pour le prochain cycle : essaie de caler tes séances les plus exigeantes '+phName(b.best[0])+'. C’est ton ressenti de ce cycle, pas une règle.</p>';
+ return h+'<button class="b g" data-rg="bimg" style="margin-top:8px">Partager en image</button><p class="m" style="font-size:12.5px">L’image ne contient ni symptômes ni saignements.</p>'}
+function bilanImg(){const b=cycBilan();if(!b)return;const cv=document.createElement("canvas");cv.width=1080;cv.height=1350;const x=cv.getContext("2d"),g=x.createLinearGradient(0,0,0,1350);g.addColorStop(0,"#3a1a0a");g.addColorStop(1,"#0a0a0c");x.fillStyle=g;x.fillRect(0,0,1080,1350);
+ const F="Arial Narrow, Arial, sans-serif";x.fillStyle="#ff8a2a";x.font="italic 800 64px "+F;x.fillText("BARBEAT",72,130);x.fillStyle="#fff";x.font="700 84px "+F;x.fillText("Mon bilan de cycle",72,260);x.fillStyle="#b9b9c6";x.font="500 44px "+F;x.fillText(fd(b.a).slice(0,5)+" → "+fd(b.end).slice(0,5),72,330);
+ const row=(y,big,lab)=>{x.fillStyle="#fff";x.font="800 150px "+F;x.fillText(big,72,y);x.fillStyle="#b9b9c6";x.font="500 46px "+F;x.fillText(lab,72,y+64)};
+ row(560,String(b.n),"séance"+(b.n>1?"s":"")+" ce cycle");row(830,b.L+" j","de cycle"+(b.per?" · règles "+b.per+" j":""));
+ if(b.best){row(1100,"😀","meilleure forme "+phName(b.best[0]))}
+ x.fillStyle="#ff8a2a";x.font="600 40px "+F;x.fillText("Suivi avec Barbeat",72,1280);
+ cv.toBlob(async bl=>{if(!bl)return;const f=new File([bl],"bilan-cycle-barbeat.png",{type:"image/png"});
+  try{if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title:"Mon bilan de cycle"});return}}catch(er){if(er&&er.name==="AbortError")return}
+  const u=URL.createObjectURL(bl),a=document.createElement("a");a.href=u;a.download="bilan-cycle-barbeat.png";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);toast("Image enregistrée")},"image/png")}
+/* --- confidentialité --- */
+function lgT(w){const who=LGL.nom?esc(LGL.nom):"l’éditeur de l’application (la personne qui t’a donné accès)",ct=LGL.mail?'<b>'+esc(LGL.mail)+'</b>':"en contactant directement la personne qui t’a donné accès";
+ if(w==="cgu")return'<h2>Conditions d’utilisation</h2><p class="m">Version '+LGL.v+'</p>'
+  +'<h3>1. L’appli</h3><p>Barbeat est une appli de suivi d’entraînement (séances, charges, poids, bien-être, suivi du cycle). Elle est actuellement proposée <b>gratuitement en version test</b> : des bugs et des changements sont possibles. Si des fonctions deviennent payantes, tu en seras informé·e avant, et rien ne sera facturé sans ton accord.</p>'
+  +'<h3>2. Ce que l’appli n’est pas</h3><p>Barbeat ne fournit <b>aucun avis médical</b>. Le suivi du cycle donne des estimations de bon sens ; il ne sert <b>ni à la contraception, ni à la fertilité</b>. En cas de douleur, de saignements anormaux ou de doute, parle à un professionnel de santé.</p>'
+  +'<h3>3. Ta pratique sportive</h3><p>Les suggestions de charges ou de séances sont indicatives. Tu t’entraînes sous ta responsabilité, avec prudence, et tu adaptes à ton état du jour. En cas de pathologie ou de blessure, demande l’avis d’un médecin avant de t’entraîner.</p>'
+  +'<h3>4. Ton compte</h3><p>Tu es responsable de ton mot de passe. Tu peux supprimer ton compte à tout moment dans Réglages : tes données du serveur sont alors effacées.</p>'
+  +'<h3>5. Âge</h3><p>Pour créer un compte, tu as au moins 15 ans, ou ton représentant légal est d’accord. Le suivi du cycle n’est proposé qu’à partir de 15 ans.</p>'
+  +'<h3>6. Évolution</h3><p>Ces conditions peuvent évoluer. En cas de changement important, tu seras prévenu·e dans l’appli.</p>';
+ return'<h2>Politique de confidentialité</h2><p class="m">Version '+LGL.v+' · en langage simple</p>'
+  +'<h3>Qui est responsable de tes données ?</h3><p>'+who+'. Pour toute question ou pour exercer tes droits : '+ct+'.</p>'
+  +'<h3>Quelles données ?</h3><p>• <b>Compte</b> : ton email et ton mot de passe (stocké chiffré, jamais lisible).<br>• <b>Entraînement</b> : séances, charges, poids, bien-être, programme.<br>• <b>Profil</b> (facultatif) : sexe et âge.<br>• <b>Données de santé</b> (facultatif, uniquement si tu actives le suivi du cycle) : dates de règles, saignements, symptômes, forme du jour.<br>• Si tu actives les rappels hors appli : l’adresse technique de notification de ton appareil, ton <b>fuseau horaire</b> et le fait d’avoir activé ces rappels (bien-être et/ou relevé du cycle). Aucune date de règles ni donnée de relevé n’est envoyée à cet effet.</p>'
+  +'<h3>Pourquoi ?</h3><p>Uniquement pour faire fonctionner l’appli : enregistrer tes séances, les retrouver sur tes appareils, adapter les suggestions à ta phase si tu l’as choisi. <b>Pas de publicité, pas de revente, pas de profilage commercial.</b></p>'
+  +'<h3>Sur quelle base légale ?</h3><p>L’exécution du service que tu demandes en créant ton compte ; et ton <b>consentement explicite</b> pour les données de santé (suivi du cycle) et pour les rappels hors appli. Tu peux retirer ton consentement à tout moment (Réglages ou page Règles et cycle) : les données concernées sont alors effacées.</p>'
+  +'<h3>Où sont-elles ?</h3><p>Sans compte, tout reste <b>sur ton appareil</b>. Avec un compte, les données sont hébergées chez Supabase (sous-traitant d’hébergement)'+(LGL.region?', en '+esc(LGL.region):'')+', protégées par des règles qui limitent l’accès à ton seul compte. Si tu actives les rappels hors appli, les notifications transitent par le service de ton navigateur (Google, Apple ou Mozilla) ; leur contenu est neutre et ne montre aucune donnée de santé.</p>'
+  +'<h3>Combien de temps ?</h3><p>Tant que ton compte existe. Quand tu supprimes ton compte, les données du serveur sont effacées. Les données gardées sur ton appareil restent jusqu’à ce que tu les effaces ou que tu désinstalles l’appli.</p>'
+  +'<h3>Tes droits</h3><p>Accès et copie de tes données (bouton « Exporter mes données »), rectification (tu modifies dans l’appli), effacement (suppression du compte, ou effacement du cycle), retrait du consentement, opposition, limitation. Tu peux aussi saisir la CNIL (cnil.fr) si tu penses que tes droits ne sont pas respectés.</p>'
+  +'<h3>Cookies et traceurs</h3><p>Aucun cookie publicitaire ni outil de mesure d’audience. L’appli utilise seulement le stockage de ton appareil pour fonctionner (tes données et ta connexion). Les polices ne sont pas chargées depuis un serveur tiers.</p>'
+  +'<h3>Sécurité</h3><p>Connexion chiffrée (HTTPS), accès limité à ton compte, mot de passe chiffré. Aucun système n’est infaillible : en cas de problème touchant tes données, tu en serais informé·e.</p>'
+  +'<h3>Mineurs</h3><p>Compte à partir de 15 ans (ou avec l’accord du représentant légal). Suivi du cycle à partir de 15 ans.</p>'}
+function legalOpen(w){let e=document.getElementById("lgx");if(!e){e=document.createElement("div");e.id="lgx";e.setAttribute("role","dialog");document.body.appendChild(e)}
+ e.innerHTML='<div class="lgz"><button class="pbtn" data-lg="x">← Fermer</button>'+lgT(w)+'<button class="pbtn" data-lg="x">← Fermer</button></div>'}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-lg]");if(!b)return;e.preventDefault();if(b.dataset.lg==="x"){const x=document.getElementById("lgx");if(x)x.remove()}else legalOpen(b.dataset.lg)});
+function rPriv(){const e=$("#rgprvb");if(!e)return;const c=S.cons;
+ e.innerHTML='<p class="m">'+(c?'Conditions et politique acceptées le '+fd(c.t.slice(0,10))+' (version '+esc(c.v)+').':'Sans compte, tes données restent uniquement sur cet appareil.')+'</p>'
+  +'<div class="r"><button class="b g" data-lg="pol">Politique de confidentialité</button><button class="b g" data-lg="cgu">Conditions d’utilisation</button></div>'
+  +'<h3 style="font-size:16px;margin:12px 0 4px">Tes droits</h3><div class="r"><button class="b g" data-prv="exp">Exporter mes données</button>'+(S.mcy?'<button class="b g" data-prv="cyc">Effacer mes données de cycle</button>':'')+'</div>'
+  +(DBU?'<button class="b g" data-prv="del" style="margin-top:8px">Supprimer mon compte</button>':'')
+  +'<p class="m" style="font-size:12.5px">Supprimer le compte efface tes données du serveur. Pas de cookie publicitaire, pas de revente, pas de pistage.</p>'}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-prv]");if(!b)return;const k=b.dataset.prv;
+ if(k==="exp"){const x=document.getElementById("bkx");if(x)x.click()}
+ else if(k==="del"){const x=document.getElementById("cldel");if(x)x.click()}
+ else if(k==="cyc"){if(!arm(b,"Effacer mes données de cycle ?"))return;try{pushOff("c")}catch(x){}delete S.mcy;save();draw();toast("Données de cycle effacées")}});
+/* --- notifications hors appli --- */
+function u8(b){const p="=".repeat((4-b.length%4)%4),s=atob((b+p).replace(/-/g,"+").replace(/_/g,"/")),o=new Uint8Array(s.length);for(let i=0;i<s.length;i++)o[i]=s.charCodeAt(i);return o}
+function pushWanted(){return !!((S.mcy&&S.mcy.push)||(S.set&&S.set.pushW))}
+async function pushSync(){try{if(!CL_ON||!DBU||!pushWanted()||!navigator.serviceWorker)return;if(!await auFresh())return;
+ const tz=(Intl.DateTimeFormat().resolvedOptions().timeZone)||"Europe/Paris",w=!!(S.set&&S.set.pushW),c=!!(S.mcy&&S.mcy.push),key=[tz,w,c,today()].join("|");if(S.set.pk===key)return;
+ const reg=await navigator.serviceWorker.ready,sub=await reg.pushManager.getSubscription();if(!sub)return;
+ const r=await sb("/rest/v1/push_subs?on_conflict=user_id",{m:"POST",b:{user_id:DBU.uid,sub:sub.toJSON(),tz,well_on:w,cyc_on:c,last_seen:new Date().toISOString(),updated_at:new Date().toISOString()},h:{Prefer:"resolution=merge-duplicates,return=minimal"}});
+ if(r.ok){S.set.pk=key;try{localStorage.setItem("muscu2",JSON.stringify(S))}catch(e){}}}catch(e){}}
+var PQT=null;function pushQ(){if(!pushWanted())return;clearTimeout(PQT);PQT=setTimeout(pushSync,3000)}
+async function pushOn(kind){try{if(!CL_ON||!DBU)return toast("Connecte-toi à ton compte pour activer les notifications.");
+ if(!navigator.serviceWorker||!("PushManager" in window)||typeof Notification==="undefined")return toast("Non pris en charge ici. Sur iPhone : ajoute d’abord l’appli à l’écran d’accueil.");
+ const p=await Notification.requestPermission();if(p!=="granted")return toast("Notifications refusées.");
+ const reg=await navigator.serviceWorker.ready;let sub=await reg.pushManager.getSubscription();if(!sub)sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:u8(VAPID_PUB)});
+ if(kind==="w")S.set.pushW=1;else if(S.mcy)S.mcy.push=1;S.set.pk="";save();await pushSync();rRegles();rWpush();toast("Rappel activé, même appli fermée")}catch(e){toast("Impossible d’activer les notifications.")}}
+async function pushOff(kind){try{if(!kind||kind==="c"){if(S.mcy)S.mcy.push=0}if(!kind||kind==="w"){if(S.set)S.set.pushW=0}if(S.set)S.set.pk="";try{localStorage.setItem("muscu2",JSON.stringify(S))}catch(e){}
+ if(!pushWanted()){if(navigator.serviceWorker){const reg=await navigator.serviceWorker.ready,sub=await reg.pushManager.getSubscription();if(sub)await sub.unsubscribe()}
+  if(CL_ON&&DBU&&await auFresh())await sb("/rest/v1/push_subs?user_id=eq."+DBU.uid,{m:"DELETE"})}else pushSync()}catch(e){}}
+function rWpush(){const e=document.getElementById("wpush");if(!e)return;if(!CL_ON){e.innerHTML="";return}
+ e.innerHTML='<div style="margin-top:12px"><b>Notification même appli fermée</b>'+(!DBU?'<p class="m">Connecte-toi à ton compte pour l’activer.</p>':S.set.pushW?'<p class="m">✓ Activée : tous les matins à 9 h, tu reçois « N’oublie pas de faire ton wellness », que tu aies déjà rempli ton relevé ou non.</p><button class="b g" data-wp="off">Désactiver</button>':'<p class="m">Reçois une notification tous les matins à 9 h : « N’oublie pas de faire ton wellness ». Elle arrive même appli fermée. Le serveur enregistre l’adresse de notification de ton appareil et ton fuseau horaire. Tu peux désactiver à tout moment.</p><button class="b" data-wp="on">Activer</button>')+'</div>'}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-wp]");if(!b)return;if(b.dataset.wp==="on"){if(!arm(b,"Confirmer : j’accepte l’enregistrement de l’heure du rappel"))return;pushOn("w")}else{pushOff("w").then(rWpush)}});
+setTimeout(()=>{try{pushSync()}catch(e){}},4000);
+var pushBlock=c=>{if(!CL_ON)return"";return'<div style="margin-top:12px"><b>Rappel même appli fermée</b>'+(!DBU?'<p class="m">Connecte-toi à ton compte pour l’activer.</p>':c.push?'<p class="m">✓ Activé : tous les matins à 9 h, tu reçois « Ton relevé du jour t’attend » (message neutre, rien de médical sur l’écran verrouillé).</p><button class="b g" data-rg="poff">Désactiver</button>':'<p class="m">Une notification neutre « Ton relevé du jour t’attend » arrive tous les matins à 9 h. Le serveur enregistre l’adresse de notification de ton appareil, ton fuseau horaire et le fait que ce rappel est activé. Tu peux désactiver à tout moment.</p><button class="b" data-rg="pon">Activer</button>')+'</div>'};
+try{rHcyc();rRegles();rProf();rWpush()}catch(x){}
 if(!S.set.tuto)tutoOpen();
 </script>
 </body>
