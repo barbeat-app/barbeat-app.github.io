@@ -23,6 +23,24 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 main{max-width:640px;margin:0 auto;padding:16px 12px 90px}
 h1,h2,h3{font-family:"Barlow Condensed","Arial Narrow",sans-serif;margin:0 0 8px}
 h1{font-size:34px}h2{font-size:24px}h3{font-size:20px}
+#updbar{position:fixed;left:10px;right:10px;bottom:calc(64px + env(safe-area-inset-bottom,0px));z-index:30;display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--ink);color:var(--bg);border-radius:12px;padding:10px 12px;box-shadow:0 4px 16px rgba(0,0,0,.3);font:600 15px Barlow,sans-serif}#updbar button{background:var(--ac);color:var(--ac2);border:0;border-radius:8px;padding:8px 12px;font:700 15px Barlow,sans-serif;cursor:pointer;white-space:nowrap}#updbar button:disabled{opacity:.7}
+#auth,#cask,#nqx{position:fixed;inset:0;z-index:99990;overflow:auto;display:flex;background:radial-gradient(110% 70% at 50% 25%,#5a1d06 0%,#17100c 50%,#08080a 100%);color:#fff}
+#nqx .acg{display:flex;gap:10px;align-items:flex-start;font-size:13px;line-height:1.35;margin-top:12px;text-transform:none;letter-spacing:0}#nqx .acg input{margin-top:2px;flex:none}
+#nqx .aer{min-height:20px;text-align:center;color:#ff8a7a}#nqx .b.big{margin-top:12px}
+#nqx .pc{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+#nqx .pc button{flex:1 1 40%;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.06);color:#fff;border-radius:12px;padding:12px 14px;font:700 15px Barlow,sans-serif;cursor:pointer}
+#nqx .pc button.on{background:#ff6a1a;border-color:#ff6a1a}
+#nqx input[type=number],#nqx input[type=date]{width:100%;box-sizing:border-box}
+#nqx .pbtn{display:block;width:100%;margin-top:10px;padding:14px;border:1px solid rgba(255,255,255,.28);border-radius:12px;background:rgba(255,255,255,.07);color:#fff;font:700 16px Barlow,sans-serif;cursor:pointer;text-align:center}
+#nqx .pq{margin:18px 0 0;padding:14px;border-radius:14px;background:rgba(255,255,255,.05)}#nqx .pq>b{display:block;font-size:17px;line-height:1.25}#nqx .pq .m{margin:4px 0 8px;font-size:14px}#nqx .pok{color:#6ee7a0;margin:8px 0 0}
+#nqx .pst{display:flex;align-items:center;gap:10px;margin:6px 0}#nqx .pst button{width:64px;height:60px;border-radius:14px;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.08);color:#fff;font:700 30px Barlow,sans-serif;cursor:pointer}#nqx .pst div{flex:1;text-align:center}#nqx .pst b{font:800 44px/1 "Barlow Condensed",sans-serif}#nqx .pst small{display:block;color:rgba(255,255,255,.7)}
+#nqx .pc button small{display:block;font:500 13px Barlow,sans-serif;opacity:.8;margin-top:3px}#nqx .pc button{min-height:52px;font-size:16px;text-align:center}
+#nqx .b.big{padding:16px;font-size:17px}
+#auth .aui,#cask .aui,#nqx .aui{margin:auto;width:100%;max-width:400px;padding:calc(env(safe-area-inset-top,0px) + 24px) 22px calc(env(safe-area-inset-bottom,0px) + 24px)}
+#auth h2,#cask h2,#nqx h2{margin:6px 0 4px;text-align:center;font:800 34px/1.05 "Barlow Condensed",sans-serif;text-transform:uppercase;font-style:italic}
+#auth .m,#cask .m,#nqx .m{color:rgba(255,255,255,.7)}#auth>.aui>p.m:first-of-type{text-align:center}
+#auth label,#cask label,#nqx label{color:rgba(255,255,255,.8)}
+#nqx .nsw{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;margin:8px 0;border-radius:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.18);font:700 16px Barlow,sans-serif;cursor:pointer;text-transform:none;letter-spacing:0;color:#fff}#nqx .nsw small{display:block;font:500 13px Barlow,sans-serif;opacity:.75;margin-top:2px}#nqx .nsw input{appearance:none;-webkit-appearance:none;flex:0 0 48px;width:48px;height:28px;border-radius:14px;background:rgba(255,255,255,.18);position:relative;margin:0;transition:background .2s}#nqx .nsw input::after{content:"";position:absolute;top:2px;left:2px;width:24px;height:24px;border-radius:50%;background:#fff;transition:transform .2s}#nqx .nsw input:checked{background:#ff6a1a}#nqx .nsw input:checked::after{transform:translateX(20px)}#nqx select{width:100%;box-sizing:border-box;margin-top:6px}#nqx .pc button{flex:1 1 20%;padding:10px 4px;min-height:44px}
 nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:var(--sf);border-top:1px solid var(--ln);padding:6px 0 calc(6px + env(safe-area-inset-bottom,0px));z-index:5}
 nav button{flex:1;min-width:0;border:0;background:none;color:var(--mu);font:600 9.5px Barlow,sans-serif;padding:9px 0;letter-spacing:-.2px;border-radius:8px;cursor:pointer}
 nav button[aria-selected=true]{color:var(--ac2);background:var(--ac)}
@@ -2625,7 +2643,17 @@ $("#wkp").onclick=()=>{WK--;rSem()};$("#wkn").onclick=()=>{if(WK<0){WK++;rSem()}
 
 function draw(){secBanners();rLibMy();rReg();rTeam();rRpeD();rGch();rEx();rFchk();rRx();rExos();rProg();rCyc();rWell();rHome();rHcyc();rProf();rRegles();rHisto();rSem();rPoids();rRec();rCharge();rSf();rPain();rTests();rForme();rHub();try{rWpush()}catch(x){}banner()}
 calc();draw();{const h=location.hash.slice(1);if(h&&document.getElementById(h))go(h);else{const d=D();if(d.t0&&!d.t1&&d.edit==null)go("seance")}}
-if("serviceWorker" in navigator&&/^https?:/.test(location.protocol)){navigator.serviceWorker.register("sw.js").catch(()=>{})}
+var UPW=null,UPGO=false;
+function updBar(w){if(document.getElementById("updbar"))return;UPW=w;const d=document.createElement("div");d.id="updbar";d.setAttribute("role","status");d.innerHTML='<span>Nouvelle version disponible</span><button type="button" id="updgo">Mettre à jour</button>';document.body.appendChild(d);
+ const b=document.getElementById("updgo");b.onclick=()=>{b.disabled=true;b.textContent="Mise à jour…";UPGO=true;try{UPW.postMessage("skip")}catch(e){location.reload()}setTimeout(()=>location.reload(),4000)}}
+if("serviceWorker" in navigator&&/^https?:/.test(location.protocol)){
+ navigator.serviceWorker.addEventListener("controllerchange",()=>{if(UPGO){UPGO=false;location.reload()}});
+ navigator.serviceWorker.register("sw.js").then(reg=>{
+  const chk=()=>{if(reg.waiting&&navigator.serviceWorker.controller)updBar(reg.waiting)};chk();
+  reg.addEventListener("updatefound",()=>{const w=reg.installing;if(w)w.addEventListener("statechange",()=>{if(w.state==="installed")chk()})});
+  const up=()=>{try{reg.update().catch(()=>{})}catch(e){}};
+  document.addEventListener("visibilitychange",()=>{if(!document.hidden)up()});setInterval(up,36e5);
+ }).catch(()=>{})}
 
 /* ===== compte + sauvegarde cloud (Supabase) ===== */
 const CLOUD=Object.assign({url:"https://mzhpfuomfjkjwmuaurxt.supabase.co",key:"sb_publishable_pPk5Z0ExKw8oSpmyyWTeqg_gPW1Hl_J"},window.DB_CFG||{}),CL_ON=!!(CLOUD.url&&CLOUD.key);
@@ -2751,7 +2779,7 @@ function profDraw(){let e=$("#prf");if(!e){e=document.createElement("div");e.id=
   +'<label for="pfage">Ton âge</label><input id="pfage" type="number" inputmode="numeric" min="10" max="99" value="'+esc(P.age)+'" placeholder="Ex. 24"><p class="m aer bad" id="pfe">'+esc(P.err)+'</p><button class="b big" data-pf="n1">Continuer</button><button class="pbtn" data-pf="skip">'+(P.fs?"Annuler":"Passer cette étape")+'</button>'}
  else if(P.step===2){h+='<h2>Adapter tes séances à ton cycle ?</h2><p class="m">Barbeat peut suivre ta phase (règles, ovulation estimée…) et te proposer d’alléger ou de pousser. Ce sont des suggestions de bon sens, pas un avis médical : tu gardes toujours le dernier mot.</p>'
   +(age>0&&age<18?'<p class="m">À moins de 18 ans, parles-en avec un adulte de confiance si tu as des questions.</p>':'')
-  +'<div class="pc" style="flex-direction:column"><button data-pf="mode" data-v="r">Suivre mes règles<small>Je note quand elles commencent et l’appli m’indique ma phase.</small></button><button data-pf="mode" data-v="o">Suivre mes règles et mon ovulation<small>Pareil, avec une estimation de la période d’ovulation.</small></button><button data-pf="mode" data-v="">Non merci<small>Je pourrai l’activer plus tard dans Santé.</small></button></div><button class="pbtn" data-pf="back">← Retour</button>'}
+  +'<div class="pc" style="flex-direction:column"><button data-pf="mode" data-v="o">Suivre mon cycle menstruel<small>Je note quand mes règles commencent et l’appli m’indique ma phase.</small></button><button data-pf="mode" data-v="">Ne pas suivre<small>Je pourrai l’activer plus tard dans Santé.</small></button></div><button class="pbtn" data-pf="back">← Retour</button>'}
  else{const DQ=[["0","Aujourd’hui"],["1","Hier"],["3","Il y a 3 jours"],["7","Il y a 1 semaine"],["14","Il y a 2 semaines"],["o","Une autre date"]];
   h+='<h2>Ton cycle</h2><p class="m">'+(P.mode==="o"?"On va suivre tes règles et estimer ton ovulation.":"On va suivre tes règles.")+' 3 questions, tu pourras tout modifier ensuite dans Réglages.</p>'
   +'<div class="pq"><b>1. Quand tes dernières règles ont-elles commencé ?</b><p class="m">Le « premier jour », c’est le premier jour où tu as saigné.</p><div class="pc">'+DQ.map(x=>ch("dq",x[0],x[1],P.dq===x[0])).join("")+'</div>'
@@ -2791,7 +2819,7 @@ setInterval(()=>{if(!S.prof&&!PFSEEN&&S.set.tuto&&!PF&&!document.getElementById(
 /* Réglages : mon profil */
 function rProf(){try{rPriv()}catch(x){}const e=$("#rgprb");if(!e||!CYC_C)return;const p=S.prof||{},c=S.mcy,i=cycInfo(),SX={f:"Femme",m:"Homme",n:"Non précisé"};
  $("#rgprs").textContent=p.sex?SX[p.sex]+(p.age?" · "+p.age+" ans":""):"Non renseigné";
- let h='<p class="m">'+(p.sex?SX[p.sex]+(p.age?", "+p.age+" ans":""):"Rien d’enregistré.")+'</p><button class="b g" data-pfs="edit">Modifier mon profil</button>';
+ let h='<p class="m">'+(p.sex?SX[p.sex]+(p.age?", "+p.age+" ans":""):"Rien d’enregistré.")+'</p><button class="b g" data-pfs="edit">Modifier mon profil</button>'+(CL_ON&&DBU?'<button class="b g" data-nqo="1" style="margin-top:8px">Mes rappels et notifications</button>':'');
  if(c&&c.on){h+='<p class="m" style="margin-top:10px"><b>Suivi du cycle activé</b> · '+(c.o?"règles + ovulation":"règles")+' · durée utilisée : '+cycLen(c)+' j'+(c.irr?' · cycle irrégulier':'')+'<br>Données gardées '+(c.cloud?'dans ton compte.':'sur cet appareil seulement.')+'</p>'
   +'<div class="r"><button class="b g" data-pfs="start">Mes règles ont commencé</button><button class="b g" data-pfs="cy">Modifier les dates</button></div><button class="b g" data-pfs="off" style="margin-top:8px">Désactiver et effacer mes données de cycle</button>'
   +'<p class="m">Estimation à partir de ce que tu notes, pas un avis médical. Ne sert ni à la contraception ni à la fertilité.</p>'}
@@ -3026,7 +3054,7 @@ function lgT(w){const who=LGL.nom?esc(LGL.nom):"l’éditeur de l’application 
   +'<h3>6. Évolution</h3><p>Ces conditions peuvent évoluer. En cas de changement important, tu seras prévenu·e dans l’appli.</p>';
  return'<h2>Politique de confidentialité</h2><p class="m">Version '+LGL.v+' · en langage simple</p>'
   +'<h3>Qui est responsable de tes données ?</h3><p>'+who+'. Pour toute question ou pour exercer tes droits : '+ct+'.</p>'
-  +'<h3>Quelles données ?</h3><p>• <b>Compte</b> : ton email et ton mot de passe (stocké chiffré, jamais lisible).<br>• <b>Entraînement</b> : séances, charges, poids, bien-être, programme.<br>• <b>Profil</b> (facultatif) : sexe et âge.<br>• <b>Données de santé</b> (facultatif, uniquement si tu actives le suivi du cycle) : dates de règles, saignements, symptômes, forme du jour.<br>• Si tu actives les rappels hors appli : l’adresse technique de notification de ton appareil, ton <b>fuseau horaire</b> et le fait d’avoir activé ces rappels (bien-être et/ou relevé du cycle). Aucune date de règles ni donnée de relevé n’est envoyée à cet effet.</p>'
+  +'<h3>Quelles données ?</h3><p>• <b>Compte</b> : ton email et ton mot de passe (stocké chiffré, jamais lisible).<br>• <b>Entraînement</b> : séances, charges, poids, bien-être, programme.<br>• <b>Profil</b> (facultatif) : sexe et âge.<br>• <b>Données de santé</b> (facultatif, uniquement si tu actives le suivi du cycle) : dates de règles, saignements, symptômes, forme du jour.<br>• Si tu actives les rappels hors appli : l’adresse technique de notification de ton appareil, ton <b>fuseau horaire</b> et les rappels choisis (bien-être, relevé du cycle, séance : jours et heure choisis). Aucune date de règles ni donnée de relevé n’est envoyée à cet effet.</p>'
   +'<h3>Pourquoi ?</h3><p>Uniquement pour faire fonctionner l’appli : enregistrer tes séances, les retrouver sur tes appareils, adapter les suggestions à ta phase si tu l’as choisi. <b>Pas de publicité, pas de revente, pas de profilage commercial.</b></p>'
   +'<h3>Sur quelle base légale ?</h3><p>L’exécution du service que tu demandes en créant ton compte ; et ton <b>consentement explicite</b> pour les données de santé (suivi du cycle) et pour les rappels hors appli. Tu peux retirer ton consentement à tout moment (Réglages ou page Règles et cycle) : les données concernées sont alors effacées.</p>'
   +'<h3>Où sont-elles ?</h3><p>Sans compte, tout reste <b>sur ton appareil</b>. Avec un compte, les données sont hébergées chez Supabase (sous-traitant d’hébergement)'+(LGL.region?', en '+esc(LGL.region):'')+', protégées par des règles qui limitent l’accès à ton seul compte. Si tu actives les rappels hors appli, les notifications transitent par le service de ton navigateur (Google, Apple ou Mozilla) ; leur contenu est neutre et ne montre aucune donnée de santé.</p>'
@@ -3050,24 +3078,52 @@ document.addEventListener("click",e=>{const b=e.target.closest("[data-prv]");if(
  else if(k==="cyc"){if(!arm(b,"Effacer mes données de cycle ?"))return;try{pushOff("c")}catch(x){}delete S.mcy;save();draw();toast("Données de cycle effacées")}});
 /* --- notifications hors appli --- */
 function u8(b){const p="=".repeat((4-b.length%4)%4),s=atob((b+p).replace(/-/g,"+").replace(/_/g,"/")),o=new Uint8Array(s.length);for(let i=0;i<s.length;i++)o[i]=s.charCodeAt(i);return o}
-function pushWanted(){return !!((S.mcy&&S.mcy.push)||(S.set&&S.set.pushW))}
+function pushWanted(){return !!((S.mcy&&S.mcy.push)||(S.set&&(S.set.pushW||S.set.pushS)))}
 async function pushSync(){try{if(!CL_ON||!DBU||!pushWanted()||!navigator.serviceWorker)return;if(!await auFresh())return;
- const tz=(Intl.DateTimeFormat().resolvedOptions().timeZone)||"Europe/Paris",w=!!(S.set&&S.set.pushW),c=!!(S.mcy&&S.mcy.push),key=[tz,w,c,today()].join("|");if(S.set.pk===key)return;
+ const tz=(Intl.DateTimeFormat().resolvedOptions().timeZone)||"Europe/Paris",w=!!(S.set&&S.set.pushW),c=!!(S.mcy&&S.mcy.push),sn=!!(S.set&&S.set.pushS),sd=(S.set&&S.set.sd)||[1,3,5],sh=+(S.set&&S.set.sh)||18,key=[tz,w,c,sn,sd.join(","),sh,today()].join("|");if(S.set.pk===key)return;
  const reg=await navigator.serviceWorker.ready,sub=await reg.pushManager.getSubscription();if(!sub)return;
- const r=await sb("/rest/v1/push_subs?on_conflict=user_id",{m:"POST",b:{user_id:DBU.uid,sub:sub.toJSON(),tz,well_on:w,cyc_on:c,last_seen:new Date().toISOString(),updated_at:new Date().toISOString()},h:{Prefer:"resolution=merge-duplicates,return=minimal"}});
+ const r=await sb("/rest/v1/push_subs?on_conflict=user_id",{m:"POST",b:{user_id:DBU.uid,sub:sub.toJSON(),tz,well_on:w,cyc_on:c,sess_on:sn,sess_days:sd,sess_h:sh,last_seen:new Date().toISOString(),updated_at:new Date().toISOString()},h:{Prefer:"resolution=merge-duplicates,return=minimal"}});
  if(r.ok){S.set.pk=key;try{localStorage.setItem("muscu2",JSON.stringify(S))}catch(e){}}}catch(e){}}
 var PQT=null;function pushQ(){if(!pushWanted())return;clearTimeout(PQT);PQT=setTimeout(pushSync,3000)}
-async function pushOn(kind){try{if(!CL_ON||!DBU)return toast("Connecte-toi à ton compte pour activer les notifications.");
- if(!navigator.serviceWorker||!("PushManager" in window)||typeof Notification==="undefined")return toast("Non pris en charge ici. Sur iPhone : ajoute d’abord l’appli à l’écran d’accueil.");
- const p=await Notification.requestPermission();if(p!=="granted")return toast("Notifications refusées.");
- const reg=await navigator.serviceWorker.ready;let sub=await reg.pushManager.getSubscription();if(!sub)sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:u8(VAPID_PUB)});
- if(kind==="w")S.set.pushW=1;else if(S.mcy)S.mcy.push=1;S.set.pk="";save();await pushSync();rRegles();rWpush();toast("Rappel activé, même appli fermée")}catch(e){toast("Impossible d’activer les notifications.")}}
-async function pushOff(kind){try{if(!kind||kind==="c"){if(S.mcy)S.mcy.push=0}if(!kind||kind==="w"){if(S.set)S.set.pushW=0}if(S.set)S.set.pk="";try{localStorage.setItem("muscu2",JSON.stringify(S))}catch(e){}
+async function pushSub(){if(!CL_ON||!DBU){toast("Connecte-toi à ton compte pour activer les notifications.");return false}
+ if(!navigator.serviceWorker||!("PushManager" in window)||typeof Notification==="undefined"){toast("Non pris en charge ici. Sur iPhone : ajoute d’abord l’appli à l’écran d’accueil.");return false}
+ const p=await Notification.requestPermission();if(p!=="granted"){toast("Notifications refusées.");return false}
+ const reg=await navigator.serviceWorker.ready;let sub=await reg.pushManager.getSubscription();if(!sub)sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:u8(VAPID_PUB)});return true}
+async function pushOn(kind){try{if(!await pushSub())return;
+ if(kind==="w")S.set.pushW=1;else if(kind==="s")S.set.pushS=1;else if(S.mcy)S.mcy.push=1;S.set.pk="";save();await pushSync();rRegles();rWpush();toast("Rappel activé, même appli fermée")}catch(e){toast("Impossible d’activer les notifications.")}}
+async function pushOff(kind){try{if(!kind||kind==="c"){if(S.mcy)S.mcy.push=0}if(!kind||kind==="w"){if(S.set)S.set.pushW=0}if(!kind||kind==="s"){if(S.set)S.set.pushS=0}if(S.set)S.set.pk="";try{localStorage.setItem("muscu2",JSON.stringify(S))}catch(e){}
  if(!pushWanted()){if(navigator.serviceWorker){const reg=await navigator.serviceWorker.ready,sub=await reg.pushManager.getSubscription();if(sub)await sub.unsubscribe()}
   if(CL_ON&&DBU&&await auFresh())await sb("/rest/v1/push_subs?user_id=eq."+DBU.uid,{m:"DELETE"})}else pushSync()}catch(e){}}
 function rWpush(){const e=document.getElementById("wpush");if(!e)return;if(!CL_ON){e.innerHTML="";return}
- e.innerHTML='<div style="margin-top:12px"><b>Notification même appli fermée</b>'+(!DBU?'<p class="m">Connecte-toi à ton compte pour l’activer.</p>':S.set.pushW?'<p class="m">✓ Activée : tous les matins à 9 h, tu reçois « N’oublie pas de faire ton wellness », que tu aies déjà rempli ton relevé ou non.</p><button class="b g" data-wp="off">Désactiver</button>':'<p class="m">Reçois une notification tous les matins à 9 h : « N’oublie pas de faire ton wellness ». Elle arrive même appli fermée. Le serveur enregistre l’adresse de notification de ton appareil et ton fuseau horaire. Tu peux désactiver à tout moment.</p><button class="b" data-wp="on">Activer</button>')+'</div>'}
+ e.innerHTML='<div style="margin-top:12px"><b>Notification même appli fermée</b>'+(!DBU?'<p class="m">Connecte-toi à ton compte pour l’activer.</p>':S.set.pushW?'<p class="m">✓ Activée : tous les matins à 9 h, tu reçois « N’oublie pas de faire ton wellness », que tu aies déjà rempli ton relevé ou non.</p><button class="b g" data-wp="off">Désactiver</button>':'<p class="m">Reçois une notification tous les matins à 9 h : « N’oublie pas de faire ton wellness ». Elle arrive même appli fermée. Le serveur enregistre l’adresse de notification de ton appareil et ton fuseau horaire. Tu peux désactiver à tout moment.</p><button class="b" data-wp="on">Activer</button>')+(DBU?'<button class="b g" data-nqo="1" style="margin-top:8px">Tous mes rappels (règles, séance…)</button>':'')+'</div>'}
+document.addEventListener("click",e=>{if(e.target.closest("[data-nqo]"))nqOpen(false)});
 document.addEventListener("click",e=>{const b=e.target.closest("[data-wp]");if(!b)return;if(b.dataset.wp==="on"){if(!arm(b,"Confirmer : j’accepte l’enregistrement de l’heure du rappel"))return;pushOn("w")}else{pushOff("w").then(rWpush)}});
+
+/* --- page « Notifications » (inscription + réglages) --- */
+var NQ=null;
+function nqOpen(first){const st=S.set||{},c=S.mcy&&S.mcy.on;NQ={first:!!first,w:first?true:!!st.pushW,c:c?(first?true:!!(S.mcy&&S.mcy.push)):false,s:first?false:!!st.pushS,sd:(st.sd&&st.sd.length?st.sd.slice():[1,3,5]),sh:+st.sh||18,hasC:!!c};nqDraw()}
+function nqDraw(){let e=document.getElementById("nqx");if(!e){e=document.createElement("div");e.id="nqx";e.setAttribute("role","dialog");e.setAttribute("aria-label","Notifications");document.body.appendChild(e)}
+ const N=NQ,D=[["1","Lun"],["2","Mar"],["3","Mer"],["4","Jeu"],["5","Ven"],["6","Sam"],["0","Dim"]];
+ let h='<div class="aui"><h2>Notifications</h2><p class="m">Veux-tu recevoir des rappels quand l’appli est fermée ? Tu choisis ceux que tu veux, tu pourras changer à tout moment.</p>'
+ +'<label class="nsw"><span>Wellness<small>« N’oublie pas de faire ton wellness » tous les matins à 9 h</small></span><input type="checkbox" data-nq="w"'+(N.w?" checked":"")+'></label>'
+ +(N.hasC?'<label class="nsw"><span>Règles et cycle<small>« Ton relevé du jour t’attend » tous les matins à 9 h</small></span><input type="checkbox" data-nq="c"'+(N.c?" checked":"")+'></label>':'')
+ +'<label class="nsw"><span>Séance<small>« C’est l’heure de ta séance » les jours choisis</small></span><input type="checkbox" data-nq="s"'+(N.s?" checked":"")+'></label>'
+ +(N.s?'<div class="pq"><b>Quels jours ?</b><div class="pc">'+D.map(x=>'<button type="button" data-nqd="'+x[0]+'" class="'+(N.sd.includes(+x[0])?"on":"")+'">'+x[1]+'</button>').join("")+'</div><b>À quelle heure ?</b><select id="nqh" aria-label="Heure du rappel de séance">'+[...Array(18).keys()].map(i=>i+5).map(i=>'<option value="'+i+'"'+(i===N.sh?" selected":"")+'>'+i+' h</option>').join("")+'</select></div>':'')
+ +'<p class="m" style="font-size:13px;margin-top:12px">Pour envoyer ces rappels, le serveur enregistre l’adresse de notification de ton appareil, ton fuseau horaire et les rappels choisis (jours et heure pour la séance). Rien d’autre : aucune donnée de santé ni de séance. Sur iPhone, l’appli doit être ajoutée à l’écran d’accueil.</p>'
+ +'<p class="m aer bad" id="nqe"></p><button class="b big" data-nq="save">'+(N.w||N.c||N.s?"Valider":"Continuer sans rappel")+'</button>'+(N.first?'<button class="pbtn" data-nq="later">Plus tard</button>':'<button class="pbtn" data-nq="close">Fermer</button>')+'</div>';
+ e.innerHTML=h}
+document.addEventListener("click",async e=>{const b=e.target.closest("#nqx [data-nqd]");if(!b||!NQ)return;const d=+b.dataset.nqd,i=NQ.sd.indexOf(d);if(i>=0)NQ.sd.splice(i,1);else NQ.sd.push(d);nqDraw()});
+document.addEventListener("change",e=>{const t=e.target;if(!NQ||!t.closest||!t.closest("#nqx"))return;if(t.id==="nqh"){NQ.sh=+t.value;return}const k=t.dataset&&t.dataset.nq;if(k==="w"||k==="c"||k==="s"){NQ[k]=t.checked;nqDraw()}});
+document.addEventListener("click",async e=>{const b=e.target.closest("#nqx [data-nq]");if(!b||!NQ||b.tagName==="INPUT")return;const k=b.dataset.nq,x=document.getElementById("nqx"),N=NQ;
+ if(k==="later"||k==="close"){if(k==="later"){S.set.nq=1;save()}if(x)x.remove();NQ=null;return}
+ if(k==="save"){const err=document.getElementById("nqe");
+  if(N.s&&!N.sd.length){if(err)err.textContent="Choisis au moins un jour pour la séance.";return}
+  const any=N.w||N.c||N.s;
+  if(any){b.disabled=true;const ok=await pushSub();b.disabled=false;if(!ok){if(err)err.textContent="Les notifications n’ont pas pu être activées ici. Tu peux réessayer ou choisir Plus tard.";return}}
+  S.set.pushW=N.w?1:0;S.set.pushS=N.s?1:0;if(S.mcy&&N.hasC)S.mcy.push=N.c?1:0;if(N.s){S.set.sd=N.sd.slice().sort();S.set.sh=N.sh}S.set.nq=1;S.set.pk="";save();
+  if(any)await pushSync();else await pushOff();
+  if(x)x.remove();NQ=null;try{rRegles();rWpush()}catch(_){}toast(any?"Rappels enregistrés":"Aucun rappel")}});
+setInterval(()=>{try{if(S.prof&&!S.set.nq&&CL_ON&&DBU&&!PF&&!NQ&&!document.getElementById("auth")&&!document.getElementById("spl")&&!document.getElementById("cask")&&!document.getElementById("prf")&&document.getElementById("tuto").hidden)nqOpen(true)}catch(e){}},2000);
 setTimeout(()=>{try{pushSync()}catch(e){}},4000);
 var pushBlock=c=>{if(!CL_ON)return"";return'<div style="margin-top:12px"><b>Rappel même appli fermée</b>'+(!DBU?'<p class="m">Connecte-toi à ton compte pour l’activer.</p>':c.push?'<p class="m">✓ Activé : tous les matins à 9 h, tu reçois « Ton relevé du jour t’attend » (message neutre, rien de médical sur l’écran verrouillé).</p><button class="b g" data-rg="poff">Désactiver</button>':'<p class="m">Une notification neutre « Ton relevé du jour t’attend » arrive tous les matins à 9 h. Le serveur enregistre l’adresse de notification de ton appareil, ton fuseau horaire et le fait que ce rappel est activé. Tu peux désactiver à tout moment.</p><button class="b" data-rg="pon">Activer</button>')+'</div>'};
 try{rHcyc();rRegles();rProf();rWpush()}catch(x){}
