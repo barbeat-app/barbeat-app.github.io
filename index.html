@@ -3059,7 +3059,7 @@ document.addEventListener("click",e=>{const b=e.target.closest("#rgl [data-rg]")
   try{Notification.requestPermission().then(p=>{if(p==="granted"){c.rem=1;c.remD="";save();toast("Rappel activé")}else toast("Notifications refusées");rRegles()})}catch(x){toast("Non disponible sur cet appareil")}}});
 try{rRegles()}catch(x){}
 /* ===== V118 : séance adaptée, bilan de cycle, confidentialité, notifications ===== */
-var LGL={v:"2026-11-05",nom:"",mail:"",region:""},VAPID_PUB="BMNmpNEc1dX_oV3ncIP0sYrlDKWJ23z8ZOofFal5shLfF721oiY_wNubqEseUcWHRPYe38FjhMoLSy92CjdMGtI";
+var LGL={v:"2026-11-05",nom:"Barbeat (application éditée à titre non professionnel)",mail:"barbeat.contact@gmail.com",region:"Suède (Union européenne)"},VAPID_PUB="BMNmpNEc1dX_oV3ncIP0sYrlDKWJ23z8ZOofFal5shLfF721oiY_wNubqEseUcWHRPYe38FjhMoLSy92CjdMGtI";
 /* --- séance adaptée sur l'accueil --- */
 function nextDay(){if(!S.prog||!S.prog.length)return -1;const L=S.sessions[S.sessions.length-1],j=L?S.prog.findIndex(p=>p.n===L.nm):-1;return(j+1)%S.prog.length}
 function dayAdv(){const i=cycInfo(),c=S.mcy;if(!i||!i.ph||!c)return null;const t=today(),fm=(S.form||{})[t],sy=(c.sym||{})[t]||[],f=fm&&fm.f>0?fm.f:3,a=fAdvice(f,i,sy),fl=(c.fl||{})[t]||0;let pct=a.pct,tx=a.t;
