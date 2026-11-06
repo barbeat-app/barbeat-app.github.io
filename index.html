@@ -229,6 +229,16 @@ button.sn{border:0;color:var(--ink);font:700 16px Barlow,sans-serif;cursor:point
 .lgl{display:grid;gap:6px;margin:6px 0 4px}
 .lgi{display:flex;justify-content:space-between;align-items:center;gap:8px;width:100%;text-align:left;background:var(--bg);color:var(--ink);border:0;border-radius:12px;padding:11px 12px;font:600 16px Barlow,sans-serif;cursor:pointer}
 .sg{background:color-mix(in srgb,var(--hi) 22%,transparent);border-radius:12px;padding:9px 12px;margin:0 0 8px}
+.sr{position:relative}.rbd{position:absolute;right:4px;top:-10px;padding:1px 6px!important;font:700 10px sans-serif;border:0;border-radius:8px;background:var(--ac);color:#fff;cursor:pointer;line-height:1.5}
+.rq{margin:-1px 0 7px;padding:7px 8px;border-radius:12px;background:var(--bg);overflow:hidden;animation:rqh .3s ease-out,rqz .25s ease 25s forwards}
+.rq .rqt{display:block;font-size:12.5px;color:var(--mu);margin-bottom:4px}
+.rq .rqn{display:grid;grid-template-columns:repeat(10,1fr) 28px;gap:4px}
+.rq .rqn button{padding:8px 0;border:0;border-radius:8px;background:var(--sf);color:inherit;font:700 15px sans-serif;cursor:pointer}
+.rq .rqn button.rqx{background:transparent;color:var(--mu);font-weight:400}
+.rq .rqh{display:block;margin-top:4px;font-size:12px}
+.rq.sg span{display:block;font-size:14px;margin-bottom:6px}.rq .rqb{display:flex;gap:8px}.rq .rqb .b{flex:1;padding:9px 6px}
+@keyframes rqh{from{opacity:0;transform:translateY(-4px)}}
+@keyframes rqz{to{opacity:0;max-height:0;padding:0;margin:0;visibility:hidden}}
 .sr.pr{box-shadow:0 0 0 2px var(--hi) inset}
 .pgr{flex-wrap:wrap}.pgr>div{flex:1 1 40%}.pgr>button{flex:1 1 100%}
 .mxi{display:inline-block;width:76px;padding:4px 8px;margin:0 2px}
@@ -714,6 +724,7 @@ body:has(#sact:not([hidden])) #seance .sbn{display:none}
 .rck{display:flex;align-items:center;gap:12px;width:100%;padding:14px;border-radius:14px;border:2px solid #4a4a58;background:transparent;color:var(--ink);font:700 17px Barlow,sans-serif;text-align:left;cursor:pointer}.rck i{flex:none;width:28px;height:28px;border-radius:8px;border:2px solid #8a8a99;display:flex;align-items:center;justify-content:center;font-style:normal;color:#fff}.rck.on{border-color:#e5484d;background:rgba(229,72,77,.16)}.rck.on i{background:#e5484d;border-color:#e5484d}
 .rfd{position:absolute;top:3px;left:3px;width:calc(3px + var(--n,3)*2px);height:calc(3px + var(--n,3)*2px);border-radius:50%;background:#e5484d;display:inline-block}.rfd.rl{position:static;margin-right:5px;--n:3}
 .rgd{padding:0!important}.rgd>summary{list-style:none;cursor:pointer;padding:16px;font:700 17px Barlow,sans-serif;display:flex;justify-content:space-between;align-items:center}.rgd>summary::after{content:"▾";color:var(--ac)}.rgd[open]>summary::after{content:"▴"}.rgd>summary::-webkit-details-marker{display:none}.rgd>:not(summary){margin-left:16px;margin-right:16px}.rgd>:last-child{margin-bottom:16px}
+.rsum .row{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid var(--ln)}.rsum .row:last-of-type{border-bottom:0}.rsug{margin-top:10px;padding:10px 12px;border-radius:12px;background:var(--bg)}
 .lk .rck,.lk .sys{opacity:.45}.rfok{margin:12px 0 0;font-weight:600}.sys.off{opacity:.38}.sybt[disabled]{cursor:default}.rfl-t{margin:12px 0 6px;font-size:13px}.rfy{margin:6px 0 0}.rgs{margin-top:10px}.rgs summary{cursor:pointer;color:var(--ac);font-weight:600;padding:6px 0}.rgs .sys{margin-top:6px}.rfw{margin-top:4px}.rnl2{font-weight:600;color:var(--ink)!important}
 #lgx{position:fixed;inset:0;z-index:10000;background:var(--bg);color:var(--ink);overflow:auto;padding:18px}#lgx .lgz{max-width:680px;margin:0 auto;line-height:1.5}#lgx h2{margin:10px 0 2px}#lgx h3{font-size:18px;margin:16px 0 4px}#lgx p{margin:4px 0}
 #rgprvb .r{display:flex;flex-wrap:wrap;gap:8px}#rgprvb .r .b{flex:1 1 auto;padding:11px 12px;font-size:14px}#rgprvb .b.g{max-width:100%}
@@ -1504,7 +1515,7 @@ $("#lgib").onclick=()=>{const L=$("#lgimp").value.split(/\n/).map(s=>s.trim()).f
  save();$("#lgimp").value="";$("#lgim").textContent=ok+" exercice"+(ok>1?"s":"")+" ajouté"+(ok>1?"s":"")+(dup?" · "+dup+" déjà présent"+(dup>1?"s":""):"")+".";draw()};
 
 let TT=0;function toast(t){const e=$("#toast");e.textContent=t;e.hidden=false;clearTimeout(TT);TT=setTimeout(()=>{e.hidden=true},5000);try{navigator.vibrate&&navigator.vibrate([120,60,120])}catch(x){}}
-let LT=null,ADDO="";const SSO={},PLO={},NO={},PCO={},PCS={},RPL={},SRO={},MKO={};
+let LT=null,ADDO="",RPQ=null;const SSO={},PLO={},NO={},PCO={},PCS={},RPL={},SRO={},MKO={};
 const pcOf=e=>{const s=PCS[e.id]||(PCS[e.id]={});if(s.m==null){let m=S.mxm[e.n];if(m==null){const r=recOf(e.n);m=r&&r.b1?rd(r.b1.v,2.5):""}s.m=m}if(s.p==null)s.p=80;return s};
 const pcHTML=e=>{const s=pcOf(e),m=pnum(s.m),q=pnum(s.p);return m>0&&q>0?'<b style="font:700 28px \'Barlow Condensed\',sans-serif">'+fnum(rd(m*q/100,2.5))+' kg</b> <span class="m">('+q+' % de '+fnum(m)+' kg, arrondi à 2,5 kg)</span>':'<span class="m">Entre ton max et un pourcentage.</span>'};
 
@@ -1535,7 +1546,7 @@ function rEx(){
   +e.sets.map((s,j)=>{const pv=l&&l.sets[j];
    return '<div class="sr nr'+(s.ok?' ok':'')+(s.pr?' pr':'')+'"><button class="sn'+(s.w?' w':'')+'" data-a="wu" data-e="'+i+'" data-s="'+j+'" aria-label="'+(s.w?'Série d’échauffement, touche pour la passer en série de travail':'Série de travail '+(e.sets.slice(0,j+1).filter(q=>!q.w).length)+', touche pour la passer en échauffement')+'">'+(s.w?'É':e.sets.slice(0,j+1).filter(q=>!q.w).length)+'</button><span class="pv">'+(pv?(pv.w?'É ':'')+(isBW(e.n)?'PDC'+(pv.kg>0?' +'+fnum(pv.kg):'')+' × '+pv.r:pv.kg+'kg × '+pv.r):'—')+'</span>'
    +["kg","r"].map(f=>'<input type="number" inputmode="decimal" data-e="'+i+'" data-s="'+j+'" data-f="'+f+'" value="'+(s[f]==null?"":s[f])+'"'+(pv&&(f==="kg"||f==="r")?' placeholder="'+pv[f]+'"':(isBW(e.n)&&f==="kg"?' placeholder="0"':''))+' aria-label="'+(f==="r"?"reps":f)+' série '+(j+1)+'">').join("")
-   +'<button class="ck" data-a="ok" data-e="'+i+'" data-s="'+j+'" aria-label="Valider la série" aria-pressed="'+!!s.ok+'">✓</button></div>'+(SRO[id]?'<div class="smv"><button class="b g" data-a="su" data-e="'+i+'" data-s="'+j+'"'+(j===0?' disabled':'')+'>↑ Monter</button><button class="b g" data-a="sd" data-e="'+i+'" data-s="'+j+'"'+(j===e.sets.length-1?' disabled':'')+'>↓ Descendre</button><button class="b g" data-a="sf" data-e="'+i+'" data-s="'+j+'"'+(j===0?' disabled':'')+'>⤒ En premier</button></div>':'')+(eqi(e)==="barre"&&PLO[id]?'<div class="pls" data-e="'+i+'" data-s="'+j+'">'+plsH(e,s)+'</div>':'')}).join("")))
+   +'<button class="ck" data-a="ok" data-e="'+i+'" data-s="'+j+'" aria-label="Valider la série" aria-pressed="'+!!s.ok+'">✓</button>'+(s.rpe&&!s.w?'<button class="rbd" data-a="rqo" data-e="'+i+'" data-s="'+j+'" aria-label="Effort ressenti '+s.rpe+' sur 10, toucher pour modifier">RPE '+s.rpe+'</button>':'')+'</div>'+rqH(e,i,j)+(SRO[id]?'<div class="smv"><button class="b g" data-a="su" data-e="'+i+'" data-s="'+j+'"'+(j===0?' disabled':'')+'>↑ Monter</button><button class="b g" data-a="sd" data-e="'+i+'" data-s="'+j+'"'+(j===e.sets.length-1?' disabled':'')+'>↓ Descendre</button><button class="b g" data-a="sf" data-e="'+i+'" data-s="'+j+'"'+(j===0?' disabled':'')+'>⤒ En premier</button></div>':'')+(eqi(e)==="barre"&&PLO[id]?'<div class="pls" data-e="'+i+'" data-s="'+j+'">'+plsH(e,s)+'</div>':'')}).join("")))
   +'<button class="b g big" data-a="as" data-e="'+i+'" style="margin-top:8px">+ Ajouter une série</button>'
   +(e.sets.length>1?'<button class="lnk" data-a="ds" data-e="'+i+'">Retirer la dernière série</button>':'')+'</div>'}).join("");
  document.querySelectorAll("#ex .wh").forEach(w=>{w.scrollTop=+w.dataset.v*WH;w._i=+w.dataset.v});
@@ -1589,7 +1600,7 @@ $("#ex").onclick=e=>{const hx=e.target.closest(".xn");if(hx&&hx.dataset.e!=null&
  else if(a==="sga"){const s=sugOf(x);if(s)x.sets.forEach(q=>{if(!q.ok&&!q.w)q.kg=s.kg})}
  else if(a==="as"){const p=x.sets[x.sets.length-1]||{};x.sets.push({kg:p.kg,k0:p.k0,r:p.r,rpe:p.rpe,d:p.d,t:p.t,cal:p.cal,h:p.h,b:p.b,rest:isCar(x)?(p.rest==null?60:p.rest):er(x)})}
  else if(a==="ds")x.sets.pop();
- else if(a==="ok"){const s=x.sets[j];s.ok=!s.ok;if(s.ok&&isBW(x.n)&&bwOf())s.bw=bwOf();else delete s.bw;if(s.ok&&isCar(x)){if(s.rest>0&&!D().t1)tstart(x,s.rest)}else if(s.ok){const l=lastEx(x.n),pv=l&&l.sets[j];
+ else if(a==="ok"){const s=x.sets[j];s.ok=!s.ok;RPQ=(s.ok&&!s.w&&!isCar(x)&&!s.rpe&&D().edit==null&&!S.set.nrq)?{e:x.id,j}:null;if(s.ok&&isBW(x.n)&&bwOf())s.bw=bwOf();else delete s.bw;if(s.ok&&isCar(x)){if(s.rest>0&&!D().t1)tstart(x,s.rest)}else if(s.ok){const l=lastEx(x.n),pv=l&&l.sets[j];
    if(s.kg==null&&pv)s.kg=pv.kg;if(s.r==null&&pv)s.r=pv.r;if(isBW(x.n)&&s.kg==null)s.kg=0;
    s.pr=undefined;if(!s.w&&s.kg>0&&s.r>0&&D().edit==null){const pr=recOf(x.n),best=pr&&pr.b1?pr.b1.v:0,v=e1(s.kg,s.r),cur=Math.max(0,...D().ex.filter(y=>y.n===x.n).flatMap(y=>y.sets.filter(q=>q!==s&&q.ok&&!q.w&&q.kg>0&&q.r>0).map(q=>e1(q.kg,q.r))));
     if(best>0&&v>best+.05&&v>cur+.05){s.pr=true;toast("Nouveau record ! "+x.n+" : 1RM estimé "+fnum(r1(v))+" kg (+"+fnum(r1(v-best))+" kg)")}}
@@ -1614,9 +1625,27 @@ $("#ex").onclick=e=>{const hx=e.target.closest(".xn");if(hx&&hx.dataset.e!=null&
  else if(a==="pcs"){pcOf(x).p=+b.dataset.v}
  else if(a==="pcu"){const s=pcOf(x),m=pnum(s.m),q=pnum(s.p);if(m>0&&q>0){const t=x.sets.find(y=>!y.ok&&!y.w)||x.sets.find(y=>!y.ok);if(t)t.kg=rd(m*q/100,2.5);else x.sets.push({kg:rd(m*q/100,2.5),r:(x.sets[x.sets.length-1]||{}).r,rest:er(x)})}}
  else if(a==="wu"){x.sets[j].w=!x.sets[j].w||undefined}
+ else if(a==="rq"){const q=x.sets[j];q.rpe=+b.dataset.v;rqCheck(x,j,q)}
+ else if(a==="rqx"||a==="rqn"){RPQ=null}
+ else if(a==="rqo"){RPQ={e:x.id,j}}
+ else if(a==="rqy"){rqApply(x,j)}
  else if(a==="tw")WO[x.id]=!WO[x.id];
  else if(a==="nt")NO[x.id]=!NO[x.id];
  save();rEx();rBar()};
+
+/* RPE par série : bande sous la série validée, puis proposition d'alléger si c'est plus dur que prévu */
+function rqH(e,i,j){if(!RPQ||RPQ.e!==e.id||RPQ.j!==j)return"";const a=' data-e="'+i+'" data-s="'+j+'"';
+ if(RPQ.sg){const g=RPQ.sg;return'<div class="rq sg"><span>Cette série était plus dure que prévu (RPE '+g.rpe+'). Baisser de '+g.p+' % '+(g.n>1?'les '+g.n+' séries restantes':'la série restante')+' de cet exercice ?</span><div class="rqb"><button class="b"'+a+' data-a="rqy">Oui, baisser</button><button class="b g"'+a+' data-a="rqn">Non, garder</button></div></div>'}
+ return'<div class="rq"><span class="rqt">Effort ressenti</span><div class="rqn">'+[1,2,3,4,5,6,7,8,9,10].map(v=>'<button'+a+' data-a="rq" data-v="'+v+'" aria-label="RPE '+v+' sur 10">'+v+'</button>').join("")+'<button class="rqx"'+a+' data-a="rqx" aria-label="Passer">✕</button></div>'+(S.set.mode==="s"?'<span class="m rqh">1 = très facile · 10 = maximum, impossible d’en faire une de plus</span>':'')+'</div>'}
+function rqCheck(x,j,q){RPQ=null;if(!(S.mcy&&S.mcy.on)||D().rqs||q.w||D().edit!=null)return;
+ const rem=x.sets.filter((t,k)=>k>j&&!t.ok&&!t.w&&t.kg>0);if(!rem.length||isBW(x.n))return;
+ const m=/RPE\s*(\d+)/i.exec(x.tg||""),tg=m?+m[1]:7;let lv=0,ph="";try{lv=adapt().lvl;const ci=cycInfo();ph=ci&&ci.ph||""}catch(_){}
+ if(q.rpe<tg+((lv>=1||ph==="men")?1:2))return;
+ D().rqs=1;RPQ={e:x.id,j,sg:{rpe:q.rpe,p:(q.rpe>=10||lv>=2)?10:5,n:rem.length}}}
+function rqApply(x,j){const g=RPQ&&RPQ.sg;RPQ=null;if(!g)return;const al=((S.form||{})[today()]||{}).al,pa=(al&&al.p)||0,
+ dn=v=>{const st=v>=60?2.5:1;let n=rd(v*(1-g.p/100),st);if(n>=v)n=v-st;return Math.max(0,n)},fa=v=>Math.max(0,rd(v*(1+pa/100),2.5));
+ x.sets.forEach((q,k)=>{if(k<=j||q.ok||q.w||!(q.kg>0))return;if(q.k0!=null){q.k0=dn(q.k0);q.kg=pa?fa(q.k0):q.k0}else q.kg=dn(q.kg)});
+ toast("Charge baissée de "+g.p+" % sur les séries restantes")}
 function rBar(){const b=$("#rbar"),t=LT&&TM[LT],x=t&&D().ex.find(y=>y.id===LT);
  if(!t||!x||!D().t0||D().t1){b.hidden=true;document.body.classList.remove("rb");return}
  b.hidden=false;document.body.classList.add("rb");$("#rbt").textContent=ft(tleft(LT));$("#rbn").textContent=(t.done?"Repos terminé · ":"Repos · ")+x.n;b.classList.toggle("done",!!t.done)}
@@ -3009,7 +3038,18 @@ var RGO={};
 document.addEventListener("toggle",e=>{const d=e.target;if(d&&d.dataset&&d.dataset.k)RGO[d.dataset.k]=d.open},true);
 var RGD=null;
 function rgdInit(c){const t=today();if(RGD&&RGD.d===t&&RGD.tc)return RGD;const f=(c.fl||{})[t];RGD={d:t,fl:f===undefined?0:f,sy:((c.sym||{})[t]||[]).slice(),tc:RGD&&RGD.d===t?RGD.tc:false};return RGD}
+function rDaySum(c,wf){const t=today(),fl=(c.fl||{})[t]||0,sy=(c.sym||{})[t]||[],w=S.well.find(x=>x.d===t),fm=(S.form||{})[t],FM=["","KO","Bof","Normal","Bien","Top"];let a=null;try{a=adapt()}catch(_){}
+ const row=(k,v)=>'<div class="row"><span class="m">'+k+'</span><span style="text-align:right"><b>'+v+'</b></span></div>';
+ let low="",lw=9;if(w&&w.v)w.v.forEach((v,i)=>{if(v<lw){lw=v;low=WF[i].replace(/ \(.*\)/,"")}});
+ let h='<div class="rsum"><p class="m rfl-t">Résumé du jour</p>';
+ if(wf)h+=row("Règles",fl>0?"Oui · "+esc(FLN[fl].toLowerCase()):"Pas de règles aujourd’hui");
+ h+=row("Symptômes",sy.length?sy.map(esc).join(", "):"Aucun");
+ h+=row("Forme du jour",fm&&fm.f>0?FM[fm.f]:"Pas renseignée");
+ h+=row("Wellness",w?fnum(w.sc)+" / 5"+(w.sc<=2.5&&low?" · point bas : "+esc(low.toLowerCase()):""):"Pas encore rempli");
+ if(a)h+='<div class="rsug"><b>'+esc(a.title)+'</b>'+(a.why&&a.why.length?'<p class="m" style="margin:4px 0 0">Pourquoi : '+a.why.map(esc).join(", ")+'.</p>':'')+((a.pct||a.sets)?'<p class="m" style="margin:4px 0 0">'+(a.pct?(a.pct>0?"+":"")+a.pct+" % de charge":"")+(a.pct&&a.sets?" · ":"")+(a.sets?"−"+a.sets+" série"+(a.sets>1?"s":"")+" par exercice":"")+'</p>':'')+'</div>';
+ h+='<div class="r" style="margin-top:10px">'+(w?'':'<button class="b" data-go="wellness">Remplir mon wellness</button>')+'<button class="b g" data-rg="du">Modifier</button></div></div>';return h}
 function rDayLog(c,wf){const t=today(),vl=!!(c.val||{})[t],D=rgdInit(c),on=D.fl>0,y=(c.fl||{})[addD(t,-1)]||0,ds=vl?' disabled':'';
+ if(vl)return rDaySum(c,wf);
  let h='<div class="rfw'+(vl?' lk':'')+'">';
  if(wf){h+='<button class="rck'+(on?" on":"")+'"'+ds+' data-rg="df" data-v="'+(on?0:3)+'" role="checkbox" aria-checked="'+on+'"><i>'+(on?"✓":"")+'</i>J’ai mes règles aujourd’hui</button>';
   if(y>0&&!vl&&(c.fl||{})[t]===undefined)h+='<p class="m rfy">Hier : '+FLN[y].toLowerCase()+'. Si elles sont terminées, laisse la case vide.</p>';
