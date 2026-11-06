@@ -1815,7 +1815,7 @@ function pcInfo(e){if(!(e.pc>0))return"";const m=maxOf(e.n);
 $("#pl").onchange=e=>{const t=e.target;if(t.dataset.mx==null)return;const v=pnum(t.value);if(v>0)S.mxm[t.dataset.mx]=v;else delete S.mxm[t.dataset.mx];save();rProg()};
 function rProg(){rPgc();lpSel();dfFill();setTimeout(pkFill,0);
  $("#pl").innerHTML=S.prog.length?S.prog.map((d,i)=>'<div class="c"><button class="fold" data-a="pt" data-d="'+i+'" aria-expanded="'+!!(PRO[i]||(PP&&PP.d===i))+'"><span><b>'+esc(d.n)+'</b><span class="m">'+d.ex.length+' exercice'+(d.ex.length>1?'s':'')+'</span></span><i>'+(PRO[i]||(PP&&PP.d===i)?'▾':'▸')+'</i></button>'
-  +(PRO[i]||(PP&&PP.d===i)?'<div class="fb">'+d.ex.map((e,j)=>'<div class="row"><span>'+ic(gr(e.n))+esc(e.n)+' <span class="m">'+esc(e.t||"")+(e.ss?' · superset '+esc(e.ss):'') +(e.pc?' · '+e.pc+' %':'')+(e.rpe?' · RPE '+e.rpe:'')+(e.nt?' · '+esc(e.nt):'')+'</span>'+pcInfo(e)+'</span><span class="mv"><button class="b g" data-a="xu" data-d="'+i+'" data-x="'+j+'" aria-label="Monter"'+(j===0?' disabled':'')+'>↑</button><button class="b g" data-a="xd" data-d="'+i+'" data-x="'+j+'" aria-label="Descendre"'+(j===d.ex.length-1?' disabled':'')+'>↓</button></span><button class="b g" data-a="rx" data-d="'+i+'" data-x="'+j+'" aria-label="Retirer">✕</button></div>').join("")
+  +(PRO[i]||(PP&&PP.d===i)?'<div class="fb">'+d.ex.map((e,j)=>'<div class="row"><span>'+ic(gr(e.n))+esc(e.n)+' <span class="m">'+esc(e.t||"")+(e.ss?' · superset '+esc(e.ss):'') +(e.sk?' · '+e.sk.join('-')+' kg':'')+(e.pc?' · '+e.pc+' %':'')+(e.rpe?' · RPE '+e.rpe:'')+(e.nt?' · '+esc(e.nt):'')+'</span>'+pcInfo(e)+'</span><span class="mv"><button class="b g" data-a="xu" data-d="'+i+'" data-x="'+j+'" aria-label="Monter"'+(j===0?' disabled':'')+'>↑</button><button class="b g" data-a="xd" data-d="'+i+'" data-x="'+j+'" aria-label="Descendre"'+(j===d.ex.length-1?' disabled':'')+'>↓</button></span><button class="b g" data-a="rx" data-d="'+i+'" data-x="'+j+'" aria-label="Retirer">✕</button></div>').join("")
   +'<div class="pk" data-d="'+i+'">'+pkHTML(i)+'</div>'
   +'<button class="b g" style="margin-top:10px;width:100%" data-a="gl" data-d="'+i+'">Appliquer séries / reps / % à tous…</button>'+(PGL===i?glH(i):'')
   +'<button class="b" style="margin-top:10px;width:100%" data-a="go" data-d="'+i+'">Lancer cette séance</button><button class="b g" data-a="dd" data-d="'+i+'" style="margin-top:10px;width:100%">Supprimer cette séance type</button></div>':'')+'</div>').join(""):'<p class="m">Crée ta première séance type, puis ajoute-lui des exercices.</p>';
@@ -1833,16 +1833,18 @@ $("#dcopy").onclick=()=>{const i=$("#dfrom").value;const s=S.sessions[+i];if(i==
  S.prog.push({n:(s.nm||autoName(s.ex)||"Séance copiée"),ex:s.ex.map(x=>{const w=x.sets.filter(t=>!t.w),cnt={};w.forEach(t=>{cnt[t.r]=(cnt[t.r]||0)+1});const rep=+(Object.entries(cnt).sort((a,b)=>b[1]-a[1])[0]||[8])[0]||8;return{n:x.n,t:isCar(x)?"":w.length+"×"+rep,ss:"",pc:undefined,rpe:undefined}})});
  save();rProg();toast("Séance copiée dans tes programmes.")};
 /* ===== import Excel / CSV de séances types ===== */
-const IMF=[["n","Exercice"],["k","Séries"],["r","Reps"],["pc","% du max"],["rpe","RPE"],["kg","Charge (kg)"],["tp","Tempo"],["rs","Repos"],["nt","Notes"],["ss","Ordre / superset"],["s","Séance"],["w","Semaine"]];
-const IMR={n:/^(exo|exos|exercice|exercices|exercise|mouvement|movement)$|^exercice|^exo /,
- k:/^(series|serie|sets?|ser|nb series|nombre de series|nb sets)$|^series? /,
- r:/^(reps?|repetitions?|nb reps?|nombre de reps?)$|^reps? |^repetition/,
- pc:/^%|pourcent|^pct|% (du )?(max|1rm|rm)|max$/,
- rpe:/rpe|\brir\b/,kg:/^(kg|charge|poids|load|charges)$|^charge/,tp:/tempo/,rs:/repos|rest|recup/,
- nt:/note|remarque|comment|consigne|obs/,ss:/superset|^ss$|^ordre$|^order$|^lettre$|^bloc$|^super/,
- s:/^(seance|seances|session|jour|day|entrainement|workout)$|^seance/,w:/^(semaine|week|sem|s)$|^semaine/};
+const IMF=[["n","Exercice"],["k","Séries"],["r","Reps"],["in","Intensité"],["pc","% du max"],["rpe","RPE"],["kg","Charge (kg)"],["tp","Tempo"],["rs","Repos"],["nt","Notes"],["ss","Ordre / superset"],["s","Séance"],["w","Semaine"]];
+const IMR={n:/^(exo|exos|exercice|exercices|exercise|exercises|mouvement|mouvements|movement|lift|nom de l exercice)$|^exercices? |^exos? |^exercise/,
+ k:/^(series|serie|sets?|ser|nb series|nbr series|nombre de series|nb sets|nb de series)$|^series? |^nb (de )?series|^sets? /,
+ r:/^(reps?|repetitions?|repetition|nb reps?|nombre de reps?|nb de reps?)$|^reps? |^repetition|^rep$/,
+ in:/^intensite|^int$|^intensity/,
+ pc:/^%|pourcent|^pct|% (du )?(max|1rm|rm)|^percent/,
+ rpe:/rpe|\brir\b/,kg:/^(kg|charge|poids|load|charges|weight|poids kg|charge kg)$|^charge|^poids|^weight|^kg /,tp:/tempo/,rs:/repos|^rest|recup|^pause|temps de repos/,
+ nt:/note|remarque|comment|consigne|obs|cue|detail/,ss:/superset|^ss$|^ordre$|^order$|^lettre$|^bloc$|^blocs$|^super|^ord$/,
+ s:/^(seance|seances|session|jour|day|entrainement|workout|bloc de seance)$|^seance|^jour|^day /,w:/^(semaine|week|sem|s)$|^semaine|^week/};
+const IMW=/^(s|sem|semaine|week|w)\s?\d+$/;
 const imLow=s=>String(s==null?"":s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^a-z0-9%]+/g," ").trim();
-let IMS=null,IMU=null;
+let IMS=null;
 async function imInflate(u8){const ds=new DecompressionStream("deflate-raw"),w=ds.writable.getWriter();w.write(u8);w.close();return new Uint8Array(await new Response(ds.readable).arrayBuffer())}
 async function imZip(buf){const u=new Uint8Array(buf),dv=new DataView(buf);let e=u.length-22;while(e>=0&&dv.getUint32(e,true)!==0x06054b50)e--;if(e<0)throw new Error("zip");
  const cnt=dv.getUint16(e+10,true);let p=dv.getUint32(e+16,true);const out={},td=new TextDecoder();
@@ -1851,73 +1853,133 @@ async function imZip(buf){const u=new Uint8Array(buf),dv=new DataView(buf);let e
   const ds=lo+30+dv.getUint16(lo+26,true)+dv.getUint16(lo+28,true),raw=u.subarray(ds,ds+cs);out[nm]=td.decode(m===0?raw:await imInflate(raw))}
  return out}
 const imCol=r=>{let n=0;for(const ch of r.replace(/[0-9]/g,""))n=n*26+ch.charCodeAt(0)-64;return n-1};
+const imRow=r=>parseInt(r.replace(/[^0-9]/g,""))-1;
 async function imXlsx(buf){const z=await imZip(buf),P=x=>new DOMParser().parseFromString(x,"text/xml");
  const ss=z["xl/sharedStrings.xml"]?[...P(z["xl/sharedStrings.xml"]).getElementsByTagName("si")].map(si=>[...si.getElementsByTagName("t")].map(t=>t.textContent).join("")):[];
  const wb=P(z["xl/workbook.xml"]),rl={};[...P(z["xl/_rels/workbook.xml.rels"]).getElementsByTagName("Relationship")].forEach(r=>{rl[r.getAttribute("Id")]=r.getAttribute("Target")});
  const out=[];for(const sh of [...wb.getElementsByTagName("sheet")]){const rid=sh.getAttribute("r:id")||sh.getAttributeNS("http://schemas.openxmlformats.org/officeDocument/2006/relationships","id");let t=(rl[rid]||"").replace(/^\/?(xl\/)?/,"");const x=z["xl/"+t];if(!x)continue;
-  const rows=[];[...P(x).getElementsByTagName("row")].forEach(ro=>{const ri=+ro.getAttribute("r")-1,R=[];[...ro.getElementsByTagName("c")].forEach(c=>{const ci=imCol(c.getAttribute("r")||"A"),ty=c.getAttribute("t"),v=c.getElementsByTagName("v")[0];let val="";
+  const doc=P(x),rows=[];[...doc.getElementsByTagName("row")].forEach(ro=>{const ri=+ro.getAttribute("r")-1,R=[];[...ro.getElementsByTagName("c")].forEach(c=>{const ci=imCol(c.getAttribute("r")||"A"),ty=c.getAttribute("t"),v=c.getElementsByTagName("v")[0];let val="";
     if(ty==="s")val=v?ss[+v.textContent]||"":"";else if(ty==="inlineStr")val=[...c.getElementsByTagName("t")].map(q=>q.textContent).join("");else if(v){val=v.textContent;if(!ty||ty==="n"){const f=parseFloat(val);if(!isNaN(f))val=String(Math.round(f*1e6)/1e6)}}
     R[ci]=String(val).trim()});for(let i=0;i<R.length;i++)if(R[i]==null)R[i]="";rows[ri]=R});
-  for(let i=0;i<rows.length;i++)if(!rows[i])rows[i]=[];out.push({name:sh.getAttribute("name")||"Feuille",rows})}
+  for(let i=0;i<rows.length;i++)if(!rows[i])rows[i]=[];
+  [...doc.getElementsByTagName("mergeCell")].forEach(mc=>{const[a,b]=(mc.getAttribute("ref")||"").split(":");if(!b)return;const r0=imRow(a),c0=imCol(a),r1=imRow(b),c1=imCol(b),v=(rows[r0]||[])[c0];if(!v)return;
+   for(let r=r0;r<=r1&&r<rows.length+60;r++){if(!rows[r])rows[r]=[];for(let c=c0;c<=c1;c++){if(r===r0&&c===c0)continue;for(let q=rows[r].length;q<c;q++)rows[r][q]="";if(!rows[r][c])rows[r][c]=v}}});
+  out.push({name:sh.getAttribute("name")||"Feuille",rows})}
  return out}
 function imCsv(txt){txt=txt.replace(/^\uFEFF/,"");const l1=txt.split(/\r?\n/).find(l=>l.trim())||"",d=[";","\t",","].map(c=>[c,l1.split(c).length]).sort((a,b)=>b[1]-a[1])[0][0],rows=[];let r=[],c="",q=false;
  for(let i=0;i<txt.length;i++){const ch=txt[i];if(q){if(ch==='"'){if(txt[i+1]==='"'){c+='"';i++}else q=false}else c+=ch}else if(ch==='"')q=true;else if(ch===d){r.push(c.trim());c=""}else if(ch==="\n"||ch==="\r"){if(ch==="\r"&&txt[i+1]==="\n")i++;r.push(c.trim());rows.push(r);r=[];c=""}else c+=ch}
  if(c||r.length){r.push(c.trim());rows.push(r)}return[{name:"Séance",rows}]}
-function imDetect(rows){let best=-1,bs=0,map={};
- for(let i=0;i<Math.min(rows.length,20);i++){const R=rows[i]||[],m={};let sc=0;
-  R.forEach((h,ci)=>{const l=imLow(h);if(!l)return;for(const[f]of IMF){if(m[f]!=null)continue;if(IMR[f].test(l)){m[f]=ci;sc++;break}}});
-  if(m.n!=null&&sc>bs){bs=sc;best=i;map=m}}
- if(best<0)return{hdr:-1,map:{}};
- const R=rows[best];R.forEach((h,ci)=>{if(/series.*rep|sets.*reps|sxr|\bxr\b/.test(imLow(h)))map.kr=ci});
- return{hdr:best,map}}
-function imBuild(sh,st){const{rows,name}=sh,m=st.map,hdr=st.hdr,warn=[],G={},order=[];if(hdr<0||m.n==null)return{G:[],warn:["Colonne « Exercice » introuvable : choisis-la dans la liste ci-dessous."]};
- const g=(R,f)=>m[f]==null||m[f]===""?"":String(R[m[f]]==null?"":R[m[f]]).trim(),known=new Map(names().map(x=>[nrm(x).trim(),x]));
- let cs=name,cw="",ign=0,nw=0;
- for(let i=hdr+1;i<rows.length;i++){const R=rows[i]||[],ne=R.filter(x=>String(x).trim()).length;if(!ne)continue;
-  const sv=g(R,"s"),wv=g(R,"w");if(sv)cs=sv;if(wv)cw=wv;
-  let en=g(R,"n");
-  if(!en){if(ne===1&&m.s==null){cs=R.find(x=>String(x).trim()).toString().trim();continue}ign++;continue}
-  if(imLow(en)===imLow(R[m.n])&&imLow(en)===imLow(rows[hdr][m.n]))continue;
-  let k=g(R,"k"),r=g(R,"r");
-  const kr=m.kr!=null?String(R[m.kr]||"").trim():"",mx=(kr||k).match(/^(\d+)\s*[x×*]\s*(.+)$/i);
-  if(mx){k=mx[1];r=mx[2]}
-  if(k&&!r&&/[x×]/.test(k))k=k.replace(/\s/g,"");
-  const kn=parseInt(k),isc=!k&&!r;let t;
-  if(isc)t="";else{if(!(kn>0)){nw++;k="3"}else k=String(kn);if(!r){nw++;r="8"}t=k+"×"+r}
-  let pc=g(R,"pc").replace(",",".").replace("%","");pc=parseFloat(pc);if(isNaN(pc)||pc<=0)pc=undefined;else{if(pc<=1.5)pc=Math.round(pc*100);pc=Math.round(pc*10)/10}
-  let rpe=parseFloat(g(R,"rpe").replace(",","."));if(isNaN(rpe)||rpe<1||rpe>10)rpe=undefined;
-  const kg=g(R,"kg"),nt=[g(R,"tp")&&"tempo "+g(R,"tp"),g(R,"rs")&&"repos "+g(R,"rs"),kg&&kg+(/kg/i.test(kg)?"":" kg"),g(R,"nt")].filter(Boolean).join(" · ");
-  const key=(cw?"S"+cw+" · ":"")+cs,nk=known.get(nrm(en).trim());if(!G[key]){G[key]=[];order.push(key)}
-  let ss=g(R,"ss");const mm=/^([A-Za-z])\s*\d*$/.exec(ss);ss=mm?mm[1].toUpperCase():"";
-  G[key].push({n:nk||en,nw:!nk,t,ss,pc,rpe,nt:nt||undefined})}
- order.forEach(k=>{const c={};G[k].forEach(e=>{if(e.ss)c[e.ss]=(c[e.ss]||0)+1});G[k].forEach(e=>{if(e.ss&&c[e.ss]<2)e.ss=""})});
+const imIsN=v=>/^\d+([.,]\d+)?$/.test(String(v==null?"":v).trim());
+const imT=v=>String(v==null?"":v).trim();
+function imMapRow(R,j0){const m={n:j0};let c1=j0;
+ for(let c=j0+1;c<R.length;c++){const l=imLow(R[c]);if(!l)break;if(IMR.n.test(l))break;c1=c;
+  if(/series.*rep|sets.*reps|sxr/.test(l)){m.kr=c;continue}
+  if(IMW.test(l)){(m.wk=m.wk||[]).push({c,week:l.replace(/\D/g,"")});continue}
+  for(const[f]of IMF){if(f==="n"||m[f]!=null)continue;if(IMR[f].test(l)){m[f]=c;break}}}
+ return{m,c1}}
+function imBlocks(rows){const B=[];
+ for(let i=0;i<Math.min(rows.length,600);i++){const R=rows[i]||[];
+  for(let j=0;j<R.length;j++){if(!R[j]||!IMR.n.test(imLow(R[j])))continue;
+   const{m,c1}=imMapRow(R,j);
+   if(m.k==null&&m.r==null&&m.kr==null&&!m.wk)continue;
+   let c0=j;for(let c=j-1;c>=0&&R[c];c--){const l=imLow(R[c]);let hit=false;for(const f of["ss","s","w"]){if(m[f]==null&&IMR[f].test(l)){m[f]=c;hit=true;break}}if(!hit)break;c0=c}
+   if(m.ss==null&&j>0&&(!R[j-1]||imIsN(R[j-1])))m.ss=j-1;
+   let title="",week="";
+   for(let dr=1;dr<=5&&!title&&i-dr>=0;dr++){const T=rows[i-dr]||[];const cells=T.map((x,c)=>[c,imT(x)]).filter(x=>x[1]);if(!cells.length)continue;
+    if(T[j]&&imT(T[j])){let ok=true;for(let c=j;c<=c1;c++)if(imT(T[c])&&imT(T[c])!==imT(T[j]))ok=false;if(ok&&!IMR.n.test(imLow(T[j]))){title=imT(T[j]);if(j>0&&imIsN(T[j-1]))week=imT(T[j-1])}}
+    if(!title){const d=[...new Set(cells.map(x=>x[1]))];const inB=cells.filter(x=>x[0]>=Math.max(0,j-2)&&x[0]<=c1);
+     if(d.length<=2&&inB.length&&!cells.some(x=>IMR.n.test(imLow(x[1])))&&!cells.some(x=>x[0]>c1+1)){const t=inB.find(x=>!imIsN(x[1]));if(t&&t[1].length<60){title=t[1];const w=inB.find(x=>imIsN(x[1]));if(w)week=w[1]}}}
+    break}
+   B.push({hr:i,c0:Math.min(c0,m.ss!=null?m.ss:j),j,c1,map:m,title,week})}}
+ B.forEach(b=>{let e=rows.length;B.forEach(o=>{if(o!==b&&o.j===b.j&&o.hr>b.hr&&o.hr<e)e=o.hr});b.end=e});
+ return B}
+function imGuess(rows){let hr=-1;
+ for(let i=0;i<Math.min(rows.length,30);i++){const R=rows[i]||[];if(R.filter(x=>imT(x)).length>=2&&R.some(x=>imT(x)&&!imIsN(x))){const nx=rows[i+1]||[];if(nx.filter(x=>imT(x)).length>=2){hr=i;break}}}
+ if(hr<0)return[];const R=rows[hr]||[];
+ const hdr=R.some(x=>imT(x)&&IMR.n.test(imLow(x))||IMR.k.test(imLow(x))||IMR.r.test(imLow(x)));
+ const d0=hdr?hr+1:hr,cnt={};let mc=0;
+ for(let i=d0;i<Math.min(rows.length,d0+15);i++)(rows[i]||[]).forEach((x,c)=>{mc=Math.max(mc,c+1);if(imT(x)&&!imIsN(x)&&!/^\d+\s*[x×]/.test(imT(x)))cnt[c]=(cnt[c]||0)+1});
+ const nc=Object.entries(cnt).sort((a,b)=>b[1]-a[1])[0];if(!nc)return[];const j=+nc[0],m={n:j};
+ const ints=[];for(let c=0;c<mc;c++){if(c===j)continue;let ok=0,tot=0;for(let i=d0;i<Math.min(rows.length,d0+15);i++){const v=imT((rows[i]||[])[c]);if(!v)continue;tot++;if(/^\d{1,2}$/.test(v)||/^\d+\s*[x×]\s*\d+/.test(v))ok++}if(tot&&ok/tot>.6)ints.push(c)}
+ if(ints.length){const first=imT((rows[d0]||[])[ints[0]]);if(/[x×]/.test(first))m.kr=ints[0];else{m.k=ints[0];if(ints[1]!=null)m.r=ints[1]}}
+ return[{hr:hdr?hr:hr-1,c0:0,j,c1:mc-1,map:m,title:"",week:"",end:rows.length,guess:true}]}
+function imRest(s){s=imT(s);if(!s)return;let m;if((m=/^(\d+(?:[.,]\d+)?)\s*('|min|mn|m)$/i.exec(s)))return Math.round(parseFloat(m[1].replace(",","."))*60);if((m=/^(\d+)\s*("|s|sec|secondes?)$/i.exec(s)))return +m[1];if(/^\d+$/.test(s))return+s<=10?+s*60:+s}
+function imBuild(sh){const rows=sh.rows,warn=[],out=[],blocks=sh.blocks;if(!blocks.length)return{G:[],warn:["Je n’ai pas trouvé le tableau. Indique ci-dessous la ligne des titres et les colonnes."]};
+ const known=new Map(names().map(x=>[nrm(x).trim(),x])),W=new Set();blocks.forEach(b=>{if(b.week)W.add(b.week);if(b.map.wk)b.map.wk.forEach(x=>W.add(x.week));if(b.map.w!=null)for(let i=b.hr+1;i<b.end;i++){const v=imT((rows[i]||[])[b.map.w]);if(v)W.add(v)}});const multi=W.size>1;let ign=0,deft=0;
+ blocks.forEach((b,bi)=>{const m=b.map,G={},order=[];let cs=b.title||sh.name,cw=b.week||"";
+  const g=(R,f)=>m[f]==null?"":imT(R[m[f]]);
+  for(let i=b.hr+1;i<b.end;i++){const R=rows[i]||[];const cells=[];for(let c=b.c0;c<=b.c1;c++)if(imT(R[c]))cells.push(imT(R[c]));if(!cells.length)continue;
+   if(b.j>0&&imIsN(R[b.j-1])&&imT(R[b.j])&&i>=b.end-2)break;
+   let fc=-1;for(let c=b.c0;c<=b.c1;c++)if(imT(R[c])){fc=c;break}
+   if(cells.length&&fc<=b.j&&!imIsN(cells[0])&&cells[0].length<70&&(cells.length===1||new Set(cells).size===1)){
+    if(i>=b.end-3&&b.end<rows.length)continue;
+    const t0=cells[0];if(/^(total|notes?)$/i.test(t0))continue;
+    if(fc<b.j||/s[ée]ance|jour|day|semaine|week|bloc|block|lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche|upper|lower|push|pull|legs|haut du|bas du|full|programme|phase|cycle|^[a-z]$|\d/i.test(t0)){cs=t0;const mw=/(?:semaine|week|sem\.?)\s*(\d+)/i.exec(t0);if(mw&&!b.week)cw=mw[1];continue}}
+   if(cells.length===1&&/^(notes?|remarques?|commentaires?|consignes?)\s*:/i.test(cells[0]))continue;
+   const sv=g(R,"s"),wv=g(R,"w");if(sv)cs=sv;if(wv)cw=wv;
+   const en=g(R,"n");if(!en){ign++;continue}
+   if(b.hr>=0&&imLow(en)===imLow(rows[b.hr][m.n]))continue;
+   const ord=g(R,"ss"),fin=/finisher/i.test(ord),mm=/^([A-Za-z])\s*\d*$/.exec(ord),nk=known.get(nrm(en).trim());
+   const WC=m.wk&&m.wk.length?m.wk:[null];
+   WC.forEach(wc=>{let k=g(R,"k"),r=wc?imT(R[wc.c]):g(R,"r");if(wc&&!r)return;
+    const kr=m.kr!=null?imT(R[m.kr]):"",mx=(kr||k||(wc&&!k?r:"")).match(/^(\d+)\s*[x×*]\s*(.+)$/i);if(mx){k=mx[1];r=mx[2]}
+    const notes=[];let rep,sr,sk,pc,rpe,t;
+    r=r.replace(/(\d)\s*(?:à|a|to)\s*(\d)/gi,"$1-$2");
+    let pm=/@?\s*(\d{2,3}(?:[.,]\d+)?)\s*%/.exec(r);if(pm){pc=parseFloat(pm[1].replace(",","."));r=r.replace(pm[0],"").trim()}
+    let km=/@?\s*(\d+(?:[.,]\d+)?)\s*kg/i.exec(r);if(km){sk=[parseFloat(km[1].replace(",","."))];r=r.replace(km[0],"").trim()}
+    r=r.replace(/^[@\s]+|[@\s]+$/g,"");
+    const lst=/^\d+(\s*[-–/]\s*\d+)+$/.test(r)?r.split(/\s*[-–/]\s*/).map(Number):null;let kn=parseInt(k);if(isNaN(kn)||kn<1)kn=0;
+    if(lst){if(kn&&lst.length===kn){sr=lst;rep=lst[0]}else if(lst.every(x=>x===lst[0])){rep=lst[0];notes.push("par côté")}else if(!kn&&lst.length>=3&&lst.length<=8){sr=lst;rep=lst[0];kn=lst.length}else{rep=lst[0]}}
+    else if(imIsN(r))rep=Math.round(parseFloat(r.replace(",",".")));
+    else if(r){rep=null}
+    const txtR=rep===null;
+    if(!kn){kn=fin?1:3;if(!(fin&&txtR))deft++}
+    t=(!r&&!k)?"":kn+"×"+(r||"8");if(!r&&!k)rep=undefined;
+    const it=g(R,"in"),itp=/^@?\s*(\d{2,3}(?:[.,]\d+)?)\s*%$/.exec(it);if(itp)pc=parseFloat(itp[1].replace(",","."));else if(it){if(/^[0-9Xx]{4}$/.test(it)&&/\d/.test(it))notes.push("tempo "+it);
+     else if(!txtR&&/^\d+([.,]\d+)?(\s*[-–/]\s*\d+([.,]\d+)?)*$/.test(it)){const nums=it.split(/\s*[-–/]\s*/).map(x=>parseFloat(x.replace(",",".")));if(nums.length===1&&nums[0]<=1.5)pc=Math.round(nums[0]*100);else if(/%/.test(rows[b.hr>=0?b.hr:0][m.in]||""))pc=nums[0];else{sk=nums;if(nums.length>kn)notes.push("charges "+it)}}
+     else notes.push(txtR&&imIsN(it)?"intensité "+it:it)}
+    let p2=g(R,"pc").replace(",",".").replace("%","");p2=parseFloat(p2);if(!isNaN(p2)&&p2>0&&pc==null)pc=p2<=1.5?Math.round(p2*100):Math.round(p2*10)/10;
+    if(pc!=null&&pc<=1.5)pc=Math.round(pc*100);if(pc!=null&&(pc<10||pc>150))pc=undefined;
+    rpe=parseFloat(g(R,"rpe").replace(",","."));if(isNaN(rpe)||rpe<1||rpe>10)rpe=undefined;
+    const kgc=g(R,"kg");if(kgc){const nn=kgc.replace(/kg/ig,"").trim().split(/\s*[-–/]\s*/).map(x=>parseFloat(x.replace(",",".")));if(nn.every(x=>!isNaN(x)))sk=nn;else notes.push(kgc)}
+    const rs=g(R,"rs"),rest=imRest(rs);if(rs&&rest==null)notes.push("repos "+rs);
+    if(g(R,"tp"))notes.push("tempo "+g(R,"tp"));if(g(R,"nt"))notes.push(g(R,"nt"));
+    const w2=wc?wc.week:cw,key=(multi&&w2?cs+" · S"+w2:cs)||sh.name;if(!G[key]){G[key]=[];order.push(key)}
+    const o={n:nk||en,nw:!nk,t,ss:mm&&!wc?mm[1].toUpperCase():(mm?mm[1].toUpperCase():"")};if(rep!==undefined)o.rep=rep;if(sr)o.sr=sr;if(sk)o.sk=sk;if(pc)o.pc=pc;if(rpe)o.rpe=rpe;if(rest)o.rest=rest;if(notes.length)o.nt=notes.join(" · ");
+    G[key].push(o)})}
+  order.forEach(k=>{const c={};G[k].forEach(e=>{if(e.ss)c[e.ss]=(c[e.ss]||0)+1});G[k].forEach(e=>{if(e.ss&&c[e.ss]<2)e.ss=""});out.push({n:k,ex:G[k]})})});
  if(ign)warn.push(ign+" ligne"+(ign>1?"s":"")+" sans nom d’exercice ignorée"+(ign>1?"s":""));
- if(nw)warn.push(nw+" valeur"+(nw>1?"s":"")+" de séries/reps manquante"+(nw>1?"s":"")+" (3 séries, 8 reps par défaut)");
- return{G:order.map(k=>({n:k,ex:G[k]})),warn}}
+ if(deft)warn.push(deft+" exercice"+(deft>1?"s":"")+" sans nombre de séries (3 par défaut)");
+ return{G:out,warn}}
+const imCL=c=>{let s="",n=c+1;while(n>0){const r=(n-1)%26;s=String.fromCharCode(65+r)+s;n=Math.floor((n-1)/26)}return s};
 function imRender(){const el=$("#imp");if(!IMS){el.innerHTML="";return}
- const opt=(sh,f,cur)=>'<option value="">—</option>'+(sh.rows[sh.st.hdr]||[]).map((h,ci)=>h?'<option value="'+ci+'"'+(String(cur)===String(ci)?" selected":"")+'>'+esc(h)+'</option>':"").join("");
  let tot=0;
- const h=IMS.map((sh,si)=>{const b=imBuild(sh,sh.st);sh.res=b;const n=b.G.length;if(sh.st.inc)tot+=n;
-  return '<div class="c" style="margin:8px 0"><div style="display:flex;gap:10px;align-items:center"><input type="checkbox" style="width:22px;height:22px;flex:none;margin:0" data-im="inc" data-si="'+si+'"'+(sh.st.inc?" checked":"")+' aria-label="Importer cette feuille"><b style="text-transform:none">'+esc(sh.name)+'</b></div>'
-  +'<p class="m" style="margin:4px 0">'+(n?n+(n>1?" séances":" séance")+" · "+b.G.reduce((a,x)=>a+x.ex.length,0)+" exercices":"Rien de lisible")+'</p>'
-  +b.G.slice(0,8).map(x=>'<div class="row"><span><b>'+esc(x.n)+'</b> <span class="m">'+x.ex.length+' exos : '+esc(x.ex.slice(0,5).map(e=>e.n).join(", "))+(x.ex.length>5?"…":"")+(x.ex.some(e=>e.nw)?' · '+x.ex.filter(e=>e.nw).length+' nouveau'+(x.ex.filter(e=>e.nw).length>1?"x":""):"")+'</span></span></div>').join("")+(b.G.length>8?'<p class="m">+ '+(b.G.length-8)+' autres…</p>':"")
+ const h=IMS.map((sh,si)=>{const b=imBuild(sh);sh.res=b;const n=b.G.length;if(sh.inc)tot+=n;const one=sh.blocks.length<=1;const b0=sh.blocks[0]||{hr:sh.mhr!=null?sh.mhr:0,map:{}};
+  const width=Math.max(...sh.rows.slice(0,40).map(r=>r.length),1),ref=sh.rows[b0.hr]||[];
+  const opt=cur=>'<option value="">—</option>'+Array.from({length:Math.min(width,30)},(_,ci)=>'<option value="'+ci+'"'+(String(cur)===String(ci)?" selected":"")+'>'+imCL(ci)+(imT(ref[ci])?" · "+esc(imT(ref[ci]).slice(0,18)):"")+'</option>').join("");
+  return '<div class="c" style="margin:8px 0"><div style="display:flex;gap:10px;align-items:center"><input type="checkbox" style="width:22px;height:22px;flex:none;margin:0" data-im="inc" data-si="'+si+'"'+(sh.inc?" checked":"")+' aria-label="Importer cette feuille"><b style="text-transform:none">'+esc(sh.name)+'</b></div>'
+  +'<p class="m" style="margin:4px 0">'+(n?n+(n>1?" séances":" séance")+" · "+b.G.reduce((a,x)=>a+x.ex.length,0)+" exercices"+(sh.blocks.length>1?" · "+sh.blocks.length+" tableaux détectés":""):"Rien de lisible")+'</p>'
+  +b.G.slice(0,10).map(x=>'<div class="row"><span><b>'+esc(x.n)+'</b> <span class="m">'+x.ex.length+' exos : '+esc(x.ex.slice(0,4).map(e=>e.n).join(", "))+(x.ex.length>4?"…":"")+'</span></span></div>').join("")+(b.G.length>10?'<p class="m">+ '+(b.G.length-10)+' autres…</p>':"")
   +b.warn.map(w=>'<p class="m" style="color:var(--warn,#e8a33d);margin:4px 0">⚠ '+esc(w)+'</p>').join("")
-  +'<details style="margin-top:6px"><summary class="m">Régler les colonnes</summary><p class="m">Ligne des titres : <input type="number" min="1" style="width:64px" data-im="hdr" data-si="'+si+'" value="'+(sh.st.hdr+1)+'"></p><div class="r" style="flex-wrap:wrap">'
-  +IMF.map(([f,l])=>'<div style="min-width:130px"><label>'+l+'</label><select data-im="col" data-si="'+si+'" data-f="'+f+'">'+opt(sh,f,sh.st.map[f])+'</select></div>').join("")+'</div></details></div>'}).join("");
+  +(one?'<details style="margin-top:6px"'+(n?"":" open")+'><summary class="m">Régler les colonnes</summary><p class="m" style="margin:6px 0">Ligne des titres (0 si pas de titres) : <input type="number" min="0" style="width:64px" data-im="hdr" data-si="'+si+'" value="'+(b0.hr+1)+'"></p><div class="r" style="flex-wrap:wrap">'+IMF.concat([["kr","Séries × reps (« 4x8 »)"]]).map(([f,l])=>'<div style="min-width:130px"><label>'+l+'</label><select data-im="col" data-si="'+si+'" data-f="'+f+'">'+opt(b0.map[f])+'</select></div>').join("")+'</div></details>':"")+'</div>'}).join("");
  el.innerHTML='<p class="m">Lecture sur ton téléphone : le fichier n’est envoyé nulle part.</p>'+h+'<div class="r"><button class="b" data-im="go"'+(tot?"":" disabled")+'>Importer '+tot+(tot>1?" séances":" séance")+'</button><button class="b g" data-im="x">Fermer</button></div>'}
 async function imLoad(f){const el=$("#imp");el.innerHTML='<p class="m">Lecture du fichier…</p>';
- try{let sh;if(/\.csv$|\.txt$|\.tsv$/i.test(f.name))sh=imCsv(await f.text());else sh=await imXlsx(await f.arrayBuffer());
-  sh=sh.filter(s=>s.rows.some(r=>r&&r.length));if(!sh.length)throw new Error("vide");
-  sh.forEach(s=>{const d=imDetect(s.rows);s.st={hdr:d.hdr,map:d.map,inc:true};});
-  IMS=sh;imRender()}catch(e){IMS=null;el.innerHTML='<p class="m" style="color:var(--warn,#e8a33d)">Fichier illisible. Utilise un .xlsx (Excel, Numbers, Google Sheets exporté) ou un .csv.</p>'}}
+ const bad='<p class="m" style="color:var(--warn,#e8a33d)">Fichier illisible. Enregistre-le en <b>.xlsx</b> ou en <b>.csv</b> depuis Excel, Numbers ou Google Sheets (Fichier › Télécharger), puis réessaie.</p>';
+ if(/\.(xls|ods|numbers|pdf|docx?)$/i.test(f.name)){IMS=null;el.innerHTML=bad;return}
+ try{let sh;if(/\.(csv|txt|tsv)$/i.test(f.name))sh=imCsv(await f.text());else sh=await imXlsx(await f.arrayBuffer());
+  const base=f.name.replace(/\.[^.]+$/,"");sh=sh.filter(s=>s.rows.some(r=>r&&r.some(x=>imT(x))));if(!sh.length)throw new Error("vide");
+  sh.forEach(s=>{if(/^(feuil|sheet|feuille|tabelle|hoja)\s*\d*$/i.test(s.name.trim())||s.name==="Séance")s.name=sh.length>1?s.name:base;s.blocks=imBlocks(s.rows);if(!s.blocks.length)s.blocks=imGuess(s.rows);s.inc=true});
+  IMS=sh;imRender()}catch(e){IMS=null;el.innerHTML=bad}}
 $("#impf").onchange=e=>{const f=e.target.files[0];e.target.value="";if(f)imLoad(f)};
+function imMk(sh,hr,map){const w=Math.max(...sh.rows.map(r=>r.length),1);if(map.n==null)return[];const R=sh.rows[hr]||[];let c1=map.n;Object.values(map).forEach(v=>{if(typeof v==="number")c1=Math.max(c1,v)});return[{hr,c0:0,j:map.n,c1:Math.max(c1,w-1),map,title:"",week:"",end:sh.rows.length}]}
 $("#imp").addEventListener("change",e=>{const t=e.target,a=t.dataset.im;if(!a||!IMS)return;const sh=IMS[+t.dataset.si];
- if(a==="inc")sh.st.inc=t.checked;else if(a==="hdr"){const v=Math.max(1,parseInt(t.value)||1)-1;sh.st.hdr=v;const d=imDetect(sh.rows.slice(v).map(r=>r||[]));sh.st.map=d.hdr===0?d.map:{}}
- else if(a==="col"){if(t.value==="")delete sh.st.map[t.dataset.f];else sh.st.map[t.dataset.f]=+t.value}
+ if(a==="inc")sh.inc=t.checked;
+ else if(a==="col"){const b=sh.blocks[0],hr=b?b.hr:(sh.mhr||0),map=b?b.map:(sh.mmap||{});if(t.value==="")delete map[t.dataset.f];else map[t.dataset.f]=+t.value;sh.mmap=map;sh.mhr=hr;if(b){b.map=map;b.c1=Math.max(b.c1,...Object.values(map).filter(v=>typeof v==="number"))}else sh.blocks=imMk(sh,hr,map)}
+ else if(a==="hdr"){const hr=Math.max(0,parseInt(t.value)||0)-1;if(hr<0){const g=imGuess(sh.rows)[0];sh.blocks=g?[Object.assign(g,{hr:-1})]:[];sh.mhr=-1}else{sh.mhr=hr;let map={};const R=sh.rows[hr]||[];for(let j=0;j<R.length;j++)if(imT(R[j])&&IMR.n.test(imLow(R[j]))){map=imMapRow(R,j).m;break}sh.mmap=map;sh.blocks=imMk(sh,hr,map)}}
  imRender()});
 $("#imp").addEventListener("click",e=>{const b=e.target.closest("button"),a=b&&b.dataset.im;if(!a)return;
  if(a==="x"){IMS=null;imRender();return}
- if(a==="go"){const add=[];IMS.forEach(sh=>{if(sh.st.inc&&sh.res)sh.res.G.forEach(g=>{let n=g.n,i=2;while(S.prog.some(p=>p.n===n)||add.some(p=>p.n===n))n=g.n+" ("+i++ +")";add.push({n,ex:g.ex.map(x=>{const o={n:x.n,t:x.t,ss:x.ss};if(x.pc)o.pc=x.pc;if(x.rpe)o.rpe=x.rpe;if(x.nt)o.nt=x.nt;return o})})})});
+ if(a==="go"){const add=[];IMS.forEach(sh=>{if(sh.inc&&sh.res)sh.res.G.forEach(g=>{let n=g.n,i=2;while(S.prog.some(p=>p.n===n)||add.some(p=>p.n===n))n=g.n+" ("+i++ +")";add.push({n,ex:g.ex.map(x=>{const o={n:x.n,t:x.t,ss:x.ss};["rep","sr","sk","pc","rpe","rest","nt"].forEach(f=>{if(x[f]!==undefined)o[f]=x[f]});return o})})})});
   if(!add.length)return;S.prog.push(...add);save();IMS=null;imRender();rProg();
   toastU(add.length+(add.length>1?" séances importées":" séance importée"),()=>{S.prog=S.prog.filter(p=>!add.includes(p));save();rProg()})}});
 /* ===== choix d'un exercice pour une séance type ===== */
@@ -2067,8 +2129,9 @@ $("#ssb").onclick=()=>{const ids=["#s1","#s2","#s3","#s4"],v=ids.map(s=>$(s).val
  if(v.length<2){$("#ssm").textContent="Renseigne au moins 2 exercices pour créer un superset.";return}
  const g=Date.now();v.forEach(n=>addEx(n,3,undefined,g));ids.forEach(s=>$(s).value="");$("#ssm").textContent="";ADDO="";rEx();rGch()};
 function lpSel(){$("#lp").innerHTML='<option value="">Choisir une séance du programme…</option>'+S.prog.map((d,i)=>'<option value="'+i+'">'+esc(d.n)+'</option>').join("")}
-function loadDay(i){const miss=[];S.prog[i].ex.forEach(x=>{const m=(x.t||"").match(/(\d+)\s*[x×]\s*(\d+)/i),k=m?+m[1]:3,rep=m?+m[2]:undefined;let cs;
-  if(x.pc>0){const mx=maxOf(x.n);if(mx>0){const kg=rd(mx*x.pc/100,2.5);cs=Array.from({length:k},()=>({kg,r:rep,rest:90}))}else miss.push(x.n)}
+function loadDay(i){const miss=[];S.prog[i].ex.forEach(x=>{const m=(x.t||"").match(/(\d+)\s*[x×]\s*(\d+)/i),k=(/(\d+)\s*[x×]/i.exec(x.t||"")||[0,3])[1]*1||3,rep="rep"in x?(x.rep||undefined):(m?+m[2]:undefined);let cs;
+  if(x.pc>0){const mx=maxOf(x.n);if(mx>0){const kg=rd(mx*x.pc/100,2.5);cs=Array.from({length:k},()=>({kg,r:rep,rest:x.rest||90}))}else miss.push(x.n)}
+  if(x.sr||x.sk||x.rest&&!cs){const A=x.sr||[],K=x.sk||[];cs=Array.from({length:k},(_,j)=>{const o={r:A.length?(A[j]!==undefined?A[j]:A[A.length-1]):rep,rest:x.rest||90};if(K.length)o.kg=K[j]!==undefined?K[j]:K[K.length-1];return o})}
   addEx(x.n,k,rep,x.ss?"p"+i+x.ss:undefined,cs);const ne=D().ex[D().ex.length-1];if(ne)ne.tg=[x.t,x.pc?x.pc+" % du max":"",x.rpe?"RPE "+x.rpe:"",x.nt||""].filter(Boolean).join(" · ")});if(!D().nm)D().nm=S.prog[i].n;
  if(miss.length)toast("Max inconnu pour : "+miss.join(", ")+". Entre-le dans Programme.");rEx();rGch()}
 $("#lp").onchange=e=>{if(e.target.value==="")return;loadDay(+e.target.value);e.target.value=""};
