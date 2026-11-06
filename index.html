@@ -789,8 +789,8 @@ body:has(#sact:not([hidden])) #seance .sbn{display:none}
    <div class="chips" id="lgm" role="group" aria-label="Où chercher"></div>
    <div class="chips" id="lgc" role="group" aria-label="Filtrer par muscle"></div>
    <div id="lgl" class="lgl"></div>
-   <div id="lgnw"></div>
    <button class="b big" id="lgadd" hidden>Ajouter</button>
+   <div id="lgnw"></div>
   </div>
   <div class="c" id="supp" hidden>
    <h3>Créer un superset</h3>
@@ -2021,7 +2021,7 @@ function pkHTML(i){
   +'<p class="wq">Superset (facultatif)</p>'+pkCh("ss",[["","Aucun"],["A","A"],["B","B"],["C","C"],["D","D"]],p.ss)
   +'<button class="b big" data-a="pka" data-d="'+i+'" style="margin-top:12px">Ajouter à la séance</button></div>'}
  return'<div class="pcp" style="margin-top:8px"><div class="row" style="border:0;padding:0"><b>'+(PP.msg?esc(PP.msg):"Choisis un exercice")+'</b><button class="b g" data-a="pkx" data-d="'+i+'">Fermer</button></div>'
-  +'<div class="chips" id="pkm"></div><input id="pkq" value="'+esc(PP.q)+'" placeholder="Cherche un exercice (ex. squat, dos…)" autocomplete="off" aria-label="Chercher un exercice"><div class="chips" id="pkc"></div><div class="lgl" id="pkl"></div><div id="pknw"></div><button class="b big" data-a="pkadd" data-d="'+i+'" id="pkadd" hidden></button></div>'}
+  +'<div class="chips" id="pkm"></div><input id="pkq" value="'+esc(PP.q)+'" placeholder="Cherche un exercice (ex. squat, dos…)" autocomplete="off" aria-label="Chercher un exercice"><div class="chips" id="pkc"></div><div class="lgl" id="pkl"></div><button class="b big" data-a="pkadd" data-d="'+i+'" id="pkadd" hidden></button><div id="pknw"></div></div>'}
 function pkFill(){const l=$("#pkl");if(!l||!PP)return;
  const raw=PP.q.trim(),q=nrm(raw),all=pkAll(),gOf=n=>grpOf(n)||guessG(n),gl=g=>{const x=GR.find(y=>y[0]===g);return x?x[1]:""};
  const m=PP.m||(Object.keys(S.fav).length?"fav":S.sessions.length?"rec":"mus"),SL=PP.sel||(PP.sel={});
