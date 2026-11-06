@@ -251,6 +251,7 @@ button.sn{border:0;color:var(--ink);font:700 16px Barlow,sans-serif;cursor:point
 .pcp .lgi{background:var(--sf)}
 .mth{width:60px;height:68px;flex:0 0 auto;display:block}.mtb{background:none;border:0;padding:0;flex:0 0 auto;margin-right:10px;cursor:pointer;min-width:44px;min-height:44px;display:flex;align-items:center}.xc>.row>h3{flex:1}.lgn{display:flex;align-items:center;gap:10px}
 .blk{border:1px solid var(--ln);border-radius:12px;padding:8px 10px;margin:8px 0}.bkh{margin:10px 0 2px}.xn[data-e]{cursor:pointer}.vw{position:relative;padding-top:56.25%;margin-bottom:6px}.vw iframe{position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:12px;background:#000}
+.xc>.row{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}.xc.drg{position:relative;z-index:50;box-shadow:0 14px 34px rgba(0,0,0,.65);transition:none;opacity:.97}body.drgon{-webkit-user-select:none;user-select:none}body.drgon #ex{touch-action:none}
 .optb{flex:0 0 auto;min-width:44px;font-size:22px;line-height:1}.optb.on{background:var(--ac);color:#fff}.mv2{display:flex;gap:8px;margin-bottom:8px}.mv2 .b{flex:1;padding:8px 6px;font-size:14px}
 #gd{position:fixed;inset:0;z-index:80;background:var(--bg);color:var(--ink);overflow:auto;padding:16px 16px 28px;display:flex;flex-direction:column;max-width:560px;margin:0 auto}#gd[hidden]{display:none}.gdh{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}.gdn{display:flex;align-items:center;gap:12px;justify-content:center;margin-top:10px}.gdn h2{font-size:26px;margin:0}.gdn .mth{width:64px;height:72px}.gdt{font-size:76px;font-weight:800;text-align:center;font-variant-numeric:tabular-nums}.gdv{display:flex;align-items:center;justify-content:center;gap:14px}.gdv b{font-size:52px;min-width:120px;text-align:center}.gdv .b{width:78px;height:64px;font-size:20px}
 .fold{display:flex;align-items:center;gap:10px;width:100%;background:none;border:0;color:inherit;text-align:left;padding:2px 0;cursor:pointer;font:inherit}.fold>span:first-child{flex:1;min-width:0}.fold b{font-size:20px;margin-left:6px}.fold .m{display:block;margin:2px 0 0}.fold i{font-style:normal;color:var(--ac);font-size:20px}.fb{margin-top:10px}
@@ -783,6 +784,7 @@ body:has(#sact:not([hidden])) #seance .sbn{display:none}
   <div id="ex"></div>
   <div class="r2"><button class="b big" id="addt">+ Exercice</button><button class="b big g" id="rdl" hidden>↺ Dernière séance</button><button class="b big g" id="supt">Superset</button></div>
   <div class="c" id="addp" hidden>
+   <div class="row" id="rplb" hidden style="border:0;padding:0 0 8px"><b id="rplt"></b><button class="b g" id="rplx">Annuler</button></div>
    <input id="nx" type="search" list="exl" placeholder="Chercher un exercice" autocomplete="off" aria-label="Chercher un exercice">
    <div class="chips" id="lgm" role="group" aria-label="Où chercher"></div>
    <div class="chips" id="lgc" role="group" aria-label="Filtrer par muscle"></div>
@@ -1480,7 +1482,7 @@ let LGF="",PK="",PSEL={},LGS="";
 const pkMode=()=>PK||(Object.keys(S.fav).length?"fav":S.sessions.length?"rec":"mus");
 function pkAll(){return S.lib.map(x=>[x.n,x.g]).concat(LIB.filter(x=>!S.lib.some(y=>nrm(y.n)===nrm(x[0]))))}
 function pkRecent(){const seen=new Set(),o=[];for(let i=S.sessions.length-1;i>=0&&o.length<15;i--)S.sessions[i].ex.forEach(x=>{if(!seen.has(x.n)&&o.length<15){seen.add(x.n);o.push(x.n)}});return o}
-function rLib(){if($("#addp").hidden)return;const raw=$("#nx").value.trim(),q=nrm(raw),m=pkMode(),all=pkAll(),gOf=n=>grpOf(n)||guessG(n),gl=g=>{const x=GR.find(y=>y[0]===g);return x?x[1]:""};
+function rLib(){if($("#addp").hidden)return;const rpx=RPI?D().ex.find(e=>e.id===RPI):null;if(RPI&&!rpx)RPI=null;$("#rplb").hidden=!rpx;if(rpx)$("#rplt").textContent="Remplacer « "+rpx.n+" » par…";const raw=$("#nx").value.trim(),q=nrm(raw),m=pkMode(),all=pkAll(),gOf=n=>grpOf(n)||guessG(n),gl=g=>{const x=GR.find(y=>y[0]===g);return x?x[1]:""};
  $("#lgm").innerHTML=[["fav","★ Favoris"],["rec","Récents"],["mus","Par muscle"],["typ","Par type"],["perso","Mes exos"]].map(([k,t])=>'<button class="chip'+(m===k&&!q?' on':'')+'" data-pm="'+k+'">'+t+'</button>').join("");
  const row=(n)=>{const sel=!!PSEL[n];return '<div class="lgr'+(sel?' sel':'')+'"><button class="lgx" data-n="'+esc(n)+'"><span class="lgck">'+(sel?'✓':'')+'</span><span class="lgt"><b>'+esc(n)+'</b><span class="m">'+esc(gl(gOf(n)))+'</span></span></button>'+starB(n)+'</div>'};
  let ctl="",out="";
@@ -1500,7 +1502,10 @@ function rLib(){if($("#addp").hidden)return;const raw=$("#nx").value.trim(),q=nr
  $("#lgc").innerHTML=ctl;$("#lgl").className=(!q&&(m==="mus"||m==="typ")&&(!LGF||(m==="typ"&&!TYP.some(t=>t[0]===LGF))))?"lgl lgg2":"lgl";$("#lgl").innerHTML=out;
  const ex=q&&all.some(([n])=>nrm(n)===q);
  $("#lgnw").innerHTML=q&&!ex?'<div class="pcp" style="margin-top:8px"><button class="b big" id="lgnew">+ Créer « '+esc(raw)+' »</button><label for="lgs">Muscle de ce nouvel exercice</label><select id="lgs"><option value="">Automatique</option>'+GR.map(g=>'<option value="'+g[0]+'"'+(LGS===g[0]?' selected':'')+'>'+g[1]+'</option>').join("")+'</select></div>':"";
- const n=Object.keys(PSEL).length;$("#lgadd").hidden=!n;$("#lgadd").textContent="Ajouter ("+n+")"}
+ const n=Object.keys(PSEL).length;$("#lgadd").hidden=!n||!!rpx;$("#lgadd").textContent="Ajouter ("+n+")"}
+function doRpl(v){const x=D().ex.find(e=>e.id===RPI);RPI=null;PSEL={};if(!x||!v)return;ensureLib(v);const l=lastEx(v);x.n=v;x.eq=undefined;x.bar=undefined;x.note=undefined;
+ x.sets=l?l.sets.map(s=>({kg:s.kg,r:s.r,rpe:s.rpe,d:s.d,t:s.t,b:s.b,rest:s.rest||90,w:s.w})):x.sets.map(s=>({r:s.r,d:s.d,t:s.t,b:s.b,rest:s.rest}));
+ $("#nx").value="";LGS="";ADDO="";save();rEx();rGch();toast("Exercice remplacé par « "+v+" ».");setTimeout(()=>{const c=document.querySelector('#ex .xc[data-xid="'+x.id+'"]');if(c)c.scrollIntoView({behavior:"smooth",block:"center"})},60)}
 function pkAddSel(extra){const ns=Object.keys(PSEL);if(extra)ns.push(extra);ns.forEach(n=>addEx(n));PSEL={};$("#nx").value="";LGS="";ADDO="";rEx();rGch()}
 $("#nx").oninput=rLib;
 $("#addp").addEventListener("input",e=>{if(e.target.id==="lgs")LGS=e.target.value});
@@ -1508,9 +1513,10 @@ $("#addp").addEventListener("click",e=>{const b=e.target.closest("button");if(!b
  if(b.dataset.fav){const n=b.dataset.fav;if(S.fav[n])delete S.fav[n];else S.fav[n]=1;save();rLib()}
  else if(b.dataset.pm){PK=b.dataset.pm;LGF="";$("#nx").value="";rLib()}
  else if(b.dataset.g!=null){LGF=b.dataset.g;rLib()}
- else if(b.dataset.n){const n=b.dataset.n;if(PSEL[n])delete PSEL[n];else PSEL[n]=1;rLib()}
+ else if(b.dataset.n){const n=b.dataset.n;if(RPI){doRpl(n);return}if(PSEL[n])delete PSEL[n];else PSEL[n]=1;rLib()}
+ else if(b.id==="rplx"){RPI=null;ADDO="";rEx()}
  else if(b.id==="lgadd")pkAddSel()
- else if(b.id==="lgnew"){const n=$("#nx").value.trim();if(!n)return;ensureLib(n,LGS||undefined);pkAddSel(n)}});
+ else if(b.id==="lgnew"){const n=$("#nx").value.trim();if(!n)return;ensureLib(n,LGS||undefined);if(RPI){doRpl(n);return}pkAddSel(n)}});
 $("#rdl").onclick=()=>{if(S.sessions.length){redoSess(S.sessions.length-1);ADDO="";rEx();rGch()}};
 function rLibMy(){const n=LIB.length+S.lib.length;$("#lgn").textContent=n+" exercices dans ta bibliothèque, dont "+S.lib.length+" ajouté"+(S.lib.length>1?"s":"")+" par toi.";
  $("#lgmy").innerHTML=S.lib.length?S.lib.map(x=>'<div class="row"><span>'+esc(x.n)+'<span class="m" style="display:block">'+GR.find(g=>g[0]===x.g)[1]+'</span></span><button class="b g" data-n="'+esc(x.n)+'" aria-label="Supprimer '+esc(x.n)+'">✕</button></div>').join(""):'<p class="m">Aucun exercice ajouté pour l’instant.</p>'}
@@ -1520,7 +1526,7 @@ $("#lgib").onclick=()=>{const L=$("#lgimp").value.split(/\n/).map(s=>s.trim()).f
  save();$("#lgimp").value="";$("#lgim").textContent=ok+" exercice"+(ok>1?"s":"")+" ajouté"+(ok>1?"s":"")+(dup?" · "+dup+" déjà présent"+(dup>1?"s":""):"")+".";draw()};
 
 let TT=0;function toast(t){const e=$("#toast");e.textContent=t;e.hidden=false;clearTimeout(TT);TT=setTimeout(()=>{e.hidden=true},5000);try{navigator.vibrate&&navigator.vibrate([120,60,120])}catch(x){}}
-let LT=null,ADDO="",RPQ=null;const SSO={},PLO={},NO={},PCO={},PCS={},RPL={},SRO={},MKO={};
+let LT=null,ADDO="",RPQ=null,RPI=null;const SSO={},PLO={},NO={},PCO={},PCS={},RPL={},SRO={},MKO={};
 const pcOf=e=>{const s=PCS[e.id]||(PCS[e.id]={});if(s.m==null){let m=S.mxm[e.n];if(m==null){const r=recOf(e.n);m=r&&r.b1?rd(r.b1.v,2.5):""}s.m=m}if(s.p==null)s.p=80;return s};
 const pcHTML=e=>{const s=pcOf(e),m=pnum(s.m),q=pnum(s.p);return m>0&&q>0?'<b style="font:700 28px \'Barlow Condensed\',sans-serif">'+fnum(rd(m*q/100,2.5))+' kg</b> <span class="m">('+q+' % de '+fnum(m)+' kg, arrondi à 2,5 kg)</span>':'<span class="m">Entre ton max et un pourcentage.</span>'};
 
@@ -1539,8 +1545,8 @@ function rEx(){
  try{fAuto()}catch(_){}
  $("#exl").innerHTML=names().map(n=>'<option value="'+esc(n)+'">').join("");
  $("#ex").innerHTML=D().ex.map((e,i)=>{const l=lastEx(e.n),gi=e.g?D().ex.filter(x=>x.g===e.g):[],gp=gi.indexOf(e);
-  e.id=e.id||uid();const id=e.id,rs=er(e),car=isCar(e),mvH='<div class="mv2"><button class="b g" data-a="up" data-e="'+i+'" aria-label="Monter l’exercice"'+(i===0?' disabled':'')+'>↑ Monter</button><button class="b g" data-a="dn" data-e="'+i+'" aria-label="Descendre l’exercice"'+(i===D().ex.length-1?' disabled':'')+'>↓ Descendre</button><button class="b g" data-a="dx" data-e="'+i+'" aria-label="Retirer l’exercice">✕ Retirer</button></div>';
-  const sc=ssCol(e);return '<div class="c xc"'+(e.g?' style="border-left:4px solid '+sc+';background:color-mix(in srgb,'+sc+' 8%,var(--sf))"':'')+'><div class="row" style="border:0;padding:0 0 6px"><button class="mtb" data-a="sch" data-e="'+i+'" aria-label="Voir le schéma des muscles">'+musFig(musOf(e.n),1)+'</button><h3 class="xn" data-e="'+i+'" role="button" tabindex="0" aria-label="Voir l’historique de l’exercice">'+ic(gr(e.n))+esc(e.n)+(e.g?' <span class="m" style="color:'+sc+';font-weight:800">● Superset '+(gp+1)+'/'+gi.length+'</span>':'')+'</h3><button class="b g optb'+(OPT[id]?' on':'')+'" data-a="opt" data-e="'+i+'" aria-label="Options de l’exercice" aria-expanded="'+!!OPT[id]+'">⋯</button></div>'
+  e.id=e.id||uid();const id=e.id,rs=er(e),car=isCar(e),mvH='<div class="mv2"><button class="b g" data-a="dx" data-e="'+i+'" aria-label="Retirer l’exercice">✕ Retirer</button></div><p class="m" style="margin:0 0 8px">Pour le déplacer : garde le doigt appuyé sur son nom, puis glisse.</p>';
+  const sc=ssCol(e);return '<div class="c xc" data-xid="'+id+'"'+(e.g?' style="border-left:4px solid '+sc+';background:color-mix(in srgb,'+sc+' 8%,var(--sf))"':'')+'><div class="row" style="border:0;padding:0 0 6px"><button class="mtb" data-a="sch" data-e="'+i+'" aria-label="Voir le schéma des muscles">'+musFig(musOf(e.n),1)+'</button><h3 class="xn" data-e="'+i+'" role="button" tabindex="0" aria-label="Voir l’historique de l’exercice">'+ic(gr(e.n))+esc(e.n)+(e.g?' <span class="m" style="color:'+sc+';font-weight:800">● Superset '+(gp+1)+'/'+gi.length+'</span>':'')+'</h3><button class="b g optb'+(OPT[id]?' on':'')+'" data-a="opt" data-e="'+i+'" aria-label="Options de l’exercice" aria-expanded="'+!!OPT[id]+'">⋯</button></div>'
   +(OPT[id]?'<div class="pcp">'+mvH+(MKO[id]?mkH(e,i):'')+(car?carChips(e,i):('<div class="chips">'+(eqi(e)==="barre"?'<button class="chip'+(PLO[id]?' on':'')+'" data-a="pl" data-e="'+i+'">Plaques</button>':'')+'<button class="chip'+(SRO[id]?' on':'')+'" data-a="so" data-e="'+i+'">'+(SRO[id]?'Ordre des séries ✓':'Ordre des séries')+'</button><button class="chip" data-a="pc" data-e="'+i+'">% du max</button><button class="chip" data-a="rp" data-e="'+i+'">Remplacer</button>'+mkChip(e,i)+(D().ex.length>1?'<button class="chip'+(e.g?' on':'')+'" data-a="ssp" data-e="'+i+'">'+(e.g?'Superset ✓ ('+gi.length+')':'+ Superset')+'</button>':'')+'</div>'+(SSO[id]?'<div class="ssp"><p class="m" style="margin:2px 0 6px">Touche les exercices à enchaîner avec « '+esc(e.n)+' » (sans repos entre eux).</p><div class="chips">'+D().ex.map((y,j)=>y===e?'':'<button class="chip'+(e.g&&y.g===e.g?' on':'')+'" data-a="sst" data-e="'+i+'" data-o="'+j+'">'+(e.g&&y.g===e.g?'✓ ':'')+esc(y.n)+'</button>').join('')+'</div></div>':'')))+'</div>':'')
    +'<div class="chips">'+((()=>{const l=lastEx(e.n);return l&&!e.sets.some(s=>s.ok)&&(e.sets.length!==l.sets.length||e.sets.some((s,j)=>s.kg!==l.sets[j].kg||s.r!==l.sets[j].r||s.d!==l.sets[j].d||s.t!==l.sets[j].t||s.cal!==l.sets[j].cal||s.h!==l.sets[j].h))?'<button class="chip" data-a="same" data-e="'+i+'">↺ Comme la dernière fois</button>':''})())+(car?'':'<button class="chip rchip" data-a="tw" data-e="'+i+'">⏱ Repos : '+rtxt(rs)+'</button>')+'<button class="chip'+(HIS[id]?' on':'')+'" data-a="his" data-e="'+i+'">📈 Historique</button>'+'<button class="chip'+((VID[id]||SCH[id])?' on':'')+'" data-a="vid" data-e="'+i+'">▶ Vidéo &amp; schéma</button>'+'<button class="chip'+((e.note||NO[id])?' on':'')+'" data-a="nt" data-e="'+i+'">📝 '+(e.note?'Note ✓':'Note')+'</button>'+(car&&/^[cs]$/.test(mKind(e.n))?'<button class="chip'+(FR[id]?' on':'')+'" data-a="fr" data-e="'+i+'">Fractionné (blocs)</button>':'')+'</div>'
    +(e.tg?'<p class="m" style="margin:0 0 6px"><b>Objectif :</b> '+esc(e.tg)+'</p>':'')+(HIS[id]?hisH(e,i):'')+(VID[id]?vidH(e,i):'')+(SCH[id]?'<div class="pcp">'+musFig(musOf(e.n))+'</div>':'')+(car&&FR[id]?frHTML(e,i):"")+(car?"":sugH(e,i))+(RPL[id]?'<div class="pcp"><label for="rp'+i+'">Remplacer par</label><div class="r"><input id="rp'+i+'" list="exl" placeholder="Nom de l’exercice" autocomplete="off"><button class="b" data-a="rpo" data-e="'+i+'">Remplacer</button></div></div>':'')+(PCO[id]?(()=>{const s=pcOf(e);return'<div class="pcp"><div class="r"><div><label for="pm'+i+'">Ton max (kg)</label><input id="pm'+i+'" type="number" inputmode="decimal" data-pm="'+i+'" value="'+(s.m===""?"":s.m)+'" placeholder="Ex. 140"></div><div><label for="pp'+i+'">Pourcentage (%)</label><input id="pp'+i+'" type="number" inputmode="decimal" data-pp="'+i+'" value="'+s.p+'"></div></div>'
@@ -1560,7 +1566,26 @@ function rEx(){
  $("#addt").textContent=showEx?"Fermer":"+ Exercice";$("#supt").textContent=ADDO==="sup"?"Fermer":"Superset";
  if(showEx&&!fin)rLib();$("#rdl").hidden=!(!D().ex.length&&S.sessions.length&&!fin);
  rStats()}
-$("#addt").onclick=()=>{const open=!$("#addp").hidden;ADDO=open?(D().ex.length?"":"none"):"ex";PSEL={};rEx()};
+
+/* ===== déplacer un exercice : appui long sur son nom, puis glisse ===== */
+let DRG=null,DRP=null,DRX=0,DRR=0;
+const drCards=()=>[...document.querySelectorAll("#ex > .xc")];
+function drMove(){if(!DRG)return;const c=DRG.card;c.style.transform="none";const r0=c.getBoundingClientRect(),want=DRG.y-DRG.off,ctr=want+r0.height/2,O=drCards().filter(x=>x!==c);let idx=0;O.forEach(x=>{const r=x.getBoundingClientRect();if(r.top+r.height/2<ctr)idx++});
+ if(idx!==drCards().indexOf(c))c.parentNode.insertBefore(c,O[idx]||null);const r1=c.getBoundingClientRect();c.style.transform="translateY("+(want-r1.top)+"px) scale(1.02)"}
+function drLoop(){if(!DRG)return;const vh=innerHeight;if(DRG.y<90)scrollBy(0,-14);else if(DRG.y>vh-110)scrollBy(0,14);drMove();DRR=requestAnimationFrame(drLoop)}
+function drStart(card,y){const r=card.getBoundingClientRect();DRG={card,off:y-r.top,y};card.classList.add("drg");document.body.classList.add("drgon");try{navigator.vibrate&&navigator.vibrate(18)}catch(e){}drLoop()}
+function drEnd(ok){if(!DRG)return;cancelAnimationFrame(DRR);const c=DRG.card;DRG=null;DRX=Date.now();document.body.classList.remove("drgon");c.classList.remove("drg");c.style.transform="";
+ if(ok){const m=new Map(D().ex.map(e=>[e.id,e])),n=drCards().map(x=>m.get(x.dataset.xid)).filter(Boolean);if(n.length===D().ex.length&&n.some((e,i)=>e!==D().ex[i])){D().ex.splice(0,D().ex.length,...n);save()}}
+ rEx();rGch()}
+$("#ex").addEventListener("pointerdown",e=>{if(e.button>0||DRG)return;const h=e.target.closest(".xc > .row");if(!h||e.target.closest("button,input,textarea,select,label")||D().ex.length<2||(D().t1&&D().edit==null))return;
+ clearTimeout(DRP&&DRP.t);const card=h.parentNode,st={x:e.clientX,y:e.clientY};st.t=setTimeout(()=>{DRP=null;drStart(card,st.y)},380);DRP=st});
+document.addEventListener("pointermove",e=>{if(DRP&&Math.hypot(e.clientX-DRP.x,e.clientY-DRP.y)>10){clearTimeout(DRP.t);DRP=null}if(DRG){DRG.y=e.clientY;e.preventDefault()}},{passive:false});
+["pointerup","pointercancel"].forEach(t=>document.addEventListener(t,e=>{if(DRP){clearTimeout(DRP.t);DRP=null}if(DRG&&!(t==="pointercancel"&&e.pointerType==="touch"))drEnd(t==="pointerup")}));
+document.addEventListener("touchmove",e=>{if(DRG&&e.touches[0]){DRG.y=e.touches[0].clientY;if(e.cancelable)e.preventDefault()}},{passive:false});
+["touchend","touchcancel"].forEach(t=>document.addEventListener(t,()=>{if(DRG)drEnd(true)}));
+$("#ex").addEventListener("touchmove",e=>{if(DRG)e.preventDefault()},{passive:false});
+$("#ex").addEventListener("contextmenu",e=>{if(e.target.closest(".xc > .row"))e.preventDefault()});
+$("#addt").onclick=()=>{RPI=null;const open=!$("#addp").hidden;ADDO=open?(D().ex.length?"":"none"):"ex";PSEL={};rEx()};
 $("#supt").onclick=()=>{ADDO=ADDO==="sup"?"":"sup";rEx();if(ADDO)$("#s1").focus()};
 $("#ex").addEventListener("change",ev=>{const f=ev.target;if(!f.dataset||f.dataset.im==null||!f.files[0])return;const x=D().ex[+f.dataset.im];if(!x)return;const rd=new FileReader();rd.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,700/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext("2d").drawImage(im,0,0,c.width,c.height);try{S.img[x.n]=c.toDataURL("image/jpeg",.72);save();rEx()}catch(e){toast("Image trop lourde, mémoire pleine ?")}};im.src=rd.result};rd.readAsDataURL(f.files[0])});
 /* glisser une série vers la gauche pour la supprimer */
@@ -1577,7 +1602,7 @@ function toastU(t,fn){const e=$("#toast");e.innerHTML=esc(t)+' <button id="tundo
    else{r.style.transform="";r.style.opacity="";r.classList.remove("swdel");toast(x&&x.sets.length<=1?"Il faut garder au moins une série (retire l’exercice avec ⋯).":"")}}
   else{r.style.transform="";r.style.opacity="";r.classList.remove("swdel")}});
  ex.addEventListener("touchcancel",()=>{if(row){row.style.transform="";row.style.opacity="";row=null}},{passive:true})})();
-$("#ex").onclick=e=>{const hx=e.target.closest(".xn");if(hx&&hx.dataset.e!=null&&!e.target.closest("button")){const x0=D().ex[+hx.dataset.e];if(x0){HIS[x0.id]=!HIS[x0.id];rEx()}return}const b=e.target.closest("button");if(!b)return;const a=b.dataset.a,i=+b.dataset.e,j=+b.dataset.s,x=D().ex[i];if(!x)return;
+$("#ex").onclick=e=>{if(Date.now()-DRX<250)return;const hx=e.target.closest(".xn");if(hx&&hx.dataset.e!=null&&!e.target.closest("button")){const x0=D().ex[+hx.dataset.e];if(x0){HIS[x0.id]=!HIS[x0.id];rEx()}return}const b=e.target.closest("button");if(!b)return;const a=b.dataset.a,i=+b.dataset.e,j=+b.dataset.s,x=D().ex[i];if(!x)return;
  if(a==="dx"){if(!arm(b,"Retirer ?"))return;tclear(x.id);if(LT===x.id)LT=null;D().ex.splice(i,1)}
  else if(a==="up"&&i>0){const t=D().ex[i-1];D().ex[i-1]=x;D().ex[i]=t}
  else if(a==="dn"&&i<D().ex.length-1){const t=D().ex[i+1];D().ex[i+1]=x;D().ex[i]=t}
@@ -1599,7 +1624,7 @@ $("#ex").onclick=e=>{const hx=e.target.closest(".xn");if(hx&&hx.dataset.e!=null&
  else if(a==="su"&&j>0){const t=x.sets[j-1];x.sets[j-1]=x.sets[j];x.sets[j]=t}
  else if(a==="sd"&&j<x.sets.length-1){const t=x.sets[j+1];x.sets[j+1]=x.sets[j];x.sets[j]=t}
  else if(a==="sf"&&j>0){x.sets.unshift(x.sets.splice(j,1)[0])}
- else if(a==="rp"){RPL[x.id]=!RPL[x.id]}
+ else if(a==="rp"){RPI=x.id;LGF="";PK="";PSEL={};ADDO="ex";OPT[x.id]=false;setTimeout(()=>{const p=$("#addp");if(p&&!p.hidden)p.scrollIntoView({behavior:"smooth",block:"start"})},80)}
  else if(a==="rpo"){const v=($("#rp"+i).value||"").trim();if(v){ensureLib(v);const l=lastEx(v);x.n=v;x.eq=undefined;x.bar=undefined;x.note=undefined;
    x.sets=l?l.sets.map(s=>({kg:s.kg,r:s.r,rpe:s.rpe,d:s.d,t:s.t,b:s.b,rest:s.rest||90,w:s.w})):x.sets.map(s=>({r:s.r,d:s.d,t:s.t,b:s.b,rest:s.rest}));RPL[x.id]=false}}
  else if(a==="sga"){const s=sugOf(x);if(s)x.sets.forEach(q=>{if(!q.ok&&!q.w)q.kg=s.kg})}
