@@ -1076,7 +1076,7 @@ setTimeout(function(){var s=document.getElementById("spl");if(!s)return;if(m.len
  </details>
  <details class="c rg"><summary><b>Aide et version</b><span class="m" id="appv"></span></summary>
   <div class="r"><button class="b g" id="tutob">Revoir le tutoriel</button><button class="b g" id="upd">Mettre à jour l’appli</button></div>
-  <p class="m" id="updm"></p>
+  <p class="m" id="updm"></p><p class="m" id="bldv" style="font-size:12px;opacity:.7"></p>
  </details>
 </section>
 
@@ -1244,7 +1244,9 @@ async function wlSet(){try{const on=!!(D().t0&&!D().t1)&&S.set.wl!==false;
  else if(!on&&WL){const w=WL;WL=null;await w.release()}}catch(e){WL=null}}
 var LIVEK="";
 function liveSync(){try{
- const d=D(),act=!!(d.t0&&!d.t1)&&d.edit==null&&S.set.live!==false,key=act?d.t0+"|"+d.ex.length:"";
+ const d=D(),act=!!(d.t0&&!d.t1)&&d.edit==null&&S.set.live!==false;let info=null;
+ if(act){const W=q=>!q.w,dn=d.ex.reduce((a,x)=>a+x.sets.filter(q=>q.ok&&W(q)).length,0),cu=d.ex.find(x=>x.sets.some(q=>!q.ok&&W(q)))||d.ex[d.ex.length-1],tot=cu?cu.sets.filter(W).length:0,dc=cu?cu.sets.filter(q=>q.ok&&W(q)).length:0,vol=d.ex.reduce((a,x)=>a+x.sets.reduce((b,q)=>b+(q.ok&&W(q)?tk(q)*(q.r||0):0),0),0);info={dn,vol,nm:cu?cu.n:"",sr:cu&&tot?Math.min(dc+1,tot)+"/"+tot:""}}
+ const key=act?d.t0+"|"+d.ex.length+"|"+info.dn+"|"+info.nm+"|"+info.sr:"";
  if(key===LIVEK)return;LIVEK=key;
  if(navigator.setAppBadge){(act?navigator.setAppBadge(1):navigator.clearAppBadge()).catch(()=>{})}
  if(!window.Notification||!navigator.serviceWorker)return;
@@ -1253,7 +1255,8 @@ function liveSync(){try{
   if(!act){return r.getNotifications({tag:"seance"}).then(l=>l.forEach(n=>n.close()))}
   if(Notification.permission!=="granted")return;
   const t=new Date(d.t0),hm=String(t.getHours()).padStart(2,"0")+":"+String(t.getMinutes()).padStart(2,"0");
-  return r.showNotification("Séance en cours",{body:"Commencée à "+hm+" · "+d.ex.length+(d.ex.length>1?" exercices":" exercice")+". Touche pour reprendre.",tag:"seance",silent:true,requireInteraction:true,icon:"icon-192.png",badge:"icon-192.png"})}).catch(()=>{})
+  const vt=info.vol>=1000?(Math.round(info.vol/100)/10).toLocaleString("fr-FR")+" t":Math.round(info.vol)+" kg",ti=info.nm?"Séance en cours · "+info.nm+(info.sr?" (série "+info.sr+")":""):"Séance en cours";
+  return r.showNotification(ti,{body:info.dn+(info.dn>1?" séries":" série")+" faite"+(info.dn>1?"s":"")+" · "+vt+" soulevés · commencée à "+hm+". Touche pour reprendre.",tag:"seance",renotify:false,silent:true,requireInteraction:true,icon:"icon-192.png",badge:"icon-192.png"})}).catch(()=>{})
 }catch(e){}}
 document.addEventListener("visibilitychange",()=>{if(!document.hidden){wlSet();rBar();liveSync();const d=D();if(d.t0&&!d.t1&&d.edit==null){const on=document.querySelector("section.on");if(on&&on.id==="home")go("seance")}}});
 function notifRest(id){try{if(document.hidden&&window.Notification&&Notification.permission==="granted"){const x=D().ex.find(y=>y.id===id);new Notification("Repos terminé",{body:x?x.n:"",tag:"rest"})}}catch(e){}}
@@ -2932,9 +2935,10 @@ $("#wkp").onclick=()=>{WK--;rSem()};$("#wkn").onclick=()=>{if(WK<0){WK++;rSem()}
 
 function draw(){try{banner()}catch(_){}secBanners();rLibMy();rReg();try{rCycRem()}catch(_){}rTeam();rRpeD();rGch();rEx();rFchk();rRx();rExos();rProg();rCyc();rWell();rHome();rHcyc();rProf();rRegles();rHisto();rSem();rPoids();rRec();rCharge();rSf();rPain();rTests();rForme();rHub();try{rWpush()}catch(x){}banner()}
 calc();draw();{const h=location.hash.slice(1);if(h&&document.getElementById(h))go(h);else{const d=D();if(d.t0&&!d.t1&&d.edit==null)go("seance")}}
-var BUILD=153,UPW=null,UPGO=false;
+var BUILD=155,UPW=null,UPGO=false;
 function updBar(w){if(document.getElementById("updbar"))return;UPW=w;const d=document.createElement("div");d.id="updbar";d.setAttribute("role","status");d.innerHTML='<span>Nouvelle version disponible</span><button type="button" id="updgo">Mettre à jour</button>';document.body.appendChild(d);
  const b=document.getElementById("updgo");b.onclick=()=>{b.disabled=true;b.textContent="Mise à jour…";if(!UPW){(async()=>{try{if(window.caches){const k=await caches.keys();await Promise.all(k.map(x=>caches.delete(x)))}}catch(e){}location.reload()})();return}UPGO=true;try{UPW.postMessage("skip")}catch(e){location.reload()}setTimeout(()=>location.reload(),4000)}}
+try{document.getElementById("bldv").textContent="Version installée : V"+BUILD}catch(e){}
 function vchk(){try{if(!/^https?:/.test(location.protocol)||document.getElementById("updbar"))return;fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"}).then(r=>r.ok?r.text():"").then(t=>{const m=/var BUILD=(\d+)/.exec(t||"");if(m&&+m[1]>BUILD)updBar(null)}).catch(()=>{})}catch(e){}}
 setTimeout(vchk,5000);document.addEventListener("visibilitychange",()=>{if(!document.hidden)setTimeout(vchk,800)});setInterval(vchk,18e5);
 if("serviceWorker" in navigator&&/^https?:/.test(location.protocol)){
