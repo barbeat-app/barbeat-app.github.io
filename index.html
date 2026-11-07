@@ -774,7 +774,7 @@ body:has(#sact:not([hidden])) #seance .sbn{display:none}
 window.addEventListener("error",function(e){m.push((e&&e.message||"erreur")+(e&&e.lineno?" (l."+e.lineno+")":""));sh("Erreur : "+m.join(" | ").slice(0,260)+" — touche pour continuer")},true);
 window.addEventListener("unhandledrejection",function(e){m.push(String(e&&e.reason&&e.reason.message||e&&e.reason||"promesse"));sh("Erreur : "+m.join(" | ").slice(0,260)+" — touche pour continuer")});
 function rm(){var s=document.getElementById("spl");if(s)s.remove()}
-function bar(t){try{if(/failed to fetch|networkerror|load failed|network request|fetch|permissions policy|wake ?lock|resizeobserver|script error|aborterror|not allowed|notallowederror|security/i.test(String(t)))return;var d=document.getElementById("errbar");if(!d){d=document.createElement("div");d.id="errbar";d.style.cssText="position:fixed;left:8px;right:8px;bottom:8px;z-index:100000;background:#7a1010;color:#fff;font:12px/1.35 system-ui,sans-serif;padding:8px 10px;border-radius:10px;max-height:40vh;overflow:auto";d.onclick=function(){d.remove()};document.body.appendChild(d)}d.textContent="Erreur (touche pour fermer) : "+t;clearTimeout(d._t);d._t=setTimeout(function(){d.remove()},8000)}catch(e){}}
+function bar(t){try{if(/failed to fetch|networkerror|load failed|network request|fetch|permissions policy|wake ?lock|resizeobserver|script error|aborterror|not allowed|notallowederror|security/i.test(String(t)))return;var d=document.getElementById("errbar");if(!d){d=document.createElement("div");d.id="errbar";d.style.cssText="position:fixed;left:8px;right:8px;bottom:8px;z-index:100000;background:#7a1010;color:#fff;font:12px/1.35 system-ui,sans-serif;padding:8px 10px;border-radius:10px;max-height:40vh;overflow:auto";d.onclick=function(){d.remove()};document.body.appendChild(d)}d._l=(d._l||[]);if(d._l.indexOf(String(t))<0)d._l.push(String(t));d._l=d._l.slice(0,3);d.textContent="Erreur (touche pour fermer) : "+d._l.join("  ||  ");clearTimeout(d._t);d._t=setTimeout(function(){d.remove()},15000)}catch(e){}}
 window.addEventListener("error",function(e){if(!document.getElementById("spl"))bar((e&&e.message||"erreur")+(e&&e.lineno?" (l."+e.lineno+")":""))},true);
 window.addEventListener("unhandledrejection",function(e){if(!document.getElementById("spl"))bar(String(e&&e.reason&&e.reason.message||e&&e.reason||"promesse"))});
 setTimeout(function(){var s=document.getElementById("spl");if(!s)return;if(m.length){s.onclick=rm;setTimeout(rm,15000)}else rm()},4500)})()</script>
@@ -1194,10 +1194,11 @@ const SEC={
  tests:["Santé","Tests de forme","watch","#9b6bff",()=>{const l=byD(S.tests).slice(-1)[0];return l?esc(l.n)+" "+fnum(l.v)+" "+esc(l.u):"Aucun test"}],
  reglages:["Appli","Réglages","gear","#8a96ad",()=>"Thème, séance, sauvegarde"],
  equipe:["Santé","Équipe","users","#e5484d",()=>"Fiches des joueurs"]};
+var SECQ={wellness:"well",forme:"forme",charge:"acwr",calc:"rm1"};
 function secBanners(){const cur=document.querySelector("section.on");if(!cur||!SEC[cur.id])return;const id=cur.id,[eb,ti2,art,col,sub]=SEC[id];
  let b=cur.querySelector(":scope>.sbn");if(!b){b=document.createElement("div");b.className="sbn";cur.insertBefore(b,cur.firstChild)}
  let st="";try{st=sub()}catch(e){}
- const h='<div class="sbt"><span class="sbe">'+eb+'</span><b class="sbh">'+ti2+(SECQ[id]?qh(SECQ[id]):"")+'</b><small>'+st+'</small></div><div class="sba">'+SBA[art]()+'</div>';
+ const h='<div class="sbt"><span class="sbe">'+eb+'</span><b class="sbh">'+ti2+(SECQ&&SECQ[id]?qh(SECQ[id]):"")+'</b><small>'+st+'</small></div><div class="sba">'+SBA[art]()+'</div>';
  if(b.dataset.k!==h){b.dataset.k=h;b.innerHTML=h}b.style.setProperty("--tc",col);cur.style.setProperty("--sc",col);
  const h2=cur.querySelector("h2");if(h2)h2.classList.add("sbh-hide")}
 function go(t){if(t==="prog"&&$("#prog"))$("#prog").dataset.v="";const nt=({wellness:"well",poids:"well",forme:"well",charge:"well",sf:"well",pain:"well",tests:"well",regles:"well"})[t]||t;document.querySelectorAll("nav button").forEach(x=>x.setAttribute("aria-selected",x.dataset.t===nt));
@@ -3551,8 +3552,7 @@ var GLO={
  wf3:["Humeur","Ton moral du moment.","1 = au plus bas · 5 = très bon moral.","Une humeur qui baisse plusieurs jours de suite est un signal à surveiller."],
  wf4:["Courbatures","Les douleurs musculaires qui restent des entraînements précédents (pas une blessure).","Attention, l’échelle est inversée ici : <b>5 = aucune courbature</b>, 1 = très courbaturé·e.","Une douleur vive ou localisée n’est pas une courbature : note-la dans Douleurs."],
  pc:["% du max","La charge d’une série exprimée en <b>pourcentage de ton 1RM</b> (ta charge maximale sur 1 répétition).","Exemple : 70 % de ton max, avec un max de 100 kg, = 70 kg.","Si tu ne connais pas ton max, laisse « Aucun »."]};
-var SECQ={wellness:"well",forme:"forme",charge:"acwr",calc:"rm1"};
-function qh(k){return GLO[k]?'<button type="button" class="qh" data-q="'+k+'" aria-label="Explication : '+esc(GLO[k][0])+'">?</button>':""}
+function qh(k){return (typeof GLO!=="undefined"&&GLO&&GLO[k])?'<button type="button" class="qh" data-q="'+k+'" aria-label="Explication : '+esc(GLO[k][0])+'">?</button>':""}
 document.addEventListener("click",e=>{const b=e.target.closest("[data-q]");if(!b)return;e.preventDefault();e.stopPropagation();const g=GLO[b.dataset.q];if(!g)return;let x=document.getElementById("qhx");if(x)x.remove();x=document.createElement("div");x.id="qhx";x.setAttribute("role","dialog");x.setAttribute("aria-modal","true");
  x.innerHTML='<div class="qb"><h3>'+g[0]+'</h3><p>'+g[1]+'</p>'+(g[2]?'<p class="ex">'+g[2]+'</p>':'')+(g[3]?'<p class="m" style="margin-top:10px">'+g[3]+'</p>':'')+'<button class="b big" data-qc="1" style="width:100%">Compris</button></div>';document.body.appendChild(x)},true);
 document.addEventListener("click",e=>{const x=document.getElementById("qhx");if(!x)return;if(e.target.closest("[data-qc]")||e.target===x)x.remove()});
