@@ -266,7 +266,7 @@ button.sn{border:0;color:var(--ink);font:700 16px Barlow,sans-serif;cursor:point
 @keyframes bilw{from{width:0}to{width:var(--w)}}
 .bti{font-weight:700;margin:6px 0}.bch{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:8px 0}.bch span{border:1px solid var(--ln);border-radius:999px;padding:5px 10px;font-size:13px;font-weight:600}
 .bch span.r{border-color:#e5484d;color:#e5484d}.bch span.o{border-color:#f07d1a;color:#f07d1a}.bch span.y{border-color:#e0a800;color:#e0a800}
-.bsl ul{text-align:left;margin:6px 0 6px 18px;padding:0}.bli{text-align:left;margin:6px 0}.bex{text-align:left;margin:10px 0 0;font-size:14px}.bex div{padding:3px 0}
+.bsl ul{text-align:left;margin:6px 0 6px 18px;padding:0}.bli{text-align:left;margin:6px 0}.bli b{display:inline;font-size:inherit;letter-spacing:0;text-transform:none}.bex{text-align:left;margin:10px 0 0;font-size:14px}.bex div{padding:3px 0}
 .bwn{background:rgba(240,125,26,.12);border-radius:10px;padding:8px 10px;margin:8px 0;font-size:13px;text-align:left}
 .pfb{margin:10px 0 0;text-align:center}.pfb .ch{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:6px}.pfb button{border:1px solid var(--ln);background:transparent;color:inherit;border-radius:999px;padding:7px 12px;font-size:13px}.pfb button.on{background:var(--ac);color:#fff;border-color:var(--ac)}
 .dt{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:8px;background:#3ecf8e}.dt.y{background:#e0a800}.dt.o{background:#f07d1a}.dt.r{background:#e5484d}
@@ -3221,9 +3221,9 @@ function bilAvoid(pz){const av=new Set,sm=new Set;pz.forEach(([id,L])=>{const z=
 function bilRec(){try{const t=today(),by={};(S.pain||[]).forEach(p=>{if(!p||!p.z||p.d>t)return;Object.keys(p.z).forEach(id=>{if(p.z[id]>0)(by[id]=by[id]||new Set).add(p.d)})});const lim=addD(t,-10),out=[];const cur=pTod();
   Object.keys(by).forEach(id=>{if(!cur||!cur.z||!(cur.z[id]>0))return;const n=[...by[id]].filter(d=>d>=lim).length;if(n>=3)out.push(ZN[id]+" : douleur notée "+n+" fois ces 10 derniers jours. Si ça dure, parles-en à un professionnel de santé.")});return out}catch(_){return[]}}
 function bilFb(){try{const t=today(),k=Object.keys(S.pfb||{}).filter(d=>d<t).sort().pop();return k&&S.pfb[k]==="up"?"La dernière fois, ta douleur augmentait pendant la séance : reste prudent et arrête dès qu’elle monte.":""}catch(_){return""}}
-function bilSlides(){const {fm,hf,pz,a,fe}=bilCtx(),al=fm.al,sl=[],low=hf&&(a.lvl>=1||a.pct>0),light=!low&&pz.every(x=>x[1]<4),rec=bilRec(),fb=bilFb();
+function bilSlides(){const {fm,hf,pz,a,fe}=bilCtx(),al=fm.al,sl=[],low=hf&&a.lvl>=1,boost=hf&&!low&&a.pct>0,light=pz.length>0&&!low&&pz.every(x=>x[1]<4),rec=bilRec(),fb=bilFb();
  const lab=a.lvl>=1?'Appliquer la version allégée':a.pct>0?'Appliquer +'+a.pct+' %':'';
- if(hf&&!light){let act="";if(al)act='<p class="m">✓ '+(al.p>0?'Charges +'+al.p+' %':al.p<0?'Charges −'+Math.abs(al.p)+' %':'Charges inchangées')+(al.sh?' · '+al.sh+' série'+(al.sh>1?'s':'')+' en moins':'')+'</p>';else if(fm.keep)act='<p class="m">✓ Séance gardée comme prévue.</p>';else if(lab)act='<div class="r"><button class="b" data-bl="al">'+lab+'</button><button class="b g" data-bl="keep">Garder ma séance</button></div>';
+ if(hf&&(!light||boost)){let act="";if(al)act='<p class="m">✓ '+(al.p>0?'Charges +'+al.p+' %':al.p<0?'Charges −'+Math.abs(al.p)+' %':'Charges inchangées')+(al.sh?' · '+al.sh+' série'+(al.sh>1?'s':'')+' en moins':'')+'</p>';else if(fm.keep)act='<p class="m">✓ Séance gardée comme prévue.</p>';else if(lab)act='<div class="r"><button class="b" data-bl="al">'+lab+'</button><button class="b g" data-bl="keep">Garder ma séance</button></div>';
   const ch=[];if(a.pct)ch.push((a.pct>0?'+':'−')+Math.abs(a.pct)+' % de charge');if(a.sets&&a.lvl>=1)ch.push('−'+a.sets+' série'+(a.sets>1?'s':'')+' par exo');if(a.rir&&a.lvl>=1)ch.push(a.rir+' reps en réserve');
   const lis=a.tips.concat(a.sw);
   sl.push('<div class="bsl"><div class="bem">'+fe[1]+'</div><h3>Forme : '+fe[2]+'</h3><div class="bgauge"><i style="--w:'+(fm.f*20)+'%"></i></div><p class="bti">'+esc(a.title)+'</p>'+(a.why.length?'<p class="m">'+esc(a.why.join(" · "))+'.</p>':'')+(ch.length?'<div class="bch">'+ch.map(x=>'<span>'+esc(x)+'</span>').join("")+'</div>':'')+(lis.length?'<ul class="m">'+lis.map(x=>'<li>'+esc(x)+'</li>').join("")+'</ul>':'')+act+'</div>')}
@@ -3234,7 +3234,7 @@ function bilSlides(){const {fm,hf,pz,a,fe}=bilCtx(),al=fm.al,sl=[],low=hf&&(a.lv
   const parts=[];if(low)parts.push("allégée");const hd=(low?'Séance allégée':'Séance')+(av.pr?' · privilégie '+av.pr:'')+(low&&a.rir?' · '+a.rir+' reps en réserve':'');
   let h='<div class="bsl"><div class="bem">🏋️</div><h3>Ta séance</h3>'+(low||av.pr?'<p class="bti">'+esc(hd)+'</p>':'')+(light?chips:'');
   if(av.av)h+='<p class="bli"><b>À éviter</b> : '+esc(av.av)+'</p>';if(av.sm)h+='<p class="bli"><b>À ménager</b> : '+esc(av.sm)+'</p>';
-  if(low&&a.pct)h+='<p class="bli"><b>Charges</b> : −'+Math.abs(a.pct)+' %.</p>';
+  if(low&&a.pct<0)h+='<p class="bli"><b>Charges</b> : −'+Math.abs(a.pct)+' %.</p>';
   if(!av.av&&!av.sm&&!low)h+='<p class="bli">Rien de particulier à éviter : séance comme prévue, écoute tes sensations.</p>';
   if(light){h+=rec.map(x=>'<p class="bwn">⚠️ '+esc(x)+'</p>').join("")+(fb?'<p class="bwn">⚠️ '+esc(fb)+'</p>':'')}
   if(ex.length){h+='<div class="bex">'+ex.map(x=>{let t='';if(x.r){if(x.r.lv>=7){const al2=pnAlts(x.e,x.r.aff);t=' → <b>'+(al2.length?esc(al2[0]):'à retirer')+'</b>'}else if(x.r.lv>=4)t=x.e.pna?' <span class="m">(−20 % appliqué)</span>':' <span class="m">→ charges −20 %</span>'}return '<div><i class="dt '+(x.r?(x.r.lv>=7?'r':x.r.lv>=4?'o':'y'):'g')+'"></i>'+esc(x.e.n)+t+'</div>'}).join("")+'</div>'+(bad.length?'<button class="b" data-bl="adapt" style="width:100%;margin-top:8px">Tout adapter ('+bad.length+')</button>':'')}
