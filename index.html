@@ -1383,7 +1383,7 @@ function backLbl(t){const p=parOf(t);$("#back").textContent="← "+(PARL[p]||"Ac
 $("#back").onclick=()=>{const sec=document.querySelector("section.on");go(sec?parOf(sec.id):"home")};
 {let sx=0,sy=0,ok=false;document.addEventListener("touchstart",e=>{const t=e.touches[0];sx=t.clientX;sy=t.clientY;ok=sx<28&&e.touches.length===1},{passive:true});
  document.addEventListener("touchend",e=>{if(!ok)return;ok=false;const t=e.changedTouches[0],dx=t.clientX-sx,dy=Math.abs(t.clientY-sy);const sec=document.querySelector("section.on");
-  if(dx>80&&dy<60&&sec&&sec.id!=="home"&&!($("#gd")&&!$("#gd").hidden))go(parOf(sec.id))},{passive:true})}
+  if(dx>80&&dy<60&&sec&&sec.id!=="home"&&!($("#gd")&&!$("#gd").hidden)&&!(sec.id==="nutri"&&typeof NUV!=="undefined"&&NUV!==""))go(parOf(sec.id))},{passive:true})}
 
 /* graphique */
 function chart(d,ref){
@@ -3106,7 +3106,7 @@ $("#wkp").onclick=()=>{WK--;rSem()};$("#wkn").onclick=()=>{if(WK<0){WK++;rSem()}
 
 function draw(){try{banner()}catch(_){}secBanners();rLibMy();rReg();try{rCycRem()}catch(_){}rTeam();rRpeD();rGch();rEx();rFchk();rRx();rExos();rProg();rCyc();rWell();rHome();rHcyc();rProf();rRegles();rHisto();rSem();rPoids();rRec();rCharge();rSf();rPain();rTests();rForme();rHub();try{rWpush()}catch(x){}banner()}
 calc();draw();{const h=location.hash.slice(1);if(h&&document.getElementById(h))go(h);else{const d=D();if(d.t0&&!d.t1&&d.edit==null)go("seance")}}
-var BUILD=165,UPW=null,UPGO=false;
+var BUILD=166,UPW=null,UPGO=false;
 function updBar(w){if(document.getElementById("updbar"))return;UPW=w;const d=document.createElement("div");d.id="updbar";d.setAttribute("role","status");d.innerHTML='<span>Nouvelle version disponible</span><button type="button" id="updgo">Mettre à jour</button>';document.body.appendChild(d);
  const b=document.getElementById("updgo");b.onclick=()=>{b.disabled=true;b.textContent="Mise à jour…";if(!UPW){(async()=>{try{if(window.caches){const k=await caches.keys();await Promise.all(k.map(x=>caches.delete(x)))}}catch(e){}location.reload()})();return}UPGO=true;try{UPW.postMessage("skip")}catch(e){location.reload()}setTimeout(()=>location.reload(),4000)}}
 try{document.getElementById("bldv").textContent="Version installée : V"+BUILD}catch(e){}
