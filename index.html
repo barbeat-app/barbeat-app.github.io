@@ -919,11 +919,11 @@ details.sbd[open]>summary i{transform:rotate(-135deg)}
 .nup{flex:0 0 auto;width:34px;height:34px;border-radius:50%;border:0;background:var(--ac);color:var(--ac2);font:800 20px Barlow,sans-serif;cursor:pointer;padding:0}.nux2{background:var(--bg);color:var(--mu);font-size:13px}
 .nust{display:flex;align-items:center;justify-content:center;gap:22px;margin:6px 0}.nust>div{text-align:center}.nust b{font-size:26px;display:block}.nust small{color:var(--mu);font-size:12.5px}.nust .nun{width:42px;height:42px}
 .nukk{text-align:right}.nukk b{font-size:18px;display:block}.nukk small{font-size:12px;color:var(--mu)}
-.nubk{margin:0 0 2px!important;font-size:14px;align-self:flex-start}
+.nuwarn{display:block;color:#e5484d;font-weight:700;font-size:12px}.nubk{margin:0 0 2px!important;font-size:14px;align-self:flex-start}
 .nuhr{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--sf);color:var(--ink);border:1px solid var(--ln);border-radius:16px;padding:14px;cursor:pointer;font-family:inherit}
 .nuhi{font-size:26px;width:36px;text-align:center}.nuht{flex:1;min-width:0}.nuht b{display:block;font-size:17px}.nuht small{display:block;color:var(--mu);font-size:13px;margin-top:2px}.nuhc{color:var(--mu);font-size:22px}
 .nuk4{display:grid;grid-template-columns:1fr 1fr;gap:8px}.nuk4 .c{margin:0;padding:12px;display:flex;flex-direction:column;gap:2px}.nuk4 b{font-size:22px}.nuk4 span{font-size:12.5px;color:var(--mu)}
-.nuid b{font-size:16px}.nuidm{display:flex;gap:12px;font-size:13px;color:var(--mu);flex-wrap:wrap}.nuidm b{color:var(--ink);font-size:14px}
+.nurc ul,.nurc ol{margin:0;padding-left:20px;font-size:13.5px;line-height:1.5;color:var(--ink)}.nurc{margin-top:2px}.nuid b{font-size:16px}.nuidm{display:flex;gap:12px;font-size:13px;color:var(--mu);flex-wrap:wrap}.nuidm b{color:var(--ink);font-size:14px}
 </style>
 </head>
 <body>
@@ -3106,7 +3106,7 @@ $("#wkp").onclick=()=>{WK--;rSem()};$("#wkn").onclick=()=>{if(WK<0){WK++;rSem()}
 
 function draw(){try{banner()}catch(_){}secBanners();rLibMy();rReg();try{rCycRem()}catch(_){}rTeam();rRpeD();rGch();rEx();rFchk();rRx();rExos();rProg();rCyc();rWell();rHome();rHcyc();rProf();rRegles();rHisto();rSem();rPoids();rRec();rCharge();rSf();rPain();rTests();rForme();rHub();try{rWpush()}catch(x){}banner()}
 calc();draw();{const h=location.hash.slice(1);if(h&&document.getElementById(h))go(h);else{const d=D();if(d.t0&&!d.t1&&d.edit==null)go("seance")}}
-var BUILD=163,UPW=null,UPGO=false;
+var BUILD=165,UPW=null,UPGO=false;
 function updBar(w){if(document.getElementById("updbar"))return;UPW=w;const d=document.createElement("div");d.id="updbar";d.setAttribute("role","status");d.innerHTML='<span>Nouvelle version disponible</span><button type="button" id="updgo">Mettre à jour</button>';document.body.appendChild(d);
  const b=document.getElementById("updgo");b.onclick=()=>{b.disabled=true;b.textContent="Mise à jour…";if(!UPW){(async()=>{try{if(window.caches){const k=await caches.keys();await Promise.all(k.map(x=>caches.delete(x)))}}catch(e){}location.reload()})();return}UPGO=true;try{UPW.postMessage("skip")}catch(e){location.reload()}setTimeout(()=>location.reload(),4000)}}
 try{document.getElementById("bldv").textContent="Version installée : V"+BUILD}catch(e){}
@@ -3872,6 +3872,8 @@ Danette / crème dessert|115|3.5|18|3|125|1 pot
 Riz au lait|115|3.2|20|2.5|125|1 pot
 Flan|120|3.5|20|3|100|1 portion
 Glace|200|3.5|24|10|60|2 boules
+Lait sans lactose|46|3.3|4.8|1.6|250|1 verre
+Yaourt sans lactose|60|4|6|2|125|1 pot
 #Féculents & pains
 Riz blanc (cuit)|130|2.7|28|0.3|200|1 assiette
 Riz complet (cuit)|125|2.8|26|1|200|1 assiette
@@ -3919,6 +3921,8 @@ Crackers|440|9|65|16|25|5 crackers
 Chips|540|6|50|34|30|1 poignée
 Pop-corn|390|12|78|4|25|1 bol
 Tortilla chips|490|7|60|25|30|1 poignée
+Pâtes sans gluten (cuites)|130|3|27|1|250|1 assiette
+Pain sans gluten|250|3|50|4|40|1 tranche
 #Légumes
 Brocoli (cuit)|35|3|3|0.4|150|1 portion
 Haricots verts (cuits)|35|2|5|0.2|150|1 portion
@@ -4065,6 +4069,7 @@ Raviolis (conserve)|90|3.5|13|2.5|300|1 boîte
 Nems|220|8|25|10|80|1 nem
 Poke bowl|140|8|18|4|400|1 bol
 #Sport & protéines
+Protéine végétale (poudre)|380|75|8|6|30|1 dose
 Whey (poudre)|390|78|6|6|30|1 dose
 Caséine (poudre)|370|78|4|2|30|1 dose
 Shaker protéiné (whey + lait)|83|11.3|4.9|2.1|280|1 shaker
@@ -4111,12 +4116,12 @@ function nuAdd(m,ent,rec){const x=nuDayW(NUDT||today());x.m[m].push(ent);if(rec)
 function nuOnb(){const n=S.nut||{},sel=NOB||n.obj||"",p=S.prof||{},nok=!bwOf();
  return'<div class="nub"><h3>Ton objectif ?</h3><p class="m">Une seule question. Je calcule le reste à partir de ton profil.</p>'+NUO.map(o=>'<button class="nuo'+(sel===o[0]?' on':'')+'" data-nu="obj" data-v="'+o[0]+'"><b>'+o[1]+'</b><span>'+o[2]+'</span></button>').join("")
  +(nok?'<label for="nukg" style="margin-top:10px">Ton poids (kg)</label><input id="nukg" inputmode="decimal" placeholder="Ex. 78" value="'+(n.kg||"")+'">':'')
- +'<details class="nud"><summary>Régler à la main (facultatif)</summary><div class="r"><div><label for="nuko">Calories / jour</label><input id="nuko" inputmode="numeric" value="'+(n.ko||"")+'" placeholder="auto"></div><div><label for="nupo">Protéines (g)</label><input id="nupo" inputmode="numeric" value="'+(n.po||"")+'" placeholder="auto"></div></div></details>'
+ +'<p class="nuhh" style="margin:14px 0 4px">Allergies et régime (facultatif)</p>'+nuAlChips()+'<details class="nud"><summary>Régler à la main (facultatif)</summary><div class="r"><div><label for="nuko">Calories / jour</label><input id="nuko" inputmode="numeric" value="'+(n.ko||"")+'" placeholder="auto"></div><div><label for="nupo">Protéines (g)</label><input id="nupo" inputmode="numeric" value="'+(n.po||"")+'" placeholder="auto"></div></div></details>'
  +'<button class="b big" data-nu="ok" style="margin-top:12px"'+(sel?'':' disabled')+'>Continuer</button><p class="m" style="text-align:center;font-size:12.5px">Tu pourras tout modifier ensuite.</p></div>'}
 function nuRing(pct,col,val,lab,sub,sz){const sw=9,r=(sz-sw)/2,C=2*Math.PI*r;return'<div class="nur0"><div style="position:relative;width:'+sz+'px;height:'+sz+'px"><svg width="'+sz+'" height="'+sz+'" style="transform:rotate(-90deg)"><circle cx="'+sz/2+'" cy="'+sz/2+'" r="'+r+'" fill="none" stroke="var(--ln)" stroke-width="'+sw+'"/><circle cx="'+sz/2+'" cy="'+sz/2+'" r="'+r+'" fill="none" stroke="'+col+'" stroke-width="'+sw+'" stroke-linecap="round" stroke-dasharray="'+C*Math.min(1,pct)+' '+C+'"/></svg><div class="nuv"><b>'+val+'</b></div></div><span>'+lab+'</span><small>'+sub+'</small></div>'}
 function nuBar(l,v,t,c){return'<div class="nubr"><div><b>'+l+'</b><span>'+Math.round(v)+' / '+t+' g</span></div><i><u style="width:'+Math.min(100,Math.round(v/Math.max(1,t)*100))+'%;background:'+c+'"></u></i></div>'}
 function rNut(){const e=$("#nutr");if(!e)return;const n=S.nut||{};if(!n.obj||NOE){e.innerHTML=nuOnb();return}
- if(NUV==="week")return rNutWeek(e);if(NUV==="ideas")return rNutIdeas(e);if(NUV==="types")return rNutTypes(e);if(NUV!=="day")return rNutHub(e);rNutDay(e,n)}
+ if(NUV==="al")return rNutAl(e);if(NUV==="week")return rNutWeek(e);if(NUV==="ideas")return rNutIdeas(e);if(NUV==="types")return rNutTypes(e);if(NUV!=="day")return rNutHub(e);rNutDay(e,n)}
 function rNutDay(e,n){
  const d=NUDT||today(),tg=nuTarget(d),to=nuTot(d),x=nuDay(d),det=true,isT=d===today();
  const dl=isT?"Aujourd’hui":new Date(d+"T12:00:00").toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"});
@@ -4127,7 +4132,7 @@ function rNutDay(e,n){
  h+='<div class="nuq"><button class="b" data-nu="add" data-m="'+nuMeal()+'">+ Repas</button><button class="b g" data-nu="prot">+ Protéines</button><button class="b g" data-nu="eau">+ Eau</button></div>';
  NM.forEach(m=>{const L=x.m[m[0]]||[],s=L.reduce((a,v)=>({k:a.k+v.k,p:a.p+v.p}),{k:0,p:0});
   h+='<div class="c num"><div class="nmh"><b>'+m[1]+'</b><span>'+(L.length?Math.round(s.k)+' kcal · '+Math.round(s.p)+' g prot.':'')+'</span><button class="nua" data-nu="add" data-m="'+m[0]+'" aria-label="Ajouter au '+m[1]+'">+</button></div>'
-   +L.map((v,i)=>'<button class="nui" data-nu="item" data-m="'+m[0]+'" data-i="'+i+'"><span><b>'+esc(v.n)+'</b><small>'+esc(nuQl(v))+(det?' · G '+Math.round(v.c)+' · L '+Math.round(v.l):'')+'</small></span><span class="nik">'+v.k+' kcal<small>'+Math.round(v.p)+' g prot.</small></span></button>').join("")
+   +L.map((v,i)=>'<button class="nui" data-nu="item" data-m="'+m[0]+'" data-i="'+i+'"><span><b>'+esc(v.n)+'</b><small>'+esc(nuQl(v))+(det?' · G '+Math.round(v.c)+' · L '+Math.round(v.l):'')+'</small>'+nuWarn(v.n)+'</span><span class="nik">'+v.k+' kcal<small>'+Math.round(v.p)+' g prot.</small></span></button>').join("")
    +(L.length?'<button class="lnk" data-nu="sm" data-m="'+m[0]+'" style="margin:6px 0 0;font-size:13px">Enregistrer comme repas type</button>':'')+'</div>'});
  h+='<details class="nud"><summary>Comment sont calculés tes objectifs ?</summary><p class="m" style="font-size:13px;line-height:1.5">Calories : ton poids (<b>'+Math.round(tg.kg)+' kg</b>) × 30 à 32 kcal, ajustées selon ton objectif (muscle +10 %, gras −15 %, performance +5 %), plus 250 kcal les jours de séance. Protéines : 1,6 à 2,1 g par kg selon l’objectif. Lipides : environ 1 g par kg. Glucides : le reste des calories. Eau : 35 ml par kg (+0,5 L les jours de séance). C’est une estimation : ajuste à la main si ton poids bouge ou si tu ne progresses pas.</p></details><p class="m" style="text-align:center;font-size:12.5px">Objectifs pour « '+NUO.find(o=>o[0]===n.obj)[1]+' ». <button class="lnk" data-nu="redo" style="display:inline;margin:0">Modifier</button></p>';
  e.innerHTML=h}
@@ -4135,7 +4140,7 @@ function nuQtyH(){const f=NS.f,q=NS.qty,r=f.pt*q/100,k=Math.round(f.k*r);
  return'<div class="nuqp"><b style="font-size:17px">'+esc(f.n)+'</b><div class="nust"><button class="nun" data-nu="qm" aria-label="Moins">−</button><div><b>'+(Math.round(q*100)/100)+'</b><small>'+esc(f.lb||"portion")+'</small></div><button class="nun" data-nu="qp" aria-label="Plus">+</button></div>'
   +'<div class="r" style="align-items:end"><div><label for="nug">Quantité (g)</label><input id="nug" inputmode="decimal" value="'+Math.round(f.pt*q)+'"></div><div class="nukk"><b>'+k+' kcal</b><small>P '+r1(f.p*r)+' · G '+r1(f.g*r)+' · L '+r1(f.l*r)+'</small></div></div>'
   +'<button class="b big" data-nu="qadd">'+(NS.ed?'Enregistrer':'Ajouter · '+NM.find(m=>m[0]===NS.m)[1])+'</button>'+(NS.ed?'<button class="b g big" data-nu="qdel" style="margin-top:8px">Supprimer</button>':'')+'</div>'}
-function nuRow(f,i){const k=Math.round(f.k*f.pt/100),p=r1(f.p*f.pt/100);return'<div class="nur1" data-nu="pick" data-i="'+i+'"><span><b>'+esc(f.n)+'</b><small>'+esc(f.lb)+' ('+f.pt+' g) · '+k+' kcal · '+p+' g prot.</small></span><button class="nup" data-nu="quick" data-i="'+i+'" aria-label="Ajouter une portion">+</button></div>'}
+function nuRow(f,i){const k=Math.round(f.k*f.pt/100),p=r1(f.p*f.pt/100);return'<div class="nur1" data-nu="pick" data-i="'+i+'"><span><b>'+esc(f.n)+'</b><small>'+esc(f.lb)+' ('+f.pt+' g) · '+k+' kcal · '+p+' g prot.</small>'+nuWarn(f.n)+'</span><button class="nup" data-nu="quick" data-i="'+i+'" aria-label="Ajouter une portion">+</button></div>'}
 function nuListH(){const q=nrm(NS.q).split(" ").filter(Boolean),pe=nuN().perso,mk=(arr,t)=>arr.length?'<div class="nuhh">'+t+'</div>'+arr.join(""):"";let h="";
  const tpl=pe.map((t,i)=>({t,i})).filter(o=>!q.length||q.every(w=>nrm(o.t.n).includes(w))).map(o=>{const s=o.t.items.reduce((a,v)=>({k:a.k+v.k,p:a.p+v.p}),{k:0,p:0});return'<div class="nur1" data-nu="tmpl" data-i="'+o.i+'"><span><b>'+esc(o.t.n)+'</b><small>'+o.t.items.length+' aliment'+(o.t.items.length>1?'s':'')+' · '+Math.round(s.k)+' kcal · '+Math.round(s.p)+' g prot.</small></span><button class="nup nux2" data-nu="delt" data-i="'+o.i+'" aria-label="Supprimer ce repas type">✕</button></div>'});
  if(!NS.cat)h+=mk(tpl,"Mes repas types");
@@ -4189,41 +4194,178 @@ document.addEventListener("click",ev=>{if(ev.target.id==="nutx"){nuClose();retur
 document.addEventListener("input",ev=>{if(ev.target.id==="nuq"){NS.q=ev.target.value;const l=$("#nulist");if(l)l.innerHTML=nuListH()}});
 document.addEventListener("change",ev=>{if(ev.target.id==="nug"&&NS.f){const g=parseFloat(String(ev.target.value).replace(",","."));if(g>0){NS.qty=Math.max(.1,Math.round(g/NS.f.pt*100)/100);nuSheet()}}});
 
-const NUIDDATA=`Flocons d’avoine, lait et banane|pd|Flocons d’avoine*1;Lait demi-écrémé*1;Banane*1
-Skyr, muesli et myrtilles|pd,co|Skyr*1;Muesli*.8;Myrtilles*1
-Omelette 3 œufs et pain complet|pd,dj,di|Omelette nature*1.5;Pain complet*2
-Yaourt grec, granola et miel|pd|Yaourt grec nature*1;Granola*1;Miel*.5
-Tartines œufs durs et avocat|pd|Pain complet*2;Œuf dur*2;Avocat*.5
-Fromage blanc, flocons et banane|pd|Fromage blanc 0 %*1.5;Flocons d’avoine*1;Banane*1
-Tartines beurre de cacahuète et banane|pd,co|Pain complet*2;Beurre de cacahuète*1;Banane*1
-Shaker protéiné, banane et amandes|pd,co|Shaker protéiné (whey + lait)*1;Banane*1;Amandes*.5
-Poulet, riz et brocoli|dj,di|Poulet blanc (cuit)*1;Riz blanc (cuit)*1;Brocoli (cuit)*1;Huile d’olive*.5
-Pâtes bolognaise|dj,di|Pâtes bolognaise*1
-Saumon, quinoa et haricots verts|dj,di|Saumon (cuit)*1;Quinoa (cuit)*1;Haricots verts (cuits)*1
-Steak haché, pommes de terre et salade|dj,di|Bœuf haché 5 % (cuit)*1;Pommes de terre (cuites)*1;Salade verte*1;Huile d’olive*.5
-Wrap poulet crudités|dj,di|Wrap poulet*1
-Thon, riz et tomates|dj,di|Thon au naturel (conserve)*1;Riz blanc (cuit)*1;Tomate*1;Huile d’olive*.5
-Dinde, patate douce et épinards|dj,di|Dinde escalope (cuite)*1;Patate douce (cuite)*1;Épinards (cuits)*1
-Lentilles, œuf et carottes|dj,di|Lentilles (cuites)*1;Œuf (entier)*1;Carotte*1;Huile d’olive*.5
-Cabillaud, riz et courgettes|dj,di|Cabillaud (cuit)*1;Riz blanc (cuit)*1;Courgette (cuite)*1;Huile d’olive*.5
-Tofu sauté, riz et brocoli|dj,di|Tofu nature*1.5;Riz blanc (cuit)*1;Brocoli (cuit)*1;Sauce soja*.5
-Poke bowl|dj,di|Poke bowl*1
-Poulet, semoule et ratatouille|dj,di|Poulet blanc (cuit)*1;Semoule (cuite)*1;Ratatouille*1
-Crevettes, pâtes et sauce tomate|dj,di|Crevettes (cuites)*1;Pâtes (cuites)*1;Sauce tomate*.5
-Chili de bœuf et riz|dj,di|Haricots rouges (cuits)*1;Bœuf haché 5 % (cuit)*1;Riz blanc (cuit)*1
-Soupe, pain et jambon|di|Soupe de légumes*1;Pain complet*2;Jambon blanc*2
-Omelette, salade et pain|di|Omelette nature*1.5;Salade verte*1;Pain complet*1
-Yaourt grec 0 % et fruits rouges|co|Yaourt grec 0 %*1;Myrtilles*1
-Skyr et amandes|co|Skyr*1;Amandes*.5
-Fromage blanc, miel et noix|co|Fromage blanc 0 %*1.5;Miel*.5;Noix*.5
-Pomme et beurre de cacahuète|co|Pomme*1;Beurre de cacahuète*1
-Barre protéinée et pomme|co|Barre protéinée*1;Pomme*1
-Œufs durs et fruit|co|Œuf dur*2;Pomme*1
-Cottage cheese et ananas|co|Cottage cheese*1.5;Ananas*1`;
+const NUIDDATA=`Porridge à la banane|pd|mkp|Flocons d’avoine*1.5;Lait demi-écrémé*1;Banane*1|10 min|Chauffe le lait et les flocons 3 min à feu doux en remuant / Verse dans un bol / Ajoute la banane en rondelles
+Porridge protéiné aux fruits rouges|pd|mgkp|Flocons d’avoine*1;Lait demi-écrémé*1;Whey (poudre)*.7;Framboises*1|8 min|Cuis les flocons dans le lait 3 min / Hors du feu, mélange la whey / Ajoute les framboises
+Skyr, muesli et myrtilles|pd|gkp|Skyr*1;Muesli*.8;Myrtilles*1|2 min|Mets le skyr dans un bol / Ajoute le muesli et les myrtilles
+Omelette 3 œufs et pain complet|pd|mgk|Omelette nature*1.5;Pain complet*2|8 min|Bats les œufs avec sel et poivre / Cuis 3 à 4 min à la poêle en repliant / Sers avec le pain
+Yaourt grec, granola et miel|pd|mkp|Yaourt grec nature*1;Granola*1;Miel*.5|2 min|Mets le yaourt dans un bol / Ajoute le granola et un filet de miel
+Tartines œufs durs et avocat|pd|mk|Pain complet*2;Œuf dur*2;Avocat*.5|12 min|Cuis les œufs 9 min puis écale-les / Écrase l’avocat avec sel, poivre et citron / Tartine le pain et ajoute les œufs en tranches
+Fromage blanc, flocons et banane|pd|mkp|Fromage blanc 0 %*1.5;Flocons d’avoine*1;Banane*1|3 min|Mets le fromage blanc dans un bol / Ajoute les flocons et la banane en rondelles
+Tartines beurre de cacahuète et banane|pd|mp|Pain complet*2;Beurre de cacahuète*1;Banane*1|3 min|Fais griller le pain / Étale le beurre de cacahuète / Ajoute la banane en rondelles
+Shaker protéiné, banane et amandes|pd|mgk|Shaker protéiné (whey + lait)*1;Banane*1;Amandes*.5|3 min|Mets la whey et le lait dans un shaker, secoue 20 secondes / Mange avec la banane et les amandes
+Pancakes à l’avoine et à la banane|pd|mp|Flocons d’avoine*1.5;Œuf (entier)*2;Banane*1;Lait demi-écrémé*.5|15 min|Mixe flocons, œufs, banane et lait / Cuis des petits pancakes 2 min par face dans une poêle antiadhésive / Sers chaud
+Pancakes et yaourt grec|pd|mp|Pancake*3;Yaourt grec 0 %*1;Myrtilles*1|10 min|Réchauffe les pancakes à la poêle ou au four / Sers avec le yaourt grec et les myrtilles
+Œufs brouillés sur pain complet|pd|mgk|Œufs brouillés*1;Pain complet*2|8 min|Casse les œufs dans une poêle à feu doux / Remue 3 min jusqu’à texture crémeuse / Sers sur le pain grillé
+Œufs brouillés et saumon fumé|pd|gk|Œufs brouillés*1;Saumon fumé*2;Pain complet*1|8 min|Prépare les œufs brouillés à feu doux / Pose le saumon fumé sur le pain / Ajoute les œufs dessus
+Bowl de skyr, banane et noix|pd|mgk|Skyr*1;Banane*1;Noix*.5|3 min|Mets le skyr dans un bol / Ajoute la banane en rondelles et les noix concassées
+Fromage blanc, framboises et chia|pd|g|Fromage blanc 0 %*1.5;Framboises*1;Graines de chia*1|3 min|Mélange le fromage blanc et les graines de chia / Ajoute les framboises
+Tartines jambon et fromage|pd|k|Pain complet*2;Jambon blanc*2;Emmental*.7|5 min|Fais griller le pain / Ajoute le jambon et le fromage / Passe 2 min au four si tu veux le fromage fondu
+Smoothie banane, lait et whey|pd|mp|Lait demi-écrémé*1.5;Banane*1;Whey (poudre)*1;Flocons d’avoine*.5|4 min|Mets tous les ingrédients dans un blender / Mixe 40 secondes / Bois frais
+Smoothie fraises et skyr|pd|gk|Skyr*1;Fraises*1.5;Lait d’amande*.5|4 min|Mets tous les ingrédients dans un blender / Mixe jusqu’à texture lisse
+Crêpes, fromage blanc et fraises|pd|kp|Crêpe nature*3;Fromage blanc 0 %*1;Fraises*1|10 min|Réchauffe les crêpes / Garnis de fromage blanc et de fraises coupées / Roule ou plie
+Riz au lait et banane|pd|mp|Riz au lait*1.5;Banane*1|3 min|Mets le riz au lait dans un bol / Ajoute la banane en rondelles
+Muesli, lait et compote|pd|kp|Muesli*1;Lait demi-écrémé*1;Compote sans sucre ajouté*1|3 min|Verse le muesli dans un bol / Ajoute le lait froid et la compote
+Bagel saumon fumé|pd|mkp|Bagel*1;Saumon fumé*2;Fromage blanc 3 %*.5|5 min|Coupe et grille le bagel / Étale le fromage blanc / Ajoute le saumon fumé et du citron
+Toast avocat et œufs|pd|gk|Pain complet*2;Avocat*1;Œuf (entier)*2|10 min|Écrase l’avocat sur le pain grillé / Cuis les œufs au plat ou pochés 3 min / Pose-les dessus avec sel et poivre
+Gruau à la poire|pd|p|Flocons d’avoine*1.5;Lait demi-écrémé*1;Poire*1;Miel*.5|10 min|Cuis les flocons dans le lait 3 min / Ajoute la poire en dés / Termine avec le miel
+Wrap œufs et jambon|pd|k|Wrap / tortilla*1;Œufs brouillés*1;Jambon blanc*1|8 min|Prépare les œufs brouillés / Garnis le wrap avec œufs et jambon / Roule serré
+Omelette champignons et fromage|pd|gk|Omelette nature*1.5;Champignons*1;Emmental*.5|10 min|Fais revenir les champignons 4 min / Ajoute les œufs battus et cuis 3 min / Parsème de fromage et replie
+Pain complet, cottage cheese et tomate|pd|g|Pain complet*2;Cottage cheese*1.5;Tomate*1|4 min|Fais griller le pain / Étale le cottage cheese / Ajoute la tomate en tranches, sel et poivre
+Brioche et lait chocolaté|pd|p|Brioche*2;Lait chocolaté*1;Banane*1|3 min|Sers la brioche avec le lait chocolaté / Ajoute la banane à côté
+Granola, yaourt et kiwi|pd|kp|Granola*1;Yaourt nature*1;Kiwi*1|3 min|Mets le yaourt dans un bol / Ajoute le kiwi en morceaux et le granola
+Porridge cacahuète prise de masse|pd|m|Flocons d’avoine*1.5;Lait entier*1.5;Beurre de cacahuète*1;Banane*1|10 min|Cuis les flocons dans le lait entier 4 min / Ajoute le beurre de cacahuète hors du feu / Termine avec la banane
+Œufs durs, pain et orange|pd|gk|Œuf dur*3;Pain complet*1;Orange*1|12 min|Cuis les œufs 9 min / Écale-les / Sers avec le pain et l’orange
+Tofu brouillé aux champignons|pd|g|Tofu nature*2;Champignons*1;Pain complet*2|10 min|Émiette le tofu à la poêle / Ajoute les champignons et du curcuma, cuis 6 min / Sers sur le pain grillé
+Yaourt grec, noix et pomme|pd|kp|Yaourt grec nature*1;Noix*.5;Pomme*1|3 min|Mets le yaourt dans un bol / Ajoute la pomme en dés et les noix
+Pancakes banane-œuf|pd|gkp|Banane*2;Œuf (entier)*2|10 min|Écrase les bananes et mélange avec les œufs / Cuis de petites galettes 2 min par face / Sers tel quel ou avec un peu de cannelle
+Skyr, flocons et miel|pd|gkp|Skyr*1.5;Flocons d’avoine*.75;Miel*.5|3 min|Mets le skyr dans un bol / Ajoute les flocons et le miel
+Yaourt grec 0 % et fruits rouges|co|gkp|Yaourt grec 0 %*1;Myrtilles*1|2 min|Mets le yaourt dans un bol / Ajoute les fruits rouges
+Skyr et amandes|co|gk|Skyr*1;Amandes*.5|1 min|Mets le skyr dans un bol / Ajoute les amandes
+Fromage blanc, miel et noix|co|kmp|Fromage blanc 0 %*1.5;Miel*.5;Noix*.5|2 min|Mets le fromage blanc dans un bol / Ajoute le miel et les noix concassées
+Pomme et beurre de cacahuète|co|kmp|Pomme*1;Beurre de cacahuète*1|2 min|Coupe la pomme en quartiers / Trempe-les dans le beurre de cacahuète
+Barre protéinée et pomme|co|mkp|Barre protéinée*1;Pomme*1|1 min|Mange la barre avec la pomme
+Œufs durs et fruit|co|gk|Œuf dur*2;Pomme*1|10 min|Cuis les œufs 9 min / Refroidis-les et écale-les / Mange avec le fruit
+Cottage cheese et ananas|co|gk|Cottage cheese*1.5;Ananas*1|2 min|Mets le cottage cheese dans un bol / Ajoute l’ananas en morceaux
+Shaker protéiné et dattes|co|mgp|Shaker protéiné (whey + lait)*1;Dattes*1|3 min|Prépare le shaker avec la whey et le lait / Mange les dattes à côté
+Mélange de fruits secs et pomme|co|mp|Mélange de fruits secs*1;Pomme*1|1 min|Prends une poignée de mélange / Croque la pomme à côté
+Houmous et bâtonnets de légumes|co|gk|Houmous*1.5;Carotte*1;Concombre*1;Poivron*1|8 min|Coupe les légumes en bâtonnets / Trempe-les dans le houmous
+Galettes de riz et chèvre frais|co|kp|Galette de riz*3;Chèvre frais*1;Tomates cerises*1|4 min|Étale le chèvre sur les galettes / Ajoute les tomates cerises coupées
+Banane et amandes|co|kmp|Banane*1;Amandes*1|1 min|Mange la banane avec une poignée d’amandes
+Jambon roulé au fromage blanc|co|g|Jambon blanc*3;Fromage blanc 0 %*1|5 min|Étale du fromage blanc sur chaque tranche / Roule serré / Coupe en tronçons
+Smoothie skyr et banane|co|gkp|Skyr*1;Banane*1;Lait d’amande*.5|4 min|Mets tout dans un blender / Mixe 30 secondes
+Pain, thon et tomate|co|gk|Pain complet*1;Thon au naturel (conserve)*.7;Tomate*1|5 min|Égoutte le thon / Pose-le sur le pain avec la tomate en tranches / Assaisonne
+Compote et yaourt grec|co|k|Compote de pomme*1;Yaourt grec nature*1|2 min|Mélange la compote et le yaourt dans un bol
+Pain complet et beurre de cacahuète|co|mp|Pain complet*2;Beurre de cacahuète*1|2 min|Fais griller le pain / Étale généreusement le beurre de cacahuète
+Boisson protéinée et banane|co|gk|Boisson protéinée (prête à boire)*1;Banane*1|1 min|Bois la boisson protéinée / Mange la banane
+Banane et pâtes de fruits (effort)|co|p|Banane*1;Pâte de fruits*2|1 min|Mange la banane et les pâtes de fruits 30 à 60 min avant l’effort
+Riz au lait et fraises|co|mp|Riz au lait*1;Fraises*1|2 min|Mets le riz au lait dans une coupelle / Ajoute les fraises coupées
+Edamame salés|co|gk|Edamame*1.5|5 min|Cuis les edamame 4 min à l’eau bouillante / Égoutte et sale légèrement
+Surimi et concombre|co|g|Surimi*2;Concombre*1|3 min|Coupe le concombre en rondelles / Mange avec les bâtonnets de surimi
+Yaourt nature et granola|co|mp|Yaourt nature*1;Granola*.75|2 min|Verse le granola sur le yaourt
+Poulet, riz et brocoli|dj,di|mgkp|Poulet blanc (cuit)*1;Riz blanc (cuit)*1;Brocoli (cuit)*1;Huile d’olive*.5|25 min|Cuis le riz selon le paquet / Coupe le poulet et fais-le dorer 8 min dans l’huile / Cuis le brocoli 5 min / Assaisonne et assemble
+Poulet curry et riz basmati|dj,di|mgk|Poulet blanc (cuit)*1;Riz basmati (cuit)*1;Courgette (cuite)*1;Crème légère 15 %*.5|25 min|Fais dorer le poulet en dés 6 min / Ajoute courgette, curry et crème, mijote 8 min / Sers sur le riz
+Poulet, semoule et ratatouille|dj,di|mgk|Poulet blanc (cuit)*1;Semoule (cuite)*1;Ratatouille*1|15 min|Gonfle la semoule 5 min à l’eau chaude / Réchauffe la ratatouille / Ajoute le poulet en morceaux
+Poulet, pâtes et sauce tomate|dj,di|mkp|Poulet blanc (cuit)*1;Pâtes (cuites)*1;Sauce tomate*1;Parmesan*.5|20 min|Cuis les pâtes / Réchauffe le poulet dans la sauce tomate / Mélange et parsème de parmesan
+Wrap au poulet et crudités|dj,di|km|Wrap poulet*1|7 min|Réchauffe le wrap / Garnis de poulet, salade, tomate / Roule serré et coupe en deux
+Poulet, patate douce et haricots verts|dj,di|gk|Poulet blanc (cuit)*1;Patate douce (cuite)*1;Haricots verts (cuits)*1|30 min|Cuis la patate douce 20 min au four à 200 °C / Poêle le poulet 8 min / Cuis les haricots verts 8 min
+Brochettes de dinde et riz aux poivrons|dj,di|gk|Dinde escalope (cuite)*1;Riz blanc (cuit)*1;Poivron*1|25 min|Coupe la dinde et les poivrons en cubes et monte les brochettes / Cuis 10 min à la poêle ou au four / Sers sur le riz
+Escalope de dinde, crème et purée|dj,di|mgk|Dinde escalope (cuite)*1;Purée de pommes de terre*1;Champignons*1;Crème légère 15 %*1|25 min|Poêle l’escalope 4 min par face / Fais revenir les champignons et ajoute la crème 3 min / Sers avec la purée
+Poulet rôti, pommes de terre et salade|dj,di|mk|Poulet rôti avec peau*1;Pommes de terre (cuites)*1;Salade verte*1|15 min|Réchauffe le poulet rôti / Cuis les pommes de terre à l’eau 20 min / Assaisonne la salade
+Fajitas au poulet|dj,di|mk|Poulet blanc (cuit)*1;Wrap / tortilla*2;Poivron*1;Oignon*1;Avocat*.5|20 min|Émince poivron et oignon et fais-les revenir 8 min / Ajoute le poulet en lanières et des épices / Garnis les wraps d’avocat
+Bol poulet, quinoa et avocat|dj,di|mgk|Poulet blanc (cuit)*1;Quinoa (cuit)*1;Avocat*.5;Tomates cerises*1|20 min|Cuis le quinoa 12 min / Dispose quinoa, poulet, avocat et tomates cerises / Assaisonne citron et huile
+Salade de poulet croquante|dj,di|g|Poulet blanc (cuit)*1;Salade verte*2;Parmesan*.5;Pain complet*1;Vinaigrette*.5|12 min|Coupe le poulet en lamelles / Mélange avec la salade et le parmesan / Ajoute des croûtons de pain grillé et la vinaigrette
+Steak haché, pommes de terre et salade|dj,di|km|Bœuf haché 5 % (cuit)*1;Pommes de terre (cuites)*1;Salade verte*1;Huile d’olive*.5|25 min|Cuis les pommes de terre 20 min / Poêle le steak 3 min par face / Assaisonne la salade
+Chili de bœuf et riz|dj,di|mkp|Haricots rouges (cuits)*1;Bœuf haché 5 % (cuit)*1;Riz blanc (cuit)*1|30 min|Fais revenir la viande 5 min avec un oignon / Ajoute haricots rouges, paprika et sauce tomate, mijote 15 min / Sers sur le riz
+Pâtes bolognaise|dj,di|mkp|Pâtes bolognaise*1|20 min|Cuis les pâtes / Fais revenir un oignon et la viande 5 min / Ajoute la sauce tomate et mijote 10 min / Mélange avec les pâtes
+Steak haché, haricots verts et riz|dj,di|gk|Bœuf haché 5 % (cuit)*1;Haricots verts (cuits)*1;Riz blanc (cuit)*.7|20 min|Cuis le riz / Poêle le steak 3 min par face / Cuis les haricots verts 8 min
+Rôti de bœuf, purée et haricots verts|dj,di|k|Rôti de bœuf*1;Purée de pommes de terre*1;Haricots verts (cuits)*1|15 min|Réchauffe le purée / Tranche le rôti de bœuf / Cuis les haricots verts 8 min
+Bœuf sauté aux poivrons et riz|dj,di|mk|Steak de bœuf (cuit)*1;Poivron*1;Riz blanc (cuit)*1;Sauce soja*.5|20 min|Coupe le bœuf en lamelles et saisis-le 3 min / Ajoute les poivrons et la sauce soja, cuis 5 min / Sers sur le riz
+Burger maison|dj,di|m|Pain burger*1;Bœuf haché 15 % (cuit)*1;Emmental*.7;Tomate*1;Salade verte*.5|20 min|Forme et cuis le steak 3 min par face / Fais fondre le fromage dessus / Monte le burger avec tomate et salade
+Burger maison et frites|dj,di|m|Pain burger*1;Bœuf haché 15 % (cuit)*1;Emmental*.7;Frites*1|25 min|Cuis les frites au four 25 min à 220 °C / Cuis le steak et monte le burger / Sers ensemble
+Hachis parmentier et salade|dj,di|mk|Hachis parmentier*1;Salade verte*1|10 min|Réchauffe le hachis au four 10 min / Assaisonne la salade
+Entrecôte et pommes de terre sautées|dj,di|m|Entrecôte (cuite)*1;Pommes de terre sautées*1;Haricots verts (cuits)*1|25 min|Poêle l’entrecôte 3 min par face / Fais sauter les pommes de terre 12 min / Cuis les haricots verts
+Bœuf haché, patate douce et brocoli|dj,di|mgk|Bœuf haché 5 % (cuit)*1;Patate douce (cuite)*1;Brocoli (cuit)*1|30 min|Cuis la patate douce 20 min au four / Poêle la viande 6 min / Cuis le brocoli 5 min
+Saumon, quinoa et haricots verts|dj,di|mgkp|Saumon (cuit)*1;Quinoa (cuit)*1;Haricots verts (cuits)*1|25 min|Cuis le quinoa 12 min / Cuis le saumon 10 min au four à 180 °C / Cuis les haricots verts 8 min / Assaisonne citron
+Cabillaud, riz et courgettes|dj,di|gkp|Cabillaud (cuit)*1;Riz blanc (cuit)*1;Courgette (cuite)*1;Huile d’olive*.5|25 min|Cuis le riz / Cuis le cabillaud 10 min au four avec du citron / Poêle les courgettes 6 min
+Thon, riz et tomates|dj,di|gkp|Thon au naturel (conserve)*1;Riz blanc (cuit)*1;Tomate*1;Huile d’olive*.5|15 min|Cuis le riz / Égoutte le thon et coupe les tomates / Mélange avec huile, citron, sel
+Saumon, pâtes et épinards|dj,di|mp|Saumon (cuit)*1;Pâtes (cuites)*1;Épinards (cuits)*1;Crème légère 15 %*.5|20 min|Cuis les pâtes / Cuis le saumon 10 min et effeuille-le / Mélange avec les épinards et la crème
+Truite, pommes de terre et brocoli|dj,di|gk|Truite (cuite)*1;Pommes de terre (cuites)*1;Brocoli (cuit)*1|25 min|Cuis les pommes de terre 20 min / Poêle la truite 5 min par face / Cuis le brocoli 5 min
+Maquereau et patate douce|dj,di|mk|Maquereau (cuit)*1;Patate douce (cuite)*1;Salade verte*1|25 min|Cuis la patate douce au four 20 min / Poêle ou réchauffe le maquereau / Ajoute la salade
+Dorade, riz et légumes|dj,di|gkp|Dorade / bar (cuit)*1;Riz blanc (cuit)*1;Courgette (cuite)*1;Tomate*1|25 min|Cuis le riz / Cuis la dorade 10 min au four avec du citron / Poêle les légumes 6 min
+Sardines, pain et tomates|dj,di|gk|Sardines (conserve)*1;Pain complet*2;Tomate*1|5 min|Égoutte les sardines / Pose-les sur le pain grillé / Ajoute la tomate, sel et poivre
+Salade de thon, œuf et riz|dj,di|gk|Thon au naturel (conserve)*1;Œuf dur*1;Riz blanc (cuit)*1;Salade verte*1;Tomate*1|15 min|Cuis le riz et l’œuf / Mélange salade, tomate, thon et riz / Ajoute l’œuf coupé et assaisonne
+Poke bowl|dj,di|gkp|Poke bowl*1|15 min|Cuis le riz et laisse-le tiédir / Ajoute poisson ou poulet, légumes crus et avocat / Assaisonne à la sauce soja
+Sushi, maki et edamame|dj,di|kp|Sushi / maki*1;Edamame*1|10 min|Prépare ou achète tes sushi / Cuis les edamame 4 min / Sers avec la sauce soja
+Colin, purée et brocoli|dj,di|gk|Colin / lieu (cuit)*1;Purée de pommes de terre*1;Brocoli (cuit)*1|20 min|Cuis le colin 10 min au four / Réchauffe la purée / Cuis le brocoli 5 min
+Crevettes, pâtes à l’ail|dj,di|kp|Crevettes (cuites)*1.5;Pâtes (cuites)*1;Huile d’olive*.5|15 min|Cuis les pâtes / Fais sauter les crevettes avec de l’ail 3 min / Mélange avec les pâtes et l’huile
+Crevettes sautées, riz et légumes|dj,di|gkp|Crevettes (cuites)*1.5;Riz blanc (cuit)*1;Poivron*1;Courgette (cuite)*1;Sauce soja*.5|20 min|Cuis le riz / Fais sauter les légumes 6 min / Ajoute les crevettes et la sauce soja 3 min
+Moules-frites|dj,di|m|Moules (cuites)*1.5;Frites*1|30 min|Cuis les moules 6 min avec oignon et vin blanc ou eau / Cuis les frites au four / Sers ensemble
+Saumon fumé, pommes de terre et fromage blanc|dj,di|g|Saumon fumé*3;Pommes de terre (cuites)*1;Fromage blanc 0 %*1|20 min|Cuis les pommes de terre 20 min / Mélange le fromage blanc avec ciboulette et citron / Sers avec le saumon fumé
+Omelette, salade et pain|dj,di|gk|Omelette nature*1.5;Salade verte*1;Pain complet*1|10 min|Bats les œufs avec sel et poivre / Cuis l’omelette 3 à 4 min / Sers avec salade et pain
+Lentilles, œuf et carottes|dj,di|gk|Lentilles (cuites)*1;Œuf (entier)*1;Carotte*1;Huile d’olive*.5|25 min|Cuis les lentilles 20 min / Cuis les carottes en rondelles 8 min / Fais cuire l’œuf au plat
+Lentilles et saucisses|dj,di|m|Lentilles (cuites)*1.5;Saucisse de porc (cuite)*1;Carotte*1|30 min|Cuis les lentilles 20 min / Poêle les saucisses 10 min / Ajoute les carottes cuites
+Tofu sauté, riz et brocoli|dj,di|gkp|Tofu nature*1.5;Riz blanc (cuit)*1;Brocoli (cuit)*1;Sauce soja*.5|20 min|Cuis le riz / Fais dorer le tofu en cubes 6 min / Ajoute le brocoli et la sauce soja 2 min
+Chili sin carne|dj,di|kp|Haricots rouges (cuits)*1.5;Riz blanc (cuit)*1;Maïs (conserve)*1;Sauce tomate*1|25 min|Cuis le riz / Chauffe haricots, maïs et sauce tomate 12 min avec paprika / Sers sur le riz
+Curry de pois chiches et riz|dj,di|kp|Pois chiches (cuits)*1.5;Riz basmati (cuit)*1;Épinards (cuits)*1;Sauce tomate*.5|25 min|Cuis le riz / Fais revenir les pois chiches avec curry 5 min / Ajoute épinards et sauce tomate, mijote 8 min
+Falafels, houmous et pita|dj,di|mk|Falafel*1;Houmous*1;Pain pita*1;Tomate*1|15 min|Réchauffe les falafels 8 min au four / Ouvre la pita et tartine de houmous / Garnis de falafels et de tomate
+Pâtes aux légumes et parmesan|dj,di|kp|Pâtes (cuites)*1;Ratatouille*1;Parmesan*.5|15 min|Cuis les pâtes / Réchauffe la ratatouille / Mélange et parsème de parmesan
+Quiche et salade|dj,di|mk|Quiche lorraine*1;Salade verte*1|10 min|Réchauffe la quiche 10 min au four / Assaisonne la salade
+Tempeh, riz et légumes|dj,di|gkp|Tempeh*1;Riz blanc (cuit)*1;Poivron*1;Brocoli (cuit)*1|20 min|Cuis le riz / Fais dorer le tempeh en cubes 6 min / Ajoute les légumes et la sauce soja
+Seitan sauté et riz basmati|dj,di|kp|Seitan*1.5;Poivron*1;Riz basmati (cuit)*1|20 min|Cuis le riz / Fais sauter le seitan et les poivrons 8 min / Sers sur le riz
+Salade de lentilles et feta|dj,di|gk|Lentilles (cuites)*1;Feta*1;Tomates cerises*1;Concombre*1|10 min|Mélange lentilles cuites, tomates cerises et concombre / Émiette la feta dessus / Assaisonne
+Buddha bowl pois chiches et quinoa|dj,di|kp|Pois chiches (cuits)*1;Quinoa (cuit)*1;Avocat*.5;Carotte*1;Tomates cerises*1|20 min|Cuis le quinoa 12 min / Dispose tous les ingrédients dans un bol / Assaisonne citron et huile
+Soupe de légumes et sandwich|dj,di|kp|Soupe de légumes*1;Sandwich jambon-beurre*1|5 min|Réchauffe la soupe / Sers avec le sandwich
+Soupe de légumes, pain et comté|dj,di|gp|Soupe de légumes*1.5;Pain complet*1;Comté*.7|5 min|Réchauffe la soupe / Sers avec le pain et le fromage
+Pizza et salade|dj,di|mkp|Pizza*2;Salade verte*1|20 min|Réchauffe la pizza au four / Assaisonne la salade
+Pâtes carbonara|dj,di|mkp|Pâtes carbonara*1|20 min|Cuis les pâtes / Fais revenir les lardons 4 min / Mélange hors du feu avec œufs battus et fromage
+Lasagnes et salade|dj,di|mk|Lasagnes*1;Salade verte*1|10 min|Réchauffe les lasagnes au four / Assaisonne la salade
+Riz cantonais|dj,di|kp|Riz cantonais*1|15 min|Fais sauter riz, jambon, petits pois et œuf brouillé 6 min / Assaisonne à la sauce soja
+Taboulé au poulet|dj,di|mgkp|Taboulé*1;Poulet blanc (cuit)*1|10 min|Prépare le taboulé avec semoule, tomate, persil et citron / Ajoute le poulet en dés
+Salade de pâtes au thon|dj,di|kp|Salade de pâtes*1;Thon au naturel (conserve)*.8|10 min|Mélange les pâtes froides, le thon et les légumes / Assaisonne
+Couscous complet|dj,di|kp|Couscous (plat complet)*1|20 min|Réchauffe le plat / Gonfle la semoule à l’eau chaude / Sers ensemble
+Croque-monsieur et salade|dj,di|mk|Croque-monsieur*1;Salade verte*1|12 min|Chauffe le croque 8 min au four ou à la poêle / Assaisonne la salade
+Poulet, riz et avocat|dj,di|m|Poulet blanc (cuit)*1.5;Riz blanc (cuit)*1.5;Avocat*1|20 min|Cuis le riz / Poêle le poulet 8 min / Ajoute l’avocat en lamelles
+Porc, polenta et haricots verts|dj,di|gk|Porc filet (cuit)*1;Polenta (cuite)*1;Haricots verts (cuits)*1|25 min|Cuis la polenta 10 min / Poêle le porc 6 min / Cuis les haricots verts 8 min
+Jambon, œuf et pommes de terre sautées|dj,di|m|Jambon blanc*2;Œuf (entier)*2;Pommes de terre sautées*1|20 min|Fais sauter les pommes de terre 12 min / Ajoute jambon et œufs au plat 3 min
+Dinde, boulgour et courgettes|dj,di|gkp|Dinde escalope (cuite)*1;Boulgour (cuit)*1;Courgette (cuite)*1|20 min|Cuis le boulgour 10 min / Poêle la dinde 4 min par face / Poêle les courgettes 6 min
+Poulet, couscous et légumes|dj,di|mgkp|Poulet blanc (cuit)*1;Couscous (cuit)*1;Ratatouille*1|15 min|Gonfle la semoule à l’eau chaude 5 min / Réchauffe la ratatouille / Ajoute le poulet
+Gigot, haricots blancs et haricots verts|dj,di|mgk|Agneau gigot (cuit)*1;Haricots blancs (cuits)*1;Haricots verts (cuits)*1|20 min|Réchauffe les haricots blancs avec un peu d’ail / Tranche le gigot / Cuis les haricots verts 8 min
+Steak végétal, riz et brocoli|dj,di|gk|Steak végétal*1.5;Riz blanc (cuit)*1;Brocoli (cuit)*1|20 min|Cuis le riz / Poêle les steaks végétaux 4 min par face / Cuis le brocoli 5 min
+Gnocchis, sauce tomate et poulet|dj,di|mgkp|Gnocchis (cuits)*1;Sauce tomate*1;Poulet blanc (cuit)*1|15 min|Cuis les gnocchis 3 min dans l’eau bouillante / Réchauffe le poulet dans la sauce tomate / Mélange
+Pita au poulet et houmous|dj,di|mgk|Pain pita*1;Poulet blanc (cuit)*1;Houmous*1;Tomate*1|10 min|Réchauffe la pita / Tartine de houmous / Garnis de poulet et de tomate
+Salade de quinoa et thon|dj,di|gk|Quinoa (cuit)*1;Thon au naturel (conserve)*1;Poivron*1;Concombre*1;Huile d’olive*.5|15 min|Cuis le quinoa 12 min / Mélange avec thon, poivron et concombre / Assaisonne
+Poulet et chou-fleur rôti|dj,di|g|Poulet blanc (cuit)*1.3;Chou-fleur (cuit)*2;Huile d’olive*.5|30 min|Coupe le chou-fleur en bouquets et rôtis-le 20 min à 200 °C / Poêle le poulet 8 min / Assaisonne
+Omelette aux légumes|dj,di|g|Omelette nature*1.5;Courgette (cuite)*1;Tomate*1|12 min|Poêle la courgette 5 min / Verse les œufs battus et cuis 4 min / Ajoute la tomate
+Saumon, riz et avocat|dj,di|mp|Saumon (cuit)*1;Riz blanc (cuit)*1.5;Avocat*.5|20 min|Cuis le riz / Cuis le saumon 10 min au four / Ajoute l’avocat en lamelles
+Poulet, riz complet et haricots verts|dj,di|mgkp|Poulet blanc (cuit)*1;Riz complet (cuit)*1;Haricots verts (cuits)*1|25 min|Cuis le riz complet 20 min / Poêle le poulet 8 min / Cuis les haricots verts 8 min
+Thon, pâtes complètes et courgettes|dj,di|kp|Thon au naturel (conserve)*1;Pâtes complètes (cuites)*1;Courgette (cuite)*1;Sauce tomate*.5|20 min|Cuis les pâtes / Poêle les courgettes 6 min / Mélange avec le thon et la sauce tomate
+Dinde, quinoa et épinards|dj,di|mgk|Dinde escalope (cuite)*1;Quinoa (cuit)*1;Épinards (cuits)*1|20 min|Cuis le quinoa 12 min / Poêle la dinde 4 min par face / Fais tomber les épinards 3 min
+Œufs brouillés, tomates et pain|dj,di|gk|Œufs brouillés*1;Tomate*2;Pain complet*2|10 min|Poêle les tomates en rondelles 3 min / Ajoute les œufs et brouille à feu doux / Sers avec le pain
+Cottage cheese, thon et salade|dj,di|g|Cottage cheese*1.5;Thon au naturel (conserve)*1;Salade verte*2;Tomate*1|8 min|Mélange salade et tomate / Ajoute thon et cottage cheese / Assaisonne
+Pâtes à la sauce tomate et mozzarella|dj,di|mkp|Pâtes (cuites)*1;Sauce tomate*1;Mozzarella*1|15 min|Cuis les pâtes / Réchauffe la sauce / Mélange avec la mozzarella en dés
+Riz, œuf au plat et avocat|dj,di|mkp|Riz blanc (cuit)*1.5;Œuf (entier)*2;Avocat*.5;Sauce soja*.5|15 min|Cuis le riz / Fais cuire les œufs au plat / Sers avec l’avocat et la sauce soja
+Saumon fumé, avocat et pain complet|dj,di|gk|Saumon fumé*3;Avocat*.5;Pain complet*2|8 min|Fais griller le pain / Écrase l’avocat dessus / Ajoute le saumon fumé et du citron
+Pommes de terre, œuf et jambon|dj,di|km|Pommes de terre (cuites)*1.5;Œuf (entier)*2;Jambon blanc*2;Salade verte*1|25 min|Cuis les pommes de terre 20 min / Cuis les œufs au plat / Sers avec le jambon et la salade
+Poulet, boulgour et poivrons|dj,di|mgkp|Poulet blanc (cuit)*1;Boulgour (cuit)*1;Poivron*1;Huile d’olive*.5|20 min|Cuis le boulgour 10 min / Poêle le poulet et les poivrons 8 min / Mélange
+Cabillaud, patate douce et épinards|dj,di|gk|Cabillaud (cuit)*1;Patate douce (cuite)*1;Épinards (cuits)*1|25 min|Cuis la patate douce 20 min au four / Cuis le cabillaud 10 min / Fais tomber les épinards
+Bœuf, nouilles de riz et légumes|dj,di|mkp|Steak de bœuf (cuit)*1;Riz blanc (cuit)*1.5;Poivron*1;Carotte*1;Sauce soja*.5|25 min|Cuis le riz / Saisis le bœuf en lamelles 3 min / Ajoute les légumes et la sauce soja 5 min
+Gratin dauphinois et poulet|dj,di|m|Gratin dauphinois*1;Poulet blanc (cuit)*1;Haricots verts (cuits)*1|20 min|Réchauffe le gratin au four 15 min / Poêle le poulet 8 min / Cuis les haricots verts
+Saucisses, purée et haricots verts|dj,di|m|Saucisse de porc (cuite)*1;Purée de pommes de terre*1.5;Haricots verts (cuits)*1|25 min|Poêle les saucisses 10 min / Réchauffe la purée / Cuis les haricots verts 8 min
+Poulet, riz et petits pois|dj,di|mkp|Poulet blanc (cuit)*1;Riz blanc (cuit)*1.2;Petits pois*1|20 min|Cuis le riz / Poêle le poulet 8 min / Réchauffe les petits pois 4 min
+Pâtes au saumon fumé|dj,di|mkp|Pâtes (cuites)*1;Saumon fumé*2;Crème légère 15 %*1|15 min|Cuis les pâtes / Mélange avec la crème / Ajoute le saumon fumé coupé
+Crevettes, quinoa et avocat|dj,di|gk|Crevettes (cuites)*1.5;Quinoa (cuit)*1;Avocat*.5;Tomate*1|20 min|Cuis le quinoa 12 min / Mélange avec les crevettes, l’avocat et la tomate / Assaisonne citron
+Lentilles corail et riz|dj,di|kp|Lentilles (cuites)*1.5;Riz blanc (cuit)*1;Carotte*1;Sauce tomate*.5|25 min|Cuis le riz / Réchauffe les lentilles avec carotte et sauce tomate / Sers sur le riz
+Soupe de légumes et œufs durs|dj,di|g|Soupe de légumes*1.5;Œuf dur*2;Pain complet*1|12 min|Cuis les œufs 9 min / Réchauffe la soupe / Sers avec le pain
+Pâtes de riz au tofu|dj,di|kp|Tofu nature*1.5;Riz blanc (cuit)*1.5;Poivron*1;Sauce soja*.5|20 min|Cuis le riz / Fais dorer le tofu 6 min / Ajoute poivron et sauce soja
+Poulet et ratatouille légère|dj,di|mg|Poulet blanc (cuit)*1.3;Ratatouille*1.5|15 min|Réchauffe la ratatouille / Poêle le poulet 8 min / Sers ensemble
+Thon et salade de haricots blancs|dj,di|gk|Thon au naturel (conserve)*1;Haricots blancs (cuits)*1;Tomates cerises*1;Oignon*.5|8 min|Égoutte thon et haricots / Mélange avec tomates cerises et oignon émincé / Assaisonne
+Pâtes complètes, bœuf haché et légumes|dj,di|mkp|Pâtes complètes (cuites)*1;Bœuf haché 5 % (cuit)*1;Sauce tomate*1;Courgette (cuite)*1|25 min|Cuis les pâtes / Poêle la viande 5 min / Ajoute courgette et sauce tomate 8 min / Mélange
+Riz au poulet et au curry|dj,di|mkp|Riz blanc (cuit)*1.2;Poulet blanc (cuit)*1;Petits pois*.7;Crème légère 15 %*.5|20 min|Cuis le riz / Poêle le poulet avec curry 6 min / Ajoute petits pois et crème 3 min
+Salade complète œuf, jambon, fromage|dj,di|gk|Salade verte*2;Œuf dur*1;Jambon blanc*2;Emmental*.5;Tomate*1|10 min|Cuis l’œuf 9 min / Assemble salade, tomate, jambon et fromage / Ajoute l’œuf et assaisonne
+Pâtes au pesto et poulet|dj,di|mp|Pâtes (cuites)*1;Poulet blanc (cuit)*1;Pesto*1|15 min|Cuis les pâtes / Poêle le poulet 8 min / Mélange avec le pesto
+Bœuf haché, riz et haricots rouges|dj,di|mp|Bœuf haché 5 % (cuit)*1;Riz blanc (cuit)*1.5;Haricots rouges (cuits)*1|25 min|Cuis le riz / Poêle la viande 5 min / Ajoute les haricots rouges 5 min
+Œufs durs, avocat et banane|pd|mgkp|Œuf dur*3;Avocat*.5;Banane*1|12 min|Cuis les œufs 9 min et écale-les / Coupe l’avocat en deux et assaisonne / Sers avec la banane
+Omelette et patate douce|pd|mkp|Omelette nature*1.5;Patate douce (cuite)*1|20 min|Cuis la patate douce au four 20 min / Prépare l’omelette 4 min à la poêle / Sers ensemble
+Galettes de riz, œufs brouillés et avocat|pd|mk|Galette de riz*4;Œufs brouillés*1;Avocat*.5|8 min|Prépare les œufs brouillés / Écrase l’avocat sur les galettes de riz / Ajoute les œufs dessus
+Yaourt végétal, banane et amandes|pd,co|kp|Yaourt végétal (soja)*1;Banane*1;Amandes*.5|3 min|Mets le yaourt dans un bol / Ajoute la banane en rondelles et les amandes
+Smoothie avoine, banane et protéine végétale|pd,co|mgp|Lait d’avoine*1.5;Banane*1;Protéine végétale (poudre)*1|4 min|Mets tout dans un blender / Mixe 40 secondes
+Œufs brouillés, patate douce et avocat|pd,dj,di|mk|Œufs brouillés*1;Patate douce (cuite)*1;Avocat*.5|20 min|Cuis la patate douce 20 min au four / Prépare les œufs brouillés / Ajoute l’avocat en lamelles
+Banane, dattes et amandes|co|mp|Banane*1;Dattes*1;Amandes*.5|1 min|Mange la banane avec les dattes et les amandes
+Galettes de riz, jambon et tomate|co|gk|Galette de riz*3;Jambon blanc*2;Tomate*1|4 min|Pose le jambon sur les galettes / Ajoute la tomate en tranches
+Œufs durs et galettes de riz|co|gk|Œuf dur*2;Galette de riz*3|10 min|Cuis les œufs 9 min / Écale-les et mange avec les galettes de riz`;
 
 /* ===== nutrition : menu, semaine, idées, repas types (V163) ===== */
 var NUV="",NUM="";
-const NUID=NUIDDATA.split("\n").map(l=>l.trim()).filter(Boolean).map(l=>{const a=l.split("|");return{n:a[0],m:a[1].split(","),it:a[2].split(";").map(x=>{const y=x.split("*");return[y[0],+y[1]]})}}).map(r=>{const items=r.it.map(([nm,q])=>({f:NUF.find(f=>f.n===nm),q})).filter(o=>o.f);return Object.assign(r,{items,ok:items.length===r.it.length})}).filter(r=>r.ok).map(r=>{const t={k:0,p:0,c:0,l:0};r.items.forEach(o=>{const x=o.f.pt*o.q/100;t.k+=o.f.k*x;t.p+=o.f.p*x;t.c+=o.f.g*x;t.l+=o.f.l*x});r.t=t;return r});
 const nuBack=()=>'<button class="lnk nubk" data-nu="v" data-v="">‹ Nutrition</button>';
 const nuDays=n=>{const a=[];for(let i=n-1;i>=0;i--){const t=new Date();t.setDate(t.getDate()-i);a.push(t.getFullYear()+"-"+String(t.getMonth()+1).padStart(2,"0")+"-"+String(t.getDate()).padStart(2,"0"))}return a};
 function rNutHub(e){const d=today(),tg=nuTarget(d),to=nuTot(d),n=S.nut,w=nuDays(7).map(x=>nuTot(x)).filter(t=>t.k>0),rest=Math.max(0,tg.p-to.p);
@@ -4231,6 +4373,7 @@ function rNutHub(e){const d=today(),tg=nuTarget(d),to=nuTot(d),n=S.nut,w=nuDays(
  e.innerHTML=row("🍽️","Aujourd’hui",Math.round(to.p)+" / "+tg.p+" g de protéines · "+nuK(to.k)+" kcal","day")
   +row("💡","Idées de repas",rest>0?"Il te reste "+Math.round(rest)+" g de protéines à placer":"Objectif protéines atteint","ideas")
   +row("📊","Semaine",w.length?"Moyenne "+nuK(w.reduce((a,t)=>a+t.k,0)/w.length)+" kcal · "+w.length+" jour"+(w.length>1?"s":"")+" renseigné"+(w.length>1?"s":""):"Aucun repas renseigné cette semaine","week")
+  +row("🛡️","Allergies et régime",((n.al||[]).length||n.veg)?((n.al||[]).map(k=>NUAL.find(z=>z[0]===k)[1]).concat(n.veg?["Végétarien"]:[]).join(", ")):"Aucune","al")
   +row("⭐","Mes repas types",(n.perso||[]).length?(n.perso.length+" enregistré"+(n.perso.length>1?"s":"")):"Aucun pour l’instant","types")
   +'<p class="m" style="text-align:center;font-size:12.5px;margin-top:6px">Objectif : « '+NUO.find(o=>o[0]===n.obj)[1]+' ». <button class="lnk" data-nu="redo" style="display:inline;margin:0">Modifier</button></p>'}
 function nuChart(vals,tgt,col,unit){const W=320,H=120,pt=18,pb=18,mx=Math.max(tgt*1.25,...vals.map(v=>v||0),1),bw=30,gap=(W-7*bw)/8,y=v=>H-pb-(v/mx)*(H-pt-pb);
@@ -4258,24 +4401,78 @@ function rNutWeek(e){const ds=nuDays(7),tt=ds.map(d=>nuTot(d)),tg=ds.map(d=>nuTa
   +'<div class="c"><h3 style="margin:0 0 6px">Protéines <small style="color:var(--mu);font-weight:500">objectif ≈ '+tp+' g</small></h3>'+nuChart(tt.map(t=>t.p),tp,"var(--ac)")+'</div>'
   +(wt.length>=2?'<div class="c"><b>Poids</b> <span class="m">'+fnum(wt[0].kg)+' → '+fnum(wt[wt.length-1].kg)+' kg ('+(wt[wt.length-1].kg-wt[0].kg>=0?"+":"")+fnum(wt[wt.length-1].kg-wt[0].kg)+' kg)</span></div>':'')
   +'<div class="nutp">💬 <span>'+msg+'</span></div>'}
-function nuIdeas(m,d){const tg=nuTarget(d),to=nuTot(d),sh={pd:.25,dj:.35,co:.12,di:.28}[m],remK=Math.max(0,tg.k-to.k),remP=Math.max(0,tg.p-to.p),done=nuDay(d).m[m]||[];
- const bk=Math.max(150,Math.min(remK,tg.k*sh)),bp=Math.max(10,Math.min(remP,tg.p*sh));
- return NUID.filter(r=>r.m.includes(m)).map(r=>({r,s:Math.abs(r.t.k-bk)/bk+.6*Math.max(0,bp-r.t.p)/bp+.3*Math.max(0,r.t.p-bp*1.8)/bp})).sort((a,b)=>a.s-b.s).slice(0,6).map(o=>o.r)}
-function rNutIdeas(e){const d=today(),tg=nuTarget(d),to=nuTot(d),m=NUM||nuMeal(),L=nuIdeas(m,d);
+/* allergies & régime */
+const NUAL=[["gluten","Gluten"],["lactose","Lait / lactose"],["oeufs","Œufs"],["arachide","Arachide"],["coque","Fruits à coque"],["poisson","Poisson"],["mer","Crustacés / mollusques"],["soja","Soja"],["sesame","Sésame"]];
+const NUALR={
+ gluten:/pates|semoule|boulgour|couscous|\bble\b|ebly|pain|baguette|wrap|tortilla|bagel|biscotte|croissant|brioche|crepe|pancake|gaufre|flocons d.avoine|muesli|corn flakes|granola|cereales|crackers|seitan|panee|nuggets|cordon|pizza|burger|kebab|sandwich|croque|lasagne|quiche|raviolis|nems|gnocchi|biscuit|petit-beurre|cookie|barre de cereales|madeleine|muffin|brownie|gateau|tarte|eclair|biere|taboule|bolognaise|carbonara|sauce soja|pita|gainer|barre proteinee|poke|sushi/,
+ lactose:/lait|yaourt|skyr|fromage|petit-suisse|cottage|ricotta|emmental|comte|gruyere|mozzarella|feta|chevre|camembert|brie|roquefort|parmesan|creme|beurre|danette|riz au lait|flan|glace|whey|caseine|gainer|shaker|croissant|brioche|pizza|gratin|lasagne|quiche|carbonara|croque|pate a tartiner|boisson proteinee|barre proteinee|pesto|hachis|burger/,
+ oeufs:/oeuf|omelette|mayonnaise|pancake|gaufre|crepe|brioche|madeleine|muffin|brownie|gateau|flan|eclair|quiche|panee|nuggets|cordon|lasagne|carbonara|glace|cantonais/,
+ arachide:/cacahuete|melange de fruits secs/,
+ coque:/amande|noix|noisette|cajou|pistache|melange de fruits secs|muesli|granola|pate a tartiner|pesto|barre proteinee/,
+ poisson:/saumon|thon|cabillaud|colin|sardine|maquereau|truite|dorade|surimi|poke|sushi|maki/,
+ mer:/crevette|moule|surimi|poke|sushi|maki/,
+ soja:/soja|tofu|tempeh|edamame|steak vegetal|nems|cantonais|poke|sushi|barre proteinee|yaourt vegetal/,
+ sesame:/houmous|falafel|poke/,
+ viande:/poulet|dinde|jambon|boeuf|entrecote|roti de|veau|porc|lardons|bacon|saucisse|merguez|chipolata|saucisson|agneau|canard|foie|nuggets|cordon|burger|kebab|lasagne|bolognaise|carbonara|hachis|raviolis|cantonais|nems|plat complet|lorraine|escalope|steak de/};
+const _nuAlC={};
+function nuAl(name){if(_nuAlC[name])return _nuAlC[name];const n=nrm(name),r=[];
+ if(!/sans gluten/.test(n)&&NUALR.gluten.test(n))r.push("gluten");
+ if(!/sans lactose|vegetal|lait d.(amande|soja|avoine|coco)|beurre de/.test(n)&&NUALR.lactose.test(n))r.push("lactose");
+ ["oeufs","arachide","coque","poisson","mer","soja","sesame"].forEach(k=>{if(NUALR[k].test(n))r.push(k)});
+ if(NUALR.viande.test(n)||r.includes("poisson")||r.includes("mer"))r.push("viande");
+ return _nuAlC[name]=r}
+function nuHit(name){const n=S.nut||{},al=n.al||[],a=nuAl(name),h=a.filter(k=>al.includes(k)).map(k=>NUAL.find(z=>z[0]===k)[1]);if(n.veg&&a.includes("viande"))h.push("viande / poisson");return h}
+const nuWarn=name=>{const h=nuHit(name);return h.length?'<small class="nuwarn">⚠ contient : '+esc(h.join(", "))+'</small>':""};
+function nuAlChips(){const n=S.nut||{},al=n.al||[];return'<div class="nuchs" style="flex-wrap:wrap;overflow:visible">'+NUAL.map(z=>'<button class="nuch'+(al.includes(z[0])?' on':'')+'" data-nu="al" data-v="'+z[0]+'">'+z[1]+'</button>').join("")+'<button class="nuch'+(n.veg?' on':'')+'" data-nu="al" data-v="veg">Végétarien</button></div>'}
+const NUSG={"Pâtes (cuites)":"Pâtes sans gluten (cuites)","Pâtes complètes (cuites)":"Pâtes sans gluten (cuites)","Pâtes (crues)":"Pâtes sans gluten (cuites)","Pain complet":"Pain sans gluten","Pain de mie":"Pain sans gluten","Baguette":"Pain sans gluten","Pain aux céréales":"Pain sans gluten"};
+const NUSL={"Lait demi-écrémé":"Lait sans lactose","Lait entier":"Lait sans lactose","Lait écrémé":"Lait sans lactose","Yaourt nature":"Yaourt sans lactose"};
+/* recettes */
+var NUSH=8,NUCUR=[];
+const NUID=NUIDDATA.split("\n").map(l=>l.trim()).filter(Boolean).map(l=>{const a=l.split("|");return{n:a[0],m:a[1].split(","),o:a[2],it:a[3].split(";").map(x=>{const y=x.split("*");return[y[0],+y[1]]}),tm:a[4]||"",st:(a[5]||"").split(" / ").filter(Boolean)}}).filter(r=>r.it.every(([nm])=>NUF.some(f=>f.n===nm)));
+function nuRes(r,bk){const al=(S.nut||{}).al||[],notes=[];
+ let items=r.it.map(([nm,q])=>{let f=NUF.find(x=>x.n===nm);const a=nuAl(f.n);
+  if(al.includes("gluten")&&a.includes("gluten")&&NUSG[f.n]){const g=NUF.find(x=>x.n===NUSG[f.n]);if(g){notes.push(f.n.replace(/ \(.*\)/,"").toLowerCase()+" → "+g.n.replace(/ \(.*\)/,"").toLowerCase());f=g}}
+  else if(al.includes("lactose")&&a.includes("lactose")&&NUSL[f.n]){const g=NUF.find(x=>x.n===NUSL[f.n]);if(g){notes.push(f.n.toLowerCase()+" → "+g.n.toLowerCase());f=g}}
+  return{f,q}});
+ if(items.some(o=>nuHit(o.f.n).length))return null;
+ const k0=items.reduce((s,o)=>s+o.f.k*o.f.pt*o.q/100,0),sc=Math.max(.7,Math.min(1.5,bk/Math.max(1,k0)));
+ items=items.map(o=>({f:o.f,q:Math.max(.25,Math.round(o.q*sc*4)/4)}));
+ const t={k:0,p:0,c:0,l:0};items.forEach(o=>{const x=o.f.pt*o.q/100;t.k+=o.f.k*x;t.p+=o.f.p*x;t.c+=o.f.g*x;t.l+=o.f.l*x});
+ return{r,items,t,notes,sc}}
+function nuIdeas(m,d){const n=S.nut||{},tg=nuTarget(d),to=nuTot(d),sh={pd:.25,dj:.35,co:.12,di:.28}[m],remK=Math.max(0,tg.k-to.k),remP=Math.max(0,tg.p-to.p),bk=Math.max(150,Math.min(remK||tg.k*sh,tg.k*sh*1.25)),bp=Math.max(10,Math.min(remP||tg.p*sh,tg.p*sh*1.25));
+ const hs=s=>{let h=0;for(let i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))%997;return h/997};
+ return NUID.filter(r=>r.m.includes(m)&&r.o.includes(n.obj||"k")).map(r=>nuRes(r,bk)).filter(Boolean).map(x=>({x,s:Math.abs(x.t.k-bk)/bk+.6*Math.max(0,bp-x.t.p)/bp+.3*Math.max(0,x.t.p-bp*1.8)/bp+.35*hs(d+x.r.n)})).sort((a,b)=>a.s-b.s).map(o=>o.x)}
+function rNutIdeas(e){const d=today(),tg=nuTarget(d),to=nuTot(d),m=NUM||nuMeal(),L=nuIdeas(m,d),n=S.nut||{};NUCUR=L;const ob=NUO.find(o=>o[0]===n.obj)[1];
  e.innerHTML=nuBack()+'<div class="nuhd"><b>Idées de repas</b></div><div class="nutp">🎯 <span>Il te reste <b>'+nuK(Math.max(0,tg.k-to.k))+' kcal</b> et <b>'+Math.round(Math.max(0,tg.p-to.p))+' g de protéines</b> aujourd’hui.</span></div>'
   +'<div class="nuchs">'+NM.map(x=>'<button class="nuch'+(m===x[0]?' on':'')+'" data-nu="idm" data-v="'+x[0]+'">'+x[1]+'</button>').join("")+'</div>'
-  +L.map(r=>{const i=NUID.indexOf(r);return'<div class="c nuid"><b>'+esc(r.n)+'</b><p class="m" style="margin:2px 0 6px;font-size:13px">'+r.items.map(o=>esc(o.f.n.replace(/ \(.*\)/,""))+(o.q!==1?" ×"+o.q:"")).join(" · ")+'</p><div class="nuidm"><span><b>'+Math.round(r.t.k)+'</b> kcal</span><span><b>'+Math.round(r.t.p)+'</b> g prot.</span><span>G '+Math.round(r.t.c)+'</span><span>L '+Math.round(r.t.l)+'</span></div><button class="b" data-nu="idadd" data-i="'+i+'" data-m="'+m+'" style="margin-top:8px;width:100%">Ajouter au '+NM.find(x=>x[0]===m)[1].toLowerCase()+'</button></div>'}).join("")
-  +'<p class="m" style="text-align:center;font-size:12.5px">Propositions calculées d’après ton objectif et ce qu’il te reste à manger.</p>'}
+  +'<p class="m" style="margin:0;font-size:12.5px">'+L.length+' recette'+(L.length>1?'s':'')+' pour « '+ob+' »'+((n.al||[]).length||n.veg?' · filtrées selon tes allergies':'')+'</p>'
+  +L.slice(0,NUSH).map((x,i)=>{const r=x.r;return'<div class="c nuid"><b>'+esc(r.n)+'</b><p class="m" style="margin:2px 0 6px;font-size:13px">'+x.items.map(o=>esc(o.f.n.replace(/ \(.*\)/,""))).join(" · ")+'</p><div class="nuidm"><span><b>'+Math.round(x.t.k)+'</b> kcal</span><span><b>'+Math.round(x.t.p)+'</b> g prot.</span><span>G '+Math.round(x.t.c)+'</span><span>L '+Math.round(x.t.l)+'</span></div>'
+   +(x.notes.length?'<p class="m" style="margin:6px 0 0;font-size:12.5px">✓ Adapté : '+esc(x.notes.join(", "))+'</p>':'')
+   +'<details class="nud nurc"><summary>Voir la recette'+(r.tm?' · '+r.tm:'')+'</summary><p class="nuhh" style="margin:8px 0 2px">Ingrédients (quantités adaptées à ton objectif)</p><ul>'+x.items.map(o=>'<li>'+esc(o.f.n)+' — '+Math.round(o.f.pt*o.q)+' g</li>').join("")+'</ul><p class="nuhh" style="margin:8px 0 2px">Préparation</p><ol>'+r.st.map(z=>'<li>'+esc(z)+'.</li>').join("")+'</ol>'+(x.items.some(o=>/\(cuit/.test(o.f.n))?'<p class="m" style="font-size:12px">Poids après cuisson quand c’est indiqué « cuit ».</p>':'')+'</details><button class="b" data-nu="idadd" data-i="'+i+'" data-m="'+m+'" style="margin-top:8px;width:100%">Ajouter au '+NM.find(z=>z[0]===m)[1].toLowerCase()+'</button></div>'}).join("")
+  +(L.length>NUSH?'<button class="b g" data-nu="more" style="width:100%">Voir plus de recettes</button>':'')
+  +(L.length?'':'<div class="c"><b>Aucune recette pour ce repas</b><p class="m" style="margin:4px 0 0">Vérifie tes allergies dans « Allergies et régime », ou essaie un autre repas.</p></div>')
+  +'<p class="m" style="text-align:center;font-size:12.5px">Propositions calculées d’après ton objectif et ce qu’il te reste à manger. Vérifie toujours les étiquettes en cas d’allergie.</p>'}
+function rNutAl(e){const n=S.nut||{};
+ e.innerHTML=nuBack()+'<div class="nuhd"><b>Allergies et régime</b></div><p class="m">Choisis ce que tu dois éviter. Les recettes qui en contiennent disparaissent des idées, et les aliments concernés sont marqués d’un ⚠ dans la recherche.</p>'+nuAlChips()
+  +'<div class="nutp">⚠ <span>Les allergènes sont repérés d’après le nom des aliments. <b>Lis toujours les étiquettes</b> : en cas d’allergie sévère, ne te fie pas uniquement à l’appli.</span></div>'}
 function rNutTypes(e){const P=nuN().perso;
  e.innerHTML=nuBack()+'<div class="nuhd"><b>Mes repas types</b></div>'+(P.length?P.map((t,i)=>{const s=t.items.reduce((a,v)=>({k:a.k+v.k,p:a.p+v.p}),{k:0,p:0});return'<div class="c nuid"><b>'+esc(t.n)+'</b><p class="m" style="margin:2px 0 6px;font-size:13px">'+t.items.map(v=>esc(v.n)).join(" · ")+'</p><div class="nuidm"><span><b>'+Math.round(s.k)+'</b> kcal</span><span><b>'+Math.round(s.p)+'</b> g prot.</span></div><div class="nuchs" style="margin-top:8px">'+NM.map(x=>'<button class="nuch" data-nu="tadd" data-i="'+i+'" data-m="'+x[0]+'">+ '+x[1]+'</button>').join("")+'</div><div style="display:flex;gap:14px;margin-top:6px"><button class="lnk" data-nu="trn" data-i="'+i+'" style="margin:0">Renommer</button><button class="lnk" data-nu="tdel" data-i="'+i+'" style="margin:0">Supprimer</button></div></div>'}).join(""):'<div class="c"><b>Aucun repas type pour l’instant</b><p class="m" style="margin:4px 0 0">Dans « Aujourd’hui », appuie sur « Enregistrer comme repas type » sous un repas : tu le retrouveras ici et dans la recherche.</p></div>')}
 document.addEventListener("click",ev=>{const b=ev.target.closest("#nutr [data-nu]");if(!b)return;const k=b.dataset.nu,v=b.dataset.v,i=+b.dataset.i,n=nuN(),d=today();
  if(k==="v"){NUV=v;NUDT=null;rNut();scrollTo(0,0);return}
- if(k==="idm"){NUM=v;rNut();return}
- if(k==="idadd"){const r=NUID[i],m=b.dataset.m,ids=[];r.items.forEach(o=>{const en=nuEnt(nuFv(o.f),o.q);ids.push(en.id);nuAdd(m,en)});rNut();toastU("Ajouté : "+r.n,()=>{const L=nuDayW(d).m[m];ids.forEach(id=>{const j=L.findIndex(z=>z.id===id);if(j>=0)L.splice(j,1)});save();rNut()});return}
+ if(k==="idm"){NUM=v;NUSH=8;rNut();return}
+ if(k==="idadd"){const x=NUCUR[i],m=b.dataset.m,ids=[];if(!x)return;x.items.forEach(o=>{const en=nuEnt(nuFv(o.f),o.q);ids.push(en.id);nuAdd(m,en)});rNut();toastU("Ajouté : "+x.r.n,()=>{const L=nuDayW(d).m[m];ids.forEach(id=>{const j=L.findIndex(z=>z.id===id);if(j>=0)L.splice(j,1)});save();rNut()});return}
+ if(k==="more"){NUSH+=8;rNut();return}
+ if(k==="al"){const kg=$("#nukg"),ko=$("#nuko"),po=$("#nupo");if(kg&&parseFloat(String(kg.value).replace(",","."))>0)n.kg=parseFloat(String(kg.value).replace(",","."));if(ko)n.ko=+ko.value||0;if(po)n.po=+po.value||0;
+  if(v==="veg")n.veg=!n.veg;else{n.al=n.al||[];n.al=n.al.includes(v)?n.al.filter(z=>z!==v):n.al.concat(v)}save();rNut();return}
  if(k==="tadd"){const t=n.perso[i],m=b.dataset.m,ids=[];if(!t)return;t.items.forEach(it=>{const c=Object.assign({},it,{id:uid()});ids.push(c.id);nuAdd(m,c)});toastU("Ajouté : "+t.n,()=>{const L=nuDayW(d).m[m];ids.forEach(id=>{const j=L.findIndex(z=>z.id===id);if(j>=0)L.splice(j,1)});save();rNut()});return}
  if(k==="tdel"){const t=n.perso[i];if(!t)return;n.perso.splice(i,1);save();rNut();toastU("Repas type supprimé",()=>{n.perso.splice(i,0,t);save();rNut()});return}
  if(k==="trn"){NS={m:"pd",mode:"rn",cat:"",q:"",f:null,qty:1,ed:null,v:n.perso[i]?n.perso[i].n:"",rn:i};nuSheet();return}
 });
+
+/* swipe vers la droite : retour au menu Nutrition */
+{let sx=0,sy=0,ok=false;const sec=()=>document.getElementById("nutri");
+ document.addEventListener("touchstart",e=>{const s=sec();ok=!!(s&&s.classList.contains("on")&&NUV!==""&&!document.getElementById("nutx")&&e.touches.length===1&&!e.target.closest(".nuchs,input,textarea"));if(ok){sx=e.touches[0].clientX;sy=e.touches[0].clientY}},{passive:true});
+ document.addEventListener("touchend",e=>{if(!ok)return;ok=false;const t=e.changedTouches[0],dx=t.clientX-sx,dy=t.clientY-sy;if(dx>70&&Math.abs(dy)<60&&dx>Math.abs(dy)*1.6){NUV="";NUDT=null;try{rNut();scrollTo(0,0)}catch(_){}}},{passive:true})}
 {const _go=go;go=function(t){_go(t);if(t==="nutri")try{NUDT=null;NOE=false;NUV="";rNut()}catch(x){}}}
 {const _dr=draw;draw=function(){_dr.apply(this,arguments);try{rNut()}catch(x){}}}
 if(!S.set.tuto)tutoOpen();
