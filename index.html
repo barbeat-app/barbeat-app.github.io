@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>Barbeat</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-180.png">
@@ -311,7 +311,7 @@ button.big{font-size:16px;padding:11px}
 body:has(#sact:not([hidden])) main>h1{padding:8px 14px;font-size:20px;margin:0 -12px 6px;border-radius:0 0 14px 14px}
 body:has(#sact:not([hidden])) #back{padding:5px 11px;font-size:13px}
 #sact:not([hidden]) .sbar{margin:0 0 6px}#sact .sbar h2{font-size:20px}#sact .sbar button{padding:6px 14px;font-size:14px}
-#snw{padding:6px 8px!important;margin-bottom:6px}#snw label{display:none}#snw input{padding:7px 10px;font-size:15px;margin:0}#snc{margin:4px 0 0}
+#snw{padding:6px 8px!important;margin-bottom:6px}#snw label{display:none}#snw input{padding:7px 10px;font-size:16px;margin:0}#snc{margin:4px 0 0}
 .sst{gap:6px;margin:0 0 6px}.sst div{padding:5px 10px;border-radius:12px}.sst span{font-size:11px}.sst b{font-size:20px}
 #bal{margin:2px 0 6px;font-size:13px}#gdgo{padding:8px;font-size:15px;margin-bottom:6px!important}
 .eimg{display:block;width:100%;max-height:300px;object-fit:contain;background:#fff;border-radius:12px;margin:0 0 8px}
@@ -924,6 +924,9 @@ details.sbd[open]>summary i{transform:rotate(-135deg)}
 .nuhi{font-size:26px;width:36px;text-align:center}.nuht{flex:1;min-width:0}.nuht b{display:block;font-size:17px}.nuht small{display:block;color:var(--mu);font-size:13px;margin-top:2px}.nuhc{color:var(--mu);font-size:22px}
 .nuk4{display:grid;grid-template-columns:1fr 1fr;gap:8px}.nuk4 .c{margin:0;padding:12px;display:flex;flex-direction:column;gap:2px}.nuk4 b{font-size:22px}.nuk4 span{font-size:12.5px;color:var(--mu)}
 .nurc ul,.nurc ol{margin:0;padding-left:20px;font-size:13.5px;line-height:1.5;color:var(--ink)}.nurc{margin-top:2px}.nuid b{font-size:16px}.nuidm{display:flex;gap:12px;font-size:13px;color:var(--mu);flex-wrap:wrap}.nuidm b{color:var(--ink);font-size:14px}
+/* anti-zoom + bouton d'ajout flottant */
+html,body{touch-action:manipulation;-webkit-text-size-adjust:100%}input,select,textarea{font-size:max(16px,1em)}
+#lgadd,#pkadd{position:fixed!important;left:16px;right:16px;width:auto!important;box-sizing:border-box;bottom:calc(78px + env(safe-area-inset-bottom,0px));z-index:30;margin:0!important;box-shadow:0 10px 28px rgba(0,0,0,.6)}#lgadd[hidden],#pkadd[hidden]{display:none!important}
 </style>
 </head>
 <body>
@@ -3106,7 +3109,7 @@ $("#wkp").onclick=()=>{WK--;rSem()};$("#wkn").onclick=()=>{if(WK<0){WK++;rSem()}
 
 function draw(){try{banner()}catch(_){}secBanners();rLibMy();rReg();try{rCycRem()}catch(_){}rTeam();rRpeD();rGch();rEx();rFchk();rRx();rExos();rProg();rCyc();rWell();rHome();rHcyc();rProf();rRegles();rHisto();rSem();rPoids();rRec();rCharge();rSf();rPain();rTests();rForme();rHub();try{rWpush()}catch(x){}banner()}
 calc();draw();{const h=location.hash.slice(1);if(h&&document.getElementById(h))go(h);else{const d=D();if(d.t0&&!d.t1&&d.edit==null)go("seance")}}
-var BUILD=176,UPW=null,UPGO=false;
+var BUILD=180,UPW=null,UPGO=false;
 function updBar(w){if(document.getElementById("updbar"))return;UPW=w;const d=document.createElement("div");d.id="updbar";d.setAttribute("role","status");d.innerHTML='<span>Nouvelle version disponible</span><button type="button" id="updgo">Mettre à jour</button>';document.body.appendChild(d);
  const b=document.getElementById("updgo");b.onclick=()=>{b.disabled=true;b.textContent="Mise à jour…";if(!UPW){(async()=>{try{if(window.caches){const k=await caches.keys();await Promise.all(k.map(x=>caches.delete(x)))}}catch(e){}location.reload()})();return}UPGO=true;try{UPW.postMessage("skip")}catch(e){location.reload()}setTimeout(()=>location.reload(),4000)}}
 try{document.getElementById("bldv").textContent="Version installée : V"+BUILD}catch(e){}
@@ -4717,9 +4720,9 @@ document.addEventListener("click",ev=>{const b=ev.target.closest("#nutr [data-nu
 /* ===== V176 : habitudes de saisie + bilan du soir ===== */
 var NHB=[],NRC={o:0,s:null};
 function nuHab(m){const ag={};nuDays(30).forEach(dt=>{(nuDay(dt).m[m]||[]).forEach(e=>{const o=ag[e.n]||(ag[e.n]={c:0,e:null,d:""});o.c++;if(dt>=o.d){o.d=dt;o.e=e}})});
- return Object.values(ag).filter(o=>o.c>=2).sort((a,b)=>b.c-a.c||(a.d<b.d?1:-1)).slice(0,5)}
+ return Object.values(ag).sort((a,b)=>b.c-a.c||(a.d<b.d?1:-1)).slice(0,5)}
 function nuHabH(){const m=NS.m,L=nuHab(m);NHB=L.map(o=>o.e);if(!L.length)return"";
- return'<div class="nuhh">Tes habitudes · '+NM.find(z=>z[0]===m)[1].toLowerCase()+'</div>'+L.map((o,i)=>{const e=o.e;return'<div class="nur1" data-nu="hab" data-i="'+i+'"><span><b>'+esc(e.n)+'</b><small>'+esc(nuQl(e))+' · '+e.k+' kcal · '+Math.round(e.p)+' g prot.</small>'+nuWarn(e.n)+'</span><button class="nup" data-nu="hab" data-i="'+i+'" aria-label="Ajouter comme d’habitude">+</button></div>'}).join("")}
+ return'<div class="nuhh">'+(L.some(o=>o.c>=2)?'Tes habitudes':'Déjà pris')+' · '+NM.find(z=>z[0]===m)[1].toLowerCase()+'</div>'+L.map((o,i)=>{const e=o.e;return'<div class="nur1" data-nu="hab" data-i="'+i+'"><span><b>'+esc(e.n)+'</b><small>'+esc(nuQl(e))+' · '+e.k+' kcal · '+Math.round(e.p)+' g prot.</small>'+nuWarn(e.n)+'</span><button class="nup" data-nu="hab" data-i="'+i+'" aria-label="Ajouter comme d’habitude">+</button></div>'}).join("")}
 function nuRecapH(){const h=window.NURC_H!=null?window.NURC_H:new Date().getHours();if(h<20)return"";
  const d=today(),tg=nuTarget(d),to=nuTot(d),x=nuDay(d),rk=tg.k-to.k,rp=tg.p-to.p,w=x.w||0;let b="";
  if(to.k===0)b='<p class="m" style="margin:4px 0 8px">Tu n’as rien noté aujourd’hui.</p><button class="b" data-nu="add" data-m="'+nuMeal()+'">+ Noter un repas</button>';
@@ -4740,6 +4743,9 @@ document.addEventListener("click",ev=>{const b=ev.target.closest("#nutr [data-nu
 
 {const _go=go;go=function(t){_go(t);if(t==="nutri")try{NUDT=null;NOE=false;NUV="";rNut()}catch(x){}}}
 {const _dr=draw;draw=function(){_dr.apply(this,arguments);try{rNut()}catch(x){}}}
+
+/* bloque tous les zooms (pincement, double tap) */
+['gesturestart','gesturechange','gestureend'].forEach(t=>document.addEventListener(t,e=>e.preventDefault(),{passive:false}));
 if(!S.set.tuto)tutoOpen();
 </script>
 </body>
