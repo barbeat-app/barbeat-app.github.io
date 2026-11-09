@@ -2871,7 +2871,7 @@ function rTests(){
  else{as.hidden=true;as.innerHTML=""}
  $("#tsl").innerHTML=byD(S.tests).slice(-10).reverse().map(x=>'<div class="row"><span>'+fd(x.d)+' <span class="m">'+esc(x.n)+'</span></span><b style="flex:1;text-align:right;padding-right:10px">'+fnum(x.v)+' '+esc(x.u)+'</b><button class="b g" data-d="'+x.d+'" data-n="'+esc(x.n)+'" aria-label="Supprimer ce test">✕</button></div>').join("")||'<p class="m">Aucun test pour l’instant.</p>'}
 
-/* ===== forme globale : le signal le plus défavorable donne la couleur ===== */
+/* ===== forme globale : moyenne wellness, sommeil, FC, douleurs ===== */
 function signalsAt(d){const out=[],nz=z=>z==null?"Baseline en construction":zlab(z);
  const w=S.well.find(x=>x.d===d);if(w){const z=zOf(w,-1);out.push({k:"Wellness",D:dz(z),txt:nz(z)})}
  const e=S.sf.find(x=>x.d===d);
@@ -2884,16 +2884,17 @@ function signalsAt(d){const out=[],nz=z=>z==null?"Baseline en construction":zlab
   if(x){const z=tsz(n,x);if(z!=null&&(wz==null||z<wz)){wz=z;wn=n}}});
  if(wn)out.push({k:"Test : "+wn,D:dz(wz),txt:zlab(wz)});
  return out}
-const worstD=sg=>{const a=sg.map(s=>s.D).filter(v=>v!=null);return a.length?Math.max(...a):null};
+const FORME_K=["Wellness","Sommeil","FC de repos","Douleurs"];
+const worstD=sg=>{const a=sg.filter(s=>FORME_K.includes(s.k)).map(s=>s.D).filter(v=>v!=null);return a.length?a.reduce((u,v)=>u+v,0)/a.length:null};
 function rForme(){
  const t=today(),sg=signalsAt(t),D=worstD(sg),miss=[];
  if(!S.well.some(x=>x.d===t))miss.push("Wellness");
  if(!S.sf.some(x=>x.d===t))miss.push("Sommeil et FC");
  $("#fst").innerHTML=(D==null?'<p class="m">Pas encore assez de données pour calculer ta forme. Remplis ton wellness, ton sommeil et ta FC chaque matin : l’indice apparaît dès que les baselines sont prêtes.</p>'
-  :'<div class="zbig" style="background:'+bgD2(D)+'"><b>'+dlab(D)+'</b>Indice '+Math.round(100*(1-D))+'/100 · le signal le plus défavorable donne la couleur</div>')
+  :'<div class="zbig" style="background:'+bgD2(D)+'"><b>'+dlab(D)+'</b>Indice '+Math.round(100*(1-D))+'/100 · moyenne de ton wellness, de ton sommeil, de ta FC de repos et de tes douleurs (ceux que tu renseignes)</div>')
   +sg.map(s=>'<div class="row"><span><b>'+esc(s.k)+'</b><span class="m" style="display:block">'+esc(s.txt)+'</span></span><span class="zp" style="background:'+bgD2(s.D)+'">'+(s.D==null?"—":Math.round(100*(1-s.D)))+'</span></div>').join("")
   +(miss.length?'<p class="m">À renseigner aujourd’hui : '+miss.join(", ")+'.</p>':"")
-  +'<p class="m">Chaque signal est noté de 0 à 100 (100 = tout va bien). L’indice du jour est celui du signal le plus bas.</p>';
+  +'<p class="m">Chaque signal est noté de 0 à 100 (100 = tout va bien). L’indice du jour est la moyenne de ceux que tu renseignes parmi wellness, sommeil, FC de repos et douleurs. Pas de montre : seuls le wellness et les douleurs comptent. La charge et les tests restent affichés à titre indicatif.</p>';
  const pts=[];for(let i=29;i>=0;i--){const d=addD(t,-i),Dd=worstD(signalsAt(d));if(Dd!=null)pts.push({x:d,y:Math.round(100*(1-Dd)),c:dotD2(Dd)})}
  $("#fg").innerHTML=chart(pts)+'<p class="m">Un point par jour où au moins un signal est disponible.</p>';
  $("#hform").innerHTML=D==null?"":'<button class="tile fm" data-go="forme" style="width:100%;min-height:0;margin-bottom:10px;background:'+bgD2(D)+'">'+ti("f")+'Forme du jour : '+dlab(D)+'<small>'+sg.length+(sg.length>1?" signaux":" signal")+' · touche pour le détail</small></button>'}
@@ -3067,7 +3068,7 @@ $("#wkp").onclick=()=>{WK--;rSem()};$("#wkn").onclick=()=>{if(WK<0){WK++;rSem()}
 
 function draw(){try{banner()}catch(_){}secBanners();rLibMy();rReg();try{rCycRem()}catch(_){}rTeam();rRpeD();rGch();rEx();rFchk();rRx();rExos();rProg();rCyc();rWell();rHome();rHcyc();rProf();rRegles();rHisto();rSem();rPoids();rRec();rCharge();rSf();rPain();rTests();rForme();rHub();try{rWpush()}catch(x){}banner()}
 calc();draw();{const h=location.hash.slice(1);if(h&&document.getElementById(h))go(h);else{const d=D();if(d.t0&&!d.t1&&d.edit==null)go("seance")}}
-var BUILD=156,UPW=null,UPGO=false;
+var BUILD=157,UPW=null,UPGO=false;
 function updBar(w){if(document.getElementById("updbar"))return;UPW=w;const d=document.createElement("div");d.id="updbar";d.setAttribute("role","status");d.innerHTML='<span>Nouvelle version disponible</span><button type="button" id="updgo">Mettre à jour</button>';document.body.appendChild(d);
  const b=document.getElementById("updgo");b.onclick=()=>{b.disabled=true;b.textContent="Mise à jour…";if(!UPW){(async()=>{try{if(window.caches){const k=await caches.keys();await Promise.all(k.map(x=>caches.delete(x)))}}catch(e){}location.reload()})();return}UPGO=true;try{UPW.postMessage("skip")}catch(e){location.reload()}setTimeout(()=>location.reload(),4000)}}
 try{document.getElementById("bldv").textContent="Version installée : V"+BUILD}catch(e){}
