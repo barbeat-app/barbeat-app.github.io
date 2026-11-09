@@ -3106,7 +3106,7 @@ $("#wkp").onclick=()=>{WK--;rSem()};$("#wkn").onclick=()=>{if(WK<0){WK++;rSem()}
 
 function draw(){try{banner()}catch(_){}secBanners();rLibMy();rReg();try{rCycRem()}catch(_){}rTeam();rRpeD();rGch();rEx();rFchk();rRx();rExos();rProg();rCyc();rWell();rHome();rHcyc();rProf();rRegles();rHisto();rSem();rPoids();rRec();rCharge();rSf();rPain();rTests();rForme();rHub();try{rWpush()}catch(x){}banner()}
 calc();draw();{const h=location.hash.slice(1);if(h&&document.getElementById(h))go(h);else{const d=D();if(d.t0&&!d.t1&&d.edit==null)go("seance")}}
-var BUILD=171,UPW=null,UPGO=false;
+var BUILD=172,UPW=null,UPGO=false;
 function updBar(w){if(document.getElementById("updbar"))return;UPW=w;const d=document.createElement("div");d.id="updbar";d.setAttribute("role","status");d.innerHTML='<span>Nouvelle version disponible</span><button type="button" id="updgo">Mettre à jour</button>';document.body.appendChild(d);
  const b=document.getElementById("updgo");b.onclick=()=>{b.disabled=true;b.textContent="Mise à jour…";if(!UPW){(async()=>{try{if(window.caches){const k=await caches.keys();await Promise.all(k.map(x=>caches.delete(x)))}}catch(e){}location.reload()})();return}UPGO=true;try{UPW.postMessage("skip")}catch(e){location.reload()}setTimeout(()=>location.reload(),4000)}}
 try{document.getElementById("bldv").textContent="Version installée : V"+BUILD}catch(e){}
@@ -4418,9 +4418,11 @@ function rNutWeek(e){const ds=nuDays(7),tt=ds.map(d=>nuTot(d)),tg=ds.map(d=>nuTa
   if(ap<tp*.85)msg+=" Côté protéines, il t’en manque en moyenne "+Math.round(tp-ap)+" g par jour.";}
  else msg="Renseigne tes repas au moins 3 jours pour voir ton bilan de la semaine.";
  e.innerHTML=nuBack()+'<div class="nuhd"><b>Cette semaine</b></div>'
-  +'<div class="nuk4"><div class="c"><b>'+(lg.length?nuK(ak):"–")+'</b><span>kcal / jour</span></div><div class="c"><b>'+(lg.length?Math.round(ap)+" g":"–")+'</b><span>protéines / jour</span></div><div class="c"><b>'+hit+' / 7</b><span>jours protéines OK</span></div><div class="c"><b>'+ses+'</b><span>séance'+(ses>1?"s":"")+'</span></div></div>'
+  +'<div class="nuk4"><div class="c"><b>'+(lg.length?nuK(ak):"–")+'</b><span>kcal / jour</span></div><div class="c"><b>'+(lg.length?Math.round(ap)+" g":"–")+'</b><span>protéines / jour</span></div><div class="c"><b>'+(lg.length?Math.round(avg(lg,"c"))+" g":"–")+'</b><span>glucides / jour</span></div><div class="c"><b>'+(lg.length?Math.round(avg(lg,"l"))+" g":"–")+'</b><span>lipides / jour</span></div><div class="c"><b>'+hit+' / 7</b><span>jours protéines OK</span></div><div class="c"><b>'+ses+'</b><span>séance'+(ses>1?"s":"")+'</span></div></div>'
   +'<div class="c"><h3 style="margin:0 0 6px">Calories <small style="color:var(--mu);font-weight:500">objectif ≈ '+nuK(tk)+'</small></h3>'+nuChart(tt.map(t=>t.k),tk,"var(--hi)")+'</div>'
   +'<div class="c"><h3 style="margin:0 0 6px">Protéines <small style="color:var(--mu);font-weight:500">objectif ≈ '+tp+' g</small></h3>'+nuChart(tt.map(t=>t.p),tp,"var(--ac)")+'</div>'
+  +'<div class="c"><h3 style="margin:0 0 6px">Glucides <small style="color:var(--mu);font-weight:500">objectif ≈ '+tg[6].c+' g</small></h3>'+nuChart(tt.map(t=>t.c),tg[6].c,"#f5a524")+'</div>'
+  +'<div class="c"><h3 style="margin:0 0 6px">Lipides <small style="color:var(--mu);font-weight:500">objectif ≈ '+tg[6].l+' g</small></h3>'+nuChart(tt.map(t=>t.l),tg[6].l,"#e5484d")+'</div>'
   +(wt.length>=2?'<div class="c"><b>Poids</b> <span class="m">'+fnum(wt[0].kg)+' → '+fnum(wt[wt.length-1].kg)+' kg ('+(wt[wt.length-1].kg-wt[0].kg>=0?"+":"")+fnum(wt[wt.length-1].kg-wt[0].kg)+' kg)</span></div>':'')
   +'<div class="nutp">💬 <span>'+msg+'</span></div>'}
 /* allergies & régime */
