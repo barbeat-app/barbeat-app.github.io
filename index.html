@@ -919,6 +919,11 @@ details.sbd[open]>summary i{transform:rotate(-135deg)}
 .nup{flex:0 0 auto;width:34px;height:34px;border-radius:50%;border:0;background:var(--ac);color:var(--ac2);font:800 20px Barlow,sans-serif;cursor:pointer;padding:0}.nux2{background:var(--bg);color:var(--mu);font-size:13px}
 .nust{display:flex;align-items:center;justify-content:center;gap:22px;margin:6px 0}.nust>div{text-align:center}.nust b{font-size:26px;display:block}.nust small{color:var(--mu);font-size:12.5px}.nust .nun{width:42px;height:42px}
 .nukk{text-align:right}.nukk b{font-size:18px;display:block}.nukk small{font-size:12px;color:var(--mu)}
+.nubk{margin:0 0 2px!important;font-size:14px;align-self:flex-start}
+.nuhr{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--sf);color:var(--ink);border:1px solid var(--ln);border-radius:16px;padding:14px;cursor:pointer;font-family:inherit}
+.nuhi{font-size:26px;width:36px;text-align:center}.nuht{flex:1;min-width:0}.nuht b{display:block;font-size:17px}.nuht small{display:block;color:var(--mu);font-size:13px;margin-top:2px}.nuhc{color:var(--mu);font-size:22px}
+.nuk4{display:grid;grid-template-columns:1fr 1fr;gap:8px}.nuk4 .c{margin:0;padding:12px;display:flex;flex-direction:column;gap:2px}.nuk4 b{font-size:22px}.nuk4 span{font-size:12.5px;color:var(--mu)}
+.nuid b{font-size:16px}.nuidm{display:flex;gap:12px;font-size:13px;color:var(--mu);flex-wrap:wrap}.nuidm b{color:var(--ink);font-size:14px}
 </style>
 </head>
 <body>
@@ -3101,7 +3106,7 @@ $("#wkp").onclick=()=>{WK--;rSem()};$("#wkn").onclick=()=>{if(WK<0){WK++;rSem()}
 
 function draw(){try{banner()}catch(_){}secBanners();rLibMy();rReg();try{rCycRem()}catch(_){}rTeam();rRpeD();rGch();rEx();rFchk();rRx();rExos();rProg();rCyc();rWell();rHome();rHcyc();rProf();rRegles();rHisto();rSem();rPoids();rRec();rCharge();rSf();rPain();rTests();rForme();rHub();try{rWpush()}catch(x){}banner()}
 calc();draw();{const h=location.hash.slice(1);if(h&&document.getElementById(h))go(h);else{const d=D();if(d.t0&&!d.t1&&d.edit==null)go("seance")}}
-var BUILD=162,UPW=null,UPGO=false;
+var BUILD=163,UPW=null,UPGO=false;
 function updBar(w){if(document.getElementById("updbar"))return;UPW=w;const d=document.createElement("div");d.id="updbar";d.setAttribute("role","status");d.innerHTML='<span>Nouvelle version disponible</span><button type="button" id="updgo">Mettre à jour</button>';document.body.appendChild(d);
  const b=document.getElementById("updgo");b.onclick=()=>{b.disabled=true;b.textContent="Mise à jour…";if(!UPW){(async()=>{try{if(window.caches){const k=await caches.keys();await Promise.all(k.map(x=>caches.delete(x)))}}catch(e){}location.reload()})();return}UPGO=true;try{UPW.postMessage("skip")}catch(e){location.reload()}setTimeout(()=>location.reload(),4000)}}
 try{document.getElementById("bldv").textContent="Version installée : V"+BUILD}catch(e){}
@@ -4110,11 +4115,12 @@ function nuOnb(){const n=S.nut||{},sel=NOB||n.obj||"",p=S.prof||{},nok=!bwOf();
  +'<button class="b big" data-nu="ok" style="margin-top:12px"'+(sel?'':' disabled')+'>Continuer</button><p class="m" style="text-align:center;font-size:12.5px">Tu pourras tout modifier ensuite.</p></div>'}
 function nuRing(pct,col,val,lab,sub,sz){const sw=9,r=(sz-sw)/2,C=2*Math.PI*r;return'<div class="nur0"><div style="position:relative;width:'+sz+'px;height:'+sz+'px"><svg width="'+sz+'" height="'+sz+'" style="transform:rotate(-90deg)"><circle cx="'+sz/2+'" cy="'+sz/2+'" r="'+r+'" fill="none" stroke="var(--ln)" stroke-width="'+sw+'"/><circle cx="'+sz/2+'" cy="'+sz/2+'" r="'+r+'" fill="none" stroke="'+col+'" stroke-width="'+sw+'" stroke-linecap="round" stroke-dasharray="'+C*Math.min(1,pct)+' '+C+'"/></svg><div class="nuv"><b>'+val+'</b></div></div><span>'+lab+'</span><small>'+sub+'</small></div>'}
 function nuBar(l,v,t,c){return'<div class="nubr"><div><b>'+l+'</b><span>'+Math.round(v)+' / '+t+' g</span></div><i><u style="width:'+Math.min(100,Math.round(v/Math.max(1,t)*100))+'%;background:'+c+'"></u></i></div>'}
-function rNut(){const e=$("#nutr");if(!e)return;const n=S.nut||{};
- if(!n.obj||NOE){e.innerHTML=nuOnb();return}
+function rNut(){const e=$("#nutr");if(!e)return;const n=S.nut||{};if(!n.obj||NOE){e.innerHTML=nuOnb();return}
+ if(NUV==="week")return rNutWeek(e);if(NUV==="ideas")return rNutIdeas(e);if(NUV==="types")return rNutTypes(e);if(NUV!=="day")return rNutHub(e);rNutDay(e,n)}
+function rNutDay(e,n){
  const d=NUDT||today(),tg=nuTarget(d),to=nuTot(d),x=nuDay(d),det=true,isT=d===today();
  const dl=isT?"Aujourd’hui":new Date(d+"T12:00:00").toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"});
- let h='<div class="nuhd"><button class="nun" data-nu="prev" aria-label="Jour précédent">‹</button><b>'+dl+'</b>'+(isT?'<span style="width:34px"></span>':'<button class="nun" data-nu="next" aria-label="Jour suivant">›</button>')+'</div>';
+ let h=nuBack()+'<div class="nuhd"><button class="nun" data-nu="prev" aria-label="Jour précédent">‹</button><b>'+dl+'</b>'+(isT?'<span style="width:34px"></span>':'<button class="nun" data-nu="next" aria-label="Jour suivant">›</button>')+'</div>';
  h+=nuTips(d).map(t=>'<div class="nutp">⚡ <span>'+t+'</span></div>').join("");
  h+='<div class="c nurs">'+nuRing(to.p/tg.p,"var(--ac)",Math.round(to.p)+" g","Protéines","/ "+tg.p+" g",112)+nuRing(to.k/tg.k,"var(--hi)",nuK(to.k),"Calories","/ "+nuK(tg.k),96)+nuRing((x.w||0)/tg.w,"#4f8cff",fnum((x.w||0)/1000)+" L","Eau","/ "+fnum(tg.w/1000)+" L",96)+'</div>';
  if(det)h+='<div class="c nums">'+nuBar("Protéines",to.p,tg.p,"var(--ac)")+nuBar("Glucides",to.c,tg.c,"var(--hi)")+nuBar("Lipides",to.l,tg.l,"#4f8cff")+'</div>';
@@ -4137,13 +4143,14 @@ function nuListH(){const q=nrm(NS.q).split(" ").filter(Boolean),pe=nuN().perso,m
  let last="";NUF.forEach((f,i)=>{if(NS.cat&&f.c!==NS.cat)return;if(q.length&&!q.every(w=>nrm(f.n+" "+f.c).includes(w)))return;if(f.c!==last){last=f.c;h+='<div class="nuhh">'+esc(f.c)+'</div>'}h+=nuRow(f,i)});
  return h||'<p class="m" style="text-align:center;padding:16px 0">Aucun résultat. Essaie la saisie libre.</p>'}
 function nuSheet(){let x=document.getElementById("nutx");if(!x){x=document.createElement("div");x.id="nutx";document.body.appendChild(x)}
- const md=NS.mode,tit={list:"Ajouter",qty:NS.ed?"Modifier":"Quantité",free:"Saisie libre",prot:"Protéines",sm:"Repas type"}[md]||"Ajouter";
+ const md=NS.mode,tit={list:"Ajouter",qty:NS.ed?"Modifier":"Quantité",free:"Saisie libre",prot:"Protéines",sm:"Repas type",rn:"Renommer"}[md]||"Ajouter";
  const mc=NM.map(m=>'<button class="nuch'+(NS.m===m[0]?' on':'')+'" data-nu="msel" data-v="'+m[0]+'">'+m[1]+'</button>').join("");
  let b="";
  if(md==="list")b='<div class="nuchs">'+mc+'</div><input id="nuq" type="search" placeholder="Chercher un aliment (poulet, riz, yaourt…)" value="'+esc(NS.q)+'" autocomplete="off"><div class="nuchs"><button class="nuch'+(NS.cat?'':' on')+'" data-nu="cat" data-v="">Tous</button>'+NUCATS.map(c=>'<button class="nuch'+(NS.cat===c?' on':'')+'" data-nu="cat" data-v="'+esc(c)+'">'+esc(c)+'</button>').join("")+'<button class="nuch" data-nu="free">Saisie libre</button></div><div id="nulist">'+nuListH()+'</div>';
  else if(md==="qty")b=nuQtyH();
  else if(md==="free")b='<div class="nuchs">'+mc+'</div><label for="nufn">Nom</label><input id="nufn" placeholder="Ex. Plat du restaurant"><div class="r"><div><label for="nufk">Calories</label><input id="nufk" inputmode="numeric" placeholder="kcal"></div><div><label for="nufp">Protéines (g)</label><input id="nufp" inputmode="decimal" placeholder="facultatif"></div></div><div class="r"><div><label for="nufg">Glucides (g)</label><input id="nufg" inputmode="decimal" placeholder="facultatif"></div><div><label for="nufl">Lipides (g)</label><input id="nufl" inputmode="decimal" placeholder="facultatif"></div></div><button class="b big" data-nu="fadd" style="margin-top:12px">Ajouter</button>';
  else if(md==="prot")b='<div class="nuchs">'+mc+'</div><p class="m">Combien de protéines (shaker, barre, complément…) ?</p><div class="nuchs">'+[10,15,20,25,30,40].map(v=>'<button class="nuch" data-nu="padd" data-v="'+v+'">+ '+v+' g</button>').join("")+'</div><div class="r" style="align-items:end"><div><label for="nupg">Autre quantité (g)</label><input id="nupg" inputmode="decimal" placeholder="Ex. 35"></div><button class="b" data-nu="padd" data-v="x">Ajouter</button></div>';
+ else if(md==="rn")b='<label for="nusn">Nom du repas</label><input id="nusn" value="'+esc(NS.v)+'"><button class="b big" data-nu="radd" style="margin-top:12px">Enregistrer</button>';
  else if(md==="sm")b='<p class="m">Retrouve ce repas en un tap, comme « petit-déj habituel ».</p><label for="nusn">Nom du repas</label><input id="nusn" placeholder="Ex. Petit-déj habituel" value="'+esc(NS.v)+'"><button class="b big" data-nu="sadd" style="margin-top:12px">Enregistrer</button>';
  x.innerHTML='<div class="nus" role="dialog" aria-label="'+tit+'"><div class="nuh"><b>'+tit+'</b><button class="nux" data-nu="close" aria-label="Fermer">✕</button></div>'+b+'</div>'}
 function nuClose(){const x=document.getElementById("nutx");if(x)x.remove();NS.mode="";NS.ed=null;NS.q="";NS.cat=""}
@@ -4152,7 +4159,7 @@ document.addEventListener("click",ev=>{if(ev.target.id==="nutx"){nuClose();retur
  const b=ev.target.closest("#nutr [data-nu],#nutx [data-nu]");if(!b)return;const k=b.dataset.nu,v=b.dataset.v,i=+b.dataset.i,n=nuN(),d=NUDT||today();
  if(k==="obj"){NOB=v;rNut();return}
  if(k==="ok"){const sel=NOB||n.obj;if(!sel)return;const kg=$("#nukg");if(kg&&parseFloat(String(kg.value).replace(",","."))>0)n.kg=parseFloat(String(kg.value).replace(",","."));
-  const ko=$("#nuko"),po=$("#nupo");n.ko=ko?+ko.value||0:0;n.po=po?+po.value||0:0;n.obj=sel;NOB=null;NOE=false;save();rNut();try{rHome()}catch(_){}return}
+  const ko=$("#nuko"),po=$("#nupo");n.ko=ko?+ko.value||0:0;n.po=po?+po.value||0:0;n.obj=sel;NOB=null;NOE=false;NUV="";save();rNut();try{rHome()}catch(_){}return}
  if(k==="redo"){NOE=true;NOB=n.obj;rNut();return}
  if(k==="det"){n.det=v==="1";save();rNut();return}
  if(k==="prev"||k==="next"){const t=new Date((NUDT||today())+"T12:00:00");t.setDate(t.getDate()+(k==="prev"?-1:1));const s=t.getFullYear()+"-"+String(t.getMonth()+1).padStart(2,"0")+"-"+String(t.getDate()).padStart(2,"0");NUDT=s>=today()?null:s;rNut();return}
@@ -4176,11 +4183,100 @@ document.addEventListener("click",ev=>{if(ev.target.id==="nutx"){nuClose();retur
  if(k==="fadd"){const nm=($("#nufn").value||"").trim()||"Saisie libre",kc=+($("#nufk").value||"").replace(",","."),pr=+($("#nufp").value||"").replace(",",".")||0,gl=+($("#nufg").value||"").replace(",",".")||0,li=+($("#nufl").value||"").replace(",",".")||0;if(!(kc>0||pr>0))return;
   nuAdd(NS.m,nuEnt({n:nm,pt:100,lb:"1 portion",k:kc||Math.round(4*pr+4*gl+9*li),p:pr,g:gl,l:li},1));nuClose();rNut();try{rHome()}catch(_){}return}
  if(k==="padd"){let p=v==="x"?+($("#nupg").value||"").replace(",","."):+v;if(!(p>0))return;nuAdd(NS.m,nuEnt({n:"Protéines (complément)",pt:100,lb:"",k:4*p,p:p,g:0,l:0},1));nuClose();rNut();try{rHome()}catch(_){}return}
+ if(k==="radd"){const nm=($("#nusn").value||"").trim();if(!nm||!n.perso[NS.rn])return;n.perso[NS.rn].n=nm;save();nuClose();rNut();return}
  if(k==="sadd"){const nm=($("#nusn").value||"").trim();if(!nm)return;const L=nuDay(d).m[NS.m]||[];if(!L.length)return;n.perso.push({id:uid(),n:nm,items:L.map(e=>Object.assign({},e))});save();nuClose();toast("Repas type enregistré : "+nm);return}
 });
 document.addEventListener("input",ev=>{if(ev.target.id==="nuq"){NS.q=ev.target.value;const l=$("#nulist");if(l)l.innerHTML=nuListH()}});
 document.addEventListener("change",ev=>{if(ev.target.id==="nug"&&NS.f){const g=parseFloat(String(ev.target.value).replace(",","."));if(g>0){NS.qty=Math.max(.1,Math.round(g/NS.f.pt*100)/100);nuSheet()}}});
-{const _go=go;go=function(t){_go(t);if(t==="nutri")try{NUDT=null;NOE=false;rNut()}catch(x){}}}
+
+const NUIDDATA=`Flocons d’avoine, lait et banane|pd|Flocons d’avoine*1;Lait demi-écrémé*1;Banane*1
+Skyr, muesli et myrtilles|pd,co|Skyr*1;Muesli*.8;Myrtilles*1
+Omelette 3 œufs et pain complet|pd,dj,di|Omelette nature*1.5;Pain complet*2
+Yaourt grec, granola et miel|pd|Yaourt grec nature*1;Granola*1;Miel*.5
+Tartines œufs durs et avocat|pd|Pain complet*2;Œuf dur*2;Avocat*.5
+Fromage blanc, flocons et banane|pd|Fromage blanc 0 %*1.5;Flocons d’avoine*1;Banane*1
+Tartines beurre de cacahuète et banane|pd,co|Pain complet*2;Beurre de cacahuète*1;Banane*1
+Shaker protéiné, banane et amandes|pd,co|Shaker protéiné (whey + lait)*1;Banane*1;Amandes*.5
+Poulet, riz et brocoli|dj,di|Poulet blanc (cuit)*1;Riz blanc (cuit)*1;Brocoli (cuit)*1;Huile d’olive*.5
+Pâtes bolognaise|dj,di|Pâtes bolognaise*1
+Saumon, quinoa et haricots verts|dj,di|Saumon (cuit)*1;Quinoa (cuit)*1;Haricots verts (cuits)*1
+Steak haché, pommes de terre et salade|dj,di|Bœuf haché 5 % (cuit)*1;Pommes de terre (cuites)*1;Salade verte*1;Huile d’olive*.5
+Wrap poulet crudités|dj,di|Wrap poulet*1
+Thon, riz et tomates|dj,di|Thon au naturel (conserve)*1;Riz blanc (cuit)*1;Tomate*1;Huile d’olive*.5
+Dinde, patate douce et épinards|dj,di|Dinde escalope (cuite)*1;Patate douce (cuite)*1;Épinards (cuits)*1
+Lentilles, œuf et carottes|dj,di|Lentilles (cuites)*1;Œuf (entier)*1;Carotte*1;Huile d’olive*.5
+Cabillaud, riz et courgettes|dj,di|Cabillaud (cuit)*1;Riz blanc (cuit)*1;Courgette (cuite)*1;Huile d’olive*.5
+Tofu sauté, riz et brocoli|dj,di|Tofu nature*1.5;Riz blanc (cuit)*1;Brocoli (cuit)*1;Sauce soja*.5
+Poke bowl|dj,di|Poke bowl*1
+Poulet, semoule et ratatouille|dj,di|Poulet blanc (cuit)*1;Semoule (cuite)*1;Ratatouille*1
+Crevettes, pâtes et sauce tomate|dj,di|Crevettes (cuites)*1;Pâtes (cuites)*1;Sauce tomate*.5
+Chili de bœuf et riz|dj,di|Haricots rouges (cuits)*1;Bœuf haché 5 % (cuit)*1;Riz blanc (cuit)*1
+Soupe, pain et jambon|di|Soupe de légumes*1;Pain complet*2;Jambon blanc*2
+Omelette, salade et pain|di|Omelette nature*1.5;Salade verte*1;Pain complet*1
+Yaourt grec 0 % et fruits rouges|co|Yaourt grec 0 %*1;Myrtilles*1
+Skyr et amandes|co|Skyr*1;Amandes*.5
+Fromage blanc, miel et noix|co|Fromage blanc 0 %*1.5;Miel*.5;Noix*.5
+Pomme et beurre de cacahuète|co|Pomme*1;Beurre de cacahuète*1
+Barre protéinée et pomme|co|Barre protéinée*1;Pomme*1
+Œufs durs et fruit|co|Œuf dur*2;Pomme*1
+Cottage cheese et ananas|co|Cottage cheese*1.5;Ananas*1`;
+
+/* ===== nutrition : menu, semaine, idées, repas types (V163) ===== */
+var NUV="",NUM="";
+const NUID=NUIDDATA.split("\n").map(l=>l.trim()).filter(Boolean).map(l=>{const a=l.split("|");return{n:a[0],m:a[1].split(","),it:a[2].split(";").map(x=>{const y=x.split("*");return[y[0],+y[1]]})}}).map(r=>{const items=r.it.map(([nm,q])=>({f:NUF.find(f=>f.n===nm),q})).filter(o=>o.f);return Object.assign(r,{items,ok:items.length===r.it.length})}).filter(r=>r.ok).map(r=>{const t={k:0,p:0,c:0,l:0};r.items.forEach(o=>{const x=o.f.pt*o.q/100;t.k+=o.f.k*x;t.p+=o.f.p*x;t.c+=o.f.g*x;t.l+=o.f.l*x});r.t=t;return r});
+const nuBack=()=>'<button class="lnk nubk" data-nu="v" data-v="">‹ Nutrition</button>';
+const nuDays=n=>{const a=[];for(let i=n-1;i>=0;i--){const t=new Date();t.setDate(t.getDate()-i);a.push(t.getFullYear()+"-"+String(t.getMonth()+1).padStart(2,"0")+"-"+String(t.getDate()).padStart(2,"0"))}return a};
+function rNutHub(e){const d=today(),tg=nuTarget(d),to=nuTot(d),n=S.nut,w=nuDays(7).map(x=>nuTot(x)).filter(t=>t.k>0),rest=Math.max(0,tg.p-to.p);
+ const row=(ic,t,s,v)=>'<button class="nuhr" data-nu="v" data-v="'+v+'"><span class="nuhi">'+ic+'</span><span class="nuht"><b>'+t+'</b><small>'+s+'</small></span><span class="nuhc">›</span></button>';
+ e.innerHTML=row("🍽️","Aujourd’hui",Math.round(to.p)+" / "+tg.p+" g de protéines · "+nuK(to.k)+" kcal","day")
+  +row("💡","Idées de repas",rest>0?"Il te reste "+Math.round(rest)+" g de protéines à placer":"Objectif protéines atteint","ideas")
+  +row("📊","Semaine",w.length?"Moyenne "+nuK(w.reduce((a,t)=>a+t.k,0)/w.length)+" kcal · "+w.length+" jour"+(w.length>1?"s":"")+" renseigné"+(w.length>1?"s":""):"Aucun repas renseigné cette semaine","week")
+  +row("⭐","Mes repas types",(n.perso||[]).length?(n.perso.length+" enregistré"+(n.perso.length>1?"s":"")):"Aucun pour l’instant","types")
+  +'<p class="m" style="text-align:center;font-size:12.5px;margin-top:6px">Objectif : « '+NUO.find(o=>o[0]===n.obj)[1]+' ». <button class="lnk" data-nu="redo" style="display:inline;margin:0">Modifier</button></p>'}
+function nuChart(vals,tgt,col,unit){const W=320,H=120,pt=18,pb=18,mx=Math.max(tgt*1.25,...vals.map(v=>v||0),1),bw=30,gap=(W-7*bw)/8,y=v=>H-pb-(v/mx)*(H-pt-pb);
+ let s='<svg viewBox="0 0 '+W+' '+H+'" width="100%" role="img" aria-label="Graphique de la semaine">';
+ s+='<line x1="0" x2="'+W+'" y1="'+y(tgt)+'" y2="'+y(tgt)+'" stroke="var(--mu)" stroke-dasharray="4 4" stroke-width="1"/>';
+ vals.forEach((v,i)=>{const x=gap+i*(bw+gap),lab=new Date(nuDays(7)[i]+"T12:00:00").toLocaleDateString("fr-FR",{weekday:"narrow"});
+  if(v>0)s+='<rect x="'+x+'" y="'+y(v)+'" width="'+bw+'" height="'+(H-pb-y(v))+'" rx="5" fill="'+col+'"/><text x="'+(x+bw/2)+'" y="'+(y(v)-4)+'" text-anchor="middle" font-size="10" fill="var(--ink)" font-weight="700">'+Math.round(v)+'</text>';
+  else s+='<rect x="'+x+'" y="'+(H-pb-3)+'" width="'+bw+'" height="3" rx="1.5" fill="var(--ln)"/>';
+  s+='<text x="'+(x+bw/2)+'" y="'+(H-4)+'" text-anchor="middle" font-size="11" fill="var(--mu)" text-transform="uppercase">'+lab+'</text>'});
+ return s+'</svg>'}
+function rNutWeek(e){const ds=nuDays(7),tt=ds.map(d=>nuTot(d)),tg=ds.map(d=>nuTarget(d)),lg=tt.filter(t=>t.k>0),n=S.nut;
+ const avg=(a,k)=>a.length?a.reduce((s,t)=>s+t[k],0)/a.length:0,ak=avg(lg,"k"),ap=avg(lg,"p"),tk=tg[6].k,tp=tg[6].p;
+ const hit=tt.filter((t,i)=>t.p>=tg[i].p*.9).length,ses=S.sessions.filter(s=>ds.includes(s.d)).length;
+ const wt=(S.weight||[]).filter(x=>ds.includes(x.d)).sort((a,b)=>a.d<b.d?-1:1);
+ let msg="";if(lg.length>=3){const r=ak/tk,ob=n.obj;
+  if(ob==="m"&&r<.9)msg="Tu manges en dessous de ton objectif : pour prendre du muscle, essaie d’ajouter une collation ou une portion de féculents.";
+  else if(ob==="g"&&r>1.1)msg="Tu es au-dessus de ton objectif calorique : surveille les portions de gras et de féculents.";
+  else if(r<.8)msg="Moyenne bien en dessous de ton objectif : pense à manger assez pour récupérer de tes séances.";
+  else msg="Tes calories sont dans la cible, bravo.";
+  if(ap<tp*.85)msg+=" Côté protéines, il t’en manque en moyenne "+Math.round(tp-ap)+" g par jour.";}
+ else msg="Renseigne tes repas au moins 3 jours pour voir ton bilan de la semaine.";
+ e.innerHTML=nuBack()+'<div class="nuhd"><b>Cette semaine</b></div>'
+  +'<div class="nuk4"><div class="c"><b>'+(lg.length?nuK(ak):"–")+'</b><span>kcal / jour</span></div><div class="c"><b>'+(lg.length?Math.round(ap)+" g":"–")+'</b><span>protéines / jour</span></div><div class="c"><b>'+hit+' / 7</b><span>jours protéines OK</span></div><div class="c"><b>'+ses+'</b><span>séance'+(ses>1?"s":"")+'</span></div></div>'
+  +'<div class="c"><h3 style="margin:0 0 6px">Calories <small style="color:var(--mu);font-weight:500">objectif ≈ '+nuK(tk)+'</small></h3>'+nuChart(tt.map(t=>t.k),tk,"var(--hi)")+'</div>'
+  +'<div class="c"><h3 style="margin:0 0 6px">Protéines <small style="color:var(--mu);font-weight:500">objectif ≈ '+tp+' g</small></h3>'+nuChart(tt.map(t=>t.p),tp,"var(--ac)")+'</div>'
+  +(wt.length>=2?'<div class="c"><b>Poids</b> <span class="m">'+fnum(wt[0].kg)+' → '+fnum(wt[wt.length-1].kg)+' kg ('+(wt[wt.length-1].kg-wt[0].kg>=0?"+":"")+fnum(wt[wt.length-1].kg-wt[0].kg)+' kg)</span></div>':'')
+  +'<div class="nutp">💬 <span>'+msg+'</span></div>'}
+function nuIdeas(m,d){const tg=nuTarget(d),to=nuTot(d),sh={pd:.25,dj:.35,co:.12,di:.28}[m],remK=Math.max(0,tg.k-to.k),remP=Math.max(0,tg.p-to.p),done=nuDay(d).m[m]||[];
+ const bk=Math.max(150,Math.min(remK,tg.k*sh)),bp=Math.max(10,Math.min(remP,tg.p*sh));
+ return NUID.filter(r=>r.m.includes(m)).map(r=>({r,s:Math.abs(r.t.k-bk)/bk+.6*Math.max(0,bp-r.t.p)/bp+.3*Math.max(0,r.t.p-bp*1.8)/bp})).sort((a,b)=>a.s-b.s).slice(0,6).map(o=>o.r)}
+function rNutIdeas(e){const d=today(),tg=nuTarget(d),to=nuTot(d),m=NUM||nuMeal(),L=nuIdeas(m,d);
+ e.innerHTML=nuBack()+'<div class="nuhd"><b>Idées de repas</b></div><div class="nutp">🎯 <span>Il te reste <b>'+nuK(Math.max(0,tg.k-to.k))+' kcal</b> et <b>'+Math.round(Math.max(0,tg.p-to.p))+' g de protéines</b> aujourd’hui.</span></div>'
+  +'<div class="nuchs">'+NM.map(x=>'<button class="nuch'+(m===x[0]?' on':'')+'" data-nu="idm" data-v="'+x[0]+'">'+x[1]+'</button>').join("")+'</div>'
+  +L.map(r=>{const i=NUID.indexOf(r);return'<div class="c nuid"><b>'+esc(r.n)+'</b><p class="m" style="margin:2px 0 6px;font-size:13px">'+r.items.map(o=>esc(o.f.n.replace(/ \(.*\)/,""))+(o.q!==1?" ×"+o.q:"")).join(" · ")+'</p><div class="nuidm"><span><b>'+Math.round(r.t.k)+'</b> kcal</span><span><b>'+Math.round(r.t.p)+'</b> g prot.</span><span>G '+Math.round(r.t.c)+'</span><span>L '+Math.round(r.t.l)+'</span></div><button class="b" data-nu="idadd" data-i="'+i+'" data-m="'+m+'" style="margin-top:8px;width:100%">Ajouter au '+NM.find(x=>x[0]===m)[1].toLowerCase()+'</button></div>'}).join("")
+  +'<p class="m" style="text-align:center;font-size:12.5px">Propositions calculées d’après ton objectif et ce qu’il te reste à manger.</p>'}
+function rNutTypes(e){const P=nuN().perso;
+ e.innerHTML=nuBack()+'<div class="nuhd"><b>Mes repas types</b></div>'+(P.length?P.map((t,i)=>{const s=t.items.reduce((a,v)=>({k:a.k+v.k,p:a.p+v.p}),{k:0,p:0});return'<div class="c nuid"><b>'+esc(t.n)+'</b><p class="m" style="margin:2px 0 6px;font-size:13px">'+t.items.map(v=>esc(v.n)).join(" · ")+'</p><div class="nuidm"><span><b>'+Math.round(s.k)+'</b> kcal</span><span><b>'+Math.round(s.p)+'</b> g prot.</span></div><div class="nuchs" style="margin-top:8px">'+NM.map(x=>'<button class="nuch" data-nu="tadd" data-i="'+i+'" data-m="'+x[0]+'">+ '+x[1]+'</button>').join("")+'</div><div style="display:flex;gap:14px;margin-top:6px"><button class="lnk" data-nu="trn" data-i="'+i+'" style="margin:0">Renommer</button><button class="lnk" data-nu="tdel" data-i="'+i+'" style="margin:0">Supprimer</button></div></div>'}).join(""):'<div class="c"><b>Aucun repas type pour l’instant</b><p class="m" style="margin:4px 0 0">Dans « Aujourd’hui », appuie sur « Enregistrer comme repas type » sous un repas : tu le retrouveras ici et dans la recherche.</p></div>')}
+document.addEventListener("click",ev=>{const b=ev.target.closest("#nutr [data-nu]");if(!b)return;const k=b.dataset.nu,v=b.dataset.v,i=+b.dataset.i,n=nuN(),d=today();
+ if(k==="v"){NUV=v;NUDT=null;rNut();scrollTo(0,0);return}
+ if(k==="idm"){NUM=v;rNut();return}
+ if(k==="idadd"){const r=NUID[i],m=b.dataset.m,ids=[];r.items.forEach(o=>{const en=nuEnt(nuFv(o.f),o.q);ids.push(en.id);nuAdd(m,en)});rNut();toastU("Ajouté : "+r.n,()=>{const L=nuDayW(d).m[m];ids.forEach(id=>{const j=L.findIndex(z=>z.id===id);if(j>=0)L.splice(j,1)});save();rNut()});return}
+ if(k==="tadd"){const t=n.perso[i],m=b.dataset.m,ids=[];if(!t)return;t.items.forEach(it=>{const c=Object.assign({},it,{id:uid()});ids.push(c.id);nuAdd(m,c)});toastU("Ajouté : "+t.n,()=>{const L=nuDayW(d).m[m];ids.forEach(id=>{const j=L.findIndex(z=>z.id===id);if(j>=0)L.splice(j,1)});save();rNut()});return}
+ if(k==="tdel"){const t=n.perso[i];if(!t)return;n.perso.splice(i,1);save();rNut();toastU("Repas type supprimé",()=>{n.perso.splice(i,0,t);save();rNut()});return}
+ if(k==="trn"){NS={m:"pd",mode:"rn",cat:"",q:"",f:null,qty:1,ed:null,v:n.perso[i]?n.perso[i].n:"",rn:i};nuSheet();return}
+});
+{const _go=go;go=function(t){_go(t);if(t==="nutri")try{NUDT=null;NOE=false;NUV="";rNut()}catch(x){}}}
 {const _dr=draw;draw=function(){_dr.apply(this,arguments);try{rNut()}catch(x){}}}
 if(!S.set.tuto)tutoOpen();
 </script>
