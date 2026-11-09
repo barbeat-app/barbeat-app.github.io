@@ -3106,7 +3106,7 @@ $("#wkp").onclick=()=>{WK--;rSem()};$("#wkn").onclick=()=>{if(WK<0){WK++;rSem()}
 
 function draw(){try{banner()}catch(_){}secBanners();rLibMy();rReg();try{rCycRem()}catch(_){}rTeam();rRpeD();rGch();rEx();rFchk();rRx();rExos();rProg();rCyc();rWell();rHome();rHcyc();rProf();rRegles();rHisto();rSem();rPoids();rRec();rCharge();rSf();rPain();rTests();rForme();rHub();try{rWpush()}catch(x){}banner()}
 calc();draw();{const h=location.hash.slice(1);if(h&&document.getElementById(h))go(h);else{const d=D();if(d.t0&&!d.t1&&d.edit==null)go("seance")}}
-var BUILD=175,UPW=null,UPGO=false;
+var BUILD=176,UPW=null,UPGO=false;
 function updBar(w){if(document.getElementById("updbar"))return;UPW=w;const d=document.createElement("div");d.id="updbar";d.setAttribute("role","status");d.innerHTML='<span>Nouvelle version disponible</span><button type="button" id="updgo">Mettre à jour</button>';document.body.appendChild(d);
  const b=document.getElementById("updgo");b.onclick=()=>{b.disabled=true;b.textContent="Mise à jour…";if(!UPW){(async()=>{try{if(window.caches){const k=await caches.keys();await Promise.all(k.map(x=>caches.delete(x)))}}catch(e){}location.reload()})();return}UPGO=true;try{UPW.postMessage("skip")}catch(e){location.reload()}setTimeout(()=>location.reload(),4000)}}
 try{document.getElementById("bldv").textContent="Version installée : V"+BUILD}catch(e){}
@@ -4159,6 +4159,7 @@ function nuListH(){const q=nrm(NS.q).split(" ").filter(Boolean),pe=nuN().perso,m
  const tpl=pe.map((t,i)=>({t,i})).filter(o=>!q.length||q.every(w=>nrm(o.t.n).includes(w))).map(o=>{const s=o.t.items.reduce((a,v)=>({k:a.k+v.k,p:a.p+v.p}),{k:0,p:0});return'<div class="nur1" data-nu="tmpl" data-i="'+o.i+'"><span><b>'+esc(o.t.n)+'</b><small>'+o.t.items.length+' aliment'+(o.t.items.length>1?'s':'')+' · '+Math.round(s.k)+' kcal · '+Math.round(s.p)+' g prot.</small></span><button class="nup nux2" data-nu="delt" data-i="'+o.i+'" aria-label="Supprimer ce repas type">✕</button></div>'});
  const mine=(nuN().mine||[]).map((f,i)=>({f,i})).filter(o=>!q.length||q.every(w=>nrm(o.f.n).includes(w)));
  if(q.join("").length>=2)h+='<button class="b g" data-nu="offgo2" style="width:100%;margin:8px 0 2px">🌍 Chercher « '+esc(NS.q.trim())+' » dans la base mondiale</button>';
+ if(!q.length&&!NS.cat)h+=nuHabH();
  if(!q.length&&!NS.cat){const fv=(nuN().fav||[]).map(nm=>{const i=NUF.findIndex(f=>f.n===nm);if(i>=0)return nuRow(NUF[i],i);const j=(nuN().mine||[]).findIndex(f=>f.n===nm);return j>=0?nuRowM(nuN().mine[j],j):""}).filter(Boolean);h+=mk(fv,"Favoris ★")}
  if(!NS.cat)h+=mk(tpl,"Mes repas types");
  if(!NS.cat)h+=mk(mine.map(o=>nuRowM(o.f,o.i)),"Mes produits");
@@ -4396,7 +4397,7 @@ function rNutHub(e){const d=today(),tg=nuTarget(d),to=nuTot(d),n=S.nut,w=nuDays(
  const row=(ic,t,s,v)=>'<button class="nuhr" data-nu="v" data-v="'+v+'"><span class="nuhi">'+ic+'</span><span class="nuht"><b>'+t+'</b><small>'+s+'</small></span><span class="nuhc">›</span></button>';
  const bar=(lab,v,t,c)=>'<div class="nusm"><span>'+lab+'</span><i><u style="width:'+Math.min(100,t?v/t*100:0)+'%;background:'+c+'"></u></i><em>'+Math.round(v)+' / '+t+'</em></div>';
  const al=(n.al||[]).length||n.veg;
- e.innerHTML='<div class="c nurg">'+nuRings(d,false)+'</div>'+(nuTrend()?'<button class="nutp nuadjb" data-nu="v" data-v="week">⚖️ <span>Ton objectif peut être ajusté. <b>Voir</b></span></button>':'')
+ e.innerHTML='<div class="c nurg">'+nuRings(d,false)+'</div>'+nuRecapH()+(nuTrend()?'<button class="nutp nuadjb" data-nu="v" data-v="week">⚖️ <span>Ton objectif peut être ajusté. <b>Voir</b></span></button>':'')
   +row("🍽️","Noter mes repas","Petit-déj, déjeuner, dîner, collations","day")
   +row("💡","Que manger ?",rest>0?"Des idées pour atteindre tes "+Math.round(rest)+" g de protéines":"Des idées de recettes","ideas")
   +row("📊","Ma semaine",w.length?"Moyenne "+nuK(w.reduce((a,t)=>a+t.k,0)/w.length)+" kcal par jour":"Ton bilan apparaît après quelques jours","week")
@@ -4710,6 +4711,31 @@ document.addEventListener("click",ev=>{const b=ev.target.closest("#nutr [data-nu
  if(k==="shc"){n.shc=n.shc||{};n.shc[v]=!n.shc[v];save();rNut();return}
  if(k==="shx"){n.shc={};save();rNut();return}
  if(k==="shsh"){const tx=nuShopTxt(nuShop(n.shd||7));try{if(navigator.share){navigator.share({title:"Courses",text:tx}).catch(()=>{});return}}catch(_){}try{navigator.clipboard.writeText(tx).then(()=>toast("Liste copiée"),()=>toast("Copie impossible"))}catch(_){toast("Copie impossible")}return}
+});
+
+
+/* ===== V176 : habitudes de saisie + bilan du soir ===== */
+var NHB=[],NRC={o:0,s:null};
+function nuHab(m){const ag={};nuDays(30).forEach(dt=>{(nuDay(dt).m[m]||[]).forEach(e=>{const o=ag[e.n]||(ag[e.n]={c:0,e:null,d:""});o.c++;if(dt>=o.d){o.d=dt;o.e=e}})});
+ return Object.values(ag).filter(o=>o.c>=2).sort((a,b)=>b.c-a.c||(a.d<b.d?1:-1)).slice(0,5)}
+function nuHabH(){const m=NS.m,L=nuHab(m);NHB=L.map(o=>o.e);if(!L.length)return"";
+ return'<div class="nuhh">Tes habitudes · '+NM.find(z=>z[0]===m)[1].toLowerCase()+'</div>'+L.map((o,i)=>{const e=o.e;return'<div class="nur1" data-nu="hab" data-i="'+i+'"><span><b>'+esc(e.n)+'</b><small>'+esc(nuQl(e))+' · '+e.k+' kcal · '+Math.round(e.p)+' g prot.</small>'+nuWarn(e.n)+'</span><button class="nup" data-nu="hab" data-i="'+i+'" aria-label="Ajouter comme d’habitude">+</button></div>'}).join("")}
+function nuRecapH(){const h=window.NURC_H!=null?window.NURC_H:new Date().getHours();if(h<20)return"";
+ const d=today(),tg=nuTarget(d),to=nuTot(d),x=nuDay(d),rk=tg.k-to.k,rp=tg.p-to.p,w=x.w||0;let b="";
+ if(to.k===0)b='<p class="m" style="margin:4px 0 8px">Tu n’as rien noté aujourd’hui.</p><button class="b" data-nu="add" data-m="'+nuMeal()+'">+ Noter un repas</button>';
+ else{
+  if(rp>10||rk>300){const r=nuPick("co",Math.max(150,Math.min(rk,500)),Math.max(10,rp),d,NRC.o,[]);NRC.s=r;
+   b+='<p class="m" style="margin:4px 0 6px">Il te manque <b>'+(rp>10?Math.round(rp)+' g de protéines':'')+(rp>10&&rk>300?' et ':'')+(rk>300?nuK(rk)+' kcal':'')+'</b>.</p>'
+    +(r?'<div class="nuar1"><b>'+esc(r.r.n)+'</b><small>'+Math.round(r.t.k)+' kcal · '+Math.round(r.t.p)+' g prot.</small><div class="r" style="margin-top:6px"><button class="b" data-nu="rcadd">+ Ajouter en collation</button><button class="b g" data-nu="rcn">↻ Autre</button></div></div>':'')}
+  else b+='<p class="m" style="margin:4px 0 6px">Objectifs du jour atteints 👏</p>';
+ }
+ if(to.k>0&&w<.7*tg.w)b+='<p class="m" style="margin:10px 0 4px">💧 Eau : '+fnum(w/1000)+' L notés sur '+fnum(tg.w/1000)+' L. <b>Combien as-tu bu en tout ?</b></p><div class="nuchs">'+[1000,1500,2000,2500,3000].map(v=>'<button class="nuch" data-nu="rcw" data-v="'+v+'">'+fnum(v/1000)+' L</button>').join("")+'</div>';
+ return'<div class="c nuar"><b>🌙 Bilan du soir</b>'+b+'</div>'}
+document.addEventListener("click",ev=>{const b=ev.target.closest("#nutr [data-nu],#nutx [data-nu]");if(!b)return;const k=b.dataset.nu,v=b.dataset.v,d=NUDT||today();
+ if(k==="hab"){const e=NHB[+b.dataset.i];if(!e)return;const c=Object.assign({},e,{id:uid()}),m=NS.m;nuAdd(m,c);rNut();try{rHome()}catch(_){}toastU("Ajouté : "+e.n,()=>{const L=nuDayW(d).m[m],j=L.findIndex(z=>z.id===c.id);if(j>=0)L.splice(j,1);save();rNut()});return}
+ if(k==="rcn"){NRC.o++;rNut();return}
+ if(k==="rcadd"){const r=NRC.s;if(!r)return;const ids=[];r.items.forEach(o=>{const en=nuEnt(nuFv(o.f),o.q);ids.push(en.id);nuAdd("co",en)});rNut();try{rHome()}catch(_){}toastU("Ajouté : "+r.r.n,()=>{const L=nuDayW(today()).m.co;ids.forEach(id=>{const j=L.findIndex(z=>z.id===id);if(j>=0)L.splice(j,1)});save();rNut()});return}
+ if(k==="rcw"){const x=nuDayW(today()),old=x.w||0;x.w=+v;save();rNut();try{rHome()}catch(_){}toastU("Eau : "+fnum(+v/1000)+" L",()=>{nuDayW(today()).w=old;save();rNut()});return}
 });
 
 {const _go=go;go=function(t){_go(t);if(t==="nutri")try{NUDT=null;NOE=false;NUV="";rNut()}catch(x){}}}
