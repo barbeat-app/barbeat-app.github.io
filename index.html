@@ -3106,7 +3106,7 @@ $("#wkp").onclick=()=>{WK--;rSem()};$("#wkn").onclick=()=>{if(WK<0){WK++;rSem()}
 
 function draw(){try{banner()}catch(_){}secBanners();rLibMy();rReg();try{rCycRem()}catch(_){}rTeam();rRpeD();rGch();rEx();rFchk();rRx();rExos();rProg();rCyc();rWell();rHome();rHcyc();rProf();rRegles();rHisto();rSem();rPoids();rRec();rCharge();rSf();rPain();rTests();rForme();rHub();try{rWpush()}catch(x){}banner()}
 calc();draw();{const h=location.hash.slice(1);if(h&&document.getElementById(h))go(h);else{const d=D();if(d.t0&&!d.t1&&d.edit==null)go("seance")}}
-var BUILD=166,UPW=null,UPGO=false;
+var BUILD=167,UPW=null,UPGO=false;
 function updBar(w){if(document.getElementById("updbar"))return;UPW=w;const d=document.createElement("div");d.id="updbar";d.setAttribute("role","status");d.innerHTML='<span>Nouvelle version disponible</span><button type="button" id="updgo">Mettre à jour</button>';document.body.appendChild(d);
  const b=document.getElementById("updgo");b.onclick=()=>{b.disabled=true;b.textContent="Mise à jour…";if(!UPW){(async()=>{try{if(window.caches){const k=await caches.keys();await Promise.all(k.map(x=>caches.delete(x)))}}catch(e){}location.reload()})();return}UPGO=true;try{UPW.postMessage("skip")}catch(e){location.reload()}setTimeout(()=>location.reload(),4000)}}
 try{document.getElementById("bldv").textContent="Version installée : V"+BUILD}catch(e){}
@@ -4143,22 +4143,27 @@ function nuQtyH(){const f=NS.f,q=NS.qty,r=f.pt*q/100,k=Math.round(f.k*r);
 function nuRow(f,i){const k=Math.round(f.k*f.pt/100),p=r1(f.p*f.pt/100);return'<div class="nur1" data-nu="pick" data-i="'+i+'"><span><b>'+esc(f.n)+'</b><small>'+esc(f.lb)+' ('+f.pt+' g) · '+k+' kcal · '+p+' g prot.</small>'+nuWarn(f.n)+'</span><button class="nup" data-nu="quick" data-i="'+i+'" aria-label="Ajouter une portion">+</button></div>'}
 function nuListH(){const q=nrm(NS.q).split(" ").filter(Boolean),pe=nuN().perso,mk=(arr,t)=>arr.length?'<div class="nuhh">'+t+'</div>'+arr.join(""):"";let h="";
  const tpl=pe.map((t,i)=>({t,i})).filter(o=>!q.length||q.every(w=>nrm(o.t.n).includes(w))).map(o=>{const s=o.t.items.reduce((a,v)=>({k:a.k+v.k,p:a.p+v.p}),{k:0,p:0});return'<div class="nur1" data-nu="tmpl" data-i="'+o.i+'"><span><b>'+esc(o.t.n)+'</b><small>'+o.t.items.length+' aliment'+(o.t.items.length>1?'s':'')+' · '+Math.round(s.k)+' kcal · '+Math.round(s.p)+' g prot.</small></span><button class="nup nux2" data-nu="delt" data-i="'+o.i+'" aria-label="Supprimer ce repas type">✕</button></div>'});
+ const mine=(nuN().mine||[]).map((f,i)=>({f,i})).filter(o=>!q.length||q.every(w=>nrm(o.f.n).includes(w)));
+ if(q.join("").length>=2)h+='<button class="b g" data-nu="offgo2" style="width:100%;margin:8px 0 2px">🌍 Chercher « '+esc(NS.q.trim())+' » dans la base mondiale</button>';
  if(!NS.cat)h+=mk(tpl,"Mes repas types");
+ if(!NS.cat)h+=mk(mine.map(o=>nuRowM(o.f,o.i)),"Mes produits");
  if(!q.length&&!NS.cat){const rc=nuN().rec.map(nm=>NUF.findIndex(f=>f.n===nm)).filter(i=>i>=0);h+=mk(rc.map(i=>nuRow(NUF[i],i)),"Récents")}
  let last="";NUF.forEach((f,i)=>{if(NS.cat&&f.c!==NS.cat)return;if(q.length&&!q.every(w=>nrm(f.n+" "+f.c).includes(w)))return;if(f.c!==last){last=f.c;h+='<div class="nuhh">'+esc(f.c)+'</div>'}h+=nuRow(f,i)});
- return h||'<p class="m" style="text-align:center;padding:16px 0">Aucun résultat. Essaie la saisie libre.</p>'}
+ return h||'<p class="m" style="text-align:center;padding:16px 0">Aucun résultat dans ma liste. Essaie « Base mondiale », le scan ou la saisie libre.</p>'}
 function nuSheet(){let x=document.getElementById("nutx");if(!x){x=document.createElement("div");x.id="nutx";document.body.appendChild(x)}
- const md=NS.mode,tit={list:"Ajouter",qty:NS.ed?"Modifier":"Quantité",free:"Saisie libre",prot:"Protéines",sm:"Repas type",rn:"Renommer"}[md]||"Ajouter";
+ const md=NS.mode,tit={list:"Ajouter",qty:NS.ed?"Modifier":"Quantité",free:"Saisie libre",prot:"Protéines",sm:"Repas type",rn:"Renommer",off:"Base mondiale",scan:"Scanner"}[md]||"Ajouter";
  const mc=NM.map(m=>'<button class="nuch'+(NS.m===m[0]?' on':'')+'" data-nu="msel" data-v="'+m[0]+'">'+m[1]+'</button>').join("");
  let b="";
- if(md==="list")b='<div class="nuchs">'+mc+'</div><input id="nuq" type="search" placeholder="Chercher un aliment (poulet, riz, yaourt…)" value="'+esc(NS.q)+'" autocomplete="off"><div class="nuchs"><button class="nuch'+(NS.cat?'':' on')+'" data-nu="cat" data-v="">Tous</button>'+NUCATS.map(c=>'<button class="nuch'+(NS.cat===c?' on':'')+'" data-nu="cat" data-v="'+esc(c)+'">'+esc(c)+'</button>').join("")+'<button class="nuch" data-nu="free">Saisie libre</button></div><div id="nulist">'+nuListH()+'</div>';
+ if(md==="list")b='<div class="nuchs">'+mc+'</div><input id="nuq" type="search" placeholder="Chercher un aliment (poulet, riz, yaourt…)" value="'+esc(NS.q)+'" autocomplete="off"><div class="nuchs"><button class="nuch" data-nu="offopen">🌍 Base mondiale</button><button class="nuch" data-nu="scanopen">📷 Scanner</button></div><div class="nuchs"><button class="nuch'+(NS.cat?'':' on')+'" data-nu="cat" data-v="">Tous</button>'+NUCATS.map(c=>'<button class="nuch'+(NS.cat===c?' on':'')+'" data-nu="cat" data-v="'+esc(c)+'">'+esc(c)+'</button>').join("")+'<button class="nuch" data-nu="free">Saisie libre</button></div><div id="nulist">'+nuListH()+'</div>';
+ else if(md==="off")b=nuOffH();
+ else if(md==="scan")b=nuScanH();
  else if(md==="qty")b=nuQtyH();
  else if(md==="free")b='<div class="nuchs">'+mc+'</div><label for="nufn">Nom</label><input id="nufn" placeholder="Ex. Plat du restaurant"><div class="r"><div><label for="nufk">Calories</label><input id="nufk" inputmode="numeric" placeholder="kcal"></div><div><label for="nufp">Protéines (g)</label><input id="nufp" inputmode="decimal" placeholder="facultatif"></div></div><div class="r"><div><label for="nufg">Glucides (g)</label><input id="nufg" inputmode="decimal" placeholder="facultatif"></div><div><label for="nufl">Lipides (g)</label><input id="nufl" inputmode="decimal" placeholder="facultatif"></div></div><button class="b big" data-nu="fadd" style="margin-top:12px">Ajouter</button>';
  else if(md==="prot")b='<div class="nuchs">'+mc+'</div><p class="m">Combien de protéines (shaker, barre, complément…) ?</p><div class="nuchs">'+[10,15,20,25,30,40].map(v=>'<button class="nuch" data-nu="padd" data-v="'+v+'">+ '+v+' g</button>').join("")+'</div><div class="r" style="align-items:end"><div><label for="nupg">Autre quantité (g)</label><input id="nupg" inputmode="decimal" placeholder="Ex. 35"></div><button class="b" data-nu="padd" data-v="x">Ajouter</button></div>';
  else if(md==="rn")b='<label for="nusn">Nom du repas</label><input id="nusn" value="'+esc(NS.v)+'"><button class="b big" data-nu="radd" style="margin-top:12px">Enregistrer</button>';
  else if(md==="sm")b='<p class="m">Retrouve ce repas en un tap, comme « petit-déj habituel ».</p><label for="nusn">Nom du repas</label><input id="nusn" placeholder="Ex. Petit-déj habituel" value="'+esc(NS.v)+'"><button class="b big" data-nu="sadd" style="margin-top:12px">Enregistrer</button>';
- x.innerHTML='<div class="nus" role="dialog" aria-label="'+tit+'"><div class="nuh"><b>'+tit+'</b><button class="nux" data-nu="close" aria-label="Fermer">✕</button></div>'+b+'</div>'}
-function nuClose(){const x=document.getElementById("nutx");if(x)x.remove();NS.mode="";NS.ed=null;NS.q="";NS.cat=""}
+ x.innerHTML='<div class="nus" role="dialog" aria-label="'+tit+'"><div class="nuh"><b>'+tit+'</b><button class="nux" data-nu="close" aria-label="Fermer">✕</button></div>'+b+'</div>';if(md!=="scan")nuScanStop();else nuScanStart()}
+function nuClose(){nuScanStop();const x=document.getElementById("nutx");if(x)x.remove();NS.mode="";NS.ed=null;NS.q="";NS.cat=""}
 function nuOpen(m,mode){NS.m=m||nuMeal();NS.mode=mode||"list";NS.ed=null;NS.q="";NS.cat="";nuSheet();if(NS.mode==="list"){const q=$("#nuq");if(q)setTimeout(()=>{try{q.focus()}catch(e){}},50)}}
 document.addEventListener("click",ev=>{if(ev.target.id==="nutx"){nuClose();return}
  const b=ev.target.closest("#nutr [data-nu],#nutx [data-nu]");if(!b)return;const k=b.dataset.nu,v=b.dataset.v,i=+b.dataset.i,n=nuN(),d=NUDT||today();
@@ -4415,7 +4420,7 @@ const NUALR={
  sesame:/houmous|falafel|poke/,
  viande:/poulet|dinde|jambon|boeuf|entrecote|roti de|veau|porc|lardons|bacon|saucisse|merguez|chipolata|saucisson|agneau|canard|foie|nuggets|cordon|burger|kebab|lasagne|bolognaise|carbonara|hachis|raviolis|cantonais|nems|plat complet|lorraine|escalope|steak de/};
 const _nuAlC={};
-function nuAl(name){if(_nuAlC[name])return _nuAlC[name];const n=nrm(name),r=[];
+function nuAl(name){const mm=((S.nut||{}).mine||[]).find(x=>x.n===name);if(mm){const a=(mm.al||[]).slice();if(NUALR.viande.test(nrm(name)))a.push("viande");return a}if(_nuAlC[name])return _nuAlC[name];const n=nrm(name),r=[];
  if(!/sans gluten/.test(n)&&NUALR.gluten.test(n))r.push("gluten");
  if(!/sans lactose|vegetal|lait d.(amande|soja|avoine|coco)|beurre de/.test(n)&&NUALR.lactose.test(n))r.push("lactose");
  ["oeufs","arachide","coque","poisson","mer","soja","sesame"].forEach(k=>{if(NUALR[k].test(n))r.push(k)});
@@ -4473,6 +4478,55 @@ document.addEventListener("click",ev=>{const b=ev.target.closest("#nutr [data-nu
 {let sx=0,sy=0,ok=false;const sec=()=>document.getElementById("nutri");
  document.addEventListener("touchstart",e=>{const s=sec();ok=!!(s&&s.classList.contains("on")&&NUV!==""&&!document.getElementById("nutx")&&e.touches.length===1&&!e.target.closest(".nuchs,input,textarea"));if(ok){sx=e.touches[0].clientX;sy=e.touches[0].clientY}},{passive:true});
  document.addEventListener("touchend",e=>{if(!ok)return;ok=false;const t=e.changedTouches[0],dx=t.clientX-sx,dy=t.clientY-sy;if(dx>70&&Math.abs(dy)<60&&dx>Math.abs(dy)*1.6){NUV="";NUDT=null;try{rNut();scrollTo(0,0)}catch(_){}}},{passive:true})}
+
+
+/* ===== base mondiale Open Food Facts + scan (V167) ===== */
+var NUOFF=[],NUOS="",NUOQ="",NUSTR=null,NUSCT=0;
+const NUOA={"en:gluten":"gluten","en:milk":"lactose","en:eggs":"oeufs","en:peanuts":"arachide","en:nuts":"coque","en:fish":"poisson","en:crustaceans":"mer","en:molluscs":"mer","en:soybeans":"soja","en:sesame-seeds":"sesame"};
+const NUFLD="code,product_name,product_name_fr,brands,nutriments,serving_quantity,allergens_tags";
+function nuOffParse(p){if(!p)return null;const nm=p.nutriments||{};let k=+nm["energy-kcal_100g"];if(!(k>=0)||nm["energy-kcal_100g"]==null){const kj=+(nm["energy_100g"]||nm["energy-kj_100g"]);k=kj>0?kj/4.184:NaN}
+ if(!(k>=0))return null;const br=(Array.isArray(p.brands)?p.brands[0]:String(p.brands||"").split(",")[0]||"").trim(),nm2=String(p.product_name_fr||p.product_name||"").trim();if(!nm2)return null;
+ const sq=+p.serving_quantity>0?+p.serving_quantity:0,f1=v=>Math.round((+v||0)*10)/10;
+ return{n:(br&&!nm2.toLowerCase().includes(br.toLowerCase())?br+" – ":"")+nm2,k:Math.round(k),p:f1(nm["proteins_100g"]),g:f1(nm["carbohydrates_100g"]),l:f1(nm["fat_100g"]),pt:sq||100,lb:sq?"1 portion":"",al:[...new Set((p.allergens_tags||[]).map(t=>NUOA[t]).filter(Boolean))],code:String(p.code||"")}}
+async function nuOffFetch(url){const c=new AbortController(),t=setTimeout(()=>c.abort(),12000);try{const r=await fetch(url,{signal:c.signal});if(!r.ok)throw new Error("http "+r.status);return await r.json()}finally{clearTimeout(t)}}
+async function nuOffSearch(q){NUOS="load";NUOFF=[];nuSheet();let L=[],fail=0;
+ const src=[()=>nuOffFetch("https://search.openfoodfacts.org/search?q="+encodeURIComponent(q)+"&page_size=25&langs=fr&fields="+NUFLD).then(j=>j.hits||j.products||[]),
+  ()=>nuOffFetch("https://world.openfoodfacts.org/cgi/search.pl?search_terms="+encodeURIComponent(q)+"&search_simple=1&action=process&json=1&page_size=25&fields="+NUFLD).then(j=>j.products||[])];
+ for(const f of src){try{L=(await f()).map(nuOffParse).filter(Boolean)}catch(e){fail++;L=[]}if(L.length)break}
+ NUOFF=L;NUOS=L.length?"ok":(fail>=src.length?"err":"none");if(NS.mode==="off")nuSheet()}
+function nuOffOpen(o){const n=nuN();n.mine=n.mine||[];const i=n.mine.findIndex(x=>(o.code&&x.code===o.code)||x.n===o.n);if(i>=0)n.mine.splice(i,1);n.mine.unshift(o);n.mine=n.mine.slice(0,200);save();
+ NS.f=nuFv(o);NS.qty=1;NS.mode="qty";NS.ed=null;nuSheet()}
+async function nuOffCode(code){code=String(code).replace(/\D/g,"");if(code.length<6){toast("Code-barres invalide");return}
+ try{const j=await nuOffFetch("https://world.openfoodfacts.org/api/v2/product/"+code+".json?fields="+NUFLD),o=j&&j.status===1?nuOffParse(j.product):null;if(o)nuOffOpen(o);else{toast("Produit introuvable ("+code+"). Essaie la recherche ou la saisie libre.");if(NS.mode==="scan")nuScanStart()}}
+ catch(e){toast("Impossible de joindre la base : vérifie ta connexion.");if(NS.mode==="scan")nuScanStart()}}
+async function nuScanStart(){nuScanStop();const v=$("#nuvid"),m=$("#nuscm");if(!v)return;
+ if(!("BarcodeDetector" in window)||!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){v.style.display="none";if(m)m.textContent="Le scan par caméra n’est pas disponible sur cet appareil : saisis le numéro sous le code-barres.";return}
+ try{NUSTR=await navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"}});v.srcObject=NUSTR;await v.play();const det=new BarcodeDetector({formats:["ean_13","ean_8","upc_a","upc_e"]});
+  const tick=async()=>{if(!NUSTR||NS.mode!=="scan")return;try{const r=await det.detect(v);if(r&&r[0]){const c=r[0].rawValue;nuScanStop();nuOffCode(c);return}}catch(e){}NUSCT=setTimeout(tick,350)};tick()}
+ catch(e){v.style.display="none";if(m)m.textContent="Caméra refusée ou indisponible : saisis le numéro sous le code-barres."}}
+function nuScanStop(){clearTimeout(NUSCT);if(NUSTR){NUSTR.getTracks().forEach(t=>t.stop());NUSTR=null}}
+const nuMW=o=>{const h=(o.al||[]).filter(k=>((S.nut||{}).al||[]).includes(k)).map(k=>NUAL.find(z=>z[0]===k)[1]);return h.length?'<small class="nuwarn">⚠ contient : '+esc(h.join(", "))+'</small>':""};
+function nuOffH(){const mc=NM.map(m=>'<button class="nuch'+(NS.m===m[0]?' on':'')+'" data-nu="msel" data-v="'+m[0]+'">'+m[1]+'</button>').join("");
+ let r="";if(NUOS==="load")r='<p class="m" style="text-align:center;padding:14px 0">Recherche en cours…</p>';
+ else if(NUOS==="err")r='<p class="m" style="text-align:center;padding:14px 0">Impossible de joindre la base mondiale. Vérifie ta connexion et réessaie.</p>';
+ else if(NUOS==="none")r='<p class="m" style="text-align:center;padding:14px 0">Aucun produit trouvé. Essaie avec la marque + le nom (ex. « bjorg gâteau chocolat »), le scan du code-barres ou la saisie libre.</p>';
+ else if(NUOS==="ok")r=NUOFF.map((o,i)=>'<div class="nur1" data-nu="offpick" data-i="'+i+'"><span><b>'+esc(o.n)+'</b><small>'+o.k+' kcal · '+o.p+' g prot. · G '+o.g+' · L '+o.l+' (pour 100 g)</small>'+nuMW(o)+'</span></div>').join("");
+ return'<div class="nuchs">'+mc+'</div><div class="r" style="align-items:end"><div><label for="nuoq">Produit ou marque</label><input id="nuoq" type="search" value="'+esc(NUOQ)+'" placeholder="Ex. Bjorg gâteau chocolat" autocomplete="off"></div><button class="b" data-nu="offgo">Chercher</button></div><p class="m" style="font-size:12px;margin:0">Base collaborative Open Food Facts : des millions de produits du monde entier. Vérifie les valeurs sur l’emballage.</p>'+r}
+function nuScanH(){const mc=NM.map(m=>'<button class="nuch'+(NS.m===m[0]?' on':'')+'" data-nu="msel" data-v="'+m[0]+'">'+m[1]+'</button>').join("");
+ return'<div class="nuchs">'+mc+'</div><video id="nuvid" playsinline muted style="width:100%;border-radius:12px;background:#000;max-height:260px"></video><p class="m" id="nuscm" style="font-size:13px;margin:0">Place le code-barres devant la caméra.</p><div class="r" style="align-items:end"><div><label for="nuscc">Ou saisis le numéro du code-barres</label><input id="nuscc" inputmode="numeric" placeholder="Ex. 3017620422003"></div><button class="b" data-nu="scgo">Valider</button></div>'}
+const nuRowM=(f,i)=>{const k=Math.round(f.k*f.pt/100),p=r1(f.p*f.pt/100);return'<div class="nur1" data-nu="mpick" data-i="'+i+'"><span><b>'+esc(f.n)+'</b><small>'+(f.lb?esc(f.lb)+' ('+f.pt+' g)':'100 g')+' · '+k+' kcal · '+p+' g prot.</small>'+nuWarn(f.n)+'</span><button class="nup" data-nu="mquick" data-i="'+i+'" aria-label="Ajouter une portion">+</button><button class="nup nux2" data-nu="mdel" data-i="'+i+'" aria-label="Retirer de mes produits">✕</button></div>'};
+document.addEventListener("click",ev=>{const b=ev.target.closest("#nutx [data-nu]");if(!b)return;const k=b.dataset.nu,i=+b.dataset.i,n=nuN(),d=NUDT||today();
+ if(k==="offopen"){NS.mode="off";NUOQ=NS.q;NUOFF=[];NUOS="";nuSheet();return}
+ if(k==="offgo2"){NUOQ=NS.q;NS.mode="off";nuOffSearch(NUOQ.trim());return}
+ if(k==="offgo"){const q=($("#nuoq")||{}).value||"";NUOQ=q;if(q.trim().length<2)return;nuOffSearch(q.trim());return}
+ if(k==="offpick"){const o=NUOFF[i];if(o)nuOffOpen(o);return}
+ if(k==="scanopen"){NS.mode="scan";nuSheet();return}
+ if(k==="scgo"){nuOffCode(($("#nuscc")||{}).value||"");return}
+ if(k==="mpick"){const f=(n.mine||[])[i];if(f){NS.f=nuFv(f);NS.qty=1;NS.mode="qty";NS.ed=null;nuSheet()}return}
+ if(k==="mquick"){const f=(n.mine||[])[i];if(!f)return;const en=nuEnt(nuFv(f),1),m=NS.m;nuAdd(m,en);rNut();try{rHome()}catch(_){}toastU("Ajouté : "+f.n,()=>{const L=nuDayW(d).m[m],j=L.findIndex(z=>z.id===en.id);if(j>=0)L.splice(j,1);save();rNut()});return}
+ if(k==="mdel"){n.mine.splice(i,1);save();const l=$("#nulist");if(l)l.innerHTML=nuListH();return}
+});
+document.addEventListener("keydown",ev=>{if(ev.key!=="Enter")return;if(ev.target.id==="nuoq"){ev.preventDefault();const q=ev.target.value;NUOQ=q;if(q.trim().length>=2)nuOffSearch(q.trim())}else if(ev.target.id==="nuscc"){ev.preventDefault();nuOffCode(ev.target.value)}});
 {const _go=go;go=function(t){_go(t);if(t==="nutri")try{NUDT=null;NOE=false;NUV="";rNut()}catch(x){}}}
 {const _dr=draw;draw=function(){_dr.apply(this,arguments);try{rNut()}catch(x){}}}
 if(!S.set.tuto)tutoOpen();
