@@ -1473,7 +1473,8 @@ $("#sidle").onclick=e=>{const b=e.target.closest("button[data-s]");if(!b)return;
  if(s==="prog-new"){go("prog");if(b.dataset.k)$("#prog").dataset.v=b.dataset.k;return}
  if(s==="prog"){try{if(window.Notification&&Notification.permission==="default")Notification.requestPermission()}catch(x){}loadDay(i)}
  else if(s==="cyc")cycLaunch(i,+b.dataset.j);
- else if(s==="redo")redoSess(i)};
+ else if(s==="redo")redoSess(i);
+ try{rFchk()}catch(x){}};
 $("#smus").onclick=()=>{$("#sgo").click();LGF="";PK="";PSEL={};ADDO="ex";rEx();rGch()};
 $("#scar").onclick=()=>{$("#sgo").click();LGF="cm";PK="typ";PSEL={};ADDO="ex";rEx();rGch()};
 /* séance */
@@ -3068,7 +3069,7 @@ $("#wkp").onclick=()=>{WK--;rSem()};$("#wkn").onclick=()=>{if(WK<0){WK++;rSem()}
 
 function draw(){try{banner()}catch(_){}secBanners();rLibMy();rReg();try{rCycRem()}catch(_){}rTeam();rRpeD();rGch();rEx();rFchk();rRx();rExos();rProg();rCyc();rWell();rHome();rHcyc();rProf();rRegles();rHisto();rSem();rPoids();rRec();rCharge();rSf();rPain();rTests();rForme();rHub();try{rWpush()}catch(x){}banner()}
 calc();draw();{const h=location.hash.slice(1);if(h&&document.getElementById(h))go(h);else{const d=D();if(d.t0&&!d.t1&&d.edit==null)go("seance")}}
-var BUILD=157,UPW=null,UPGO=false;
+var BUILD=159,UPW=null,UPGO=false;
 function updBar(w){if(document.getElementById("updbar"))return;UPW=w;const d=document.createElement("div");d.id="updbar";d.setAttribute("role","status");d.innerHTML='<span>Nouvelle version disponible</span><button type="button" id="updgo">Mettre à jour</button>';document.body.appendChild(d);
  const b=document.getElementById("updgo");b.onclick=()=>{b.disabled=true;b.textContent="Mise à jour…";if(!UPW){(async()=>{try{if(window.caches){const k=await caches.keys();await Promise.all(k.map(x=>caches.delete(x)))}}catch(e){}location.reload()})();return}UPGO=true;try{UPW.postMessage("skip")}catch(e){location.reload()}setTimeout(()=>location.reload(),4000)}}
 try{document.getElementById("bldv").textContent="Version installée : V"+BUILD}catch(e){}
@@ -3712,6 +3713,7 @@ var QHT=null;function qhSoon(){clearTimeout(QHT);QHT=setTimeout(()=>{try{qhInjec
 try{new MutationObserver(qhSoon).observe(document.body,{childList:true,subtree:true})}catch(_){}
 applyMode();qhSoon();
 try{rHcyc();rRegles();rProf();rWpush()}catch(x){}
+{const _go0=go;go=function(t){_go0(t);if(t==="seance")try{rFchk()}catch(x){}}}
 if(!S.set.tuto)tutoOpen();
 </script>
 </body>
