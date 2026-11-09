@@ -3101,7 +3101,7 @@ $("#wkp").onclick=()=>{WK--;rSem()};$("#wkn").onclick=()=>{if(WK<0){WK++;rSem()}
 
 function draw(){try{banner()}catch(_){}secBanners();rLibMy();rReg();try{rCycRem()}catch(_){}rTeam();rRpeD();rGch();rEx();rFchk();rRx();rExos();rProg();rCyc();rWell();rHome();rHcyc();rProf();rRegles();rHisto();rSem();rPoids();rRec();rCharge();rSf();rPain();rTests();rForme();rHub();try{rWpush()}catch(x){}banner()}
 calc();draw();{const h=location.hash.slice(1);if(h&&document.getElementById(h))go(h);else{const d=D();if(d.t0&&!d.t1&&d.edit==null)go("seance")}}
-var BUILD=161,UPW=null,UPGO=false;
+var BUILD=162,UPW=null,UPGO=false;
 function updBar(w){if(document.getElementById("updbar"))return;UPW=w;const d=document.createElement("div");d.id="updbar";d.setAttribute("role","status");d.innerHTML='<span>Nouvelle version disponible</span><button type="button" id="updgo">Mettre à jour</button>';document.body.appendChild(d);
  const b=document.getElementById("updgo");b.onclick=()=>{b.disabled=true;b.textContent="Mise à jour…";if(!UPW){(async()=>{try{if(window.caches){const k=await caches.keys();await Promise.all(k.map(x=>caches.delete(x)))}}catch(e){}location.reload()})();return}UPGO=true;try{UPW.postMessage("skip")}catch(e){location.reload()}setTimeout(()=>location.reload(),4000)}}
 try{document.getElementById("bldv").textContent="Version installée : V"+BUILD}catch(e){}
@@ -4112,9 +4112,9 @@ function nuRing(pct,col,val,lab,sub,sz){const sw=9,r=(sz-sw)/2,C=2*Math.PI*r;ret
 function nuBar(l,v,t,c){return'<div class="nubr"><div><b>'+l+'</b><span>'+Math.round(v)+' / '+t+' g</span></div><i><u style="width:'+Math.min(100,Math.round(v/Math.max(1,t)*100))+'%;background:'+c+'"></u></i></div>'}
 function rNut(){const e=$("#nutr");if(!e)return;const n=S.nut||{};
  if(!n.obj||NOE){e.innerHTML=nuOnb();return}
- const d=NUDT||today(),tg=nuTarget(d),to=nuTot(d),x=nuDay(d),det=!!n.det,isT=d===today();
+ const d=NUDT||today(),tg=nuTarget(d),to=nuTot(d),x=nuDay(d),det=true,isT=d===today();
  const dl=isT?"Aujourd’hui":new Date(d+"T12:00:00").toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"});
- let h='<div class="nuhd"><button class="nun" data-nu="prev" aria-label="Jour précédent">‹</button><b>'+dl+'</b>'+(isT?'<span style="width:34px"></span>':'<button class="nun" data-nu="next" aria-label="Jour suivant">›</button>')+'<span class="nutg"><button class="'+(det?'':'on')+'" data-nu="det" data-v="0">Simple</button><button class="'+(det?'on':'')+'" data-nu="det" data-v="1">Détaillé</button></span></div>';
+ let h='<div class="nuhd"><button class="nun" data-nu="prev" aria-label="Jour précédent">‹</button><b>'+dl+'</b>'+(isT?'<span style="width:34px"></span>':'<button class="nun" data-nu="next" aria-label="Jour suivant">›</button>')+'</div>';
  h+=nuTips(d).map(t=>'<div class="nutp">⚡ <span>'+t+'</span></div>').join("");
  h+='<div class="c nurs">'+nuRing(to.p/tg.p,"var(--ac)",Math.round(to.p)+" g","Protéines","/ "+tg.p+" g",112)+nuRing(to.k/tg.k,"var(--hi)",nuK(to.k),"Calories","/ "+nuK(tg.k),96)+nuRing((x.w||0)/tg.w,"#4f8cff",fnum((x.w||0)/1000)+" L","Eau","/ "+fnum(tg.w/1000)+" L",96)+'</div>';
  if(det)h+='<div class="c nums">'+nuBar("Protéines",to.p,tg.p,"var(--ac)")+nuBar("Glucides",to.c,tg.c,"var(--hi)")+nuBar("Lipides",to.l,tg.l,"#4f8cff")+'</div>';
@@ -4123,7 +4123,7 @@ function rNut(){const e=$("#nutr");if(!e)return;const n=S.nut||{};
   h+='<div class="c num"><div class="nmh"><b>'+m[1]+'</b><span>'+(L.length?Math.round(s.k)+' kcal · '+Math.round(s.p)+' g prot.':'')+'</span><button class="nua" data-nu="add" data-m="'+m[0]+'" aria-label="Ajouter au '+m[1]+'">+</button></div>'
    +L.map((v,i)=>'<button class="nui" data-nu="item" data-m="'+m[0]+'" data-i="'+i+'"><span><b>'+esc(v.n)+'</b><small>'+esc(nuQl(v))+(det?' · G '+Math.round(v.c)+' · L '+Math.round(v.l):'')+'</small></span><span class="nik">'+v.k+' kcal<small>'+Math.round(v.p)+' g prot.</small></span></button>').join("")
    +(L.length?'<button class="lnk" data-nu="sm" data-m="'+m[0]+'" style="margin:6px 0 0;font-size:13px">Enregistrer comme repas type</button>':'')+'</div>'});
- h+='<p class="m" style="text-align:center;font-size:12.5px">Objectifs pour « '+NUO.find(o=>o[0]===n.obj)[1]+' ». <button class="lnk" data-nu="redo" style="display:inline;margin:0">Modifier</button></p>';
+ h+='<details class="nud"><summary>Comment sont calculés tes objectifs ?</summary><p class="m" style="font-size:13px;line-height:1.5">Calories : ton poids (<b>'+Math.round(tg.kg)+' kg</b>) × 30 à 32 kcal, ajustées selon ton objectif (muscle +10 %, gras −15 %, performance +5 %), plus 250 kcal les jours de séance. Protéines : 1,6 à 2,1 g par kg selon l’objectif. Lipides : environ 1 g par kg. Glucides : le reste des calories. Eau : 35 ml par kg (+0,5 L les jours de séance). C’est une estimation : ajuste à la main si ton poids bouge ou si tu ne progresses pas.</p></details><p class="m" style="text-align:center;font-size:12.5px">Objectifs pour « '+NUO.find(o=>o[0]===n.obj)[1]+' ». <button class="lnk" data-nu="redo" style="display:inline;margin:0">Modifier</button></p>';
  e.innerHTML=h}
 function nuQtyH(){const f=NS.f,q=NS.qty,r=f.pt*q/100,k=Math.round(f.k*r);
  return'<div class="nuqp"><b style="font-size:17px">'+esc(f.n)+'</b><div class="nust"><button class="nun" data-nu="qm" aria-label="Moins">−</button><div><b>'+(Math.round(q*100)/100)+'</b><small>'+esc(f.lb||"portion")+'</small></div><button class="nun" data-nu="qp" aria-label="Plus">+</button></div>'
