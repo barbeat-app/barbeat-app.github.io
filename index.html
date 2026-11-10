@@ -245,12 +245,12 @@ button.sn{border:0;color:var(--ink);font:700 16px Barlow,sans-serif;cursor:point
 .sr.prn{animation:prflash 1.4s ease-out}
 @keyframes prpop{0%{transform:scale(0) rotate(-40deg);opacity:0}55%{transform:scale(1.9) rotate(12deg);opacity:1}100%{transform:scale(1) rotate(0)}}
 @keyframes prflash{0%,30%{background:color-mix(in srgb,var(--hi) 35%,transparent)}100%{background:transparent}}
-.gdt{border:1px solid var(--ln);border-radius:14px;margin:8px 0;background:var(--sf)}
-.gdt>summary{list-style:none;cursor:pointer;padding:12px 14px;display:block}
-.gdt>summary::-webkit-details-marker{display:none}
-.gdt .gch{display:inline-block;transition:transform .2s;margin-left:6px;color:var(--mu)}
-.gdt[open] .gch{transform:rotate(90deg)}
-.gdt .gbd{padding:0 14px 12px;border-top:1px solid var(--ln)}
+.mgx{border:1px solid var(--ln);border-radius:14px;margin:8px 0;background:var(--sf)}
+.mgx>summary{list-style:none;cursor:pointer;padding:12px 14px;display:block}
+.mgx>summary::-webkit-details-marker{display:none}
+.mgx .mgc{display:inline-block;transition:transform .2s;margin-left:6px;color:var(--mu)}
+.mgx[open] .mgc{transform:rotate(90deg)}
+.mgx .mgb{padding:0 14px 12px;border-top:1px solid var(--ln)}
 @media (prefers-reduced-motion:reduce){.sr.prn,.sr.prn .prm{animation:none}}
 
 .pgr{flex-wrap:wrap}.pgr>div{flex:1 1 40%}.pgr>button{flex:1 1 100%}
@@ -946,6 +946,16 @@ label.b{display:block;text-align:center;box-sizing:border-box;cursor:pointer;fon
 /* anti-zoom + bouton d'ajout flottant */
 html,body{touch-action:manipulation;-webkit-text-size-adjust:100%}input,select,textarea{font-size:max(16px,1em)}
 #lgadd,#pkadd{position:fixed!important;left:16px;right:16px;width:auto!important;box-sizing:border-box;bottom:calc(78px + env(safe-area-inset-bottom,0px));z-index:30;margin:0!important;box-shadow:0 10px 28px rgba(0,0,0,.6)}#lgadd[hidden],#pkadd[hidden]{display:none!important}
+/* choix d'exercice compact */
+.lgr{border-radius:8px;margin:0 0 4px}
+.lgx{gap:8px;padding:3px 4px 3px 9px}
+.lgt b{font-size:15px;letter-spacing:.3px;line-height:1.15}
+.lgt .m{font-size:11px;line-height:1.2}
+.lgck{flex:0 0 18px;height:18px;font-size:12px;border-radius:4px}
+.lgr .star{padding:4px 10px 4px 4px;font-size:19px}
+.lgg{padding:9px 12px;border-radius:8px}.lgg b{font-size:16px}
+.pcp .lgi,.lgi{padding:6px 10px;font-size:14px;border-radius:9px}
+.pcp .lgl{gap:0}
 </style>
 </head>
 <body>
@@ -3123,7 +3133,7 @@ function rSem(){
  const avg=(k,f)=>pw.reduce((u,x)=>u+((x.g[k]||{})[f]||0),0)/4;
  const rows=MUSG.map(g=>{const c=w.g[g[0]]||{s:0,v:0},m=avg(g[0],"s");return{g,c,m}}).filter(r=>r.c.s>0||r.m>0);const mx=Math.max(1,...rows.map(r=>Math.max(r.c.s,r.m)));
  $("#wkg").innerHTML=rows.length?rows.map(r=>{const k=r.g[0],ex=Object.entries(w.gx[k]||{}).sort((a,b)=>b[1].s-a[1].s);
-  return '<details class="gdt" data-k="'+k+'"'+(GOPEN[k]?' open':'')+'><summary><div class="row" style="border:0;padding:0"><span>'+ic(r.g[2])+r.g[1]+'<span class="gch">›</span></span><span><b>'+r.c.s+(r.c.s>1?" séries":" série")+'</b> · '+fk(r.c.v)+' kg</span></div><div style="height:8px;border-radius:4px;background:var(--bg);position:relative;margin:8px 0 2px"><div style="height:8px;border-radius:4px;background:var(--ac);width:'+Math.round(r.c.s/mx*100)+'%"></div><i style="position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--mu);left:'+Math.round(r.m/mx*100)+'%"></i></div></summary><div class="gbd">'
+  return '<details class="mgx" data-k="'+k+'"'+(GOPEN[k]?' open':'')+'><summary><div class="row" style="border:0;padding:0"><span>'+ic(r.g[2])+r.g[1]+'<span class="mgc">›</span></span><span><b>'+r.c.s+(r.c.s>1?" séries":" série")+'</b> · '+fk(r.c.v)+' kg</span></div><div style="height:8px;border-radius:4px;background:var(--bg);position:relative;margin:8px 0 2px"><div style="height:8px;border-radius:4px;background:var(--ac);width:'+Math.round(r.c.s/mx*100)+'%"></div><i style="position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--mu);left:'+Math.round(r.m/mx*100)+'%"></i></div></summary><div class="mgb">'
   +(ex.length?ex.map(([n,o])=>'<div class="row"><span>'+esc(n)+'</span><span style="text-align:right"><b>'+o.s+(o.s>1?" séries":" série")+'</b><span class="m" style="display:block">'+o.r+' reps · '+fk(o.v)+' kg</span></span></div>').join(""):'<p class="m">Aucune série cette semaine.</p>')
   +'<p class="m">Trait gris : ta moyenne des 4 semaines d’avant ('+fnum(r.m)+' séries).</p></div></details>'}).join(""):'<p class="m">Pas encore de données.</p>';
  $("#wkg").querySelectorAll("details").forEach(d=>{d.ontoggle=()=>{GOPEN[d.dataset.k]=d.open}});
@@ -3141,7 +3151,7 @@ $("#wkp").onclick=()=>{WK--;rSem()};$("#wkn").onclick=()=>{if(WK<0){WK++;rSem()}
 
 function draw(){try{banner()}catch(_){}secBanners();rLibMy();rReg();try{rCycRem()}catch(_){}rTeam();rRpeD();rGch();rEx();rFchk();rRx();rExos();rProg();rCyc();rWell();rHome();rHcyc();rProf();rRegles();rHisto();rSem();rPoids();rRec();rCharge();rSf();rPain();rTests();rForme();rHub();try{rWpush()}catch(x){}banner()}
 calc();draw();{const h=location.hash.slice(1);if(h&&document.getElementById(h))go(h);else{const d=D();if(d.t0&&!d.t1&&d.edit==null)go("seance")}}
-var BUILD=183,UPW=null,UPGO=false;
+var BUILD=185,UPW=null,UPGO=false;
 function updBar(w){if(document.getElementById("updbar"))return;UPW=w;const d=document.createElement("div");d.id="updbar";d.setAttribute("role","status");d.innerHTML='<span>Nouvelle version disponible</span><button type="button" id="updgo">Mettre à jour</button>';document.body.appendChild(d);
  const b=document.getElementById("updgo");b.onclick=()=>{b.disabled=true;b.textContent="Mise à jour…";if(!UPW){(async()=>{try{if(window.caches){const k=await caches.keys();await Promise.all(k.map(x=>caches.delete(x)))}}catch(e){}location.reload()})();return}UPGO=true;try{UPW.postMessage("skip")}catch(e){location.reload()}setTimeout(()=>location.reload(),4000)}}
 try{document.getElementById("bldv").textContent="Version installée : V"+BUILD}catch(e){}
