@@ -873,6 +873,7 @@ details.sbd[open]>summary i{transform:rotate(-135deg)}
 #ex .xc .sr.c4{grid-template-columns:22px minmax(0,1.15fr) minmax(0,1fr) minmax(0,1fr) minmax(0,.8fr) 34px!important}
 #ex .xc .sr.c4 .pv{overflow:hidden;text-overflow:ellipsis;font-size:11.5px}
 #ex .xc .sr.c4 input{min-width:0}
+#ex .xc .sr input::placeholder{color:var(--mu);opacity:.6;font-weight:700}
 #ex .xc .sr.h.c4 span{text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #ex .xc .sr input,#ex .xc .sr .pdcl{height:28px!important;padding:0 2px!important;font-size:14px!important;font-weight:800!important;border-radius:7px!important;text-align:center}
 #ex .xc .sr .ck{padding:0!important;height:26px;border-radius:8px!important}
@@ -1649,7 +1650,7 @@ function carRows(e,i){const l=lastEx(e.n),kd=mKind(e.n),F=CRK[kd]||CRK.c,nr=F.le
   +'<button class="ck" data-a="ok" data-e="'+i+'" data-s="'+j+'" aria-label="Valider la série" aria-pressed="'+!!s.ok+'">✓</button></div>'}).join("")}
 function lastEx(n){for(let i=S.sessions.length-1;i>=0;i--){const e=S.sessions[i].ex.find(x=>x.n===n);if(e)return e}}
 function addEx(n,k,rep,g,cs){n=n.trim();if(!n)return;if(!D().t0){D().t0=Date.now();D().t1=null}const l=lastEx(n);
- const kd=mKind(n),car=kd!=="w";const sets=cs||(l?l.sets.map(s=>({kg:s.kg,r:s.r,d:s.d,t:s.t,cal:s.cal,h:s.h,b:s.b,rest:s.rest||(car?60:DR()),w:s.w})):Array.from({length:car?(k>1?k:(/^[ce]$/.test(kd)?1:3)):(k||3)},()=>car?{rest:60}:{r:rep,rest:DR()}));
+ const kd=mKind(n),car=kd!=="w";const sets=cs||(l?l.sets.map(s=>car?{kg:s.kg,r:s.r,d:s.d,t:s.t,cal:s.cal,h:s.h,b:s.b,rest:s.rest||60,w:s.w}:{rest:s.rest||DR(),w:s.w}):Array.from({length:car?(k>1?k:(/^[ce]$/.test(kd)?1:3)):(k||3)},()=>car?{rest:60}:{r:rep,rest:DR()}));
  D().ex.push({n,sets,g,id:uid()});save()}
 
 
@@ -1784,9 +1785,9 @@ function rEx(){
    +'<div class="pcr" data-i="'+i+'">'+pcHTML(e)+'</div><button class="b big" data-a="pcu" data-e="'+i+'" style="margin-top:8px">Mettre dans la prochaine série</button></div>'})():'')+(NO[id]?'<textarea data-nt="'+i+'" rows="2" maxlength="300" placeholder="Note sur l’exercice (réglage, sensation, douleur…)">'+esc(e.note||"")+'</textarea>':'')
   +(WO[id]?'<div class="tmr wbox" data-id="'+id+'"><span class="tt"></span>'+wheelHTML(e,i)+'</div>':'')
   +(!car&&isBW(e.n)?'<p class="m" style="margin:0 0 4px">'+(bwOf()?(isPdc(e.n)?'Poids de corps '+fnum(bwOf())+' kg compté automatiquement · note seulement tes reps. Pour ajouter du poids, choisis la version « lestée ».':'Poids de corps '+fnum(bwOf())+' kg + ton lest : le volume les additionne.'):'Enregistre ton poids dans Mesures pour compter le poids de corps')+'</p>':'')+(car?carRows(e,i):('<div class="sr h nr"><span>N°</span><span>Précédent</span><span>'+(isPdc(e.n)?"Poids":isBW(e.n)?"Lest (kg)":"kg")+'</span><span>Reps</span><span></span></div>'
-  +e.sets.map((s,j)=>{const pv=l&&l.sets[j];
+  +e.sets.map((s,j)=>{const pv=l&&l.sets[j],pp=pv||(l&&l.sets.filter(q=>!q.w).slice(-1)[0]);
    return '<div class="sr nr'+(s.ok?' ok':'')+(s.pr?' pr':'')+'"><button class="sn'+(s.w?' w':'')+'" data-a="wu" data-e="'+i+'" data-s="'+j+'" aria-label="'+(s.w?'Série d’échauffement, touche pour la passer en série de travail':'Série de travail '+(e.sets.slice(0,j+1).filter(q=>!q.w).length)+', touche pour la passer en échauffement')+'">'+(s.w?'É':e.sets.slice(0,j+1).filter(q=>!q.w).length)+'</button><span class="pv">'+(pv?(pv.w?'É ':'')+(isBW(e.n)?'PDC'+(pv.kg>0?' +'+fnum(pv.kg):'')+' × '+pv.r:pv.kg+'kg × '+pv.r):'—')+'</span>'
-   +["kg","r"].map(f=>f==="kg"&&isPdc(e.n)?'<span class="pdcl" aria-label="Poids de corps">PDC</span>':'<input type="number" inputmode="decimal" data-e="'+i+'" data-s="'+j+'" data-f="'+f+'" value="'+(s[f]==null?"":s[f])+'"'+(pv&&(f==="kg"||f==="r")?' placeholder="'+pv[f]+'"':(isBW(e.n)&&f==="kg"?' placeholder="0"':''))+' aria-label="'+(f==="r"?"reps":f)+' série '+(j+1)+'">').join("")
+   +["kg","r"].map(f=>f==="kg"&&isPdc(e.n)?'<span class="pdcl" aria-label="Poids de corps">PDC</span>':'<input type="number" inputmode="decimal" data-e="'+i+'" data-s="'+j+'" data-f="'+f+'" value="'+(s[f]==null?"":s[f])+'"'+(pp&&(f==="kg"||f==="r")&&pp[f]!=null?' placeholder="'+pp[f]+'"':(isBW(e.n)&&f==="kg"?' placeholder="0"':''))+' aria-label="'+(f==="r"?"reps":f)+' série '+(j+1)+'">').join("")
    +'<button class="ck" data-a="ok" data-e="'+i+'" data-s="'+j+'" aria-label="Valider la série" aria-pressed="'+!!s.ok+'">✓</button>'+(s.rpe&&!s.w?'<button class="rbd" data-a="rqo" data-e="'+i+'" data-s="'+j+'" aria-label="Effort ressenti '+s.rpe+' sur 10, toucher pour modifier">RPE '+s.rpe+'</button>':'')+'</div>'+rqH(e,i,j)+(SRO[id]?'<div class="smv"><button class="b g" data-a="su" data-e="'+i+'" data-s="'+j+'"'+(j===0?' disabled':'')+'>↑ Monter</button><button class="b g" data-a="sd" data-e="'+i+'" data-s="'+j+'"'+(j===e.sets.length-1?' disabled':'')+'>↓ Descendre</button><button class="b g" data-a="sf" data-e="'+i+'" data-s="'+j+'"'+(j===0?' disabled':'')+'>⤒ En premier</button></div>':'')+(eqi(e)==="barre"&&PLO[id]?'<div class="pls" data-e="'+i+'" data-s="'+j+'">'+plsH(e,s)+'</div>':'')}).join("")))
   +'<button class="b g big" data-a="as" data-e="'+i+'" style="margin-top:8px">+ Ajouter une série</button>'
   +(e.sets.length>1?'<button class="lnk" data-a="ds" data-e="'+i+'">Retirer la dernière série</button>':'')+'</div>'}).join("");
@@ -1860,7 +1861,7 @@ $("#ex").onclick=e=>{if(Date.now()-DRX<250)return;const hx=e.target.closest(".xn
  else if(a==="sga"){const s=sugOf(x);if(s)x.sets.forEach(q=>{if(!q.ok&&!q.w)q.kg=s.kg})}
  else if(a==="as"){const p=x.sets[x.sets.length-1]||{};x.sets.push({kg:p.kg,k0:p.k0,r:p.r,d:p.d,t:p.t,cal:p.cal,h:p.h,b:p.b,rest:isCar(x)?(p.rest==null?60:p.rest):er(x)})}
  else if(a==="ds")x.sets.pop();
- else if(a==="ok"){const s=x.sets[j];s.ok=!s.ok;RPQ=(s.ok&&!s.w&&!isCar(x)&&!s.rpe&&D().edit==null&&!S.set.nrq)?{e:x.id,j}:null;if(s.ok&&isBW(x.n)&&bwOf())s.bw=bwOf();else delete s.bw;if(s.ok&&isCar(x)){if(s.rest>0&&!D().t1)tstart(x,s.rest)}else if(s.ok){const l=lastEx(x.n),pv=l&&l.sets[j];
+ else if(a==="ok"){const s=x.sets[j];s.ok=!s.ok;RPQ=(s.ok&&!s.w&&!isCar(x)&&!s.rpe&&D().edit==null&&!S.set.nrq)?{e:x.id,j}:null;if(s.ok&&isBW(x.n)&&bwOf())s.bw=bwOf();else delete s.bw;if(s.ok&&isCar(x)){if(s.rest>0&&!D().t1)tstart(x,s.rest)}else if(s.ok){const l=lastEx(x.n),pv=l&&(l.sets[j]||l.sets.filter(q=>!q.w).slice(-1)[0]);
    if(s.kg==null&&pv)s.kg=pv.kg;if(s.r==null&&pv)s.r=pv.r;if(isBW(x.n)&&s.kg==null)s.kg=0;
    s.pr=undefined;if(!s.w&&s.kg>0&&s.r>0&&D().edit==null){const pr=recOf(x.n),best=pr&&pr.b1?pr.b1.v:0,v=e1(s.kg,s.r),cur=Math.max(0,...D().ex.filter(y=>y.n===x.n).flatMap(y=>y.sets.filter(q=>q!==s&&q.ok&&!q.w&&q.kg>0&&q.r>0).map(q=>e1(q.kg,q.r))));
     if(best>0&&v>best+.05&&v>cur+.05){s.pr=true;toast("Nouveau record ! "+x.n+" : 1RM estimé "+fnum(r1(v))+" kg (+"+fnum(r1(v-best))+" kg)")}}
