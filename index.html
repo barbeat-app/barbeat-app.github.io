@@ -873,6 +873,7 @@ details.sbd[open]>summary i{transform:rotate(-135deg)}
 #ex .xc .sr.c4{grid-template-columns:22px minmax(0,1.15fr) minmax(0,1fr) minmax(0,1fr) minmax(0,.8fr) 34px!important}
 #ex .xc .sr.c4 .pv{overflow:hidden;text-overflow:ellipsis;font-size:11.5px}
 #ex .xc .sr.c4 input{min-width:0}
+#offb{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 84px);transform:translateX(-50%);z-index:99985;max-width:92vw;padding:7px 14px;border-radius:999px;background:#2b3038;color:#fff;font:700 12.5px/1.25 Barlow,system-ui,sans-serif;text-align:center;box-shadow:0 4px 18px rgba(0,0,0,.45);pointer-events:none;border:1px solid rgba(255,255,255,.14)}#offb[hidden]{display:none}
 #ex .xc .sr input::placeholder{color:var(--mu);opacity:.6;font-weight:700}
 #ex .xc .sr.h.c4 span{text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #ex .xc .sr input,#ex .xc .sr .pdcl{height:28px!important;padding:0 2px!important;font-size:14px!important;font-weight:800!important;border-radius:7px!important;text-align:center}
@@ -1301,7 +1302,7 @@ if(!S.mxm||typeof S.mxm!=="object"||Array.isArray(S.mxm))S.mxm={};
 if(!Array.isArray(S.lib))S.lib=[];
 if(!S.set)S.set={rt:"09:00",v2:1};
 S.sessions=S.sessions.map(s=>s.sets?{d:s.d,dur:0,rpe:s.rpe,ex:[{n:s.ex,sets:s.sets}]}:s);
-function save(){try{localStorage.setItem("muscu2",JSON.stringify(S))}catch(e){}try{clQ()}catch(e){}try{pushQ()}catch(e){}}
+function save(){try{localStorage.setItem("muscu2",JSON.stringify(S))}catch(e){if(!SVW){SVW=1;try{toast("Stockage de l’appareil plein ou bloqué : tes dernières modifications risquent de ne pas être gardées.")}catch(x){}}}try{clQ()}catch(e){}try{pushQ()}catch(e){}}
 const D=()=>S.draft;
 const today=()=>{const n=new Date();return n.getFullYear()+"-"+String(n.getMonth()+1).padStart(2,"0")+"-"+String(n.getDate()).padStart(2,"0")};
 const e1=(k,r)=>r<=1?k:k*(1+r/30);
@@ -1589,7 +1590,7 @@ function hisH(e,i){const L=ent(e.n),car=isCar(e);
  return '<div class="pcp"><b>Historique · '+esc(e.n)+'</b>'+top+'<div style="max-height:220px;overflow:auto">'+L.slice().reverse().slice(0,12).map(x=>'<div class="row"><span>'+fd(x.d)+'</span><span class="m" style="text-align:right">'+x.sets.map(s=>(s.d>0||s.t>0||s.cal>0||s.h>0)?cardioTxt(s,e.n):sTxt(s,e.n)+(s.rpe?" @"+s.rpe:"")).join(" · ")+'</span></div>').join("")+'</div><button class="b g big" data-a="hisg" data-e="'+i+'" style="margin-top:8px">Voir tout dans le suivi</button></div>'}
 function imgH(e,i){const im=S.img[e.n];return (im?'<img class="eimg" src="'+im+'" alt="Schéma : '+esc(e.n)+'">':'')+'<div class="chips"><label class="chip" style="cursor:pointer">📷 '+(im?'Changer l’image':'Ajouter une image')+'<input type="file" accept="image/*" data-im="'+i+'" hidden></label>'+(im?'<button class="chip" data-a="imx" data-e="'+i+'">Retirer</button>':'')+'<a class="chip" href="https://www.google.com/search?tbm=isch&q='+encodeURIComponent(e.n+' musculation muscles')+'" target="_blank" rel="noopener">🔎 Chercher une image</a></div>'}
 function vidH(e,i){const u=S.vid[e.n]||'',y=ytId(u),q=encodeURIComponent(e.n+' exercice technique');
- return '<div class="pcp">'+imgH(e,i)+(y?'<div class="vw"><iframe src="https://www.youtube-nocookie.com/embed/'+y+'" title="Vidéo : '+esc(e.n)+'" allow="fullscreen" allowfullscreen loading="lazy"></iframe></div>':u?'<a class="b big" href="'+esc(u)+'" target="_blank" rel="noopener">Ouvrir ta vidéo</a>':'<p class="m" style="margin:0 0 6px">Aucune vidéo enregistrée pour cet exercice.</p>')
+ return '<div class="pcp">'+imgH(e,i)+(y?(!navigator.onLine?'<p class="m" style="margin:0 0 6px">Vidéo indisponible hors ligne : le schéma reste affiché, la vidéo reviendra avec le réseau.</p>':'<div class="vw"><iframe src="https://www.youtube-nocookie.com/embed/'+y+'" title="Vidéo : '+esc(e.n)+'" allow="fullscreen" allowfullscreen loading="lazy"></iframe></div>'):u?'<a class="b big" href="'+esc(u)+'" target="_blank" rel="noopener">Ouvrir ta vidéo</a>':'<p class="m" style="margin:0 0 6px">Aucune vidéo enregistrée pour cet exercice.</p>')
   +'<a class="b g big" style="margin-top:8px;text-align:center" href="https://www.youtube.com/results?search_query='+q+'" target="_blank" rel="noopener">Chercher la technique sur YouTube</a>'
   +'<label for="vl'+i+'">Ton lien vidéo (YouTube…), gardé pour cet exercice</label><div class="r"><input id="vl'+i+'" type="url" data-vl="'+i+'" value="'+esc(u)+'" placeholder="https://youtu.be/…" autocomplete="off"><button class="b" data-a="vsv" data-e="'+i+'">Enregistrer</button></div></div>'}
 const MKL={w:"Charge × répétitions",c:"Distance + temps",s:"Sprint (mètres + secondes)",e:"Calories + temps",t:"Durée seule",m:"Charge + distance",j:"Saut (cm + répétitions)"},MKS={w:"kg × reps",c:"distance + temps",s:"sprint m/s",e:"calories",t:"durée",m:"charge + distance",j:"saut en cm"};
@@ -3131,7 +3132,7 @@ if("serviceWorker" in navigator&&/^https?:/.test(location.protocol)){
 
 /* ===== compte + sauvegarde cloud (Supabase) ===== */
 const CLOUD=Object.assign({url:"https://mzhpfuomfjkjwmuaurxt.supabase.co",key:"sb_publishable_pPk5Z0ExKw8oSpmyyWTeqg_gPW1Hl_J"},window.DB_CFG||{}),CL_ON=!!(CLOUD.url&&CLOUD.key);
-let DBU=null,CLT=null,CLB=false,CLL=null,AOFF=false;
+let DBU=null,CLT=null,CLB=false,CLL=null,AOFF=false,CLR=null,CLD=15000,OFT=null,SVW=0;
 const lsg=k=>{try{return localStorage.getItem(k)}catch(e){return null}},lss=(k,v)=>{try{if(v==null)localStorage.removeItem(k);else localStorage.setItem(k,v)}catch(e){}};
 try{DBU=JSON.parse(lsg("dbauth")||"null")}catch(e){}
 const auStore=()=>{lss("dbauth",DBU?JSON.stringify(DBU):null);try{abSave()}catch(e){}try{rWpush()}catch(e){}};
@@ -3145,7 +3146,7 @@ async function auFresh(){if(!DBU)return false;if(DBU.exp-Date.now()>60000)return
 const clData=()=>{const d=Object.assign({},S);delete d.draft;if(d.mcy&&!d.mcy.cloud)delete d.mcy;return d};
 const hasData=x=>!!(x&&((x.sessions||[]).length||(x.prog||[]).length||(x.weight||[]).length||(x.well||[]).length||(x.cyc||[]).length||(x.recs||[]).length));
 const hhmm=()=>{const d=new Date();return String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0")};
-function clSt(t){const e=document.getElementById("cls");if(e)e.textContent=t;const s=document.getElementById("rgacs");if(s)s.textContent=DBU?t:"Non connecté"}
+function clSt(t){try{offUI(t);clRetry(t)}catch(x){}const e=document.getElementById("cls");if(e)e.textContent=t;const s=document.getElementById("rgacs");if(s)s.textContent=DBU?t:"Non connecté"}
 function rAcc(){const c=document.getElementById("rgacc");if(!c)return;c.hidden=!CL_ON;if(!CL_ON)return;
  document.getElementById("rgace").textContent=DBU?DBU.email||"Connecté":"Connecte-toi pour sauvegarder tes données dans le cloud.";
  document.getElementById("clsy").textContent=DBU?"Synchroniser maintenant":"Se connecter";document.getElementById("clout").hidden=!DBU;document.getElementById("cldel").hidden=!DBU;
@@ -3184,7 +3185,7 @@ function authUI(mode){if(!CL_ON||AOFF)return;let e=document.getElementById("auth
  +(up?'<p class="m" style="font-size:12.5px;opacity:.85;margin:10px 0 4px"><b>Version test gratuite.</b> L’appli est en cours de développement : des bugs et des changements sont possibles.</p><details style="font-size:12.5px;opacity:.85;margin:0 0 8px"><summary style="cursor:pointer">Ce qui est enregistré, et pourquoi</summary><p style="margin:6px 0 0;line-height:1.45">• Ton email et ton mot de passe (chiffré) : uniquement pour ton compte.<br>• Tes séances, charges, poids et données de bien-être : pour les sauvegarder et les retrouver sur tes appareils.<br>• Hébergement sécurisé chez Supabase. Rien n’est vendu ni partagé.<br>• Tu peux exporter tes données ou supprimer ton compte (et tout effacer) à tout moment dans Réglages.<br>• Une question ? Contacte la personne qui t’a donné l’accès.</p></details><label class="chk acg"><input type="checkbox" id="acg"><span> J’accepte que mon email et mes données (séances, bien-être, poids…), dont des données de santé, soient enregistrés sur un serveur sécurisé pour être sauvegardés et retrouvés sur mes appareils.</span></label><label class="chk acg"><input type="checkbox" id="acg2"><span> J’ai 15 ans ou plus (ou l’accord de mon représentant légal) et j’accepte les <button type="button" class="lnk" data-lg="cgu" style="display:inline;margin:0">conditions d’utilisation</button> et la <button type="button" class="lnk" data-lg="pol" style="display:inline;margin:0">politique de confidentialité</button>.</span></label>':'')
  +'<button class="b big" id="ago">'+(rec?"Enregistrer":fg?"Envoyer le lien":up?"Créer mon compte":"Se connecter")+'</button><p class="m aer" id="aer" role="alert"></p>'
  +(rec?'':'<div class="alk"><button class="lnk" data-am="'+(up?"in":"up")+'">'+(up?"J’ai déjà un compte":fg?"Retour":"Créer un compte")+'</button>'+(mode==="in"?'<button class="lnk" data-am="fg">Mot de passe oublié ?</button>':'')+'</div>')
- +'<button class="lnk" id="aoff" hidden>Continuer hors connexion</button></div>'}
+ +'<button class="lnk" id="aoff"'+(navigator.onLine?' hidden':'')+'>Continuer hors connexion</button></div>'}
 document.addEventListener("click",async e=>{const a=e.target.closest("#auth [data-am]");if(a){authUI(a.dataset.am);return}
  if(e.target.id==="aoff"){AOFF=true;const x=document.getElementById("auth");if(x)x.remove();return}
  if(e.target.id!=="ago")return;const box=document.getElementById("auth"),m=box.dataset.m,er=document.getElementById("aer"),btn=e.target,em=(document.getElementById("aem")||{}).value,pw=(document.getElementById("apw")||{}).value;
@@ -3211,7 +3212,14 @@ document.addEventListener("click",async e=>{const b=e.target.closest("#rgacc but
   CLB=true;try{await pushOff()}catch(e){}try{await abClr()}catch(e){}["muscu2","dbmod","dbsync","dbauth","dbuid"].forEach(k=>lss(k,null));try{sessionStorage.setItem("dbskip","1")}catch(x){}location.reload();return}
  if(b.id==="cldel"){if(!arm(b,"Confirmer : supprimer mon compte"))return;if(!await auFresh())return toast("Connexion impossible, réessaie.");const r=await sb("/rest/v1/rpc/delete_my_account",{m:"POST",b:{}});
   if(!r.ok)return toast("Suppression impossible pour l’instant.");CLB=true;try{await abClr()}catch(e){}["dbmod","dbsync","dbauth","dbuid"].forEach(k=>lss(k,null));toast("Compte supprimé. Tes données restent sur cet appareil.");setTimeout(()=>location.reload(),1500)}});
-window.addEventListener("online",()=>{clPull()});document.addEventListener("visibilitychange",()=>{if(!document.hidden)clPull()});
+function offUI(t){let b=document.getElementById("offb");if(!b){b=document.createElement("div");b.id="offb";b.setAttribute("role","status");b.setAttribute("aria-live","polite");b.hidden=true;document.body.appendChild(b)}
+ const off=!navigator.onLine,pend=!off&&!!DBU&&/^Hors ligne/.test(t||""),was=b.dataset.w==="1";let m="";
+ if(off)m="Hors ligne · tout est gardé sur ton téléphone";else if(pend)m="Synchronisation en attente";else if(was&&/^Synchronisé/.test(t||"")){m="Synchronisé ✓";clearTimeout(OFT);OFT=setTimeout(()=>offUI(),2500)}
+ b.dataset.w=(off||pend)?"1":"";b.textContent=m;b.hidden=!m}
+function clRetry(t){t=t||"";if(/^Synchronisé/.test(t)){CLD=15000;clearTimeout(CLR);CLR=null;return}
+ if(/^Hors ligne/.test(t)&&DBU&&!CLR){CLR=setTimeout(()=>{CLR=null;if(navigator.onLine)clPull();else clRetry("Hors ligne")},CLD);CLD=Math.min(CLD*2,300000)}}
+window.addEventListener("online",()=>{offUI();CLD=15000;clPull()});window.addEventListener("offline",()=>offUI());document.addEventListener("visibilitychange",()=>{if(!document.hidden)clPull()});
+try{offUI();if(window.matchMedia&&(matchMedia("(display-mode: standalone)").matches||navigator.standalone)&&navigator.storage&&navigator.storage.persist)navigator.storage.persist()}catch(e){}
 (async function clStart(){if(!CL_ON)return;rAcc();
  const h=location.hash;if(h.indexOf("access_token=")>=0){const p=new URLSearchParams(h.slice(1));DBU={access:p.get("access_token"),refresh:p.get("refresh_token"),exp:Date.now()+(+p.get("expires_in")||3600)*1000};
   const r=await sb("/auth/v1/user");try{history.replaceState(null,"",location.pathname+location.search)}catch(x){}
