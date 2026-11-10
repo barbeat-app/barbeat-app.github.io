@@ -1399,12 +1399,15 @@ function chart(d,ref){
  if(d.length<2)return '<p class="m">Il faut au moins 2 points pour tracer la courbe.</p>';
  const W=320,H=160,p=30,ys=d.map(a=>a.y).concat(ref==null?[]:[ref]);let mn=Math.min(...ys),mx=Math.max(...ys);if(mn===mx){mn-=1;mx+=1}
  const X=i=>p+i*(W-2*p)/(d.length-1),Y=v=>H-p-(v-mn)*(H-2*p)/(mx-mn);
- return '<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Courbe de suivi"><line x1="'+p+'" y1="'+(H-p)+'" x2="'+(W-p)+'" y2="'+(H-p)+'" stroke="var(--ln)"/>'
+ let bd="",lg="";try{const c=S.mcy;if(c&&c.on&&!c.irr&&/^\d{4}-\d\d-\d\d$/.test(d[0].x)&&d.length<=200){const used={},hw=(W-2*p)/(d.length-1)/2;
+  d.forEach((a,i)=>{const x=phAt(a.x);if(x&&x.ph){used[x.ph]=1;const x0=Math.max(p,X(i)-hw),x1=Math.min(W-p,X(i)+hw);bd+='<rect x="'+x0.toFixed(1)+'" y="'+(p/2)+'" width="'+(x1-x0+.5).toFixed(1)+'" height="'+(H-1.5*p)+'" fill="'+CYC_C[x.ph]+'" opacity=".17"/>'}});
+  const ks=Object.keys(used);if(ks.length)lg='<p class="m" style="font-size:11.5px;margin:2px 0 0">'+ks.map(k=>'<span style="display:inline-block;width:9px;height:9px;border-radius:2px;background:'+CYC_C[k]+';opacity:.75;margin-right:4px"></span>'+CYC_N[k].replace(" probable","")).join(" &nbsp; ")+'</p>'}}catch(e){bd="";lg=""}
+ return '<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Courbe de suivi"><line x1="'+p+'" y1="'+(H-p)+'" x2="'+(W-p)+'" y2="'+(H-p)+'" stroke="var(--ln)"/>'+bd
  +(ref==null?'':'<line x1="'+p+'" y1="'+Y(ref)+'" x2="'+(W-p)+'" y2="'+Y(ref)+'" stroke="var(--mu)" stroke-width="1.5" stroke-dasharray="4 4"/>')
  +'<polyline points="'+d.map((a,i)=>X(i).toFixed(1)+","+Y(a.y).toFixed(1)).join(" ")+'" fill="none" stroke="var(--ac)" stroke-width="2.5" stroke-linejoin="round"/>'
  +d.map((a,i)=>'<circle cx="'+X(i)+'" cy="'+Y(a.y)+'" r="'+(a.c?5:3.5)+'" fill="'+(a.c||'var(--ac)')+'"/>').join("")
  +'<text x="2" y="'+(Y(mx)+4)+'" font-size="11" fill="var(--mu)">'+r1(mx)+'</text><text x="2" y="'+(Y(mn)+4)+'" font-size="11" fill="var(--mu)">'+r1(mn)+'</text>'
- +'<text x="'+p+'" y="'+(H-10)+'" font-size="11" fill="var(--mu)">'+fmt(d[0].x)+'</text><text x="'+(W-p)+'" y="'+(H-10)+'" font-size="11" text-anchor="end" fill="var(--mu)">'+fmt(d[d.length-1].x)+'</text></svg>';
+ +'<text x="'+p+'" y="'+(H-10)+'" font-size="11" fill="var(--mu)">'+fmt(d[0].x)+'</text><text x="'+(W-p)+'" y="'+(H-10)+'" font-size="11" text-anchor="end" fill="var(--mu)">'+fmt(d[d.length-1].x)+'</text></svg>'+lg;
 }
 
 /* minuteurs de repos : un par exercice */
@@ -3324,8 +3327,9 @@ function fAdvice(f,i,sy){const ph=i&&i.ph||"",pn=ph?CYC_N[ph].toLowerCase():"";l
  return{pct,t}}
 
 /* ===== V124 : adaptation fine + apprentissage personnel ===== */
-var SYW={"Crampes":1,"Fatigue":1,"Maux de tête":1,"Ballonnements":.5,"Mal de dos":1,"Jambes lourdes":1,"Nausées":1};
-var SYT={"Crampes":"Crampes : échauffement plus long (mobilité du bassin, chaleur), repos un peu plus longs.","Fatigue":"Fatigue : reste à quelques répétitions en réserve, arrête une série dès que la technique se dégrade.","Maux de tête":"Maux de tête : évite les efforts maximaux en bloquant la respiration, bois et allonge les repos.","Ballonnements":"Ballonnements : préfère les exercices debout si le gainage au sol te gêne.","Mal de dos":"Mal de dos : évite les charges lourdes sur le dos et les tirages lourds penchés.","Jambes lourdes":"Jambes lourdes : pas de sauts ni de sprints maximaux, travaille en tempo contrôlé.","Nausées":"Nausées : reste sur de l’intensité modérée, pas de séries jusqu’à l’échec, mange léger avant."};
+var SYG=["Fatigue","Courbatures","Mal de dos","Jambes lourdes","Maux de tête","Stress"];
+var SYW={"Courbatures":1,"Stress":.5,"Crampes":1,"Fatigue":1,"Maux de tête":1,"Ballonnements":.5,"Mal de dos":1,"Jambes lourdes":1,"Nausées":1};
+var SYT={"Courbatures":"Courbatures : échauffement plus long, tempo contrôlé, évite de retravailler à fond le même muscle.","Stress":"Stress : séance courte et efficace, reste à quelques répétitions en réserve.","Crampes":"Crampes : échauffement plus long (mobilité du bassin, chaleur), repos un peu plus longs.","Fatigue":"Fatigue : reste à quelques répétitions en réserve, arrête une série dès que la technique se dégrade.","Maux de tête":"Maux de tête : évite les efforts maximaux en bloquant la respiration, bois et allonge les repos.","Ballonnements":"Ballonnements : préfère les exercices debout si le gainage au sol te gêne.","Mal de dos":"Mal de dos : évite les charges lourdes sur le dos et les tirages lourds penchés.","Jambes lourdes":"Jambes lourdes : pas de sauts ni de sprints maximaux, travaille en tempo contrôlé.","Nausées":"Nausées : reste sur de l’intensité modérée, pas de séries jusqu’à l’échec, mange léger avant."};
 function feelOf(d){const a=[],f=((S.form||{})[d]||{}).f;if(f>0)a.push(f);const w=S.well.find(x=>x.d===d);if(w&&w.sc>0)a.push(w.sc);return a.length?a.reduce((p,q)=>p+q,0)/a.length:null}
 function cycLearn(){const c=S.mcy;if(!c||!c.on||c.irr)return null;const ds=new Set();Object.keys(S.form||{}).forEach(d=>{if(S.form[d].f>0)ds.add(d)});S.well.forEach(w=>ds.add(w.d));
  const P={},R={},avg=a=>a.reduce((p,q)=>p+q,0)/a.length;
@@ -3336,10 +3340,15 @@ function cycLearn(){const c=S.mcy;if(!c||!c.on||c.irr)return null;const ds=new S
  let low=null,high=null;if(ready&&g!=null){const w=rows.filter(r=>r.n>=5).sort((a,b)=>a.m-b.m);if(g-w[0].m>=.4)low=w[0].k;const l=w[w.length-1];if(l.m-g>=.4)high=l.k}
  const pct=ready?100:Math.round(100*Math.min(1,(have/need+Math.min(cycles,2)/2)/2));
  return{rows,cycles,have,need,ready,g,low,high,pct}}
-function adapt(){const t=today(),fm=(S.form||{})[t],c=S.mcy,cy=!!(c&&c.on),ci=cy?cycInfo():null,sy=cy?((c.sym||{})[t]||[]):[],fl=cy?((c.fl||{})[t]||0):0,f=fm&&fm.f>0?fm.f:3,L=cy?cycLearn():null;
+function adapt(){const t=today(),fm=(S.form||{})[t],c=S.mcy,cy=!!(c&&c.on),ci=cy?cycInfo():null,sy=cy?((c.sym||{})[t]||[]):((fm&&fm.sy)||[]),fl=cy?((c.fl||{})[t]||0):0,wl0=S.well.find(x=>x.d===t),f=fm&&fm.f>0?fm.f:(wl0&&wl0.sc>0?Math.max(1,Math.min(5,Math.round(wl0.sc))):3),L=cy?cycLearn():null;
  let s=f===1?3:f===2?2:f===3?0:f===4?-1:-2;const why=[];if(f<=2)why.push("forme basse");
  sy.forEach(x=>{s+=SYW[x]||0});if(sy.length)why.push(sy.map(x=>x.toLowerCase()).join(", "));
  if(fl>=4){s+=1;why.push("saignements abondants")}
+ const gt=[];try{const sg=signalsAt(t),gD=worstD(sg),sfe=(S.sf||[]).find(x=>x.d===t),R=acwr(loadMap(),t);
+  if(gD!=null&&gD>=.5){s+=1.5;why.push("ton indice de forme est bas par rapport à ta normale");gt.push("Indice de forme bas (wellness, sommeil, FC, douleurs) : privilégie la qualité, arrête chaque série avant l’échec.")}else if(gD!=null&&gD>=.25){s+=.5;why.push("indice de forme en vigilance")}
+  if(sfe&&sfe.sl!=null&&sfe.sl<6){s+=1;why.push("nuit courte ("+fnum(sfe.sl)+" h)");gt.push("Nuit courte : reste à 2-3 répétitions en réserve et évite les efforts maximaux.")}
+  if(R&&R.r>1.5){s+=1.5;why.push("pic de charge d’entraînement");gt.push("Charge d’entraînement en forte hausse : n’ajoute pas de volume aujourd’hui, garde de la marge.")}else if(R&&R.r>1.3){s+=.75;why.push("charge d’entraînement en hausse");gt.push("Charge en hausse ces derniers jours : séance contrôlée, pas de série à l’échec.")}
+ }catch(_){}
  if(L&&L.ready&&ci&&ci.ph){if(L.low===ci.ph){s+=.5;why.push("chez toi, cette phase est souvent plus basse")}else if(L.high===ci.ph&&s<=0){s-=.5}}
  let lvl=s>=4?3:s>=2.5?2:s>=1?1:0,pct=0,sets=0,rir="",title="Séance normale : suis ton programme.";
  if(lvl===0&&f>=4&&!sy.length&&!(ci&&(ci.ph==="men"||ci.ph==="lut"))){pct=5;lvl=-1;title="Tu peux pousser un peu aujourd’hui."}
@@ -3347,7 +3356,7 @@ function adapt(){const t=today(),fm=(S.form||{})[t],c=S.mcy,cy=!!(c&&c.on),ci=cy
  else if(lvl===1){pct=-5;rir="2 à 3";title="Séance un peu allégée."}
  else if(lvl===2){pct=-10;sets=1;rir="3";title="Séance allégée."}
  else if(lvl===3){pct=-15;sets=2;rir="3 à 4";title="Séance très allégée : technique et qualité avant tout, mobilité si ça ne va pas."}
- const tips=sy.map(x=>SYT[x]).filter(Boolean);if(fl>=4)tips.push("Saignements abondants : séance courte, hydrate-toi, évite l’intensité maximale.");
+ const tips=sy.map(x=>SYT[x]).filter(Boolean).concat(gt);if(fl>=4)tips.push("Saignements abondants : séance courte, hydrate-toi, évite l’intensité maximale.");
  const sw=[];const ex=(typeof D==="function"&&D().ex)||[];
  if(sy.includes("Mal de dos")){const l=ex.filter(x=>/squat|soulev|deadlift|good ?morning|rdl|roum/i.test(x.n)).map(x=>x.n);if(l.length)sw.push("Remplace « "+l.slice(0,2).join(" », « ")+" » par une variante plus douce pour le dos : presse à cuisses, goblet squat, hip thrust léger.")}
  if(sy.includes("Jambes lourdes")){const l=ex.filter(x=>/saut|jump|pliom|sprint|bond/i.test(x.n)).map(x=>x.n);if(l.length)sw.push("Réduis ou saute « "+l.slice(0,2).join(" », « ")+" » aujourd’hui.")}
@@ -3375,7 +3384,7 @@ function rFchk(){const e=$("#fchk");if(!e||!FRM)return;const d=D(),act=!!(d.t0||
  if(fm&&fm.f===0){e.innerHTML="";return}
  if(!fm&&cy&&!FSEL.f&&!FSEL.sy.length){const e0=(S.mcy.sym||{})[today()];if(e0)FSEL.sy=e0.slice()}
  if(!fm){e.innerHTML='<div class="c fck"><b>Ta forme aujourd’hui ?</b><div class="fch">'+FRM.map(x=>'<button data-fk="f" data-v="'+x[0]+'" class="'+(FSEL.f===x[0]?"on":"")+'"><span>'+x[1]+'</span><small>'+x[2]+'</small></button>').join("")+'</div>'
-  +(cy?'<p class="m" style="margin:8px 0 2px">Symptômes (facultatif)</p><div class="chips">'+SYM.map(s=>'<button class="chip'+(FSEL.sy.includes(s)?" on":"")+'" data-fk="sy" data-v="'+s+'">'+s+'</button>').join("")+'</div>':'')
+  +'<p class="m" style="margin:8px 0 2px">Symptômes (facultatif)</p><div class="chips">'+(cy?SYM:SYG).map(s=>'<button class="chip'+(FSEL.sy.includes(s)?" on":"")+'" data-fk="sy" data-v="'+s+'">'+s+'</button>').join("")+'</div>'
   +'<div class="r"><button class="b" data-fk="ok"'+(FSEL.f?"":" disabled")+'>Valider</button><button class="lnk" data-fk="pass" style="margin:0">Passer</button></div></div>';return}
  const a=adapt(),fe=FRM.find(x=>x[0]===fm.f),al=fm.al;let btn="";
  const lab=a.lvl>=1?'Appliquer la version allégée ('+(a.pct?'−'+Math.abs(a.pct)+' % de charge':'')+(a.sets?(a.pct?', ':'')+'−'+a.sets+' série'+(a.sets>1?'s':'')+' sur les exos à plusieurs séries':'')+')':a.pct>0?'Appliquer +'+a.pct+' %':'';
@@ -3387,10 +3396,10 @@ function rFchk(){const e=$("#fchk");if(!e||!FRM)return;const d=D(),act=!!(d.t0||
  e.innerHTML='<details class="c fck fdet"'+(FOP?' open':'')+(ci&&ci.ph?' style="border-left:4px solid '+CYC_C[ci.ph]+'"':'')+'><summary><b>'+fe[1]+' Forme : '+fe[2]+(ci&&ci.ph?' · '+CYC_N[ci.ph]:'')+'</b><span class="m fsub">'+esc(String(a.title).split(".")[0])+'</span></summary><p class="m" style="margin:4px 0"><b>'+esc(a.title)+'</b>'+(a.why.length?' Pourquoi : '+esc(a.why.join(" · "))+'.':'')+'</p>'
   +(a.rir&&a.lvl>=1?'<p class="m" style="margin:4px 0">Vise <b>'+a.rir+' répétitions en réserve</b>'+qh("rir")+' sur chaque série.</p>':'')
   +(lis.length?'<ul class="m" style="margin:4px 0 4px 18px;padding:0">'+lis.map(x=>'<li>'+esc(x)+'</li>').join("")+'</ul>':'')
-  +btn+learn+'<button class="lnk" data-fk="edit" style="margin:6px 0 0">Modifier ma forme</button>'+(cy?'<p class="m" style="font-size:11.5px;margin:4px 0 0">Suggestions de bon sens, pas un avis médical. Douleur forte ou inhabituelle : consulte un professionnel de santé.</p>':'')+'</details>'}
+  +btn+learn+'<button class="lnk" data-fk="edit" style="margin:6px 0 0">Modifier ma forme</button>'+'<p class="m" style="font-size:11.5px;margin:4px 0 0">Suggestions de bon sens, pas un avis médical. Douleur forte ou inhabituelle : consulte un professionnel de santé.</p>'+'</details>'}
 document.addEventListener("click",e=>{const b=e.target.closest("#fchk [data-fk]");if(!b)return;const k=b.dataset.fk,v=b.dataset.v;S.form=S.form||{};
  if(k==="f"){FSEL.f=+v}else if(k==="sy"){FSEL.sy=FSEL.sy.includes(v)?FSEL.sy.filter(x=>x!==v):FSEL.sy.concat(v)}
- else if(k==="ok"){if(!FSEL.f)return;S.form[today()]={f:FSEL.f};if(S.mcy&&S.mcy.on){S.mcy.sym=S.mcy.sym||{};if(FSEL.sy.length)S.mcy.sym[today()]=FSEL.sy.slice();else delete S.mcy.sym[today()]}FSEL={f:0,sy:[]};save();BILS=0;setTimeout(()=>bilOpen(),60)}
+ else if(k==="ok"){if(!FSEL.f)return;S.form[today()]={f:FSEL.f};if(S.mcy&&S.mcy.on){S.mcy.sym=S.mcy.sym||{};if(FSEL.sy.length)S.mcy.sym[today()]=FSEL.sy.slice();else delete S.mcy.sym[today()]}else if(FSEL.sy.length)S.form[today()].sy=FSEL.sy.slice();FSEL={f:0,sy:[]};save();BILS=0;setTimeout(()=>bilOpen(),60)}
  else if(k==="pass"){S.form[today()]={f:0};save()}
  else if(k==="ap"){const p=+v,n=fAdj(p);S.form[today()].ap=p;save();rEx();toast(n?n+" série"+(n>1?"s":"")+" ajustée"+(n>1?"s":""):"Aucune charge à ajuster (ajoute tes kg d’abord)")}
  else if(k==="sh"){const n=fShort();S.form[today()].sh=n;save();rEx();toast(n?n+" série"+(n>1?"s":"")+" retirée"+(n>1?"s":""):"Rien à raccourcir")}
@@ -3400,7 +3409,7 @@ document.addEventListener("click",e=>{const b=e.target.closest("#fchk [data-fk]"
  else if(k==="al"){const a=adapt(),o=S.form[today()];let n=0,m=0;if(a.pct)n=fAdj(a.pct);if(a.sets)m=fShort2(a.sets,a.lvl===2);o.al={p:a.pct,sh:m,l:a.lvl};save();rEx();toast("Version allégée appliquée")}
  else if(k==="unal"){fUndo();fUnshort();delete S.form[today()].al;save();rEx()}
  else if(k==="undo"){fUndo();delete S.form[today()].ap;save();rEx()}
- else if(k==="edit"){fUndo();fUnshort();const o=S.form[today()];FSEL={f:o?o.f:0,sy:(S.mcy&&S.mcy.sym&&S.mcy.sym[today()])||[]};delete S.form[today()];save();rEx()}
+ else if(k==="edit"){fUndo();fUnshort();const o=S.form[today()];FSEL={f:o?o.f:0,sy:((S.mcy&&S.mcy.on)?(S.mcy.sym&&S.mcy.sym[today()]):(o&&o.sy))||[]};delete S.form[today()];save();rEx()}
  rFchk()});
 try{rHcyc();rProf();rFchk()}catch(x){}
 
