@@ -969,6 +969,13 @@ html,body{touch-action:manipulation;-webkit-text-size-adjust:100%}input,select,t
 .rpg button.on{background:var(--ac);border-color:var(--ac);color:var(--ac2)}
 .fcw{margin:0;min-height:1.2em;font-size:12.5px}
 .fseg{display:grid;grid-template-columns:1fr 1fr;gap:6px}.fseg button{height:46px;border-radius:12px;border:1px solid var(--ln);background:var(--bg);color:var(--ink);font:700 15px Barlow,sans-serif;cursor:pointer}.fseg button[aria-checked=true]{background:var(--ac);border-color:var(--ac);color:var(--ac2)}
+
+.etm{width:100%;margin-top:8px;min-height:48px;font-weight:700}
+#etb{position:fixed;left:8px;right:8px;bottom:calc(74px + env(safe-area-inset-bottom,0px));z-index:5;border-radius:20px;padding:12px 14px;background:#0b1a3a;color:#fff;box-shadow:0 18px 36px -12px rgba(0,0,0,.6);display:grid;grid-template-columns:auto 1fr;grid-template-areas:"t n" "b b";gap:6px 14px;align-items:center;max-width:640px;margin:0 auto}
+#etb[hidden]{display:none}#etb.done{background:linear-gradient(135deg,#0b8a5a,#12b886)}
+#etb .ett{grid-area:t;font:800 40px "Barlow Condensed",sans-serif;font-variant-numeric:tabular-nums}#etb .etn{grid-area:n;font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#etb .etb2{grid-area:b;display:grid;grid-template-columns:1fr 1fr 1.4fr;gap:6px}#etb .etb2 button{height:44px;border-radius:12px;border:0;background:rgba(255,255,255,.16);color:#fff;font:700 15px Barlow,sans-serif;cursor:pointer}
+body.rb #etb{bottom:calc(150px + env(safe-area-inset-bottom,0px))}
 </style>
 </head>
 <body>
@@ -1690,7 +1697,9 @@ function carRows(e,i){const l=lastEx(e.n,kOf(e)),kd=mKind(e.n),F=CRK[kd]||CRK.c,
  +e.sets.map((s,j)=>{const pv=l&&l.sets[j]||{},bh=s.b&&(j===0||e.sets[j-1].b!==s.b)?'<p class="m bkh"><b>Bloc '+s.b+'</b></p>':'';
   return bh+'<div class="sr'+(nr?' nr':' c4')+(s.ok?' ok':'')+'"><button class="sn'+(s.w?' w':'')+'" data-a="wu" data-e="'+i+'" data-s="'+j+'" aria-label="'+(s.w?'Échauffement, touche pour passer en effort':'Effort '+(e.sets.slice(0,j+1).filter(q=>!q.w).length)+', touche pour passer en échauffement')+'">'+(s.w?'É':e.sets.slice(0,j+1).filter(q=>!q.w).length)+'</button>'
   +F.map(x=>x[0]==="P"?'<span class="pv">'+prevP(s,pv)+'</span>':inp(x[0],s,j,pv)).join("")
-  +'<button class="ck" data-a="ok" data-e="'+i+'" data-s="'+j+'" aria-label="Valider la série" aria-pressed="'+!!s.ok+'">✓</button></div>'}).join("")}
+  +'<button class="ck" data-a="ok" data-e="'+i+'" data-s="'+j+'" aria-label="Valider la série" aria-pressed="'+!!s.ok+'">✓</button></div>'}).join("")
+ +(()=>{const j=e.sets.findIndex(s=>!s.ok&&!(s.w&&0)&&s.t>0&&kd!=="s");if(j<0)return"";const on=ET&&ET.id===e.id&&ET.j===j;return'<button class="b g etm" data-a="'+(on?"etx":"etm")+'" data-e="'+i+'" data-s="'+j+'">'+(on?"■ Arrêter le minuteur":"⏱ Minuteur "+cfT(e.sets[j].t)+" · série "+(j+1))+'</button>'})()}
+let ET=null;
 const exM=(s,n)=>{const B=s.ex.filter(x=>x.n===n);return B.length?(B.length===1?B[0]:Object.assign({},B[0],{sets:B.flatMap(x=>x.sets)})):undefined};
 const kOf=e=>Math.max(0,D().ex.filter(y=>y.n===e.n).indexOf(e));
 function lastEx(n,k){for(let i=S.sessions.length-1;i>=0;i--){const B=S.sessions[i].ex.filter(x=>x.n===n);if(B.length)return B[Math.min(k||0,B.length-1)]}}
@@ -1886,6 +1895,8 @@ $("#ex").onclick=e=>{if(Date.now()-DRX<250)return;const hx=e.target.closest(".xn
  else if(a==="mk"){MKO[x.id]=!MKO[x.id]}
  else if(a==="mks"){const v=b.dataset.v,key=nrm(x.n);S.mk=S.mk||{};if(v===mkAuto(x.n))delete S.mk[key];else S.mk[key]=v;MKO[x.id]=false;save()}
  else if(a==="sch"){const v=!(SCH[x.id]||VID[x.id]);SCH[x.id]=VID[x.id]=v}
+ else if(a==="etm"){etStart(x,j)}
+ else if(a==="etx"){etStop()}
  else if(a==="wup"){const f=x.sets.find(s=>!s.w),l=lastEx(x.n,kOf(x)),lw=l&&l.sets.find(s=>!s.w);const kg=f&&f.kg>0?f.kg:(lw&&lw.kg>0?lw.kg:0);
   if(!(kg>0)){toast("Entre d’abord la charge de la 1re série.");return}
   if(x.sets.some(s=>s.w)){toast("Échauffement déjà ajouté.");return}
@@ -1954,6 +1965,18 @@ function rqApply(x,j){const g=RPQ&&RPQ.sg;RPQ=null;if(!g)return;const al=((S.for
  dn=v=>{const st=v>=60?2.5:1;let n=rd(v*(1-g.p/100),st);if(n>=v)n=v-st;return Math.max(0,n)},fa=v=>Math.max(0,rd(v*(1+pa/100),2.5));
  x.sets.forEach((q,k)=>{if(k<=j||q.ok||q.w||!(q.kg>0))return;if(q.k0!=null){q.k0=dn(q.k0);q.kg=pa?fa(q.k0):q.k0}else q.kg=dn(q.kg)});
  toast("Charge baissée de "+g.p+" % sur les séries restantes")}
+
+/* minuteur d'effort (cardio / exercices chronométrés) */
+function etStart(x,j){const t=x.sets[j]&&x.sets[j].t;if(!(t>0))return;try{if(window.Notification&&Notification.permission==="default")Notification.requestPermission()}catch(_){}ET={id:x.id,j,n:x.n,end:Date.now()+t*1000,t,done:false};etBar();rEx()}
+function etStop(){ET=null;etBar();rEx()}
+function etBar(){let b=document.getElementById("etb");if(!ET||!D().t0||D().t1){if(b)b.hidden=true;return}
+ if(!b){b=document.createElement("div");b.id="etb";b.setAttribute("role","timer");b.innerHTML='<div class="ett" id="ett"></div><div class="etn" id="etn"></div><div class="etb2"><button type="button" data-et="p">−30</button><button type="button" data-et="m">+30</button><button type="button" data-et="x">Arrêter</button></div>';document.body.appendChild(b);
+  b.onclick=e=>{const k=e.target.closest("button");if(!k||!ET)return;const v=k.dataset.et;if(v==="x")etStop();else if(!ET.done){ET.end=Math.max(Date.now()+1000,ET.end+(v==="m"?30000:-30000));etBar()}}}
+ b.hidden=false;const left=Math.max(0,Math.ceil((ET.end-Date.now())/1000));document.getElementById("ett").textContent=cfT(left)||"0:00";document.getElementById("etn").textContent=(ET.done?"Terminé · ":"Minuteur · ")+ET.n;b.classList.toggle("done",!!ET.done)}
+function etTick(){if(!ET)return;if(!ET.done&&Date.now()>=ET.end){ET.done=true;beep();try{if(document.hidden&&window.Notification&&Notification.permission==="granted")new Notification("Minuteur terminé",{body:ET.n,tag:"et"})}catch(_){}
+  const x=D().ex.find(y=>y.id===ET.id);if(x&&x.sets[ET.j]&&!x.sets[ET.j].ok){const b=document.querySelector('#ex [data-a="ok"][data-e="'+D().ex.indexOf(x)+'"][data-s="'+ET.j+'"]');if(b)b.click()}toast("Minuteur terminé : "+ET.n);setTimeout(()=>{if(ET&&ET.done){ET=null;etBar();rEx()}},6000)}
+ etBar()}
+setInterval(etTick,500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)etTick()});
 function rBar(){const b=$("#rbar"),t=LT&&TM[LT],x=t&&D().ex.find(y=>y.id===LT);
  if(!t||!x||!D().t0||D().t1){b.hidden=true;document.body.classList.remove("rb");return}
  b.hidden=false;document.body.classList.add("rb");$("#rbt").textContent=ft(tleft(LT));$("#rbn").textContent=(t.done?"Repos terminé · ":"Repos · ")+x.n;b.classList.toggle("done",!!t.done)}
@@ -3172,7 +3195,7 @@ $("#wkp").onclick=()=>{WK--;rSem()};$("#wkn").onclick=()=>{if(WK<0){WK++;rSem()}
 
 function draw(){try{banner()}catch(_){}secBanners();rLibMy();rReg();try{rCycRem()}catch(_){}rTeam();rRpeD();rGch();rEx();rFchk();rRx();rExos();rProg();rCyc();rWell();rHome();rHcyc();rProf();rRegles();rHisto();rSem();rPoids();rRec();rCharge();rSf();rPain();rTests();rForme();rHub();try{rWpush()}catch(x){}banner()}
 calc();draw();{const h=location.hash.slice(1);if(h&&document.getElementById(h))go(h);else{const d=D();if(d.t0&&!d.t1&&d.edit==null)go("seance")}}
-var BUILD=187,UPW=null,UPGO=false;
+var BUILD=188,UPW=null,UPGO=false;
 function updBar(w){if(document.getElementById("updbar"))return;UPW=w;const d=document.createElement("div");d.id="updbar";d.setAttribute("role","status");d.innerHTML='<span>Nouvelle version disponible</span><button type="button" id="updgo">Mettre à jour</button>';document.body.appendChild(d);
  const b=document.getElementById("updgo");b.onclick=()=>{b.disabled=true;b.textContent="Mise à jour…";if(!UPW){(async()=>{try{if(window.caches){const k=await caches.keys();await Promise.all(k.map(x=>caches.delete(x)))}}catch(e){}location.reload()})();return}UPGO=true;try{UPW.postMessage("skip")}catch(e){location.reload()}setTimeout(()=>location.reload(),4000)}}
 try{document.getElementById("bldv").textContent="Version installée : V"+BUILD}catch(e){}
