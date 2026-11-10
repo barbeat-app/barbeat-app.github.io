@@ -240,6 +240,19 @@ button.sn{border:0;color:var(--ink);font:700 16px Barlow,sans-serif;cursor:point
 @keyframes rqh{from{opacity:0;transform:translateY(-4px)}}
 @keyframes rqz{to{opacity:0;max-height:0;padding:0;margin:0;visibility:hidden}}
 .sr.pr{box-shadow:0 0 0 2px var(--hi) inset}
+.prm{position:absolute;left:-7px;top:-9px;font-size:17px;line-height:1;z-index:2;filter:drop-shadow(0 1px 2px rgba(0,0,0,.35));pointer-events:none}
+.sr.prn .prm{animation:prpop .9s cubic-bezier(.2,1.6,.4,1) both}
+.sr.prn{animation:prflash 1.4s ease-out}
+@keyframes prpop{0%{transform:scale(0) rotate(-40deg);opacity:0}55%{transform:scale(1.9) rotate(12deg);opacity:1}100%{transform:scale(1) rotate(0)}}
+@keyframes prflash{0%,30%{background:color-mix(in srgb,var(--hi) 35%,transparent)}100%{background:transparent}}
+.gdt{border:1px solid var(--ln);border-radius:14px;margin:8px 0;background:var(--sf)}
+.gdt>summary{list-style:none;cursor:pointer;padding:12px 14px;display:block}
+.gdt>summary::-webkit-details-marker{display:none}
+.gdt .gch{display:inline-block;transition:transform .2s;margin-left:6px;color:var(--mu)}
+.gdt[open] .gch{transform:rotate(90deg)}
+.gdt .gbd{padding:0 14px 12px;border-top:1px solid var(--ln)}
+@media (prefers-reduced-motion:reduce){.sr.prn,.sr.prn .prm{animation:none}}
+
 .pgr{flex-wrap:wrap}.pgr>div{flex:1 1 40%}.pgr>button{flex:1 1 100%}
 .mxi{display:inline-block;width:76px;padding:4px 8px;margin:0 2px}
 
@@ -1053,7 +1066,6 @@ setTimeout(function(){var s=document.getElementById("spl");if(!s)return;if(m.len
  <div class="c"><h3>Volume soulevé par semaine</h3><div id="wkw"></div></div>
  <div class="c"><h3>Par groupe musculaire</h3><div id="wkg"></div></div>
  <div class="c"><h3>Équilibre et alertes</h3><div id="wke"></div></div>
- <div class="c"><h3>Progression automatique</h3><div id="wkpr"></div></div>
 </section>
 
 <section id="exos">
@@ -1306,6 +1318,7 @@ S.sessions=S.sessions.map(s=>s.sets?{d:s.d,dur:0,rpe:s.rpe,ex:[{n:s.ex,sets:s.se
 function save(){try{localStorage.setItem("muscu2",JSON.stringify(S))}catch(e){if(!SVW){SVW=1;try{toast("Stockage de l’appareil plein ou bloqué : tes dernières modifications risquent de ne pas être gardées.")}catch(x){}}}try{clQ()}catch(e){}try{pushQ()}catch(e){}}
 const D=()=>S.draft;
 const today=()=>{const n=new Date();return n.getFullYear()+"-"+String(n.getMonth()+1).padStart(2,"0")+"-"+String(n.getDate()).padStart(2,"0")};
+var PRNEW=null;
 const e1=(k,r)=>r<=1?k:k*(1+r/30);
 const isBW=n=>/traction|dips?\b|pompe|pull.?up|chin.?up|muscle.?up|australian/i.test(n||"");
 const isLest=n=>/lest/i.test(n||""),isAsst=n=>/assist/i.test(n||""),isPdc=n=>isBW(n)&&!isLest(n)&&!isAsst(n)&&!/machine/i.test(n||"");
@@ -1791,7 +1804,7 @@ function rEx(){
   +(WO[id]?'<div class="tmr wbox" data-id="'+id+'"><span class="tt"></span>'+wheelHTML(e,i)+'</div>':'')
   +(!car&&isBW(e.n)?'<p class="m" style="margin:0 0 4px">'+(bwOf()?(isPdc(e.n)?'Poids de corps '+fnum(bwOf())+' kg compté automatiquement · note seulement tes reps. Pour ajouter du poids, choisis la version « lestée ».':'Poids de corps '+fnum(bwOf())+' kg + ton lest : le volume les additionne.'):'Enregistre ton poids dans Mesures pour compter le poids de corps')+'</p>':'')+(car?carRows(e,i):('<div class="sr h nr"><span>N°</span><span>Précédent</span><span>'+(isPdc(e.n)?"Poids":isBW(e.n)?"Lest (kg)":"kg")+'</span><span>Reps</span><span></span></div>'
   +e.sets.map((s,j)=>{const pv=l&&l.sets[j],pp=pv||(l&&l.sets.filter(q=>!q.w).slice(-1)[0]);
-   return '<div class="sr nr'+(s.ok?' ok':'')+(s.pr?' pr':'')+'"><button class="sn'+(s.w?' w':'')+'" data-a="wu" data-e="'+i+'" data-s="'+j+'" aria-label="'+(s.w?'Série d’échauffement, touche pour la passer en série de travail':'Série de travail '+(e.sets.slice(0,j+1).filter(q=>!q.w).length)+', touche pour la passer en échauffement')+'">'+(s.w?'É':e.sets.slice(0,j+1).filter(q=>!q.w).length)+'</button><span class="pv">'+(pv?(pv.w?'É ':'')+(isBW(e.n)?'PDC'+(pv.kg>0?' +'+fnum(pv.kg):'')+' × '+pv.r:pv.kg+'kg × '+pv.r):'—')+'</span>'
+   return '<div class="sr nr'+(s.ok?' ok':'')+(s.pr?' pr':'')+(s.pr&&s===PRNEW?' prn':'')+'">'+(s.pr?'<span class="prm" role="img" aria-label="Record personnel">🏅</span>':'')+'<button class="sn'+(s.w?' w':'')+'" data-a="wu" data-e="'+i+'" data-s="'+j+'" aria-label="'+(s.w?'Série d’échauffement, touche pour la passer en série de travail':'Série de travail '+(e.sets.slice(0,j+1).filter(q=>!q.w).length)+', touche pour la passer en échauffement')+'">'+(s.w?'É':e.sets.slice(0,j+1).filter(q=>!q.w).length)+'</button><span class="pv">'+(pv?(pv.w?'É ':'')+(isBW(e.n)?'PDC'+(pv.kg>0?' +'+fnum(pv.kg):'')+' × '+pv.r:pv.kg+'kg × '+pv.r):'—')+'</span>'
    +["kg","r"].map(f=>f==="kg"&&isPdc(e.n)?'<span class="pdcl" aria-label="Poids de corps">PDC</span>':'<input type="number" inputmode="decimal" data-e="'+i+'" data-s="'+j+'" data-f="'+f+'" value="'+(s[f]==null?"":s[f])+'"'+(pp&&(f==="kg"||f==="r")&&pp[f]!=null?' placeholder="'+pp[f]+'"':(isBW(e.n)&&f==="kg"?' placeholder="0"':''))+' aria-label="'+(f==="r"?"reps":f)+' série '+(j+1)+'">').join("")
    +'<button class="ck" data-a="ok" data-e="'+i+'" data-s="'+j+'" aria-label="Valider la série" aria-pressed="'+!!s.ok+'">✓</button>'+(s.rpe&&!s.w?'<button class="rbd" data-a="rqo" data-e="'+i+'" data-s="'+j+'" aria-label="Effort ressenti '+s.rpe+' sur 10, toucher pour modifier">RPE '+s.rpe+'</button>':'')+'</div>'+rqH(e,i,j)+(SRO[id]?'<div class="smv"><button class="b g" data-a="su" data-e="'+i+'" data-s="'+j+'"'+(j===0?' disabled':'')+'>↑ Monter</button><button class="b g" data-a="sd" data-e="'+i+'" data-s="'+j+'"'+(j===e.sets.length-1?' disabled':'')+'>↓ Descendre</button><button class="b g" data-a="sf" data-e="'+i+'" data-s="'+j+'"'+(j===0?' disabled':'')+'>⤒ En premier</button></div>':'')+(eqi(e)==="barre"&&PLO[id]?'<div class="pls" data-e="'+i+'" data-s="'+j+'">'+plsH(e,s)+'</div>':'')}).join("")))
   +'<button class="b g big" data-a="as" data-e="'+i+'" style="margin-top:8px">+ Ajouter une série</button>'
@@ -1869,7 +1882,7 @@ $("#ex").onclick=e=>{if(Date.now()-DRX<250)return;const hx=e.target.closest(".xn
  else if(a==="ok"){const s=x.sets[j];s.ok=!s.ok;RPQ=(s.ok&&!s.w&&!isCar(x)&&!s.rpe&&D().edit==null&&!S.set.nrq)?{e:x.id,j}:null;if(s.ok&&isBW(x.n)&&bwOf())s.bw=bwOf();else delete s.bw;if(s.ok&&isCar(x)){if(s.rest>0&&!D().t1)tstart(x,s.rest)}else if(s.ok){const l=lastEx(x.n),pv=l&&(l.sets[j]||l.sets.filter(q=>!q.w).slice(-1)[0]);
    if(s.kg==null&&pv)s.kg=pv.kg;if(s.r==null&&pv)s.r=pv.r;if(isBW(x.n)&&s.kg==null)s.kg=0;
    s.pr=undefined;if(!s.w&&s.kg>0&&s.r>0&&D().edit==null){const pr=recOf(x.n),best=pr&&pr.b1?pr.b1.v:0,v=e1(s.kg,s.r),cur=Math.max(0,...D().ex.filter(y=>y.n===x.n).flatMap(y=>y.sets.filter(q=>q!==s&&q.ok&&!q.w&&q.kg>0&&q.r>0).map(q=>e1(q.kg,q.r))));
-    if(best>0&&v>best+.05&&v>cur+.05){s.pr=true;toast("Nouveau record ! "+x.n+" : 1RM estimé "+fnum(r1(v))+" kg (+"+fnum(r1(v-best))+" kg)")}}
+    if(best>0&&v>best+.05&&v>cur+.05){s.pr=true;PRNEW=s;setTimeout(()=>{if(PRNEW===s)PRNEW=null},1800);try{navigator.vibrate&&navigator.vibrate([40,40,80])}catch(_){}toast("Nouveau record ! "+x.n+" : 1RM estimé "+fnum(r1(v))+" kg (+"+fnum(r1(v-best))+" kg)")}}
    const gg=x.g?D().ex.filter(y=>y.g===x.g):[x];if(gg[gg.length-1]===x&&er(x)>0&&!D().t1)tstart(x,er(x))}}
  else if(a==="ssp"){SSO[x.id]=!SSO[x.id]}
  else if(a==="sst"){const y=D().ex[+b.dataset.o];if(y&&y!==x){const A=D().ex,clr=g=>{if(g&&A.filter(z=>z.g===g).length<2)A.forEach(z=>{if(z.g===g)z.g=undefined})};
@@ -3058,13 +3071,14 @@ function progOf(n){
 /* ===== répartition (séance et semaine) ===== */
 const GK={pec:"#d9362b",dos:"#2f6fe0",epa:"#d49b00",bra:"#1f9d55",jam:"#f07a1a",abd:"#8a6be0",exp:"#17a39b",hyx:"#e0457b",car:"#6b7a90"};
 const GSH={pec:"Pecs",dos:"Dos",epa:"Épaules",bra:"Bras",jam:"Jambes",abd:"Abdos",exp:"Explosif",hyx:"Hyrox",car:"Cardio"};
+const MUSG=GR.filter(g=>!['exp','hyx','car'].includes(g[0]));
 const RZ={f1:["Force max","1 à 3 reps","#d9362b"],f2:["Force","4 à 6 reps","#f07a1a"],h:["Hypertrophie","7 à 12 reps","#2f6fe0"],e:["Endurance","13 reps et +","#1f9d55"],x:["Explosif","sauts, lancers","#17a39b"]};
 const zOfSet=(g,r)=>g==="exp"?"x":(g==="hyx"||g==="car")?"e":r<=3?"f1":r<=6?"f2":r<=12?"h":"e";
 function splitOf(exs){const g={},z={};let n=0;exs.forEach(x=>{const k=grpOf(x.n)||guessG(x.n);x.sets.forEach(t=>{if(t.w||!(t.r>0||t.d>0||t.t>0||t.cal>0||t.h>0))return;n++;g[k]=(g[k]||0)+1;const q=zOfSet(k,t.r);z[q]=(z[q]||0)+1})});return{g,z,n}}
 function barsH(o,n,meta){return Object.entries(o).sort((a,b)=>b[1]-a[1]).map(([k,v])=>{const m=meta(k),p=Math.round(v/n*100);return '<div style="margin:7px 0"><div class="row" style="border:0;padding:0"><span>'+m[0]+'</span><span class="m" style="margin:0">'+v+(v>1?" séries":" série")+' · <b style="color:var(--ink)">'+p+' %</b></span></div><div class="hb"><i style="width:'+p+'%;background:'+m[1]+'"></i></div></div>'}).join("")}
 const segH=(o,meta)=>'<span class="seg">'+Object.entries(o).sort((a,b)=>b[1]-a[1]).map(([k,v])=>'<i style="flex:'+v+';background:'+meta(k)[1]+'"></i>').join("")+'</span>';
 const gMeta=k=>[GSH[k]||k,GK[k]||"#8e96a2"],zMeta=k=>[RZ[k][0]+' <span class="m">'+RZ[k][1]+'</span>',RZ[k][2]];
-function splitH(exs){const s=splitOf(exs);if(!s.n)return"";return '<h3 style="font-size:18px;margin:12px 0 2px">Split musculaire</h3>'+barsH(s.g,s.n,gMeta)+'<h3 style="font-size:18px;margin:14px 0 2px">Type de travail</h3>'+barsH(s.z,s.n,zMeta)}
+function splitH(exs){const s=splitOf(exs);if(!s.n)return"";const mg={};let mn=0;Object.keys(s.g).forEach(k=>{if(!['exp','hyx','car'].includes(k)){mg[k]=s.g[k];mn+=s.g[k]}});return (mn?'<h3 style="font-size:18px;margin:12px 0 2px">Split musculaire</h3>'+barsH(mg,mn,gMeta):'')+'<h3 style="font-size:18px;margin:14px 0 2px">Type de travail</h3>'+barsH(s.z,s.n,zMeta)}
 function radar(lab,sub,A,B){const W=420,H=310,cx=210,cy=155,R=92,n=lab.length,mx=Math.max(1,...A,...B);
  const pt=(i,v,k)=>{const a=-Math.PI/2+i*2*Math.PI/n,r=(k||R)*v/mx;return[cx+r*Math.cos(a),cy+r*Math.sin(a)]},f=a=>a.map(x=>x.toFixed(1)).join(",");
  let s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Graphique en araignée">';
@@ -3079,14 +3093,14 @@ function radar(lab,sub,A,B){const W=420,H=310,cx=210,cy=155,R=92,n=lab.length,mx
  return s+'</svg><p class="m" style="text-align:center"><span style="color:#4b8dff">●</span> Semaine affichée &nbsp; <span>●</span> Semaine précédente</p>'}
 let RMODE="s";
 /* ===== vue semaine ===== */
-let WK=0;
+let WK=0,GOPEN={};
 const monOf=d=>{const w=new Date(d+"T00:00:00Z").getUTCDay();return addD(d,-((w+6)%7))};
 const fh=m=>{m=Math.round(m);return Math.floor(m/60)+" h "+String(m%60).padStart(2,"0")};
 const fk=v=>Math.round(v).toLocaleString("fr-FR");
-function wkData(a){const b=addD(a,6),o={ns:0,sets:0,reps:0,vol:0,min:0,ua:0,rp:[],nodur:0,days:[0,0,0,0,0,0,0],g:{},z:{},ex:new Set(),dist:0,sec:0};
+function wkData(a){const b=addD(a,6),o={ns:0,sets:0,reps:0,vol:0,min:0,ua:0,rp:[],nodur:0,days:[0,0,0,0,0,0,0],g:{},gx:{},z:{},ex:new Set(),dist:0,sec:0};
  S.sessions.forEach(s=>{if(s.d<a||s.d>b)return;o.ns++;if(s.dur>0){o.min+=s.dur;if(s.rpe>0)o.ua+=s.rpe*s.dur}else o.nodur++;if(s.rpe>0)o.rp.push(s.rpe);
   const di=Math.min(6,Math.max(0,dnum(s.d)-dnum(a)));
-  s.ex.forEach(x=>{const g=grpOf(x.n)||guessG(x.n);o.ex.add(x.n);x.sets.forEach(t=>{const cd=t.d>0||t.t>0||t.cal>0||t.h>0;if(t.w||!(t.r>0||cd))return;const rr=t.r||0,v=tk(t)*rr;if(cd){o.dist+=t.d||0;o.sec+=t.t||0}o.sets++;o.reps+=rr;o.vol+=v;o.days[di]+=v;const q=o.g[g]||(o.g[g]={s:0,v:0});q.s++;q.v+=v;const zk=zOfSet(g,rr);o.z[zk]=(o.z[zk]||0)+1})})});
+  s.ex.forEach(x=>{const g=grpOf(x.n)||guessG(x.n);o.ex.add(x.n);x.sets.forEach(t=>{const cd=t.d>0||t.t>0||t.cal>0||t.h>0;if(t.w||!(t.r>0||cd))return;const rr=t.r||0,v=tk(t)*rr;if(cd){o.dist+=t.d||0;o.sec+=t.t||0}o.sets++;o.reps+=rr;o.vol+=v;o.days[di]+=v;const q=o.g[g]||(o.g[g]={s:0,v:0});q.s++;q.v+=v;const gx=o.gx[g]||(o.gx[g]={}),ge=gx[x.n]||(gx[x.n]={s:0,v:0,r:0});ge.s++;ge.v+=v;ge.r+=rr;const zk=zOfSet(g,rr);o.z[zk]=(o.z[zk]||0)+1})})});
  return o}
 const STL={up:"↗ progresse",flat:"→ stable",stag:"⚠ stagne"};
 const vfm=v=>v>0?(v>=1000?fnum(v/1000)+" t":Math.round(v)+""):"–";
@@ -3100,35 +3114,34 @@ function rSem(){
   +(w.nodur?'<p class="m">'+w.nodur+(w.nodur>1?" séances sans durée":" séance sans durée")+' : le temps et la charge sont incomplets.</p>':"")
   :'<p class="m">Aucune séance enregistrée sur cette semaine.</p>';
  $("#wkd").innerHTML=w.ns?bchart(["L","M","M","J","V","S","D"].map((l,i)=>({l,v:w.days[i]})),vfm)+'<p class="m">Volume = charge × répétitions, hors échauffement (en kg).</p>':'<p class="m">—</p>';
- {const ks=GR.map(g=>g[0]),val=(x,k)=>(x.g[k]||{s:0,v:0})[RMODE],A=ks.map(k=>val(w,k)),B=ks.map(k=>val(p,k)),tA=A.reduce((u,v)=>u+v,0)||1;
+ {const ks=MUSG.map(g=>g[0]),val=(x,k)=>(x.g[k]||{s:0,v:0})[RMODE],A=ks.map(k=>val(w,k)),B=ks.map(k=>val(p,k)),tA=A.reduce((u,v)=>u+v,0)||1;
   $("#wkr1").innerHTML=w.ns?'<div class="chips"><button class="chip'+(RMODE==="s"?" on":"")+'" data-m="s">Séries</button><button class="chip'+(RMODE==="v"?" on":"")+'" data-m="v">Volume</button></div>'+radar(ks.map(k=>GSH[k]),A.map(v=>Math.round(v/tA*100)+" %"),A,B)+'<p class="m">Chaque pointe montre la part de la semaine consacrée à une zone du corps. Plus le polygone est équilibré, plus ton travail est réparti.</p>':'<p class="m">—</p>';
   const zk=["f1","f2","h","e","x"],ZA=zk.map(k=>w.z[k]||0),ZB=zk.map(k=>p.z[k]||0),tZ=ZA.reduce((u,v)=>u+v,0)||1;
   $("#wkr2").innerHTML=w.ns?radar(zk.map(k=>RZ[k][0]),zk.map((k,i)=>({f1:"1-3",f2:"4-6",h:"7-12",e:"13+",x:"sauts"})[k]+" · "+Math.round(ZA[i]/tZ*100)+" %"),ZA,ZB)+'<p class="m">Répartition de tes séries selon le nombre de répétitions : force (peu de reps, lourd), hypertrophie (7 à 12), endurance (13 et plus), explosif (sauts, lancers).</p>':'<p class="m">—</p>'}
  {const W8=[];for(let i=7;i>=0;i--){const x=i===0?w:wkData(addD(a,-7*i));W8.push({l:fd(addD(a,-7*i)).slice(0,5),v:x.vol,c:i===0?"var(--ac)":"color-mix(in srgb,var(--ac) 45%,var(--bg))"})}
   const t8=W8.reduce((u,x)=>u+x.v,0);$("#wkw").innerHTML=t8?bchart(W8,vfm)+'<p class="m">8 semaines jusqu’à celle affichée (barre foncée). Chaque barre commence le lundi indiqué, en kg. Total sur 8 semaines : '+fk(t8)+' kg.</p>':'<p class="m">—</p>'}
  const avg=(k,f)=>pw.reduce((u,x)=>u+((x.g[k]||{})[f]||0),0)/4;
- const rows=GR.map(g=>{const c=w.g[g[0]]||{s:0,v:0},m=avg(g[0],"s");return{g,c,m}}).filter(r=>r.c.s>0||r.m>0);const mx=Math.max(1,...rows.map(r=>Math.max(r.c.s,r.m)));
- $("#wkg").innerHTML=rows.length?rows.map(r=>'<div style="margin:9px 0"><div class="row" style="border:0;padding:0"><span>'+ic(r.g[2])+r.g[1]+'</span><span><b>'+r.c.s+(r.c.s>1?" séries":" série")+'</b> · '+fk(r.c.v)+' kg</span></div><div style="height:8px;border-radius:4px;background:var(--bg);position:relative;margin:4px 0"><div style="height:8px;border-radius:4px;background:var(--ac);width:'+Math.round(r.c.s/mx*100)+'%"></div><i style="position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--mu);left:'+Math.round(r.m/mx*100)+'%"></i></div><span class="m">Trait gris : ta moyenne des 4 semaines d’avant ('+fnum(r.m)+' séries)</span></div>').join(""):'<p class="m">Pas encore de données.</p>';
+ const rows=MUSG.map(g=>{const c=w.g[g[0]]||{s:0,v:0},m=avg(g[0],"s");return{g,c,m}}).filter(r=>r.c.s>0||r.m>0);const mx=Math.max(1,...rows.map(r=>Math.max(r.c.s,r.m)));
+ $("#wkg").innerHTML=rows.length?rows.map(r=>{const k=r.g[0],ex=Object.entries(w.gx[k]||{}).sort((a,b)=>b[1].s-a[1].s);
+  return '<details class="gdt" data-k="'+k+'"'+(GOPEN[k]?' open':'')+'><summary><div class="row" style="border:0;padding:0"><span>'+ic(r.g[2])+r.g[1]+'<span class="gch">›</span></span><span><b>'+r.c.s+(r.c.s>1?" séries":" série")+'</b> · '+fk(r.c.v)+' kg</span></div><div style="height:8px;border-radius:4px;background:var(--bg);position:relative;margin:8px 0 2px"><div style="height:8px;border-radius:4px;background:var(--ac);width:'+Math.round(r.c.s/mx*100)+'%"></div><i style="position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--mu);left:'+Math.round(r.m/mx*100)+'%"></i></div></summary><div class="gbd">'
+  +(ex.length?ex.map(([n,o])=>'<div class="row"><span>'+esc(n)+'</span><span style="text-align:right"><b>'+o.s+(o.s>1?" séries":" série")+'</b><span class="m" style="display:block">'+o.r+' reps · '+fk(o.v)+' kg</span></span></div>').join(""):'<p class="m">Aucune série cette semaine.</p>')
+  +'<p class="m">Trait gris : ta moyenne des 4 semaines d’avant ('+fnum(r.m)+' séries).</p></div></details>'}).join(""):'<p class="m">Pas encore de données.</p>';
+ $("#wkg").querySelectorAll("details").forEach(d=>{d.ontoggle=()=>{GOPEN[d.dataset.k]=d.open}});
  const M=[],gs=k=>(w.g[k]||{s:0}).s,push=gs("pec")+gs("epa"),pull=gs("dos");
  if(push>0&&pull/push<.8)M.push("Tu as fait "+push+" séries de poussée (pecs, épaules) pour "+pull+" de tirage (dos) : rééquilibre avec plus de tirage pour protéger les épaules.");
- GR.forEach(g=>{if(g[0]==="exp")return;if(!gs(g[0])&&avg(g[0],"s")>=3)M.push("Aucune série de « "+g[1]+" » alors que tu en fais "+fnum(avg(g[0],"s"))+" en moyenne"+(WK===0?" (la semaine n’est pas finie)":"")+".")});
+ MUSG.forEach(g=>{if(!gs(g[0])&&avg(g[0],"s")>=3)M.push("Aucune série de « "+g[1]+" » alors que tu en fais "+fnum(avg(g[0],"s"))+" en moyenne"+(WK===0?" (la semaine n’est pas finie)":"")+".")});
  const au=pw.filter(x=>x.ua>0).map(x=>x.ua),aa=au.length?au.reduce((u,v)=>u+v,0)/au.length:0,vv=pw.filter(x=>x.vol>0).map(x=>x.vol),av=vv.length?vv.reduce((u,v)=>u+v,0)/vv.length:0;
  if(aa>0&&w.ua>aa*1.3)M.push("Charge d’entraînement à +"+Math.round((w.ua/aa-1)*100)+" % par rapport à ta moyenne des 4 dernières semaines : surveille la fatigue et le sommeil.");
  if(av>0&&w.vol>av*1.3)M.push("Volume soulevé à +"+Math.round((w.vol/av-1)*100)+" % par rapport à ta moyenne : montée rapide, laisse le corps s’adapter.");
  if(WK<0&&aa>0&&w.ns&&w.ua<aa*.6)M.push("Semaine nettement plus légère que d’habitude ("+Math.round((1-w.ua/aa)*100)+" % de moins en charge).");
  $("#wke").innerHTML=!w.ns?'<p class="m">—</p>':M.length?M.map(t=>'<p style="margin:6px 0">⚠ '+esc(t)+'</p>').join(""):'<p class="m">Rien à signaler : ta semaine est équilibrée.</p>';
- const lim=addD(today(),-28),L=allN().map(progOf).filter(x=>x&&x.d>=lim).sort((x,y)=>(y.state==="stag")-(x.state==="stag")||(x.d<y.d?1:-1)).slice(0,14);
- const sg=L.filter(x=>x.state==="stag");
- $("#wkpr").innerHTML=L.length?(sg.length?'<div class="zbig" style="background:#ffe3b3"><b>'+sg.length+(sg.length>1?" exercices stagnent":" exercice stagne")+'</b>'+sg.map(x=>esc(x.n)).join(", ")+'</div>':"")
-  +L.map(x=>'<div class="row"><span>'+ic(gr(x.n))+esc(x.n)+'<span class="m" style="display:block">'+fd(x.d).slice(0,5)+' : '+fnum(x.from)+' kg × '+x.r+(x.rpe?' · RPE '+x.rpe:'')+'</span></span><span style="text-align:right"><b>'+(x.rpe?(x.kg!==x.from?"→ "+fnum(x.kg)+" kg":"= "+fnum(x.kg)+" kg"):"RPE ?")+'</b><span class="m" style="display:block">'+STL[x.state]+(x.gain?' ('+(x.gain>0?"+":"")+fnum(x.gain)+' kg 1RM)':'')+'</span></span></div>').join("")
-  +'<p class="m">Règle : RPE ≤ 7 → +5 % ; RPE 7,5 à 8,5 → +2,5 kg ; RPE 9 → même charge ; deux séances à RPE 9,5 ou plus → on allège. Stagnation = pas de progrès du 1RM estimé sur au moins 3 séances en 2 semaines ou plus. La suggestion s’affiche aussi dans la séance, sous chaque exercice, avec un bouton Appliquer.</p>'
-  :'<p class="m">Fais quelques séances avec un RPE : la suggestion de charge apparaît ici et dans la séance.</p>'}
+}
 $("#wkr1").onclick=e=>{const b=e.target.closest("[data-m]");if(!b)return;RMODE=b.dataset.m;rSem()};
 $("#wkp").onclick=()=>{WK--;rSem()};$("#wkn").onclick=()=>{if(WK<0){WK++;rSem()}};
 
 function draw(){try{banner()}catch(_){}secBanners();rLibMy();rReg();try{rCycRem()}catch(_){}rTeam();rRpeD();rGch();rEx();rFchk();rRx();rExos();rProg();rCyc();rWell();rHome();rHcyc();rProf();rRegles();rHisto();rSem();rPoids();rRec();rCharge();rSf();rPain();rTests();rForme();rHub();try{rWpush()}catch(x){}banner()}
 calc();draw();{const h=location.hash.slice(1);if(h&&document.getElementById(h))go(h);else{const d=D();if(d.t0&&!d.t1&&d.edit==null)go("seance")}}
-var BUILD=182,UPW=null,UPGO=false;
+var BUILD=183,UPW=null,UPGO=false;
 function updBar(w){if(document.getElementById("updbar"))return;UPW=w;const d=document.createElement("div");d.id="updbar";d.setAttribute("role","status");d.innerHTML='<span>Nouvelle version disponible</span><button type="button" id="updgo">Mettre à jour</button>';document.body.appendChild(d);
  const b=document.getElementById("updgo");b.onclick=()=>{b.disabled=true;b.textContent="Mise à jour…";if(!UPW){(async()=>{try{if(window.caches){const k=await caches.keys();await Promise.all(k.map(x=>caches.delete(x)))}}catch(e){}location.reload()})();return}UPGO=true;try{UPW.postMessage("skip")}catch(e){location.reload()}setTimeout(()=>location.reload(),4000)}}
 try{document.getElementById("bldv").textContent="Version installée : V"+BUILD}catch(e){}
