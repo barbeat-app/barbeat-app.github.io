@@ -1375,6 +1375,7 @@ setTimeout(function(){var s=document.getElementById("spl");if(!s)return;if(m.len
 const $=s=>document.querySelector(s);
 let S={sessions:[],well:[],prog:[],weight:[],sf:[],pain:[],tests:[],set:{rt:"09:00",v2:1},draft:{t0:null,ex:[]}};
 try{const x=JSON.parse(localStorage.getItem("muscu2")||localStorage.getItem("muscu")||"null");if(x)Object.assign(S,x)}catch(e){}
+["sessions","well","prog","weight","sf","pain","tests","cyc"].forEach(function(k){if(!Array.isArray(S[k]))S[k]=[]});if(!S.draft||typeof S.draft!=="object"||!Array.isArray(S.draft.ex))S.draft={t0:null,ex:[]};
 if(!Array.isArray(S.recs))S.recs=[];
 if(!S.team||typeof S.team!=="object"||Array.isArray(S.team))S.team={};
 if(!S.eqm||typeof S.eqm!=="object"||Array.isArray(S.eqm))S.eqm={};
@@ -3229,9 +3230,9 @@ try{bilList()}catch(_){}
 $("#wkr1").onclick=e=>{const b=e.target.closest("[data-m]");if(!b)return;RMODE=b.dataset.m;rSem()};
 $("#wkp").onclick=()=>{WK--;rSem()};$("#wkn").onclick=()=>{if(WK<0){WK++;rSem()}};
 
-function draw(){try{banner()}catch(_){}secBanners();rLibMy();rReg();try{rCycRem()}catch(_){}rTeam();rRpeD();rGch();rEx();rFchk();rRx();rExos();rProg();rCyc();rWell();rHome();rHcyc();rProf();rRegles();rHisto();rSem();rPoids();rRec();rCharge();rSf();rPain();rTests();rForme();rHub();try{rWpush()}catch(x){}banner()}
+function draw(){var L=[banner,secBanners,rLibMy,rReg,rCycRem,rTeam,rRpeD,rGch,rEx,rFchk,rRx,rExos,rProg,rCyc,rWell,rHome,rHcyc,rProf,rRegles,rHisto,rSem,rPoids,rRec,rCharge,rSf,rPain,rTests,rForme,rHub,rWpush,banner];for(var i=0;i<L.length;i++){try{L[i]()}catch(x){try{console.error("draw",L[i].name,x)}catch(_){}window.__de=(window.__de||[]);if(window.__de.length<6)window.__de.push((L[i].name||"?")+" : "+(x&&x.message||x));try{bar("["+(L[i].name||"?")+"] "+(x&&x.message||x))}catch(_){}}}}
 calc();draw();{const h=location.hash.slice(1);if(h&&document.getElementById(h))go(h);else{const d=D();if(d.t0&&!d.t1&&d.edit==null)go("seance")}}
-var BUILD=189,UPW=null,UPGO=false;
+var BUILD=192,UPW=null,UPGO=false;
 function updBar(w){if(document.getElementById("updbar"))return;UPW=w;const d=document.createElement("div");d.id="updbar";d.setAttribute("role","status");d.innerHTML='<span>Nouvelle version disponible</span><button type="button" id="updgo">Mettre à jour</button>';document.body.appendChild(d);
  const b=document.getElementById("updgo");b.onclick=()=>{b.disabled=true;b.textContent="Mise à jour…";if(!UPW){(async()=>{try{if(window.caches){const k=await caches.keys();await Promise.all(k.map(x=>caches.delete(x)))}}catch(e){}location.reload()})();return}UPGO=true;try{UPW.postMessage("skip")}catch(e){location.reload()}setTimeout(()=>location.reload(),4000)}}
 try{document.getElementById("bldv").textContent="Version installée : V"+BUILD}catch(e){}
@@ -3492,7 +3493,7 @@ function fUndo(){D().ex.forEach(x=>x.sets.forEach(s=>{if(s.k0!=null&&!s.ok){s.kg
 function fShort(){let n=0;D().ex.forEach(x=>{if(isCar(x))return;const L=x.sets;if(L.length>=3&&!L[L.length-1].ok){(x.rm=x.rm||[]).push(L.pop());n++}});return n}
 function fUnshort(){D().ex.forEach(x=>{while(x.rm&&x.rm.length)x.sets.push(x.rm.pop());delete x.rm;delete x.fs})}
 function rFchk(){const e=$("#fchk");if(!e||!FRM)return;const d=D(),act=!!(d.t0||d.ex.length)&&!d.t1;if(!act||d.edit!=null){e.innerHTML="";return}
- try{const so=document.querySelector("section.on"),fm0=(S.form||{})[today()],pt=pTod();if(!d.bil&&so&&so.id==="seance"&&!document.getElementById("bilx")&&((fm0&&fm0.f)||(pt&&pt.z&&Object.values(pt.z).some(v=>v>0)))){d.bil=1;BILS=0;setTimeout(()=>bilOpen(),350)}}catch(_){}
+ try{const so=document.querySelector("section.on"),fm0=(S.form||{})[today()],pt=pTod();if(!d.bil&&so&&so.id==="seance"&&!document.getElementById("bilx")&&((fm0&&fm0.f)||(pt&&pt.z&&Object.values(pt.z).some(v=>v>0)))){d.bil=1;BILS=0;setTimeout(()=>bilxOpen(),350)}}catch(_){}
  const fm=(S.form||{})[today()],ci=cycInfo(),cy=!!(S.mcy&&S.mcy.on);
  if(fm&&fm.f===0){e.innerHTML="";return}
  if(!fm&&cy&&!FSEL.f&&!FSEL.sy.length){const e0=(S.mcy.sym||{})[today()];if(e0)FSEL.sy=e0.slice()}
@@ -3512,7 +3513,7 @@ function rFchk(){const e=$("#fchk");if(!e||!FRM)return;const d=D(),act=!!(d.t0||
   +btn+learn+'<button class="lnk" data-fk="edit" style="margin:6px 0 0">Modifier ma forme</button>'+'<p class="m" style="font-size:11.5px;margin:4px 0 0">Suggestions de bon sens, pas un avis médical. Douleur forte ou inhabituelle : consulte un professionnel de santé.</p>'+'</details>'}
 document.addEventListener("click",e=>{const b=e.target.closest("#fchk [data-fk]");if(!b)return;const k=b.dataset.fk,v=b.dataset.v;S.form=S.form||{};
  if(k==="f"){FSEL.f=+v}else if(k==="sy"){FSEL.sy=FSEL.sy.includes(v)?FSEL.sy.filter(x=>x!==v):FSEL.sy.concat(v)}
- else if(k==="ok"){if(!FSEL.f)return;S.form[today()]={f:FSEL.f};if(S.mcy&&S.mcy.on){S.mcy.sym=S.mcy.sym||{};if(FSEL.sy.length)S.mcy.sym[today()]=FSEL.sy.slice();else delete S.mcy.sym[today()]}else if(FSEL.sy.length)S.form[today()].sy=FSEL.sy.slice();FSEL={f:0,sy:[]};save();BILS=0;setTimeout(()=>bilOpen(),60)}
+ else if(k==="ok"){if(!FSEL.f)return;S.form[today()]={f:FSEL.f};if(S.mcy&&S.mcy.on){S.mcy.sym=S.mcy.sym||{};if(FSEL.sy.length)S.mcy.sym[today()]=FSEL.sy.slice();else delete S.mcy.sym[today()]}else if(FSEL.sy.length)S.form[today()].sy=FSEL.sy.slice();FSEL={f:0,sy:[]};save();BILS=0;setTimeout(()=>bilxOpen(),60)}
  else if(k==="pass"){S.form[today()]={f:0};save()}
  else if(k==="ap"){const p=+v,n=fAdj(p);S.form[today()].ap=p;save();rEx();toast(n?n+" série"+(n>1?"s":"")+" ajustée"+(n>1?"s":""):"Aucune charge à ajuster (ajoute tes kg d’abord)")}
  else if(k==="sh"){const n=fShort();S.form[today()].sh=n;save();rEx();toast(n?n+" série"+(n>1?"s":"")+" retirée"+(n>1?"s":""):"Rien à raccourcir")}
@@ -3560,17 +3561,17 @@ function bilSlides(){const {fm,hf,pz,a,fe}=bilCtx(),al=fm.al,sl=[],low=hf&&a.lvl
   else if(pz.length)h+='<p class="m">Pendant que tu choisis tes exercices, une pastille orange ou rouge signale ceux à éviter.</p>';
   sl.push(h+'</div>')}
  return sl}
-function bilOpen(st){let x=document.getElementById("bilx");if(!bilWorth()){if(x)x.remove();if(!st){try{const c=bilCtx();if(c.hf&&(S.set.bil||"")!=="off")toast(c.fe[1]+" Forme : "+c.fe[2].toLowerCase()+" · aucune douleur, séance comme prévue")}catch(_){}}return}
+function bilxOpen(st){let x=document.getElementById("bilx");if(!bilWorth()){if(x)x.remove();if(!st){try{const c=bilCtx();if(c.hf&&(S.set.bil||"")!=="off")toast(c.fe[1]+" Forme : "+c.fe[2].toLowerCase()+" · aucune douleur, séance comme prévue")}catch(_){}}return}
  const sl=bilSlides();if(!sl.length){if(x)x.remove();return}if(BILS>=sl.length)BILS=sl.length-1;if(BILS<0)BILS=0;try{D().bil=1}catch(_){}
  if(!x){x=document.createElement("div");x.id="bilx";document.body.appendChild(x)}x.className=st?"st":"";const last=BILS===sl.length-1;
  x.innerHTML='<div class="bil" role="dialog" aria-label="Bilan de ta séance"><div class="bdots">'+sl.map((_,k)=>'<span class="'+(k===BILS?'on':'')+'"></span>').join("")+'</div><div class="bbody" data-k="'+BILS+'">'+sl[BILS]+'</div><div class="bnav">'+(BILS>0?'<button class="b g" data-bl="pv">Retour</button>':'')+'<button class="b" data-bl="'+(last?'go':'nx')+'">'+(last?'C’est parti':'Suivant')+'</button></div></div>'}
 document.addEventListener("click",e=>{const x=document.getElementById("bilx");if(!x)return;if(e.target===x){x.remove();return}const b=e.target.closest("#bilx [data-bl]");if(!b)return;const k=b.dataset.bl;S.form=S.form||{};const o=S.form[today()];
  if(k==="go"){x.remove();BILS=0;return}
- if(k==="nx"){BILS++;bilOpen(true);return}if(k==="pv"){BILS--;bilOpen(true);return}
- if(k==="adapt"){let n=0;D().ex.slice().forEach(e2=>{const r=pnExs(e2);if(!r)return;if(r.lv>=7){const al=pnAlts(e2,r.aff);if(al.length){RPI=e2.id;doRpl(al[0]);n++}}else if(r.lv>=4&&!e2.pna){e2.sets.forEach(q=>{if(!q.ok&&q.kg>0){if(q.k0!=null)q.k0=rd(q.k0*.8,2.5);q.kg=Math.max(0,rd(q.kg*.8,2.5))}});e2.pna=1;n++}});save();rEx();bilOpen(true);toast(n?n+" exercice"+(n>1?"s":"")+" adapté"+(n>1?"s":""):"Rien à adapter");return}
+ if(k==="nx"){BILS++;bilxOpen(true);return}if(k==="pv"){BILS--;bilxOpen(true);return}
+ if(k==="adapt"){let n=0;D().ex.slice().forEach(e2=>{const r=pnExs(e2);if(!r)return;if(r.lv>=7){const al=pnAlts(e2,r.aff);if(al.length){RPI=e2.id;doRpl(al[0]);n++}}else if(r.lv>=4&&!e2.pna){e2.sets.forEach(q=>{if(!q.ok&&q.kg>0){if(q.k0!=null)q.k0=rd(q.k0*.8,2.5);q.kg=Math.max(0,rd(q.kg*.8,2.5))}});e2.pna=1;n++}});save();rEx();bilxOpen(true);toast(n?n+" exercice"+(n>1?"s":"")+" adapté"+(n>1?"s":""):"Rien à adapter");return}
  if(!o)return;
- if(k==="al"){const a=adapt();let m=0;if(a.pct)fAdj(a.pct);if(a.sets)m=fShort2(a.sets,a.lvl===2);o.al={p:a.pct,sh:m,l:a.lvl};save();rEx();rFchk();bilOpen(true)}
- else if(k==="keep"){o.keep=1;o.ap=0;save();rFchk();bilOpen(true)}});
+ if(k==="al"){const a=adapt();let m=0;if(a.pct)fAdj(a.pct);if(a.sets)m=fShort2(a.sets,a.lvl===2);o.al={p:a.pct,sh:m,l:a.lvl};save();rEx();rFchk();bilxOpen(true)}
+ else if(k==="keep"){o.keep=1;o.ap=0;save();rFchk();bilxOpen(true)}});
 
 /* onglet Règles et cycle (Santé) */
 var RGL_T={men:["Écoute ton niveau d’énergie : charges plus légères ou mobilité si tu as des crampes.","Hydrate-toi et fais un échauffement progressif.","Pas d’obligation de performer : ton ressenti décide."],
@@ -4947,7 +4948,7 @@ function bilHTML(d,view){
  +'<div class="blc blq"><div class="ble">À retenir</div><p>'+esc(d.txt)+'</p></div>'+rec+mus+eff+kc+'</div>'
  +'<div class="blbar"><div class="blr2"><button class="blb1" data-bl="share">Partager en story</button><button class="blb2" data-bl="'+(view?"close":"save")+'">'+(view?"Fermer":"Enregistrer")+'</button></div>'+(view?"":'<button class="blb3" data-bl="later">Plus tard</button>')+'</div>'}
 let BIL=null,BIS=null;
-function bilOpen(d,view,key){BIL={d,view:!!view,key};let e=document.getElementById("bil");if(!e){e=document.createElement("div");e.id="bil";e.setAttribute("role","dialog");e.setAttribute("aria-modal","true");e.setAttribute("aria-label","Bilan de la semaine");document.body.appendChild(e);e.addEventListener("click",bilClick)}
+function bilOpen(d,view,key){if(!d||!d.days)return;BIL={d,view:!!view,key};let e=document.getElementById("bil");if(!e){e=document.createElement("div");e.id="bil";e.setAttribute("role","dialog");e.setAttribute("aria-modal","true");e.setAttribute("aria-label","Bilan de la semaine");document.body.appendChild(e);e.addEventListener("click",bilClick)}
  e.hidden=false;e.innerHTML=bilHTML(d,view);e.scrollTop=0;document.body.style.overflow="hidden"}
 function bilClose(){const e=document.getElementById("bil");if(e){e.hidden=true;e.innerHTML=""}document.body.style.overflow="";BIL=null;BIS=null}
 function bilDone(how){const st=bilSt(),k=BIL.key||BIL.d.a;if(!BIL.view){st.done[k]=1}st.saved[k]=BIL.d;save();bilClose();try{rSem()}catch(_){}toast(how==="share"?"Bilan partagé et enregistré dans Vue semaine":"Bilan enregistré dans Vue semaine")}
