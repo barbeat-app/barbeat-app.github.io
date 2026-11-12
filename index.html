@@ -1072,6 +1072,7 @@ setTimeout(function(){var s=document.getElementById("spl");if(!s)return;if(m.len
  </div>
  <div id="sact" hidden>
   <div class="sbar"><h2 id="sbt">Entraînement</h2><button class="b" id="gstop">Terminer</button><button class="b g" id="gres" hidden>Reprendre</button></div>
+  <div id="sdw" style="display:flex;align-items:center;gap:8px;margin:0 2px 10px;flex-wrap:wrap;font-size:14px"><span id="sdl" style="font-weight:700"></span><button class="b g" id="sdm" type="button" style="padding:5px 12px;min-height:0;font-size:13px">modifier</button><span id="sdp" style="display:none;align-items:center;gap:6px;flex-wrap:wrap;width:100%"><button class="b g" id="sdy" type="button" style="padding:6px 12px;min-height:0;font-size:13px">Hier</button><input type="date" id="sdi" aria-label="Date de la séance" style="width:auto;flex:1;min-width:140px"><button class="b g" id="sdt" type="button" style="padding:6px 12px;min-height:0;font-size:13px">Aujourd’hui</button></span></div>
   <div class="c" id="snw" style="padding:10px 12px"><label for="snm" style="margin-top:0">Nom de la séance</label><input id="snm" maxlength="40" placeholder="Ex. Lower, Haut du corps, Séance A…" autocomplete="off"><div class="chips" id="snc"></div></div>
  <div class="sst" id="sst"></div>
   <p class="m" id="bal" hidden></p>
@@ -2077,12 +2078,17 @@ function rGch(){rGch0();const si=$("#sidle");if(si&&!si.hidden)rSidle()}
 function rGch0(){const d=D(),act=!!(d.t0||d.ex.length),ed=d.edit!=null&&!!S.sessions[d.edit];if(act&&!d.t0){d.t0=Date.now();save()}
  const fin=!!(d.t0&&d.t1);$("#sidle").hidden=act;$("#sact").hidden=!act;$("#sfin").hidden=!fin;$("#gstop").hidden=true;$("#gstop2").hidden=!!d.t1||!d.ex.length;{const nw=$("#snw"),sf=$("#sfin");if(fin){if(nw.parentNode!==sf)sf.insertBefore(nw,sf.children[1]);nw.hidden=false}else{nw.hidden=!ed&&true;if(nw.parentNode===sf)sf.parentNode.insertBefore(nw,sf)}$("#ex").hidden=fin&&!ed}$("#gres").hidden=!d.t1||ed;
  $("#sbt").textContent=ed?"Modifier la séance du "+fd(d.ed).slice(0,5):d.dt?"Séance du "+fd(d.dt).slice(0,5):"Entraînement";
+ try{const w=$("#sdw");w.style.display=ed?"none":"flex";const y=addD(today(),-1);$("#sdl").textContent=d.dt?(d.dt===y?"Hier":"Le "+fd(d.dt).slice(0,5)):"Aujourd’hui";$("#sdi").max=today();$("#sdi").value=d.dt||today()}catch(_){}
  $("#dur").type=ed||d.dt?"number":"hidden";$("#durl").hidden=!(ed||d.dt);$("#sredo").hidden=!S.sessions.length;
  $("#clrS").textContent=ed?"Annuler la modification":"Abandonner la séance";$("#saveS").textContent=ed?"Enregistrer les modifications":"Enregistrer la séance";
  $("#rdw").hidden=false;
  if(fin&&!ed&&!d.dt)$("#dur").value=gMin();rStats();rUA();rBar();wlSet();liveSync();rSnm()}
 $("#sgo").onclick=()=>{S.draft={t0:Date.now(),t1:null,ex:[]};$("#sdone").textContent="";ADDO="";save();draw();try{if(window.Notification&&Notification.permission==="default")Notification.requestPermission()}catch(e){}};
 $("#sredo").onclick=()=>{for(let i=S.sessions.length-1;i>=0;i--){redoSess(i);break}};
+{const sdSet=v=>{const d=D();if(v&&v<today())d.dt=v;else delete d.dt;save();$("#sdp").style.display="none";draw()};
+$("#sdm").onclick=()=>{const p=$("#sdp");p.style.display=p.style.display==="none"?"flex":"none"};
+$("#sdy").onclick=()=>sdSet(addD(today(),-1));$("#sdt").onclick=()=>sdSet(null);
+$("#sdi").onchange=e=>{const v=e.target.value;if(!v)return;if(v>today()){toast("Pas de date dans le futur.");e.target.value=D().dt||today();return}sdSet(v)}}
 $("#gstop").onclick=()=>{const d=D();d.t1=Date.now();if(!d.dt)$("#dur").value=gMin();tclearAll();LT=null;save();draw();scrollTo(0,0)};
 $("#gstop2").onclick=()=>$("#gstop").click();
 $("#gres").onclick=()=>{const d=D();d.t0+=Date.now()-d.t1;d.t1=null;save();draw()};
@@ -3232,7 +3238,7 @@ $("#wkp").onclick=()=>{WK--;rSem()};$("#wkn").onclick=()=>{if(WK<0){WK++;rSem()}
 
 function draw(){var L=[banner,secBanners,rLibMy,rReg,rCycRem,rTeam,rRpeD,rGch,rEx,rFchk,rRx,rExos,rProg,rCyc,rWell,rHome,rHcyc,rProf,rRegles,rHisto,rSem,rPoids,rRec,rCharge,rSf,rPain,rTests,rForme,rHub,rWpush,banner];for(var i=0;i<L.length;i++){try{L[i]()}catch(x){try{console.error("draw",L[i].name,x)}catch(_){}window.__de=(window.__de||[]);if(window.__de.length<6)window.__de.push((L[i].name||"?")+" : "+(x&&x.message||x));try{bar("["+(L[i].name||"?")+"] "+(x&&x.message||x))}catch(_){}}}}
 calc();draw();{const h=location.hash.slice(1);if(h&&document.getElementById(h))go(h);else{const d=D();if(d.t0&&!d.t1&&d.edit==null)go("seance")}}
-var BUILD=192,UPW=null,UPGO=false;
+var BUILD=194,UPW=null,UPGO=false;
 function updBar(w){if(document.getElementById("updbar"))return;UPW=w;const d=document.createElement("div");d.id="updbar";d.setAttribute("role","status");d.innerHTML='<span>Nouvelle version disponible</span><button type="button" id="updgo">Mettre à jour</button>';document.body.appendChild(d);
  const b=document.getElementById("updgo");b.onclick=()=>{b.disabled=true;b.textContent="Mise à jour…";if(!UPW){(async()=>{try{if(window.caches){const k=await caches.keys();await Promise.all(k.map(x=>caches.delete(x)))}}catch(e){}location.reload()})();return}UPGO=true;try{UPW.postMessage("skip")}catch(e){location.reload()}setTimeout(()=>location.reload(),4000)}}
 try{document.getElementById("bldv").textContent="Version installée : V"+BUILD}catch(e){}
@@ -3391,12 +3397,12 @@ function profDraw(){let e=$("#prf");if(!e){e=document.createElement("div");e.id=
   +'<button class="pbtn" data-pf="l28">Je ne sais pas : mettre 28 jours</button></div>'
   +'<div class="pq"><b>3. Ton cycle est-il régulier ?</b><div class="pc">'+ch("irr","0","Oui, plutôt régulier",!P.irr)+ch("irr","1","Irrégulier, ou pilule / stérilet hormonal",P.irr)+'</div>'
   +(P.irr?'<p class="m">Dans ce cas il n’y a pas de vraies phases : l’appli ne calculera rien et se basera seulement sur ton ressenti du jour.</p>':'')+'</div>'
-  +(CL_ON&&DBU?'<div class="pq"><b>Où garder ces informations ?</b><div class="pc">'+ch("cl","0","Cet appareil seulement",!P.cloud)+ch("cl","1","Mon compte (cloud)",P.cloud)+'</div></div>':'')
-  +'<label class="chk acg"><input type="checkbox" id="pfc"'+(P.cons?" checked":"")+'><span> J’accepte que ces informations de santé (dates de règles, symptômes) soient enregistrées '+(CL_ON&&DBU&&P.cloud?'dans mon compte':'sur cet appareil')+'. Je peux les effacer à tout moment dans Réglages.</span></label>'
+  +(CL_ON&&DBU?'<div class="pq"><b>Où garder ces informations ?</b><div class="pc">'+ch("cl","0","Cet appareil seulement",P.cloud===false)+ch("cl","1","Mon compte (cloud)",P.cloud!==false)+'</div><p class="m">Avec « Cet appareil seulement », ces données sont perdues si tu désinstalles l’appli.</p></div>':(CL_ON?'<div class="pq"><b>Où garder ces informations ?</b><p class="m">Tu n’es pas connectée : ces informations resteront sur cet appareil et seront <b>perdues si tu désinstalles l’appli</b>. Connecte-toi dans Réglages avant d’activer le suivi pour les garder dans ton compte.</p></div>':''))
+  +'<label class="chk acg"><input type="checkbox" id="pfc"'+(P.cons?" checked":"")+'><span> J’accepte que ces informations de santé (dates de règles, symptômes) soient enregistrées '+(CL_ON&&DBU&&P.cloud!==false?'dans mon compte':'sur cet appareil')+'. Je peux les effacer à tout moment dans Réglages.</span></label>'
   +'<p class="m aer bad" id="pfe">'+esc(P.err)+'</p><button class="b big" data-pf="save">Activer le suivi</button><button class="pbtn" data-pf="back">← Retour</button>'}
  e.innerHTML=h+'</div>'}
 function profSave(){const P=PF,lv=P.lvl||(S.prof&&S.prof.lvl)||"";S.prof=P.skip?{x:1,lvl:lv}:{sex:P.sex,age:+P.age||0,done:1,lvl:lv};if(P.lvl)S.set.mode=P.lvl==="d"?"s":"c";
- if(P.mode){S.mcy={on:1,o:P.mode==="o",last:P.last,len:Math.max(21,Math.min(45,+P.len||28)),irr:P.irr,cloud:!!(CL_ON&&DBU&&P.cloud),hist:[P.last],sym:(S.mcy&&S.mcy.sym)||{}}}
+ if(P.mode){S.mcy={on:1,o:P.mode==="o",last:P.last,len:Math.max(21,Math.min(45,+P.len||28)),irr:P.irr,cloud:!!(CL_ON&&DBU&&P.cloud!==false),hist:[P.last],sym:(S.mcy&&S.mcy.sym)||{}}}
  else if(P.nc&&S.mcy){S.mcy.on=0}
  save();const e=$("#prf");if(e)e.remove();PF=null;draw()}
 document.addEventListener("click",e=>{const b=e.target.closest("#prf [data-pf]");if(!b||!PF)return;profRead();const k=b.dataset.pf,v=b.dataset.v,P=PF;P.err="";
