@@ -1010,6 +1010,21 @@ body.rb #etb{bottom:calc(150px + env(safe-area-inset-bottom,0px))}
 #bil .blnt{font-size:12.5px;color:#a3afc7;margin:0 0 8px;line-height:1.4}
 #bil .blt{display:flex;align-items:center;gap:12px;min-height:58px;border-top:1px solid #26314d}#bil .blt>div{flex:1}#bil .blt b{display:block;font-size:15px}#bil .blt small{font-size:12.5px;color:#a3afc7}
 #bil .blt button{width:56px;height:36px;border-radius:18px;border:1px solid #3a4a75;background:#0a1020;position:relative;flex:none;padding:0}#bil .blt button i{position:absolute;top:3px;left:4px;width:28px;height:28px;border-radius:14px;background:#a3afc7;transition:left .15s}#bil .blt button.on{background:#c8f35c;border-color:#c8f35c}#bil .blt button.on i{left:24px;background:#0a1020}
+
+#ex .gcd{padding:0;overflow:hidden;background:var(--sf)}
+.gbn{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:7px 12px;color:#0a1020}
+.gbn small{display:block;font:800 10.5px sans-serif;letter-spacing:.1em;text-transform:uppercase}.gbn b{font:800 15px sans-serif;line-height:1.15;display:block}
+.gtn{text-align:right;flex:none}.gtn b{font:800 22px "Barlow Condensed",sans-serif}
+.gbd{padding:6px 10px 10px}
+.gtl{font:700 11px sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--mu);margin:8px 0 2px}.gtl.dn{opacity:.6}
+#ex .sr.gtr{grid-template-columns:22px minmax(0,1fr) 54px 46px 36px;gap:5px;margin:3px 0;padding:2px;border-radius:10px;border:1.5px solid transparent}
+#ex .sr.gtr.now{border-color:var(--ac);background:color-mix(in srgb,var(--ac) 12%,transparent)}
+.gl{width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;font:800 12px sans-serif;color:#0a1020;background:var(--bg)}
+.sr.gtr.ok .gl{background:var(--ok);color:#fff}
+.gnm{font:600 13.5px sans-serif;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}.gnm em{display:block;font:800 9.5px sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--ac);font-style:normal}
+#ex .sr.gtr input{font-size:17px;padding:4px 2px;height:34px;box-sizing:border-box;text-align:center}
+#ex .sr.gtr .ck{padding:0;height:34px;font-size:15px}
+.gnt{margin:6px 2px 4px;font-size:12px}
 </style>
 </head>
 <body>
@@ -1864,10 +1879,21 @@ const plsH=(e,s)=>{if(eqi(e)!=="barre"||!(s.kg>0))return"";const b=barOf(e);if(s
  const r=platesFor(s.kg,b);if(!r.used.length)return'<span class="m">Barre seule</span>';
  return'<span class="m">Par côté :</span> '+r.used.map(u=>'<b>'+u.n+' × '+String(u.w).replace(".",",")+'</b>').join(' + ')+(r.rest>0?'<span class="m"> · '+fnum(r.got)+' kg possible</span>':'')+'<span class="pd" aria-hidden="true">'+r.used.flatMap(u=>Array.from({length:u.n},()=>'<i style="background:'+u.c+'"></i>')).join("")+'</span>'};
 const rtxt=s=>Math.floor(s/60)+"min "+(s%60)+"s";
+const GFU={};
+function grpCard(gi){const A=D().ex,col=ssCol(gi[0]),n=gi.length,kind=n>=3?"Circuit":"Superset",L="ABCDEFGH",T=Math.max(...gi.map(m=>m.sets.length));
+ let cur=null;for(let t=0;t<T&&!cur;t++)for(const m of gi){const q=m.sets[t];if(q&&!q.ok){cur=[m,t];break}}
+ const tn=cur?cur[1]+1:T,names=gi.map(m=>m.n).join(" + "),i0=A.indexOf(gi[0]);
+ let h='<div class="c xc gcd" style="border:2px solid '+col+'"><div class="gbn" style="background:'+col+'"><div><small>'+kind+' '+gi.map((m,k)=>L[k]).join(" + ")+'</small><b>'+esc(names)+'</b></div><div class="gtn"><small>Tour</small><b>'+tn+' / '+T+'</b></div></div><div class="gbd">';
+ for(let t=0;t<T;t++){const done=gi.every(m=>!m.sets[t]||m.sets[t].ok);h+='<div class="gtl'+(done?' dn':'')+'">Tour '+(t+1)+(done?' · terminé':'')+'</div>';
+  gi.forEach((m,k)=>{const q=m.sets[t];if(!q)return;const mi=A.indexOf(m),l=lastEx(m.n,kOf(m)),pv=l&&(l.sets[t]||l.sets.filter(z=>!z.w).slice(-1)[0]),isC=cur&&cur[0]===m&&cur[1]===t;
+   h+='<div class="sr gtr'+(q.ok?' ok':'')+(isC?' now':'')+(q.pr?' pr':'')+'"><span class="gl" style="background:'+(q.ok?'':col)+'">'+L[k]+'</span><span class="gnm">'+esc(m.n)+(isC?'<em>À faire maintenant</em>':'')+'</span>'
+   +["kg","r"].map(f=>f==="kg"&&isPdc(m.n)?'<span class="pdcl" aria-label="Poids de corps">PDC</span>':'<input type="number" inputmode="decimal" data-e="'+mi+'" data-s="'+t+'" data-f="'+f+'" value="'+(q[f]==null?"":q[f])+'"'+(pv&&pv[f]!=null?' placeholder="'+pv[f]+'"':(isBW(m.n)&&f==="kg"?' placeholder="0"':''))+' aria-label="'+(f==="r"?"reps":"kg")+' '+esc(m.n)+', tour '+(t+1)+'">').join("")
+   +'<button class="ck" data-a="ok" data-e="'+mi+'" data-s="'+t+'" aria-label="Valider '+esc(m.n)+', tour '+(t+1)+'" aria-pressed="'+!!q.ok+'">✓</button></div>'})}
+ h+='<p class="m gnt">Le repos démarre après '+L[n-1]+', à la fin de chaque tour.</p><div class="chips"><button class="chip" data-a="gtour" data-e="'+i0+'">+ Un tour</button>'+gi.map((m,k)=>'<button class="chip'+(GFU[m.id]?' on':'')+'" data-a="gfull" data-e="'+A.indexOf(m)+'">⋯ '+L[k]+' · détails</button>').join("")+'<button class="chip" data-a="gdis" data-e="'+i0+'">Dégrouper</button></div></div></div>';return h}
 function rEx(){
  try{fAuto()}catch(_){}
  $("#exl").innerHTML=names().map(n=>'<option value="'+esc(n)+'">').join("");
- $("#ex").innerHTML=pnTop()+D().ex.map((e,i)=>{const l=lastEx(e.n,kOf(e)),gi=e.g?D().ex.filter(x=>x.g===e.g):[],gp=gi.indexOf(e);
+ $("#ex").innerHTML=pnTop()+(()=>{const exCard=(e,i)=>{const l=lastEx(e.n,kOf(e)),gi=e.g?D().ex.filter(x=>x.g===e.g):[],gp=gi.indexOf(e);
   e.id=e.id||uid();const id=e.id,rs=er(e),car=isCar(e),mvH='<div class="mv2"><button class="b g" data-a="dx" data-e="'+i+'" aria-label="Retirer l’exercice">✕ Retirer</button></div><p class="m" style="margin:0 0 8px">Pour le déplacer : garde le doigt appuyé sur son nom, puis glisse.</p>';
   const sc=ssCol(e);return '<div class="c xc" data-xid="'+id+'"'+(e.g?' style="border-left:4px solid '+sc+';background:color-mix(in srgb,'+sc+' 8%,var(--sf))"':'')+'><div class="row" style="border:0;padding:0 0 6px"><button class="mtb" data-a="sch" data-e="'+i+'" aria-label="Voir le schéma des muscles">'+musFig(musOf(e.n),1)+'</button><h3 class="xn" data-e="'+i+'" role="button" tabindex="0" aria-label="Voir l’historique de l’exercice">'+ic(gr(e.n))+esc(e.n)+(e.g?' <span class="m" style="color:'+sc+';font-weight:800">● Superset '+(gp+1)+'/'+gi.length+'</span>':'')+'</h3><button class="b g optb'+(OPT[id]?' on':'')+'" data-a="opt" data-e="'+i+'" aria-label="Options de l’exercice" aria-expanded="'+!!OPT[id]+'">⋯</button></div>'
   +(OPT[id]?'<div class="pcp">'+mvH+(MKO[id]?mkH(e,i):'')+(car?carChips(e,i):('<div class="chips">'+(eqi(e)==="barre"?'<button class="chip'+(PLO[id]?' on':'')+'" data-a="pl" data-e="'+i+'">Plaques</button>':'')+'<button class="chip'+(SRO[id]?' on':'')+'" data-a="so" data-e="'+i+'">'+(SRO[id]?'Ordre des séries ✓':'Ordre des séries')+'</button><button class="chip" data-a="pc" data-e="'+i+'">% du max</button><button class="chip" data-a="rp" data-e="'+i+'">Remplacer</button>'+mkChip(e,i)+(D().ex.length>1?'<button class="chip'+(e.g?' on':'')+'" data-a="ssp" data-e="'+i+'">'+(e.g?'Superset ✓ ('+gi.length+')':'+ Superset')+'</button>':'')+'</div>'+(SSO[id]?'<div class="ssp"><p class="m" style="margin:2px 0 6px">Touche les exercices à enchaîner avec « '+esc(e.n)+' » (sans repos entre eux).</p><div class="chips">'+D().ex.map((y,j)=>y===e?'':'<button class="chip'+(e.g&&y.g===e.g?' on':'')+'" data-a="sst" data-e="'+i+'" data-o="'+j+'">'+(e.g&&y.g===e.g?'✓ ':'')+esc(y.n)+'</button>').join('')+'</div></div>':'')))+'</div>':'')
@@ -1882,7 +1908,10 @@ function rEx(){
    +["kg","r"].map(f=>f==="kg"&&isPdc(e.n)?'<span class="pdcl" aria-label="Poids de corps">PDC</span>':'<input type="number" inputmode="decimal" data-e="'+i+'" data-s="'+j+'" data-f="'+f+'" value="'+(s[f]==null?"":s[f])+'"'+(pp&&(f==="kg"||f==="r")&&pp[f]!=null?' placeholder="'+pp[f]+'"':(isBW(e.n)&&f==="kg"?' placeholder="0"':''))+' aria-label="'+(f==="r"?"reps":f)+' série '+(j+1)+'">').join("")
    +'<button class="ck" data-a="ok" data-e="'+i+'" data-s="'+j+'" aria-label="Valider la série" aria-pressed="'+!!s.ok+'">✓</button>'+(s.rpe&&!s.w?'<button class="rbd" data-a="rqo" data-e="'+i+'" data-s="'+j+'" aria-label="Effort ressenti '+s.rpe+' sur 10, toucher pour modifier">RPE '+s.rpe+'</button>':'')+'</div>'+rqH(e,i,j)+(SRO[id]?'<div class="smv"><button class="b g" data-a="su" data-e="'+i+'" data-s="'+j+'"'+(j===0?' disabled':'')+'>↑ Monter</button><button class="b g" data-a="sd" data-e="'+i+'" data-s="'+j+'"'+(j===e.sets.length-1?' disabled':'')+'>↓ Descendre</button><button class="b g" data-a="sf" data-e="'+i+'" data-s="'+j+'"'+(j===0?' disabled':'')+'>⤒ En premier</button></div>':'')+(eqi(e)==="barre"&&PLO[id]?'<div class="pls" data-e="'+i+'" data-s="'+j+'">'+plsH(e,s)+'</div>':'')}).join("")))
   +'<button class="b g big" data-a="as" data-e="'+i+'" style="margin-top:8px">+ Ajouter une série</button>'
-  +(e.sets.length>1?'<button class="lnk" data-a="ds" data-e="'+i+'">Retirer la dernière série</button>':'')+'</div>'}).join("");
+  +(e.sets.length>1?'<button class="lnk" data-a="ds" data-e="'+i+'">Retirer la dernière série</button>':'')+'</div>'};
+  return D().ex.map((e,i)=>{if(!e.g)return exCard(e,i);const gi=D().ex.filter(x=>x.g===e.g);if(gi.length<2)return exCard(e,i);
+   if(gi[0]===e)return grpCard(gi)+gi.map(m=>GFU[m.id]?exCard(m,D().ex.indexOf(m)):"").join("");
+   return""}).join("")})();
  document.querySelectorAll("#ex .wh").forEach(w=>{w.scrollTop=+w.dataset.v*WH;w._i=+w.dataset.v});
  const empty=!D().ex.length,showEx=ADDO==="ex"||(empty&&ADDO!=="sup"),fin=!!D().t1&&D().edit==null;
  $("#addp").hidden=!showEx||fin;$("#supp").hidden=ADDO!=="sup"||fin;$("#addt").hidden=$("#supt").hidden=fin;
@@ -1960,6 +1989,9 @@ $("#ex").onclick=e=>{if(Date.now()-DRX<250)return;const hx=e.target.closest(".xn
    s.pr=undefined;if(!s.w&&s.kg>0&&s.r>0&&D().edit==null){const pr=recOf(x.n),best=pr&&pr.b1?pr.b1.v:0,v=e1(s.kg,s.r),cur=Math.max(0,...D().ex.filter(y=>y.n===x.n).flatMap(y=>y.sets.filter(q=>q!==s&&q.ok&&!q.w&&q.kg>0&&q.r>0).map(q=>e1(q.kg,q.r))));
     if(best>0&&v>best+.05&&v>cur+.05){s.pr=true;PRNEW=s;setTimeout(()=>{if(PRNEW===s)PRNEW=null},1800);try{navigator.vibrate&&navigator.vibrate([40,40,80])}catch(_){}toast("Nouveau record ! "+x.n+" : 1RM estimé "+fnum(r1(v))+" kg (+"+fnum(r1(v-best))+" kg)")}}
    const gg=x.g?D().ex.filter(y=>y.g===x.g):[x];if(gg[gg.length-1]===x&&er(x)>0&&!D().t1)tstart(x,er(x))}}
+ else if(a==="gtour"){D().ex.filter(y=>y.g&&y.g===x.g).forEach(y=>{const p=y.sets[y.sets.length-1]||{};y.sets.push({kg:p.kg,k0:p.k0,r:p.r,d:p.d,t:p.t,cal:p.cal,h:p.h,b:p.b,rest:isCar(y)?(p.rest==null?60:p.rest):er(y)})})}
+ else if(a==="gfull"){GFU[x.id]=!GFU[x.id]}
+ else if(a==="gdis"){const g=x.g;D().ex.forEach(z=>{if(z.g===g)z.g=undefined})}
  else if(a==="ssp"){SSO[x.id]=!SSO[x.id]}
  else if(a==="sst"){const y=D().ex[+b.dataset.o];if(y&&y!==x){const A=D().ex,clr=g=>{if(g&&A.filter(z=>z.g===g).length<2)A.forEach(z=>{if(z.g===g)z.g=undefined})};
   if(x.g&&y.g===x.g){const g=x.g;y.g=undefined;clr(g)}
@@ -3241,7 +3273,7 @@ $("#wkp").onclick=()=>{WK--;rSem()};$("#wkn").onclick=()=>{if(WK<0){WK++;rSem()}
 
 function draw(){var L=[banner,secBanners,rLibMy,rReg,rCycRem,rTeam,rRpeD,rGch,rEx,rFchk,rRx,rExos,rProg,rCyc,rWell,rHome,rHcyc,rProf,rRegles,rHisto,rSem,rPoids,rRec,rCharge,rSf,rPain,rTests,rForme,rHub,rWpush,banner];for(var i=0;i<L.length;i++){try{L[i]()}catch(x){try{console.error("draw",L[i].name,x)}catch(_){}window.__de=(window.__de||[]);if(window.__de.length<6)window.__de.push((L[i].name||"?")+" : "+(x&&x.message||x));try{bar("["+(L[i].name||"?")+"] "+(x&&x.message||x))}catch(_){}}}}
 calc();draw();{const h=location.hash.slice(1);if(h&&document.getElementById(h))go(h);else{const d=D();if(d.t0&&!d.t1&&d.edit==null)go("seance")}}
-var BUILD=197,UPW=null,UPGO=false;
+var BUILD=198,UPW=null,UPGO=false;
 function updBar(w){if(document.getElementById("updbar"))return;UPW=w;const d=document.createElement("div");d.id="updbar";d.setAttribute("role","status");d.innerHTML='<span>Nouvelle version disponible</span><button type="button" id="updgo">Mettre à jour</button>';document.body.appendChild(d);
  const b=document.getElementById("updgo");b.onclick=()=>{b.disabled=true;b.textContent="Mise à jour…";if(!UPW){(async()=>{try{if(window.caches){const k=await caches.keys();await Promise.all(k.map(x=>caches.delete(x)))}}catch(e){}location.reload()})();return}UPGO=true;try{UPW.postMessage("skip")}catch(e){location.reload()}setTimeout(()=>location.reload(),4000)}}
 try{document.getElementById("bldv").textContent="Version installée : V"+BUILD}catch(e){}
