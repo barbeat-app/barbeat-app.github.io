@@ -1034,6 +1034,7 @@ body.rb #etb{bottom:calc(150px + env(safe-area-inset-bottom,0px))}
 #ex .mtb{gap:4px}
 #ex .pcp .lgi{font-size:12px;padding:3px 6px}#ex .pcp .m{font-size:11px}#ex .mfw{margin:2px 0}
 .lgx .mvt{width:38px;height:42px;margin:0 8px 0 2px;background:var(--bg);border-radius:8px;padding:2px;flex:0 0 38px}.lgx .mvt.mv0{background:none}
+.lgv{flex:0 0 auto;background:none;border:1px solid var(--ln);color:var(--ac);border-radius:8px;font:700 11.5px/1 inherit;padding:6px 8px;margin-right:4px}.lgv.on{background:var(--ac);color:#0b0d10}.pvp{background:var(--sf);border:1px solid var(--ln);border-radius:10px;padding:6px 8px 8px;margin:0 0 6px}.pvp .vw{margin:6px 0}.pvb{display:flex;gap:8px;margin-top:6px}.pvb .b{flex:1;text-align:center;padding:8px;font-size:13px}.pvb a.b{text-decoration:none}
 </style>
 </head>
 <body>
@@ -1803,6 +1804,12 @@ const BE=(arm,x)=>Object.assign({head:[46,134],torso:[[66,138],[136,138]],leg:[[
 const LYF=(arm,x)=>Object.assign({head:[24,192],torso:[[40,192],[112,192]],leg:[[112,192],[148,150],[152,200]],leg2:[[112,192],[144,148],[146,198]],arm},x||{});
 const STR=(sw,x)=>Object.assign({head:[104,34],torso:[[100,62],[98,128]],leg:sw?[[98,128],[80,168],[70,202],[86,204]]:[[98,128],[116,168],[124,202],[140,204]],leg2:sw?[[98,128],[116,168],[124,202],[140,204]]:[[98,128],[80,168],[70,202],[86,204]],arm:[[100,64],[102,98],[104,130]]},x||{});
 const MVF={
+ pushup:{l:["Bras tendus","Poitrine près du sol"],P:[
+  {alt:"Pompe, bras tendus",head:[44,138],torso:[[64,146],[150,170]],leg:[[150,170],[184,203]],leg2:[[150,170],[180,203]],arm:[[66,148],[68,178],[68,204]]},
+  {alt:"Pompe, poitrine près du sol",head:[40,176],torso:[[62,182],[150,194]],leg:[[150,194],[184,203]],leg2:[[150,194],[180,203]],arm:[[64,184],[88,192],[68,204]]}]},
+ incline:{l:["Barre en haut","Barre sur la poitrine"],P:[
+  {alt:"Développé incliné, bras tendus",bg:'<polyline points="52,112 126,170 160,170" fill="none" stroke="var(--ln)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><rect x="140" y="172" width="6" height="34" fill="var(--ln)"/>',head:[62,100],torso:[[76,122],[124,160]],leg:[[124,160],[158,148],[160,198],[176,204]],leg2:[[124,160],[162,150],[154,198],[170,204]],arm:[[78,122],[88,84],[90,50]],plate:[90,48]},
+  {alt:"Développé incliné, barre sur la poitrine",bg:'<polyline points="52,112 126,170 160,170" fill="none" stroke="var(--ln)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><rect x="140" y="172" width="6" height="34" fill="var(--ln)"/>',head:[62,100],torso:[[76,122],[124,160]],leg:[[124,160],[158,148],[160,198],[176,204]],leg2:[[124,160],[162,150],[154,198],[170,204]],arm:[[78,122],[102,118],[90,104]],plate:[90,102]}]},
  bench:{l:["Barre en haut","Barre sur la poitrine"],P:[
   {alt:"Développé couché, bras tendus",head:[46,134],torso:[[66,138],[136,138]],leg:[[136,138],[162,110],[158,192],[172,198]],leg2:[[136,138],[158,108],[150,190],[164,198]],arm:[[66,138],[68,98],[68,60]],plate:[68,60]},
   {alt:"Développé couché, barre sur la poitrine",head:[46,134],torso:[[66,138],[136,138]],leg:[[136,138],[162,110],[158,192],[172,198]],leg2:[[136,138],[158,108],[150,190],[164,198]],arm:[[66,138],[88,127],[68,122]],plate:[68,122]}]},
@@ -1995,9 +2002,9 @@ function mvOf(n){const k=nrm(n);
  if(/muscle.?up|traction|pull.?up|chin.?up|tirage (vertical|poitrine|nuque)|lat pulldown/.test(k))return"pull";
  if(/souleve de terre|deadlift|rdl|romanian|good morning|stiff|rack pull|pull through|clean pull|snatch pull|tirage explosif/.test(k))return"hinge";
  if(/kettlebell (swing|snatch)|swing kettlebell|kettlebell clean|^kettlebell swing/.test(k)||/^swing/.test(k))return"swing";
- if(/power snatch|hang snatch|^arrache|arrache$|kettlebell snatch|turkish/.test(k))return"snatch";
- if(/power clean|hang clean|epaule|clean and|sandbag clean|clean/.test(k)&&!/clean pull/.test(k))return"clean";
- if(/jerk|push press|landmine press|z press|developpe (militaire|epaules|arnold|assis)|overhead press|shoulder press|military/.test(k))return"ohp";
+ if(/power snatch|hang snatch|^arrache|arrache$|kettlebell snatch/.test(k))return"snatch";
+ if(/power clean|hang clean|epaule.?jete|clean and|sandbag clean|clean/.test(k)&&!/clean pull|kettlebell/.test(k))return"clean";
+ if(/jerk|push press|landmine press|developpe landmine|z press|developpe (militaire|epaules|arnold|assis)|overhead press|shoulder press|military/.test(k))return"ohp";
  if(/thruster|wall ball|devil press/.test(k))return"thruster";
  if(/fente|lunge|split squat|bulgare/.test(k))return"lunge";
  if(/step.?up|montee sur banc|montee d.escalier|escalier|stepper/.test(k))return"stepup";
@@ -2012,6 +2019,7 @@ function mvOf(n){const k=nrm(n);
  if(/kickback (poulie fessier|machine)|kickback machine/.test(k)||(/kickback/.test(k)&&!/triceps/.test(k)&&/fess/.test(k)))return"kick";
  if(/banded walk|sumo walk|marche|randonnee/.test(k))return"walk";
  if(/dips|dip /.test(k))return"dips";
+ if(/oiseau|reverse|arriere poulie|elevations arriere/.test(k)&&!/rowing arriere/.test(k))return"rfly";
  if(/ecarte|pec deck|pec fly/.test(k))return"fly";
  if(/pull.?over/.test(k))return/poulie|machine/.test(k)?"straightarm":"pullover";
  if(/tirage bras tendus/.test(k))return"straightarm";
@@ -2026,8 +2034,12 @@ function mvOf(n){const k=nrm(n);
  if(/elevation|scaption|y-t-w|lu raises|ange au mur/.test(k))return"raise";
  if(/rotation (externe|interne)/.test(k))return"raise";
  if(/hyperextension|reverse hyper|superman lombaires|lombaires/.test(k))return"hyper";
- if(/developpe|bench|pompe|push.?up|floor press|svend/.test(k))return"bench";
- if(/rowing|row\b|tirage (horizontal|barre|buste|arriere)|tirage haltere/.test(k)&&!/rameur/.test(k))return"row";
+ if(/pompe|push.?up/.test(k))return"pushup";
+ if(/developpe incline/.test(k)&&!/militaire|epaules/.test(k))return"incline";
+ if(/developpe|bench|floor press|svend/.test(k))return"bench";
+ if(/rowing menton/.test(k))return"upright";
+ if(/planche avec tirage/.test(k))return"plank";
+ if(/rowing|\brow\b|tirage (horizontal|barre|buste|arriere)|tirage haltere/.test(k)&&!/rameur/.test(k))return"row";
  if(/curl/.test(k)&&!/leg/.test(k))return"curl";
  if(/dead bug/.test(k))return"deadbug";
  if(/bird dog|bear crawl|bear plank/.test(k))return"birddog";
@@ -2039,6 +2051,8 @@ function mvOf(n){const k=nrm(n);
  if(/pallof|anti-rotation/.test(k))return"pallof";
  if(/woodchopper|rotation (poulie|landmine)|russian twist|windmill|obliques/.test(k))return"chop";
  if(/planche|gainage|plank|hollow hold|copenhagen/.test(k))return"plank";
+ if(/apres (sled|rameur)|compromised/.test(k))return"run";
+ if(/burpee/.test(k))return"burpee";
  if(/saut (sur box|en profondeur)|box jump|drop jump/.test(k))return"boxjump";
  if(/saut|jump|bondissement|bounding|pogo|cmj|haies/.test(k))return"jump";
  if(/medicine ball slam|slam|battle rope/.test(k))return"slam";
@@ -2055,6 +2069,18 @@ function mvOf(n){const k=nrm(n);
  if(/sprint|course|footing|fartlek|tempo|vma|fractionne|intervalles|cotes|navette|yo-yo|test |trail|skipping|echelle|changement de direction|pro agility|depart|acceleration|elliptique|run\b|roxzone/.test(k))return"run";
  return null}
 
+const pvB=n=>'<button class="lgv" data-pv="'+esc(n)+'" aria-label="Voir le mouvement : '+esc(n)+'">Voir</button>';
+function pvH(n){const f=mvOf(n),u=S.vid[n]||'',y=ytId(u),q=encodeURIComponent(n+' exercice technique');
+ return '<div class="pvp">'+(f?movH({n}):'<p class="m" style="margin:0 0 6px">Pas de schéma pour cet exercice.</p>')
+ +(y&&navigator.onLine?'<div class="vw"><iframe src="https://www.youtube-nocookie.com/embed/'+y+'" title="Vidéo : '+esc(n)+'" allow="fullscreen" allowfullscreen loading="lazy"></iframe></div>':'')
+ +'<div class="pvb"><a class="b g" href="https://www.youtube.com/results?search_query='+q+'" target="_blank" rel="noopener">▶ Vidéo YouTube</a><button class="b" data-pvsel="1">Choisir</button></div></div>'}
+document.addEventListener("click",ev=>{const t=ev.target.closest&&ev.target.closest("[data-pv]");if(!t)return;ev.stopPropagation();ev.preventDefault();
+ const row=t.closest(".lgr");if(!row)return;
+ const nx=row.nextElementSibling;if(nx&&nx.classList.contains("pvp")){nx.remove();t.classList.remove("on");return}
+ document.querySelectorAll(".pvp").forEach(x=>x.remove());document.querySelectorAll(".lgv.on").forEach(x=>x.classList.remove("on"));
+ const d=document.createElement("div");d.innerHTML=pvH(t.dataset.pv);const p=d.firstChild;
+ row.after(p);t.classList.add("on");
+ p.addEventListener("click",e2=>{const b=e2.target.closest("[data-pvsel]");if(b){e2.stopPropagation();p.remove();const x=row.querySelector(".lgx");x&&x.click()}})},true);
 const movThumb=e=>{const f=mvOf(e.n);return f?'<span class="mvt" aria-hidden="true">'+mvFig(MVF[f].P[0],MVF[f].k||f)+'</span>':''};
 function movH(e){const f=mvOf(e.n);if(!f)return"";const F=MVF[f],K=F.k||f,n=F.P.length,ph=i=>'<div class="mvc">'+mvFig(F.P[i],K)+'<small>'+(n>1?(i+1)+' · ':'')+F.l[i]+'</small></div>';
  return'<div class="mvp"><b>Le mouvement</b><div class="mvg'+(n<2?' mv1':'')+'">'+ph(0)+(n>1?'<span aria-hidden="true">⇄</span>'+ph(1):'')+'</div><p class="m" style="margin:3px 0 0;font-size:11px">Schéma indicatif : adapte l’amplitude à ton gabarit.</p></div>'}
@@ -2104,7 +2130,7 @@ function pkAll(){return S.lib.map(x=>[x.n,x.g]).concat(LIB.filter(x=>!S.lib.some
 function pkRecent(){const seen=new Set(),o=[];for(let i=S.sessions.length-1;i>=0&&o.length<15;i--)S.sessions[i].ex.forEach(x=>{if(!seen.has(x.n)&&o.length<15){seen.add(x.n);o.push(x.n)}});return o}
 function rLib(){if($("#addp").hidden)return;const rpx=RPI?D().ex.find(e=>e.id===RPI):null;if(RPI&&!rpx)RPI=null;$("#rplb").hidden=!rpx;if(rpx)$("#rplt").textContent="Remplacer « "+rpx.n+" » par…";const raw=$("#nx").value.trim(),q=nrm(raw),m=pkMode(),all=pkAll(),gOf=n=>grpOf(n)||guessG(n),gl=g=>{const x=GR.find(y=>y[0]===g);return x?x[1]:""};
  $("#lgm").innerHTML=[["fav","★ Favoris"],["rec","Récents"],["mus","Par muscle"],["typ","Par type"],["perso","Mes exos"]].map(([k,t])=>'<button class="chip'+(m===k&&!q?' on':'')+'" data-pm="'+k+'">'+t+'</button>').join("");
- const row=(n)=>{const sel=!!PSEL[n];return '<div class="lgr'+(sel?' sel':'')+'"><button class="lgx" data-n="'+esc(n)+'"><span class="lgck">'+(sel?'✓':'')+'</span>'+(movThumb({n})||'<span class="mvt mv0"></span>')+'<span class="lgt"><b>'+pnDot(n)+esc(n)+'</b><span class="m">'+esc(gl(gOf(n)))+'</span></span></button>'+starB(n)+'</div>'};
+ const row=(n)=>{const sel=!!PSEL[n];return '<div class="lgr'+(sel?' sel':'')+'"><button class="lgx" data-n="'+esc(n)+'"><span class="lgck">'+(sel?'✓':'')+'</span>'+(movThumb({n})||'<span class="mvt mv0"></span>')+'<span class="lgt"><b>'+pnDot(n)+esc(n)+'</b><span class="m">'+esc(gl(gOf(n)))+'</span></span></button>'+pvB(n)+starB(n)+'</div>'};
  let ctl="",out="";
  if(q){const L=all.filter(([n,g])=>nrm(n).includes(q)||(SUBN[SUBOF[nrm(n)]]||'').split(/[ \/]+/).some(w=>w.startsWith(q))).map(x=>x[0]).sort((a,b)=>((S.fav[b]?1:0)-(S.fav[a]?1:0))||a.localeCompare(b,"fr")).slice(0,30);
   out=L.map(row).join("")}
@@ -2689,7 +2715,7 @@ function pkFill(){const l=$("#pkl");if(!l||!PP)return;
  const raw=PP.q.trim(),q=nrm(raw),all=pkAll(),gOf=n=>grpOf(n)||guessG(n),gl=g=>{const x=GR.find(y=>y[0]===g);return x?x[1]:""};
  const m=PP.m||(Object.keys(S.fav).length?"fav":S.sessions.length?"rec":"mus"),SL=PP.sel||(PP.sel={});
  $("#pkm").innerHTML=[["fav","★ Favoris"],["rec","Récents"],["mus","Par muscle"],["typ","Par type"],["perso","Mes exos"]].map(([k,t])=>'<button class="chip'+(m===k&&!q?' on':'')+'" data-a="pkmo" data-m="'+k+'">'+t+'</button>').join("");
- const row=n=>{const sel=!!SL[n];return '<div class="lgr'+(sel?' sel':'')+'"><button class="lgx" data-a="pkt" data-n="'+esc(n)+'"><span class="lgck">'+(sel?'✓':'')+'</span>'+(movThumb({n})||'<span class="mvt mv0"></span>')+'<span class="lgt"><b>'+esc(n)+'</b><span class="m">'+esc(gl(gOf(n)))+'</span></span></button>'+starB(n)+'</div>'};
+ const row=n=>{const sel=!!SL[n];return '<div class="lgr'+(sel?' sel':'')+'"><button class="lgx" data-a="pkt" data-n="'+esc(n)+'"><span class="lgck">'+(sel?'✓':'')+'</span>'+(movThumb({n})||'<span class="mvt mv0"></span>')+'<span class="lgt"><b>'+esc(n)+'</b><span class="m">'+esc(gl(gOf(n)))+'</span></span></button>'+pvB(n)+starB(n)+'</div>'};
  const srt=L=>L.sort((a,b)=>((S.fav[b]?1:0)-(S.fav[a]?1:0))||a.localeCompare(b,"fr"));
  const tOf=([n,g])=>typeOf(n,g)||(g==="hyx"?"hx":g==="car"?"cc":g==="exp"?"pui":"");
  let ctl="",out="",grid=false;const G=PP.g;
@@ -3555,7 +3581,7 @@ $("#wkp").onclick=()=>{WK--;rSem()};$("#wkn").onclick=()=>{if(WK<0){WK++;rSem()}
 
 function draw(){var L=[banner,secBanners,rLibMy,rReg,rCycRem,rTeam,rRpeD,rGch,rEx,rFchk,rRx,rExos,rProg,rCyc,rWell,rHome,rHcyc,rProf,rRegles,rHisto,rSem,rPoids,rRec,rCharge,rSf,rPain,rTests,rForme,rHub,rWpush,banner];for(var i=0;i<L.length;i++){try{L[i]()}catch(x){try{console.error("draw",L[i].name,x)}catch(_){}window.__de=(window.__de||[]);if(window.__de.length<6)window.__de.push((L[i].name||"?")+" : "+(x&&x.message||x));try{bar("["+(L[i].name||"?")+"] "+(x&&x.message||x))}catch(_){}}}}
 calc();draw();{const h=location.hash.slice(1);if(h&&document.getElementById(h))go(h);else{const d=D();if(d.t0&&!d.t1&&d.edit==null)go("seance")}}
-var BUILD=202,UPW=null,UPGO=false;
+var BUILD=203,UPW=null,UPGO=false;
 function updBar(w){if(document.getElementById("updbar"))return;UPW=w;const d=document.createElement("div");d.id="updbar";d.setAttribute("role","status");d.innerHTML='<span>Nouvelle version disponible</span><button type="button" id="updgo">Mettre à jour</button>';document.body.appendChild(d);
  const b=document.getElementById("updgo");b.onclick=()=>{b.disabled=true;b.textContent="Mise à jour…";if(!UPW){(async()=>{try{if(window.caches){const k=await caches.keys();await Promise.all(k.map(x=>caches.delete(x)))}}catch(e){}location.reload()})();return}UPGO=true;try{UPW.postMessage("skip")}catch(e){location.reload()}setTimeout(()=>location.reload(),4000)}}
 try{document.getElementById("bldv").textContent="Version installée : V"+BUILD}catch(e){}
