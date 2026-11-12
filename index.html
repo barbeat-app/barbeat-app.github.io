@@ -260,7 +260,7 @@ button.sn{border:0;color:var(--ink);font:700 16px Barlow,sans-serif;cursor:point
 .seg{display:flex;gap:2px;height:8px;margin:8px 0 2px}.seg i{display:block;border-radius:4px;min-width:3px}
 .smv{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin:0 0 6px}.smv button{padding:7px 4px;font-size:14px}.smv button:disabled{opacity:.35}
 .stp{display:flex;justify-content:space-between;align-items:center;margin:10px 0}.stp>span:first-child{font-weight:600}.stp>span:last-child{display:flex;align-items:center;gap:14px}.stp b{font:700 32px "Barlow Condensed",sans-serif;min-width:36px;text-align:center}.stp button{width:50px;height:50px;padding:0;font-size:26px}
-.mfw{display:flex;gap:6px;justify-content:center;margin:6px 0}.mfw>div{width:44%;max-width:150px;text-align:center}.mfw svg{width:100%}.sw{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-1px;margin-right:6px}
+.mfw{display:flex;gap:6px;justify-content:center;margin:6px 0}.mfw>div{width:44%;max-width:84px;text-align:center}.mfw svg{width:100%}.sw{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-1px;margin-right:6px}
 .pcp .lgi{background:var(--sf)}
 .mth{width:60px;height:68px;flex:0 0 auto;display:block}.mtb{background:none;border:0;padding:0;flex:0 0 auto;margin-right:10px;cursor:pointer;min-width:44px;min-height:44px;display:flex;align-items:center}.xc>.row>h3{flex:1}.lgn{display:flex;align-items:center;gap:10px}
 .blk{border:1px solid var(--ln);border-radius:12px;padding:8px 10px;margin:8px 0}.bkh{margin:10px 0 2px}.xn[data-e]{cursor:pointer}.vw{position:relative;padding-top:56.25%;margin-bottom:6px}.vw iframe{position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:12px;background:#000}
@@ -1025,6 +1025,14 @@ body.rb #etb{bottom:calc(150px + env(safe-area-inset-bottom,0px))}
 #ex .sr.gtr input{font-size:17px;padding:4px 2px;height:34px;box-sizing:border-box;text-align:center}
 #ex .sr.gtr .ck{padding:0;height:34px;font-size:15px}
 .gnt{margin:6px 2px 4px;font-size:12px}
+
+.mvt{display:block;width:30px;height:33px;flex:0 0 auto;margin-right:2px}
+.mvp{margin:0 0 10px}.mvp>b{font-size:13px}
+.mvg{display:grid;grid-template-columns:minmax(0,1fr) 14px minmax(0,1fr);align-items:center;gap:2px;margin:4px auto 0;max-width:240px}.mvg.mv1{grid-template-columns:minmax(0,1fr);max-width:120px}.mvc svg{display:block;max-height:84px;margin:0 auto}
+.mvg>span{text-align:center;color:var(--ac);font-size:13px}
+.mvc{background:var(--bg);border-radius:10px;padding:3px}.mvc small{display:block;text-align:center;font-size:10px;color:var(--mu);font-weight:600;line-height:1.2}
+#ex .mtb{gap:4px}
+#ex .pcp .lgi{font-size:12px;padding:3px 6px}#ex .pcp .m{font-size:11px}#ex .mfw{margin:2px 0}
 </style>
 </head>
 <body>
@@ -1776,6 +1784,279 @@ const MR=[[/ski ?erg/,["dos","tri"],["abd","delt","quad"]],[/rameur|rowerg/,["do
 [/sprint/,["isch","quad","fess"],["moll"]],[/battle rope/,["delt","avb"],["abd"]],[/^cou /,["trap"],[]],[/plaquage/,["quad","fess","pec"],["delt"]]];
 const MG={pec:[["pec"],["tri","delt"]],dos:[["dos"],["bic","trap"]],epa:[["delt"],["tri","trap"]],bra:[["bic","tri"],["avb"]],jam:[["quad","fess"],["isch","moll"]],abd:[["abd"],["lomb"]],exp:[["quad","fess"],["isch","moll"]],hyx:[["quad","fess"],["dos","abd"]],car:[["quad","moll"],["isch","fess"]]};
 function musOf(n){const k=nrm(n);for(const r of MR)if(r[0].test(k))return{p:r[1],s:r[2]};const d=MG[grpOf(n)||guessG(n)]||MG.jam;return{p:d[0],s:d[1]}}
+
+/* ===== schémas de mouvement (2 positions) ===== */
+const MVC="#9fb0d0",MVL="#c8f35c";
+const mvLimb=(p,w,c)=>'<polyline points="'+p.map(q=>q.join(",")).join(" ")+'" fill="none" stroke="'+c+'" stroke-width="'+w+'" stroke-linecap="round" stroke-linejoin="round"/>';
+function mvFig(P,k){let o='<svg viewBox="0 0 200 220" width="100%" role="img" aria-label="'+esc(P.alt)+'"><line x1="10" y1="206" x2="190" y2="206" stroke="var(--ln)" stroke-width="3" stroke-linecap="round"/>';
+ if(k==="bench")o+='<rect x="36" y="150" width="130" height="10" rx="4" fill="var(--ln)"/><rect x="48" y="160" width="6" height="46" fill="var(--ln)"/><rect x="148" y="160" width="6" height="46" fill="var(--ln)"/>';
+ if(k==="pull")o+='<rect x="70" y="14" width="90" height="6" rx="3" fill="var(--ln)"/>';
+ if(P.bg)o+=P.bg;
+ o+=mvLimb(P.leg2,10,"#6b7ca3");if(P.arm2)o+=mvLimb(P.arm2,9,"#6b7ca3");o+=mvLimb(P.torso,22,MVC)+mvLimb(P.leg,11,MVC)+mvLimb(P.arm,10,MVC)+'<circle cx="'+P.head[0]+'" cy="'+P.head[1]+'" r="13" fill="'+MVC+'"/>';
+ if(P.plate)o+='<circle cx="'+P.plate[0]+'" cy="'+P.plate[1]+'" r="'+(P.pr||19)+'" fill="none" stroke="'+MVL+'" stroke-width="6"/><circle cx="'+P.plate[0]+'" cy="'+P.plate[1]+'" r="4" fill="'+MVL+'"/>';
+ if(P.dot)o+='<circle cx="'+P.dot[0]+'" cy="'+P.dot[1]+'" r="7" fill="'+MVL+'"/>';
+ return o+'</svg>'}
+const ST=(arm,x)=>Object.assign({head:[104,34],torso:[[100,62],[98,128]],leg:[[98,128],[100,168],[98,202],[116,204]],leg2:[[98,128],[104,168],[102,202],[120,204]],arm},x||{});
+const BD=(arm,x)=>Object.assign({head:[148,90],torso:[[130,96],[70,122]],leg:[[70,122],[82,164],[92,202],[108,204]],leg2:[[70,122],[86,164],[96,202],[112,204]],arm},x||{});
+const BE=(arm,x)=>Object.assign({head:[46,134],torso:[[66,138],[136,138]],leg:[[136,138],[162,110],[158,192],[172,198]],leg2:[[136,138],[158,108],[150,190],[164,198]],arm},x||{});
+const LYF=(arm,x)=>Object.assign({head:[24,192],torso:[[40,192],[112,192]],leg:[[112,192],[148,150],[152,200]],leg2:[[112,192],[144,148],[146,198]],arm},x||{});
+const STR=(sw,x)=>Object.assign({head:[104,34],torso:[[100,62],[98,128]],leg:sw?[[98,128],[80,168],[70,202],[86,204]]:[[98,128],[116,168],[124,202],[140,204]],leg2:sw?[[98,128],[116,168],[124,202],[140,204]]:[[98,128],[80,168],[70,202],[86,204]],arm:[[100,64],[102,98],[104,130]]},x||{});
+const MVF={
+ bench:{l:["Barre en haut","Barre sur la poitrine"],P:[
+  {alt:"Développé couché, bras tendus",head:[46,134],torso:[[66,138],[136,138]],leg:[[136,138],[162,110],[158,192],[172,198]],leg2:[[136,138],[158,108],[150,190],[164,198]],arm:[[66,138],[68,98],[68,60]],plate:[68,60]},
+  {alt:"Développé couché, barre sur la poitrine",head:[46,134],torso:[[66,138],[136,138]],leg:[[136,138],[162,110],[158,192],[172,198]],leg2:[[136,138],[158,108],[150,190],[164,198]],arm:[[66,138],[88,127],[68,122]],plate:[68,122]}]},
+ squat:{l:["Debout","Cuisses parallèles"],P:[
+  {alt:"Squat debout",head:[104,32],torso:[[102,62],[98,128]],leg:[[98,128],[100,168],[98,202],[116,204]],leg2:[[98,128],[104,168],[102,202],[120,204]],arm:[[102,62],[88,92],[100,70]],plate:[96,58]},
+  {alt:"Squat en bas",head:[130,68],torso:[[116,92],[72,152]],leg:[[72,152],[132,150],[104,202],[122,204]],leg2:[[72,152],[136,150],[108,202],[126,204]],arm:[[116,92],[98,114],[114,96]],plate:[108,86]}]},
+ pull:{l:["Bras tendus","Menton au-dessus de la barre"],P:[
+  {alt:"Traction, bras tendus",head:[92,52],torso:[[98,72],[96,134]],leg:[[96,134],[102,166],[90,194]],leg2:[[96,134],[106,166],[94,196]],arm:[[104,74],[110,44],[114,20]],dot:[114,16]},
+  {alt:"Traction, menton au-dessus de la barre",head:[92,34],torso:[[98,60],[96,120]],leg:[[96,120],[102,154],[84,176]],leg2:[[96,120],[106,154],[88,178]],arm:[[104,62],[126,46],[114,20]],dot:[114,16]}]},
+ hang:{k:"pull",l:["Suspension, bras tendus"],P:[
+  {alt:"Suspension à la barre",head:[92,52],torso:[[98,72],[96,134]],leg:[[96,134],[102,166],[90,194]],leg2:[[96,134],[106,166],[94,196]],arm:[[104,74],[110,44],[114,20]],dot:[114,16]}]},
+ hinge:{l:["Debout","Buste penché"],P:[
+  {alt:"Soulevé de terre, debout",head:[104,34],torso:[[100,62],[96,130]],leg:[[96,130],[98,170],[96,202],[112,204]],leg2:[[96,130],[102,170],[100,202],[116,204]],arm:[[100,64],[104,98],[106,132]],plate:[108,146],pr:15},
+  {alt:"Soulevé de terre, buste penché",head:[148,86],torso:[[130,92],[70,128]],leg:[[70,128],[82,166],[96,202],[112,204]],leg2:[[70,128],[86,166],[100,202],[116,204]],arm:[[130,94],[126,130],[122,160]],plate:[122,166],pr:15}]},
+ ohp:{l:["Barre aux épaules","Bras tendus"],P:[
+  {alt:"Développé militaire, barre aux épaules",head:[94,38],torso:[[100,68],[98,132]],leg:[[98,132],[100,170],[98,202],[116,204]],leg2:[[98,132],[104,170],[102,202],[120,204]],arm:[[100,68],[112,92],[106,66]],plate:[106,60],pr:15},
+  {alt:"Développé militaire, bras tendus",head:[94,40],torso:[[100,70],[98,132]],leg:[[98,132],[100,170],[98,202],[116,204]],leg2:[[98,132],[104,170],[102,202],[120,204]],arm:[[102,70],[106,44],[106,18]],plate:[106,16],pr:15}]},
+ curl:{l:["Bras tendus","Haut du curl"],P:[
+  ST([[100,64],[102,98],[104,130]],{dot:[104,134],alt:"Curl, bras tendus"}),
+  ST([[100,64],[102,98],[120,76]],{dot:[122,72],alt:"Curl, haut du mouvement"})]},
+ row:{l:["Bras tendus","Tirée vers le ventre"],P:[
+  BD([[130,98],[130,132],[130,162]],{plate:[130,164],pr:15,alt:"Rowing, bras tendus"}),
+  BD([[130,98],[110,122],[126,134]],{plate:[126,138],pr:15,alt:"Rowing, barre tirée"})]},
+ lunge:{l:["Debout","Fente basse"],P:[
+  ST([[100,64],[102,98],[104,130]],{dot:[104,134],alt:"Fente, debout"}),
+  {alt:"Fente basse",head:[102,56],torso:[[100,84],[96,150]],leg:[[96,150],[132,150],[132,202],[148,204]],leg2:[[96,150],[72,186],[50,202]],arm:[[100,86],[102,116],[104,142]],dot:[104,146]}]},
+ raise:{l:["Bras le long du corps","Bras à l'horizontale"],P:[
+  ST([[100,64],[102,98],[104,128]],{dot:[104,132],alt:"Élévation, bras le long du corps"}),
+  ST([[100,64],[132,66],[164,68]],{dot:[166,68],alt:"Élévation, bras à l'horizontale"})]},
+ upright:{l:["Barre devant les cuisses","Coudes hauts"],P:[
+  ST([[100,64],[106,98],[108,128]],{plate:[108,132],pr:11,alt:"Tirage menton, départ"}),
+  ST([[100,64],[122,76],[110,96]],{plate:[110,98],pr:11,alt:"Tirage menton, coudes hauts"})]},
+ facepull:{l:["Bras tendus devant","Corde vers le visage"],P:[
+  ST([[100,64],[132,68],[164,72]],{dot:[166,72],alt:"Face pull, départ"}),
+  ST([[100,64],[124,72],[116,48]],{dot:[116,46],alt:"Face pull, corde au visage"})]},
+ rfly:{l:["Bras pendants","Bras écartés"],P:[
+  BD([[130,98],[130,132],[130,162]],{dot:[130,166],alt:"Oiseau, bras pendants"}),
+  BD([[130,98],[138,80],[146,62]],{dot:[148,58],alt:"Oiseau, bras écartés"})]},
+ pushdown:{l:["Coudes fléchis","Bras tendus vers le bas"],P:[
+  ST([[100,64],[100,98],[122,86]],{dot:[124,86],alt:"Extension triceps, départ"}),
+  ST([[100,64],[100,98],[104,132]],{dot:[106,136],alt:"Extension triceps, bras tendus"})]},
+ ohtri:{l:["Coudes fléchis derrière la tête","Bras tendus"],P:[
+  ST([[100,66],[106,40],[92,46]],{dot:[90,48],head:[96,36],alt:"Extension triceps au-dessus de la tête, départ"}),
+  ST([[100,66],[106,40],[106,14]],{dot:[106,12],head:[96,36],alt:"Extension triceps, bras tendus"})]},
+ skull:{k:"bench",l:["Bras tendus","Barre vers le front"],P:[
+  BE([[66,138],[68,98],[68,60]],{dot:[68,58],alt:"Barre au front, bras tendus"}),
+  BE([[66,138],[66,98],[44,92]],{dot:[42,92],alt:"Barre au front, barre vers le front"})]},
+ trikick:{l:["Coude plié","Bras tendu vers l'arrière"],P:[
+  BD([[130,98],[112,112],[114,142]],{dot:[114,146],alt:"Kickback triceps, départ"}),
+  BD([[130,98],[112,112],[86,112]],{dot:[84,112],alt:"Kickback triceps, bras tendu"})]},
+ shrug:{l:["Épaules basses","Épaules montées"],P:[
+  ST([[100,64],[104,98],[106,132]],{plate:[108,148],pr:13,alt:"Shrug, épaules basses"}),
+  {alt:"Shrug, épaules montées",head:[104,28],torso:[[100,56],[98,128]],leg:[[98,128],[100,168],[98,202],[116,204]],leg2:[[98,128],[104,168],[102,202],[120,204]],arm:[[100,58],[104,92],[106,128]],plate:[108,144],pr:13}]},
+ fly:{k:"bench",l:["Bras tendus au-dessus","Bras ouverts"],P:[
+  BE([[66,138],[68,98],[68,60]],{dot:[68,58],alt:"Écarté, bras tendus"}),
+  BE([[66,138],[82,122],[98,136]],{dot:[100,136],alt:"Écarté, bras ouverts"})]},
+ pullover:{k:"bench",l:["Bras tendus au-dessus","Bras derrière la tête"],P:[
+  BE([[66,138],[68,98],[68,60]],{dot:[68,58],alt:"Pull-over, départ"}),
+  BE([[66,138],[54,104],[30,96]],{dot:[28,96],alt:"Pull-over, bras derrière la tête"})]},
+ dips:{l:["Bras tendus","Descente, coudes à 90°"],P:[
+  {alt:"Dips, bras tendus",bg:'<rect x="66" y="98" width="68" height="6" rx="3" fill="var(--ln)"/><rect x="98" y="104" width="6" height="100" fill="var(--ln)"/>',head:[104,32],torso:[[100,56],[98,120]],leg:[[98,120],[110,150],[88,170]],leg2:[[98,120],[114,152],[92,172]],arm:[[100,58],[100,78],[100,98]]},
+  {alt:"Dips, en bas",bg:'<rect x="66" y="98" width="68" height="6" rx="3" fill="var(--ln)"/><rect x="98" y="104" width="6" height="100" fill="var(--ln)"/>',head:[104,56],torso:[[100,80],[98,142]],leg:[[98,142],[110,170],[88,190]],leg2:[[98,142],[114,172],[92,192]],arm:[[100,82],[118,94],[100,98]]}]},
+ legext:{l:["Jambe fléchie","Jambe tendue"],P:[
+  {alt:"Leg extension, jambe fléchie",bg:'<rect x="56" y="138" width="44" height="10" rx="4" fill="var(--ln)"/><rect x="50" y="68" width="8" height="76" rx="3" fill="var(--ln)"/>',head:[74,48],torso:[[72,74],[78,134]],leg:[[78,134],[122,136],[124,186]],leg2:[[78,134],[120,138],[122,188]],arm:[[72,76],[88,100],[100,126]],dot:[124,184]},
+  {alt:"Leg extension, jambe tendue",bg:'<rect x="56" y="138" width="44" height="10" rx="4" fill="var(--ln)"/><rect x="50" y="68" width="8" height="76" rx="3" fill="var(--ln)"/>',head:[74,48],torso:[[72,74],[78,134]],leg:[[78,134],[122,136],[172,130]],leg2:[[78,134],[120,138],[170,132]],arm:[[72,76],[88,100],[100,126]],dot:[174,130]}]},
+ legcurl:{l:["Jambe tendue","Talons vers les fessiers"],P:[
+  {alt:"Leg curl, jambe tendue",bg:'<rect x="30" y="156" width="124" height="8" rx="4" fill="var(--ln)"/><rect x="40" y="164" width="6" height="42" fill="var(--ln)"/><rect x="138" y="164" width="6" height="42" fill="var(--ln)"/>',head:[40,146],torso:[[60,148],[122,148]],leg:[[122,148],[150,150],[180,152]],leg2:[[122,148],[148,152],[178,154]],arm:[[64,148],[56,168],[46,176]],dot:[182,152]},
+  {alt:"Leg curl, talons vers les fessiers",bg:'<rect x="30" y="156" width="124" height="8" rx="4" fill="var(--ln)"/><rect x="40" y="164" width="6" height="42" fill="var(--ln)"/><rect x="138" y="164" width="6" height="42" fill="var(--ln)"/>',head:[40,146],torso:[[60,148],[122,148]],leg:[[122,148],[152,150],[152,108]],leg2:[[122,148],[150,152],[150,110]],arm:[[64,148],[56,168],[46,176]],dot:[152,106]}]},
+ calf:{l:["Talons au sol","Sur la pointe des pieds"],P:[
+  ST([[100,64],[102,98],[104,128]],{alt:"Mollets, talons au sol"}),
+  {alt:"Mollets, sur la pointe des pieds",head:[104,26],torso:[[100,54],[98,120]],leg:[[98,120],[100,160],[98,192],[114,206]],leg2:[[98,120],[104,160],[102,192],[118,206]],arm:[[100,56],[102,90],[104,120]]}]},
+ tibialis:{l:["Pointes relevées","Pieds à plat"],P:[
+  ST([[100,64],[102,98],[104,128]],{leg:[[98,128],[100,168],[98,200],[114,192]],leg2:[[98,128],[104,168],[102,200],[118,194]],alt:"Tibial, pointes relevées"}),
+  ST([[100,64],[102,98],[104,128]],{alt:"Tibial, pieds à plat"})]},
+ thrust:{l:["Hanches basses","Hanches hautes"],P:[
+  {alt:"Hip thrust, hanches basses",bg:'<rect x="12" y="150" width="70" height="10" rx="4" fill="var(--ln)"/><rect x="22" y="160" width="6" height="46" fill="var(--ln)"/>',head:[28,134],torso:[[48,140],[112,172]],leg:[[112,172],[148,136],[146,200],[162,204]],leg2:[[112,172],[146,134],[144,198],[160,202]],arm:[[50,142],[70,160],[88,170]],plate:[112,168],pr:13},
+  {alt:"Hip thrust, hanches hautes",bg:'<rect x="12" y="150" width="70" height="10" rx="4" fill="var(--ln)"/><rect x="22" y="160" width="6" height="46" fill="var(--ln)"/>',head:[28,134],torso:[[48,140],[116,138]],leg:[[116,138],[152,142],[150,200],[166,204]],leg2:[[116,138],[150,140],[148,198],[164,202]],arm:[[50,142],[70,150],[88,146]],plate:[116,134],pr:13}]},
+ stepup:{l:["Un pied sur le step","Debout sur le step"],P:[
+  {alt:"Step-up, départ",bg:'<rect x="112" y="170" width="62" height="36" rx="4" fill="var(--ln)"/>',head:[84,34],torso:[[80,62],[78,130]],leg:[[78,130],[108,146],[116,168]],leg2:[[78,130],[76,170],[74,202],[92,204]],arm:[[80,64],[82,98],[84,128]],dot:[84,132]},
+  {alt:"Step-up, debout sur le step",bg:'<rect x="112" y="170" width="62" height="36" rx="4" fill="var(--ln)"/>',head:[124,12],torso:[[120,36],[118,102]],leg:[[118,102],[120,138],[120,168],[136,170]],leg2:[[118,102],[134,130],[130,152]],arm:[[120,38],[122,70],[124,100]],dot:[124,104]}]},
+ legpress:{l:["Genoux fléchis","Jambes tendues"],P:[
+  {alt:"Presse, genoux fléchis",bg:'<rect x="20" y="104" width="10" height="70" rx="4" fill="var(--ln)" transform="rotate(-30 25 140)"/>',head:[20,106],torso:[[34,118],[66,162]],leg:[[66,162],[104,128],[130,172]],leg2:[[66,162],[108,130],[134,174]],arm:[[34,120],[50,142],[62,152]],dot:[138,176]},
+  {alt:"Presse, jambes tendues",bg:'<rect x="20" y="104" width="10" height="70" rx="4" fill="var(--ln)" transform="rotate(-30 25 140)"/>',head:[20,106],torso:[[34,118],[66,162]],leg:[[66,162],[128,116],[170,90]],leg2:[[66,162],[130,118],[172,92]],arm:[[34,120],[50,142],[62,152]],dot:[176,88]}]},
+ nordic:{l:["À genoux, buste droit","Buste penché vers l'avant"],P:[
+  {alt:"Nordic curl, départ",head:[104,34],torso:[[100,62],[100,128]],leg:[[100,128],[108,190],[80,198]],leg2:[[100,128],[112,192],[84,200]],arm:[[100,64],[102,98],[104,120]]},
+  {alt:"Nordic curl, buste penché",head:[178,160],torso:[[104,134],[160,156]],leg:[[104,134],[108,190],[80,198]],leg2:[[104,134],[112,192],[84,200]],arm:[[160,158],[168,184],[176,196]]}]},
+ sideleg:{l:["Jambes serrées","Jambe levée sur le côté"],P:[
+  {alt:"Abduction, jambes serrées",head:[22,176],torso:[[38,178],[106,178]],leg:[[106,178],[140,180],[176,182]],leg2:[[106,178],[140,182],[176,184]],arm:[[44,178],[60,170],[74,176]]},
+  {alt:"Abduction, jambe levée",head:[22,176],torso:[[38,178],[106,178]],leg:[[106,178],[142,150],[170,126]],leg2:[[106,178],[140,182],[176,184]],arm:[[44,178],[60,170],[74,176]]}]},
+ wallsit:{l:["Dos au mur, debout","Cuisses à l'horizontale"],P:[
+  {alt:"Chaise contre le mur, debout",bg:'<rect x="56" y="16" width="6" height="190" fill="var(--ln)"/>',head:[80,34],torso:[[78,62],[76,128]],leg:[[76,128],[78,168],[76,202],[94,204]],leg2:[[76,128],[82,168],[80,202],[98,204]],arm:[[78,64],[86,98],[94,128]]},
+  {alt:"Chaise contre le mur, cuisses horizontales",bg:'<rect x="56" y="16" width="6" height="190" fill="var(--ln)"/>',head:[80,62],torso:[[78,90],[76,150]],leg:[[76,150],[130,150],[130,202],[148,204]],leg2:[[76,150],[134,152],[134,202],[152,204]],arm:[[78,92],[100,120],[112,142]]}]},
+ kick:{l:["Debout","Jambe tendue vers l'arrière"],P:[
+  ST([[100,64],[102,98],[104,128]],{alt:"Kickback fessier, départ"}),
+  {alt:"Kickback fessier, jambe vers l'arrière",head:[118,48],torso:[[110,70],[100,128]],leg:[[100,128],[100,168],[98,202],[116,204]],leg2:[[100,128],[72,150],[54,176]],arm:[[110,72],[120,100],[126,126]]}]},
+ walk:{l:["Pas 1","Pas 2"],P:[
+  STR(true,{alt:"Marche, premier pas"}),STR(false,{alt:"Marche, deuxième pas"})]},
+ plank:{l:["Position tenue"],P:[
+  {alt:"Gainage planche",head:[46,150],torso:[[66,148],[150,160]],leg:[[150,160],[184,202]],leg2:[[150,160],[180,202]],arm:[[66,152],[66,190],[98,192]]}]},
+ climber:{l:["Planche","Genou vers la poitrine"],P:[
+  {alt:"Mountain climber, planche",head:[46,150],torso:[[66,148],[150,160]],leg:[[150,160],[184,202]],leg2:[[150,160],[180,202]],arm:[[66,152],[66,190],[66,196]]},
+  {alt:"Mountain climber, genou avancé",head:[46,150],torso:[[66,148],[150,160]],leg:[[150,160],[112,174],[98,166]],leg2:[[150,160],[180,202]],arm:[[66,152],[66,190],[66,196]]}]},
+ birddog:{l:["À quatre pattes","Bras et jambe opposés tendus"],P:[
+  {alt:"Bird dog, départ",head:[148,126],torso:[[72,140],[132,138]],leg:[[72,140],[78,180],[62,200]],leg2:[[72,140],[80,182],[64,202]],arm:[[132,140],[134,176],[136,202]]},
+  {alt:"Bird dog, extension",head:[148,126],torso:[[72,140],[132,138]],leg:[[72,140],[40,146],[10,152]],leg2:[[72,140],[80,182],[64,202]],arm:[[132,140],[162,128],[192,124]]}]},
+ deadbug:{l:["Jambes à 90°, bras levés","Bras et jambe opposés étendus"],P:[
+  LYF([[44,190],[50,150],[52,112]],{leg:[[112,192],[130,150],[160,150]],leg2:[[112,192],[132,152],[162,152]],alt:"Dead bug, départ"}),
+  LYF([[44,190],[30,172],[8,164]],{leg:[[112,192],[132,152],[162,152]],leg2:[[112,192],[150,178],[186,172]],arm2:[[44,190],[50,150],[52,112]],alt:"Dead bug, extension"})]},
+ superman:{l:["À plat ventre","Bras et jambes levés"],P:[
+  {alt:"Superman, à plat",head:[44,184],torso:[[60,188],[130,190]],leg:[[130,190],[160,194],[190,198]],leg2:[[130,190],[160,196],[190,200]],arm:[[60,188],[40,192],[20,196]]},
+  {alt:"Superman, bras et jambes levés",head:[44,168],torso:[[60,184],[130,190]],leg:[[130,188],[160,172],[190,156]],leg2:[[130,188],[160,174],[190,158]],arm:[[60,182],[40,166],[20,152]]}]},
+ crunch:{l:["Allongé","Buste enroulé"],P:[
+  LYF([[40,190],[34,176],[26,180]],{alt:"Crunch, allongé"}),
+  LYF([[56,170],[48,158],[40,160]],{head:[44,160],torso:[[56,168],[112,192]],alt:"Crunch, buste enroulé"})]},
+ legraise:{k:"pull",l:["Jambes en bas","Jambes à l'horizontale"],P:[
+  {alt:"Relevé de jambes, jambes en bas",head:[92,52],torso:[[98,72],[96,134]],leg:[[96,134],[100,172],[100,202]],leg2:[[96,134],[104,172],[104,202]],arm:[[104,74],[110,44],[114,20]],dot:[114,16]},
+  {alt:"Relevé de jambes, jambes à l'horizontale",head:[92,52],torso:[[98,72],[96,134]],leg:[[96,134],[140,136],[180,138]],leg2:[[96,134],[140,138],[180,140]],arm:[[104,74],[110,44],[114,20]],dot:[114,16]}]},
+ chop:{l:["Départ en haut","Fin en bas"],P:[
+  ST([[100,64],[126,42],[146,24]],{dot:[148,22],alt:"Rotation, départ en haut"}),
+  ST([[108,70],[112,102],[126,134]],{dot:[128,138],head:[114,46],torso:[[108,70],[98,128]],alt:"Rotation, fin en bas"})]},
+ pallof:{l:["Mains à la poitrine","Bras tendus devant"],P:[
+  ST([[100,64],[104,90],[122,80]],{dot:[124,80],alt:"Pallof press, départ"}),
+  ST([[100,64],[132,70],[164,74]],{dot:[166,74],alt:"Pallof press, bras tendus"})]},
+ wheel:{l:["À genoux, roue sous les épaules","Corps étiré"],P:[
+  {alt:"Roue abdominale, départ",head:[122,76],torso:[[112,98],[100,150]],leg:[[100,150],[102,192],[78,198]],leg2:[[100,150],[106,194],[82,200]],arm:[[112,100],[122,150],[130,190]],dot:[132,194]},
+  {alt:"Roue abdominale, étiré",head:[188,152],torso:[[170,160],[104,152]],leg:[[104,152],[106,192],[80,198]],leg2:[[104,152],[110,194],[84,200]],arm:[[170,162],[176,180],[178,192]],dot:[180,194]}]},
+ clean:{l:["Barre au sol","Barre aux épaules"],P:[
+  {alt:"Épaulé, barre au sol",head:[148,86],torso:[[130,92],[70,128]],leg:[[70,128],[82,166],[96,202],[112,204]],leg2:[[70,128],[86,166],[100,202],[116,204]],arm:[[130,94],[126,130],[122,160]],plate:[122,166],pr:15},
+  {alt:"Épaulé, barre aux épaules",head:[94,38],torso:[[100,68],[98,132]],leg:[[98,132],[100,170],[98,202],[116,204]],leg2:[[98,132],[104,170],[102,202],[120,204]],arm:[[100,68],[112,92],[106,66]],plate:[106,60],pr:15}]},
+ snatch:{l:["Barre au sol","Barre au-dessus de la tête"],P:[
+  {alt:"Arraché, barre au sol",head:[148,86],torso:[[130,92],[70,128]],leg:[[70,128],[82,166],[96,202],[112,204]],leg2:[[70,128],[86,166],[100,202],[116,204]],arm:[[130,94],[126,130],[122,160]],plate:[122,166],pr:15},
+  {alt:"Arraché, barre au-dessus de la tête",head:[94,40],torso:[[100,70],[98,132]],leg:[[98,132],[100,170],[98,202],[116,204]],leg2:[[98,132],[104,170],[102,202],[120,204]],arm:[[102,70],[106,44],[106,18]],plate:[106,16],pr:15}]},
+ jump:{l:["Flexion","Saut"],P:[
+  {alt:"Saut, flexion",head:[126,64],torso:[[110,86],[76,140]],leg:[[76,140],[122,150],[100,202],[118,204]],leg2:[[76,140],[126,152],[104,202],[122,204]],arm:[[110,88],[92,112],[84,132]]},
+  {alt:"Saut, en l'air",bg:'<ellipse cx="108" cy="204" rx="22" ry="3" fill="var(--ln)"/>',head:[104,6],torso:[[102,30],[98,96]],leg:[[98,96],[100,136],[98,164],[114,170]],leg2:[[98,96],[104,136],[102,164],[118,170]],arm:[[102,32],[112,54],[118,68]]}]},
+ boxjump:{l:["Flexion devant la box","Réception sur la box"],P:[
+  {alt:"Saut sur box, flexion",bg:'<rect x="124" y="166" width="58" height="40" rx="4" fill="var(--ln)"/>',head:[96,64],torso:[[80,86],[46,140]],leg:[[46,140],[92,150],[70,202],[88,204]],leg2:[[46,140],[96,152],[74,202],[92,204]],arm:[[80,88],[62,112],[54,132]]},
+  {alt:"Saut sur box, réception",bg:'<rect x="124" y="166" width="58" height="40" rx="4" fill="var(--ln)"/>',head:[146,40],torso:[[142,68],[140,120]],leg:[[140,120],[150,146],[142,166],[158,166]],leg2:[[140,120],[154,148],[146,166],[162,166]],arm:[[142,70],[156,94],[160,114]]}]},
+ swing:{l:["Kettlebell entre les jambes","Bras tendus à l'horizontale"],P:[
+  BD([[130,98],[124,128],[116,148]],{plate:[114,152],pr:12,alt:"Swing, kettlebell entre les jambes"}),
+  ST([[100,64],[130,66],[160,68]],{plate:[166,68],pr:12,alt:"Swing, bras à l'horizontale"})]},
+ sled:{l:["Pousse, jambe gauche","Pousse, jambe droite"],P:[
+  {alt:"Traîneau, poussée",bg:'<rect x="152" y="96" width="36" height="86" rx="4" fill="var(--ln)"/><rect x="150" y="182" width="42" height="8" rx="3" fill="var(--ln)"/>',head:[126,70],torso:[[112,92],[80,138]],leg:[[80,138],[58,170],[36,200],[50,204]],leg2:[[80,138],[96,172],[94,202],[110,204]],arm:[[112,94],[136,106],[152,112]]},
+  {alt:"Traîneau, poussée",bg:'<rect x="152" y="96" width="36" height="86" rx="4" fill="var(--ln)"/><rect x="150" y="182" width="42" height="8" rx="3" fill="var(--ln)"/>',head:[126,70],torso:[[112,92],[80,138]],leg:[[80,138],[96,172],[94,202],[110,204]],leg2:[[80,138],[58,170],[36,200],[50,204]],arm:[[112,94],[136,106],[152,112]]}]},
+ carry:{l:["Pas 1","Pas 2"],P:[
+  STR(true,{dot:[104,134],alt:"Marche chargée, premier pas"}),STR(false,{dot:[104,134],alt:"Marche chargée, deuxième pas"})]},
+ run:{l:["Appui","Foulée"],P:[
+  {alt:"Course, phase 1",head:[110,36],torso:[[104,64],[96,128]],leg:[[96,128],[132,140],[130,182]],leg2:[[96,128],[72,160],[46,176]],arm:[[104,66],[128,84],[142,62]],arm2:[[104,66],[84,88],[68,76]]},
+  {alt:"Course, phase 2",head:[110,36],torso:[[104,64],[96,128]],leg:[[96,128],[72,160],[46,176]],leg2:[[96,128],[132,140],[130,182]],arm:[[104,66],[84,88],[68,76]],arm2:[[104,66],[128,84],[142,62]]}]},
+ bike:{l:["Pédale en bas","Pédale en haut"],P:[
+  {alt:"Vélo, phase 1",bg:'<circle cx="52" cy="168" r="30" fill="none" stroke="var(--ln)" stroke-width="4"/><circle cx="154" cy="168" r="30" fill="none" stroke="var(--ln)" stroke-width="4"/><polyline points="52,168 96,138 154,168 124,138 96,138" fill="none" stroke="var(--ln)" stroke-width="4"/>',head:[140,62],torso:[[100,112],[128,78]],leg:[[100,112],[122,148],[112,176]],leg2:[[100,112],[88,142],[98,166]],arm:[[128,80],[146,92],[150,98]]},
+  {alt:"Vélo, phase 2",bg:'<circle cx="52" cy="168" r="30" fill="none" stroke="var(--ln)" stroke-width="4"/><circle cx="154" cy="168" r="30" fill="none" stroke="var(--ln)" stroke-width="4"/><polyline points="52,168 96,138 154,168 124,138 96,138" fill="none" stroke="var(--ln)" stroke-width="4"/>',head:[140,62],torso:[[100,112],[128,78]],leg:[[100,112],[88,142],[98,166]],leg2:[[100,112],[122,148],[112,176]],arm:[[128,80],[146,92],[150,98]]}]},
+ rower:{l:["Départ, jambes fléchies","Fin, jambes tendues"],P:[
+  {alt:"Rameur, départ",bg:'<rect x="14" y="178" width="172" height="6" rx="3" fill="var(--ln)"/>',head:[110,90],torso:[[104,112],[92,160]],leg:[[92,160],[136,136],[150,176]],leg2:[[92,160],[138,138],[152,178]],arm:[[104,114],[138,116],[158,120]],dot:[160,120]},
+  {alt:"Rameur, fin",bg:'<rect x="14" y="178" width="172" height="6" rx="3" fill="var(--ln)"/>',head:[44,98],torso:[[54,122],[62,164]],leg:[[62,164],[120,166],[160,170]],leg2:[[62,164],[122,168],[162,172]],arm:[[54,124],[84,128],[100,124]],dot:[102,124]}]},
+ ski:{l:["Bras en haut","Tirage vers le bas"],P:[
+  ST([[100,64],[120,34],[130,10]],{dot:[130,8],alt:"SkiErg, bras en haut"}),
+  {alt:"SkiErg, tirage vers le bas",head:[116,52],torso:[[108,76],[98,132]],leg:[[98,132],[100,170],[98,202],[116,204]],leg2:[[98,132],[104,170],[102,202],[120,204]],arm:[[108,78],[116,110],[118,140]],dot:[118,144]}]},
+ rope:{l:["Pieds au sol","Saut"],P:[
+  ST([[100,64],[114,96],[126,106]],{dot:[128,108],alt:"Corde à sauter, pieds au sol"}),
+  {alt:"Corde à sauter, saut",head:[104,22],torso:[[100,50],[98,116]],leg:[[98,116],[100,152],[98,184],[114,190]],leg2:[[98,116],[104,152],[102,184],[118,190]],arm:[[100,52],[114,84],[126,94]],dot:[128,96]}]},
+ swim:{l:["Bras droit en avant","Bras gauche en avant"],P:[
+  {alt:"Natation, bras droit en avant",bg:'<rect x="0" y="126" width="200" height="80" fill="#1b2a4a" opacity=".55"/>',head:[44,116],torso:[[60,122],[130,126]],leg:[[130,126],[160,130],[190,128]],leg2:[[130,126],[160,134],[190,134]],arm:[[62,122],[94,98],[122,92]],arm2:[[62,122],[44,152],[26,164]]},
+  {alt:"Natation, bras gauche en avant",bg:'<rect x="0" y="126" width="200" height="80" fill="#1b2a4a" opacity=".55"/>',head:[44,116],torso:[[60,122],[130,126]],leg:[[130,126],[160,134],[190,134]],leg2:[[130,126],[160,130],[190,128]],arm:[[62,122],[44,152],[26,164]],arm2:[[62,122],[94,98],[122,92]]}]},
+ burpee:{l:["Debout","Planche au sol"],P:[
+  ST([[100,64],[102,98],[104,128]],{alt:"Burpee, debout"}),
+  {alt:"Burpee, planche",head:[46,150],torso:[[66,148],[150,160]],leg:[[150,160],[184,202]],leg2:[[150,160],[180,202]],arm:[[66,152],[66,190],[66,198]]}]},
+ thruster:{l:["Squat, charge aux épaules","Debout, bras tendus"],P:[
+  {alt:"Thruster, squat",head:[130,68],torso:[[116,92],[72,152]],leg:[[72,152],[132,150],[104,202],[122,204]],leg2:[[72,152],[136,150],[108,202],[126,204]],arm:[[116,92],[132,108],[124,86]],plate:[126,82],pr:13},
+  {alt:"Thruster, bras tendus",head:[94,40],torso:[[100,70],[98,132]],leg:[[98,132],[100,170],[98,202],[116,204]],leg2:[[98,132],[104,170],[102,202],[120,204]],arm:[[102,70],[106,44],[106,18]],plate:[106,16],pr:13}]},
+ neck:{l:["Tête neutre","Cou en mouvement"],P:[
+  ST([[100,64],[102,98],[104,128]],{alt:"Cou, position neutre"}),
+  ST([[100,64],[102,98],[104,128]],{head:[118,48],alt:"Cou, tête inclinée"})]},
+ throw:{l:["Ballon à la poitrine","Bras tendus, lancer"],P:[
+  ST([[100,64],[104,90],[122,80]],{plate:[126,80],pr:12,alt:"Lancer, ballon à la poitrine"}),
+  ST([[100,64],[132,70],[166,70]],{plate:[172,70],pr:12,alt:"Lancer, bras tendus"})]},
+ slam:{l:["Ballon au-dessus de la tête","Ballon au sol"],P:[
+  ST([[100,66],[106,40],[106,14]],{plate:[106,12],pr:12,alt:"Slam, ballon en haut"}),
+  {alt:"Slam, ballon au sol",head:[124,70],torso:[[112,92],[96,128]],leg:[[96,128],[100,168],[98,202],[116,204]],leg2:[[96,128],[104,168],[102,202],[120,204]],arm:[[112,94],[124,140],[130,184]],plate:[132,190],pr:13}]},
+ straightarm:{l:["Bras tendus en haut","Bras vers les cuisses"],P:[
+  ST([[100,64],[130,40],[150,24]],{dot:[152,22],alt:"Bras tendus en haut"}),
+  ST([[100,64],[110,100],[120,134]],{dot:[122,138],alt:"Bras vers les cuisses"})]},
+ hyper:{l:["Buste penché","Buste aligné"],P:[
+  {alt:"Hyperextension, buste penché",bg:'<rect x="80" y="126" width="30" height="12" rx="4" fill="var(--ln)"/><rect x="92" y="138" width="6" height="68" fill="var(--ln)"/>',head:[170,176],torso:[[102,132],[150,168]],leg:[[102,132],[72,170],[54,202]],leg2:[[102,132],[76,172],[58,204]],arm:[[150,168],[134,160],[122,168]]},
+  {alt:"Hyperextension, buste aligné",bg:'<rect x="80" y="126" width="30" height="12" rx="4" fill="var(--ln)"/><rect x="92" y="138" width="6" height="68" fill="var(--ln)"/>',head:[176,108],torso:[[102,132],[154,116]],leg:[[102,132],[72,170],[54,202]],leg2:[[102,132],[76,172],[58,204]],arm:[[154,118],[138,112],[126,120]]}]}
+};
+function mvOf(n){const k=nrm(n);
+ if(/leg curl|nordic|glute ham|slider/.test(k))return/nordic|glute ham/.test(k)?"nordic":"legcurl";
+ if(/dead hang|suspension|farmer hold|plate pinch|gripper|wrist roller/.test(k))return/hang|suspension/.test(k)?"hang":null;
+ if(/muscle.?up|traction|pull.?up|chin.?up|tirage (vertical|poitrine|nuque)|lat pulldown/.test(k))return"pull";
+ if(/souleve de terre|deadlift|rdl|romanian|good morning|stiff|rack pull|pull through|clean pull|snatch pull|tirage explosif/.test(k))return"hinge";
+ if(/kettlebell (swing|snatch)|swing kettlebell|kettlebell clean|^kettlebell swing/.test(k)||/^swing/.test(k))return"swing";
+ if(/power snatch|hang snatch|^arrache|arrache$|kettlebell snatch|turkish/.test(k))return"snatch";
+ if(/power clean|hang clean|epaule|clean and|sandbag clean|clean/.test(k)&&!/clean pull/.test(k))return"clean";
+ if(/jerk|push press|landmine press|z press|developpe (militaire|epaules|arnold|assis)|overhead press|shoulder press|military/.test(k))return"ohp";
+ if(/thruster|wall ball|devil press/.test(k))return"thruster";
+ if(/fente|lunge|split squat|bulgare/.test(k))return"lunge";
+ if(/step.?up|montee sur banc|montee d.escalier|escalier|stepper/.test(k))return"stepup";
+ if(/wall sit/.test(k))return"wallsit";
+ if(/presse|leg press/.test(k)&&!/developpe/.test(k))return/mollets/.test(k)?"calf":"legpress";
+ if(/squat|hack|goblet/.test(k))return"squat";
+ if(/hip thrust|pont fessier|glute bridge|frog pump/.test(k))return"thrust";
+ if(/leg extension/.test(k))return"legext";
+ if(/mollets|calf|donkey/.test(k))return"calf";
+ if(/tibialis|marche sur les talons/.test(k))return"tibialis";
+ if(/abduction|adduction|clamshell|fire hydrant|squeeze|copenhagen plank dynamique/.test(k))return"sideleg";
+ if(/kickback (poulie fessier|machine)|kickback machine/.test(k)||(/kickback/.test(k)&&!/triceps/.test(k)&&/fess/.test(k)))return"kick";
+ if(/banded walk|sumo walk|marche|randonnee/.test(k))return"walk";
+ if(/dips|dip /.test(k))return"dips";
+ if(/ecarte|pec deck|pec fly/.test(k))return"fly";
+ if(/pull.?over/.test(k))return/poulie|machine/.test(k)?"straightarm":"pullover";
+ if(/tirage bras tendus/.test(k))return"straightarm";
+ if(/barre au front|skullcrusher|tate press|jm press/.test(k))return"skull";
+ if(/kickback/.test(k))return"trikick";
+ if(/overhead|nuque|extension triceps haltere/.test(k)&&/triceps|extension/.test(k))return"ohtri";
+ if(/triceps|pushdown|extension triceps/.test(k))return"pushdown";
+ if(/shrug/.test(k))return"shrug";
+ if(/face pull/.test(k))return"facepull";
+ if(/tirage menton|upright/.test(k))return"upright";
+ if(/oiseau|reverse fly|reverse pec/.test(k))return"rfly";
+ if(/elevation|scaption|y-t-w|lu raises|ange au mur/.test(k))return"raise";
+ if(/rotation (externe|interne)/.test(k))return"raise";
+ if(/hyperextension|reverse hyper|superman lombaires|lombaires/.test(k))return"hyper";
+ if(/developpe|bench|pompe|push.?up|floor press|svend/.test(k))return"bench";
+ if(/rowing|row\b|tirage (horizontal|barre|buste|arriere)|tirage haltere/.test(k)&&!/rameur/.test(k))return"row";
+ if(/curl/.test(k)&&!/leg/.test(k))return"curl";
+ if(/dead bug/.test(k))return"deadbug";
+ if(/bird dog|bear crawl|bear plank/.test(k))return"birddog";
+ if(/mountain climber/.test(k))return"climber";
+ if(/^superman/.test(k))return"superman";
+ if(/crunch|sit.?up|v-up|hollow rock|flutter|relevé de buste|releve de buste/.test(k))return"crunch";
+ if(/releve de (jambes|genoux)|toes to bar|dragon flag|l-sit/.test(k))return"legraise";
+ if(/roue abdominale|ab wheel|stir the pot/.test(k))return"wheel";
+ if(/pallof|anti-rotation/.test(k))return"pallof";
+ if(/woodchopper|rotation (poulie|landmine)|russian twist|windmill|obliques/.test(k))return"chop";
+ if(/planche|gainage|plank|hollow hold|copenhagen/.test(k))return"plank";
+ if(/saut (sur box|en profondeur)|box jump|drop jump/.test(k))return"boxjump";
+ if(/saut|jump|bondissement|bounding|pogo|cmj|haies/.test(k))return"jump";
+ if(/medicine ball slam|slam|battle rope/.test(k))return"slam";
+ if(/medicine ball|medball|lancer|chest pass|ballon/.test(k))return"throw";
+ if(/traineau|sled|plaquage|poussee|ruck/.test(k))return"sled";
+ if(/farmer|carry|portee|suitcase/.test(k))return"carry";
+ if(/burpee/.test(k))return"burpee";
+ if(/^cou |cou (flexion|extension|lateral|isometrique)/.test(k))return"neck";
+ if(/skierg|ski erg/.test(k))return"ski";
+ if(/rameur|rowerg/.test(k))return"rower";
+ if(/velo|bike|spinning|assault/.test(k))return"bike";
+ if(/corde a sauter|saut a la corde/.test(k))return"rope";
+ if(/natation|aquajogging/.test(k))return"swim";
+ if(/sprint|course|footing|fartlek|tempo|vma|fractionne|intervalles|cotes|navette|yo-yo|test |trail|skipping|echelle|changement de direction|pro agility|depart|acceleration|elliptique|run\b|roxzone/.test(k))return"run";
+ return null}
+
+const movThumb=e=>{const f=mvOf(e.n);return f?'<span class="mvt" aria-hidden="true">'+mvFig(MVF[f].P[0],MVF[f].k||f)+'</span>':''};
+function movH(e){const f=mvOf(e.n);if(!f)return"";const F=MVF[f],K=F.k||f,n=F.P.length,ph=i=>'<div class="mvc">'+mvFig(F.P[i],K)+'<small>'+(n>1?(i+1)+' · ':'')+F.l[i]+'</small></div>';
+ return'<div class="mvp"><b>Le mouvement</b><div class="mvg'+(n<2?' mv1':'')+'">'+ph(0)+(n>1?'<span aria-hidden="true">⇄</span>'+ph(1):'')+'</div><p class="m" style="margin:3px 0 0;font-size:11px">Schéma indicatif : adapte l’amplitude à ton gabarit.</p></div>'}
 function musFig(m,th){const lv=k=>m.p.includes(k)?2:m.s.includes(k)?1:0,fl=k=>({2:"#ef476f",1:"#ffb020"})[lv(k)]||"var(--bg)",
  R=(k,x,y,w,h,r)=>'<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="'+(r||6)+'" fill="'+fl(k)+'" stroke="var(--ln)" stroke-width=".8"/>',
  E=(k,cx,cy,rx,ry)=>'<ellipse cx="'+cx+'" cy="'+cy+'" rx="'+rx+'" ry="'+ry+'" fill="'+fl(k)+'" stroke="var(--ln)" stroke-width=".8"/>',
@@ -1895,10 +2176,10 @@ function rEx(){
  $("#exl").innerHTML=names().map(n=>'<option value="'+esc(n)+'">').join("");
  $("#ex").innerHTML=pnTop()+(()=>{const exCard=(e,i)=>{const l=lastEx(e.n,kOf(e)),gi=e.g?D().ex.filter(x=>x.g===e.g):[],gp=gi.indexOf(e);
   e.id=e.id||uid();const id=e.id,rs=er(e),car=isCar(e),mvH='<div class="mv2"><button class="b g" data-a="dx" data-e="'+i+'" aria-label="Retirer l’exercice">✕ Retirer</button></div><p class="m" style="margin:0 0 8px">Pour le déplacer : garde le doigt appuyé sur son nom, puis glisse.</p>';
-  const sc=ssCol(e);return '<div class="c xc" data-xid="'+id+'"'+(e.g?' style="border-left:4px solid '+sc+';background:color-mix(in srgb,'+sc+' 8%,var(--sf))"':'')+'><div class="row" style="border:0;padding:0 0 6px"><button class="mtb" data-a="sch" data-e="'+i+'" aria-label="Voir le schéma des muscles">'+musFig(musOf(e.n),1)+'</button><h3 class="xn" data-e="'+i+'" role="button" tabindex="0" aria-label="Voir l’historique de l’exercice">'+ic(gr(e.n))+esc(e.n)+(e.g?' <span class="m" style="color:'+sc+';font-weight:800">● Superset '+(gp+1)+'/'+gi.length+'</span>':'')+'</h3><button class="b g optb'+(OPT[id]?' on':'')+'" data-a="opt" data-e="'+i+'" aria-label="Options de l’exercice" aria-expanded="'+!!OPT[id]+'">⋯</button></div>'
+  const sc=ssCol(e);return '<div class="c xc" data-xid="'+id+'"'+(e.g?' style="border-left:4px solid '+sc+';background:color-mix(in srgb,'+sc+' 8%,var(--sf))"':'')+'><div class="row" style="border:0;padding:0 0 6px"><button class="mtb" data-a="sch" data-e="'+i+'" aria-label="Voir le schéma des muscles">'+movThumb(e)+musFig(musOf(e.n),1)+'</button><h3 class="xn" data-e="'+i+'" role="button" tabindex="0" aria-label="Voir l’historique de l’exercice">'+ic(gr(e.n))+esc(e.n)+(e.g?' <span class="m" style="color:'+sc+';font-weight:800">● Superset '+(gp+1)+'/'+gi.length+'</span>':'')+'</h3><button class="b g optb'+(OPT[id]?' on':'')+'" data-a="opt" data-e="'+i+'" aria-label="Options de l’exercice" aria-expanded="'+!!OPT[id]+'">⋯</button></div>'
   +(OPT[id]?'<div class="pcp">'+mvH+(MKO[id]?mkH(e,i):'')+(car?carChips(e,i):('<div class="chips">'+(eqi(e)==="barre"?'<button class="chip'+(PLO[id]?' on':'')+'" data-a="pl" data-e="'+i+'">Plaques</button>':'')+'<button class="chip'+(SRO[id]?' on':'')+'" data-a="so" data-e="'+i+'">'+(SRO[id]?'Ordre des séries ✓':'Ordre des séries')+'</button><button class="chip" data-a="pc" data-e="'+i+'">% du max</button><button class="chip" data-a="rp" data-e="'+i+'">Remplacer</button>'+mkChip(e,i)+(D().ex.length>1?'<button class="chip'+(e.g?' on':'')+'" data-a="ssp" data-e="'+i+'">'+(e.g?'Superset ✓ ('+gi.length+')':'+ Superset')+'</button>':'')+'</div>'+(SSO[id]?'<div class="ssp"><p class="m" style="margin:2px 0 6px">Touche les exercices à enchaîner avec « '+esc(e.n)+' » (sans repos entre eux).</p><div class="chips">'+D().ex.map((y,j)=>y===e?'':'<button class="chip'+(e.g&&y.g===e.g?' on':'')+'" data-a="sst" data-e="'+i+'" data-o="'+j+'">'+(e.g&&y.g===e.g?'✓ ':'')+esc(y.n)+'</button>').join('')+'</div></div>':'')))+'</div>':'')
    +'<div class="chips">'+((()=>{const l=lastEx(e.n,kOf(e));return l&&!e.sets.some(s=>s.ok)&&(e.sets.length!==l.sets.length||e.sets.some((s,j)=>s.kg!==l.sets[j].kg||s.r!==l.sets[j].r||s.d!==l.sets[j].d||s.t!==l.sets[j].t||s.cal!==l.sets[j].cal||s.h!==l.sets[j].h))?'<button class="chip" data-a="same" data-e="'+i+'">↺ Comme la dernière fois</button>':''})())+(car?'':'<button class="chip rchip" data-a="tw" data-e="'+i+'">⏱ Repos : '+rtxt(rs)+'</button>')+'<button class="chip'+(HIS[id]?' on':'')+'" data-a="his" data-e="'+i+'">📈 Historique</button>'+'<button class="chip'+((VID[id]||SCH[id])?' on':'')+'" data-a="vid" data-e="'+i+'">▶ Vidéo &amp; schéma</button>'+'<button class="chip'+((e.note||NO[id])?' on':'')+'" data-a="nt" data-e="'+i+'">📝 '+(e.note?'Note ✓':'Note')+'</button>'+(car&&/^[cs]$/.test(mKind(e.n))?'<button class="chip'+(FR[id]?' on':'')+'" data-a="fr" data-e="'+i+'">Fractionné (blocs)</button>':'')+'</div>'
-   +pnH(e,i)+(e.tg?'<p class="m" style="margin:0 0 6px"><b>Objectif :</b> '+esc(e.tg)+'</p>':'')+(HIS[id]?hisH(e,i):'')+(VID[id]?vidH(e,i):'')+(SCH[id]?'<div class="pcp">'+musFig(musOf(e.n))+'</div>':'')+(car&&FR[id]?frHTML(e,i):"")+(car?"":sugH(e,i))+(RPL[id]?'<div class="pcp"><label for="rp'+i+'">Remplacer par</label><div class="r"><input id="rp'+i+'" list="exl" placeholder="Nom de l’exercice" autocomplete="off"><button class="b" data-a="rpo" data-e="'+i+'">Remplacer</button></div></div>':'')+(PCO[id]?(()=>{const s=pcOf(e);return'<div class="pcp"><div class="r"><div><label for="pm'+i+'">Ton max (kg)</label><input id="pm'+i+'" type="number" inputmode="decimal" data-pm="'+i+'" value="'+(s.m===""?"":s.m)+'" placeholder="Ex. 140"></div><div><label for="pp'+i+'">Pourcentage (%)</label><input id="pp'+i+'" type="number" inputmode="decimal" data-pp="'+i+'" value="'+s.p+'"></div></div>'
+   +pnH(e,i)+(e.tg?'<p class="m" style="margin:0 0 6px"><b>Objectif :</b> '+esc(e.tg)+'</p>':'')+(HIS[id]?hisH(e,i):'')+(SCH[id]?'<div class="pcp">'+movH(e)+musFig(musOf(e.n))+'</div>':'')+(VID[id]?vidH(e,i):'')+(car&&FR[id]?frHTML(e,i):"")+(car?"":sugH(e,i))+(RPL[id]?'<div class="pcp"><label for="rp'+i+'">Remplacer par</label><div class="r"><input id="rp'+i+'" list="exl" placeholder="Nom de l’exercice" autocomplete="off"><button class="b" data-a="rpo" data-e="'+i+'">Remplacer</button></div></div>':'')+(PCO[id]?(()=>{const s=pcOf(e);return'<div class="pcp"><div class="r"><div><label for="pm'+i+'">Ton max (kg)</label><input id="pm'+i+'" type="number" inputmode="decimal" data-pm="'+i+'" value="'+(s.m===""?"":s.m)+'" placeholder="Ex. 140"></div><div><label for="pp'+i+'">Pourcentage (%)</label><input id="pp'+i+'" type="number" inputmode="decimal" data-pp="'+i+'" value="'+s.p+'"></div></div>'
    +'<div class="chips">'+[50,60,65,70,75,80,85,90,95].map(v=>'<button class="chip" data-a="pcs" data-e="'+i+'" data-v="'+v+'">'+v+' %</button>').join("")+'</div>'
    +'<div class="pcr" data-i="'+i+'">'+pcHTML(e)+'</div><button class="b big" data-a="pcu" data-e="'+i+'" style="margin-top:8px">Mettre dans la prochaine série</button></div>'})():'')+(NO[id]?'<textarea data-nt="'+i+'" rows="2" maxlength="300" placeholder="Note sur l’exercice (réglage, sensation, douleur…)">'+esc(e.note||"")+'</textarea>':'')
   +(WO[id]?'<div class="tmr wbox" data-id="'+id+'"><span class="tt"></span>'+wheelHTML(e,i)+'</div>':'')
@@ -3273,7 +3554,7 @@ $("#wkp").onclick=()=>{WK--;rSem()};$("#wkn").onclick=()=>{if(WK<0){WK++;rSem()}
 
 function draw(){var L=[banner,secBanners,rLibMy,rReg,rCycRem,rTeam,rRpeD,rGch,rEx,rFchk,rRx,rExos,rProg,rCyc,rWell,rHome,rHcyc,rProf,rRegles,rHisto,rSem,rPoids,rRec,rCharge,rSf,rPain,rTests,rForme,rHub,rWpush,banner];for(var i=0;i<L.length;i++){try{L[i]()}catch(x){try{console.error("draw",L[i].name,x)}catch(_){}window.__de=(window.__de||[]);if(window.__de.length<6)window.__de.push((L[i].name||"?")+" : "+(x&&x.message||x));try{bar("["+(L[i].name||"?")+"] "+(x&&x.message||x))}catch(_){}}}}
 calc();draw();{const h=location.hash.slice(1);if(h&&document.getElementById(h))go(h);else{const d=D();if(d.t0&&!d.t1&&d.edit==null)go("seance")}}
-var BUILD=199,UPW=null,UPGO=false;
+var BUILD=201,UPW=null,UPGO=false;
 function updBar(w){if(document.getElementById("updbar"))return;UPW=w;const d=document.createElement("div");d.id="updbar";d.setAttribute("role","status");d.innerHTML='<span>Nouvelle version disponible</span><button type="button" id="updgo">Mettre à jour</button>';document.body.appendChild(d);
  const b=document.getElementById("updgo");b.onclick=()=>{b.disabled=true;b.textContent="Mise à jour…";if(!UPW){(async()=>{try{if(window.caches){const k=await caches.keys();await Promise.all(k.map(x=>caches.delete(x)))}}catch(e){}location.reload()})();return}UPGO=true;try{UPW.postMessage("skip")}catch(e){location.reload()}setTimeout(()=>location.reload(),4000)}}
 try{document.getElementById("bldv").textContent="Version installée : V"+BUILD}catch(e){}
