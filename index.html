@@ -1033,6 +1033,7 @@ body.rb #etb{bottom:calc(150px + env(safe-area-inset-bottom,0px))}
 .mvc{background:var(--bg);border-radius:10px;padding:3px}.mvc small{display:block;text-align:center;font-size:10px;color:var(--mu);font-weight:600;line-height:1.2}
 #ex .mtb{gap:4px}
 #ex .pcp .lgi{font-size:12px;padding:3px 6px}#ex .pcp .m{font-size:11px}#ex .mfw{margin:2px 0}
+.lgx .mvt{width:38px;height:42px;margin:0 8px 0 2px;background:var(--bg);border-radius:8px;padding:2px;flex:0 0 38px}.lgx .mvt.mv0{background:none}
 </style>
 </head>
 <body>
@@ -2103,7 +2104,7 @@ function pkAll(){return S.lib.map(x=>[x.n,x.g]).concat(LIB.filter(x=>!S.lib.some
 function pkRecent(){const seen=new Set(),o=[];for(let i=S.sessions.length-1;i>=0&&o.length<15;i--)S.sessions[i].ex.forEach(x=>{if(!seen.has(x.n)&&o.length<15){seen.add(x.n);o.push(x.n)}});return o}
 function rLib(){if($("#addp").hidden)return;const rpx=RPI?D().ex.find(e=>e.id===RPI):null;if(RPI&&!rpx)RPI=null;$("#rplb").hidden=!rpx;if(rpx)$("#rplt").textContent="Remplacer « "+rpx.n+" » par…";const raw=$("#nx").value.trim(),q=nrm(raw),m=pkMode(),all=pkAll(),gOf=n=>grpOf(n)||guessG(n),gl=g=>{const x=GR.find(y=>y[0]===g);return x?x[1]:""};
  $("#lgm").innerHTML=[["fav","★ Favoris"],["rec","Récents"],["mus","Par muscle"],["typ","Par type"],["perso","Mes exos"]].map(([k,t])=>'<button class="chip'+(m===k&&!q?' on':'')+'" data-pm="'+k+'">'+t+'</button>').join("");
- const row=(n)=>{const sel=!!PSEL[n];return '<div class="lgr'+(sel?' sel':'')+'"><button class="lgx" data-n="'+esc(n)+'"><span class="lgck">'+(sel?'✓':'')+'</span><span class="lgt"><b>'+pnDot(n)+esc(n)+'</b><span class="m">'+esc(gl(gOf(n)))+'</span></span></button>'+starB(n)+'</div>'};
+ const row=(n)=>{const sel=!!PSEL[n];return '<div class="lgr'+(sel?' sel':'')+'"><button class="lgx" data-n="'+esc(n)+'"><span class="lgck">'+(sel?'✓':'')+'</span>'+(movThumb({n})||'<span class="mvt mv0"></span>')+'<span class="lgt"><b>'+pnDot(n)+esc(n)+'</b><span class="m">'+esc(gl(gOf(n)))+'</span></span></button>'+starB(n)+'</div>'};
  let ctl="",out="";
  if(q){const L=all.filter(([n,g])=>nrm(n).includes(q)||(SUBN[SUBOF[nrm(n)]]||'').split(/[ \/]+/).some(w=>w.startsWith(q))).map(x=>x[0]).sort((a,b)=>((S.fav[b]?1:0)-(S.fav[a]?1:0))||a.localeCompare(b,"fr")).slice(0,30);
   out=L.map(row).join("")}
@@ -2688,7 +2689,7 @@ function pkFill(){const l=$("#pkl");if(!l||!PP)return;
  const raw=PP.q.trim(),q=nrm(raw),all=pkAll(),gOf=n=>grpOf(n)||guessG(n),gl=g=>{const x=GR.find(y=>y[0]===g);return x?x[1]:""};
  const m=PP.m||(Object.keys(S.fav).length?"fav":S.sessions.length?"rec":"mus"),SL=PP.sel||(PP.sel={});
  $("#pkm").innerHTML=[["fav","★ Favoris"],["rec","Récents"],["mus","Par muscle"],["typ","Par type"],["perso","Mes exos"]].map(([k,t])=>'<button class="chip'+(m===k&&!q?' on':'')+'" data-a="pkmo" data-m="'+k+'">'+t+'</button>').join("");
- const row=n=>{const sel=!!SL[n];return '<div class="lgr'+(sel?' sel':'')+'"><button class="lgx" data-a="pkt" data-n="'+esc(n)+'"><span class="lgck">'+(sel?'✓':'')+'</span><span class="lgt"><b>'+esc(n)+'</b><span class="m">'+esc(gl(gOf(n)))+'</span></span></button>'+starB(n)+'</div>'};
+ const row=n=>{const sel=!!SL[n];return '<div class="lgr'+(sel?' sel':'')+'"><button class="lgx" data-a="pkt" data-n="'+esc(n)+'"><span class="lgck">'+(sel?'✓':'')+'</span>'+(movThumb({n})||'<span class="mvt mv0"></span>')+'<span class="lgt"><b>'+esc(n)+'</b><span class="m">'+esc(gl(gOf(n)))+'</span></span></button>'+starB(n)+'</div>'};
  const srt=L=>L.sort((a,b)=>((S.fav[b]?1:0)-(S.fav[a]?1:0))||a.localeCompare(b,"fr"));
  const tOf=([n,g])=>typeOf(n,g)||(g==="hyx"?"hx":g==="car"?"cc":g==="exp"?"pui":"");
  let ctl="",out="",grid=false;const G=PP.g;
@@ -3554,7 +3555,7 @@ $("#wkp").onclick=()=>{WK--;rSem()};$("#wkn").onclick=()=>{if(WK<0){WK++;rSem()}
 
 function draw(){var L=[banner,secBanners,rLibMy,rReg,rCycRem,rTeam,rRpeD,rGch,rEx,rFchk,rRx,rExos,rProg,rCyc,rWell,rHome,rHcyc,rProf,rRegles,rHisto,rSem,rPoids,rRec,rCharge,rSf,rPain,rTests,rForme,rHub,rWpush,banner];for(var i=0;i<L.length;i++){try{L[i]()}catch(x){try{console.error("draw",L[i].name,x)}catch(_){}window.__de=(window.__de||[]);if(window.__de.length<6)window.__de.push((L[i].name||"?")+" : "+(x&&x.message||x));try{bar("["+(L[i].name||"?")+"] "+(x&&x.message||x))}catch(_){}}}}
 calc();draw();{const h=location.hash.slice(1);if(h&&document.getElementById(h))go(h);else{const d=D();if(d.t0&&!d.t1&&d.edit==null)go("seance")}}
-var BUILD=201,UPW=null,UPGO=false;
+var BUILD=202,UPW=null,UPGO=false;
 function updBar(w){if(document.getElementById("updbar"))return;UPW=w;const d=document.createElement("div");d.id="updbar";d.setAttribute("role","status");d.innerHTML='<span>Nouvelle version disponible</span><button type="button" id="updgo">Mettre à jour</button>';document.body.appendChild(d);
  const b=document.getElementById("updgo");b.onclick=()=>{b.disabled=true;b.textContent="Mise à jour…";if(!UPW){(async()=>{try{if(window.caches){const k=await caches.keys();await Promise.all(k.map(x=>caches.delete(x)))}}catch(e){}location.reload()})();return}UPGO=true;try{UPW.postMessage("skip")}catch(e){location.reload()}setTimeout(()=>location.reload(),4000)}}
 try{document.getElementById("bldv").textContent="Version installée : V"+BUILD}catch(e){}
