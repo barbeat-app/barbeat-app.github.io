@@ -1888,7 +1888,7 @@ function grpCard(gi){const A=D().ex,col=ssCol(gi[0]),n=gi.length,kind=n>=3?"Circ
   gi.forEach((m,k)=>{const q=m.sets[t];if(!q)return;const mi=A.indexOf(m),l=lastEx(m.n,kOf(m)),pv=l&&(l.sets[t]||l.sets.filter(z=>!z.w).slice(-1)[0]),isC=cur&&cur[0]===m&&cur[1]===t;
    h+='<div class="sr gtr'+(q.ok?' ok':'')+(isC?' now':'')+(q.pr?' pr':'')+'"><span class="gl" style="background:'+(q.ok?'':col)+'">'+L[k]+'</span><span class="gnm">'+esc(m.n)+(isC?'<em>À faire maintenant</em>':'')+'</span>'
    +["kg","r"].map(f=>f==="kg"&&isPdc(m.n)?'<span class="pdcl" aria-label="Poids de corps">PDC</span>':'<input type="number" inputmode="decimal" data-e="'+mi+'" data-s="'+t+'" data-f="'+f+'" value="'+(q[f]==null?"":q[f])+'"'+(pv&&pv[f]!=null?' placeholder="'+pv[f]+'"':(isBW(m.n)&&f==="kg"?' placeholder="0"':''))+' aria-label="'+(f==="r"?"reps":"kg")+' '+esc(m.n)+', tour '+(t+1)+'">').join("")
-   +'<button class="ck" data-a="ok" data-e="'+mi+'" data-s="'+t+'" aria-label="Valider '+esc(m.n)+', tour '+(t+1)+'" aria-pressed="'+!!q.ok+'">✓</button></div>'})}
+   +'<button class="ck" data-a="ok" data-e="'+mi+'" data-s="'+t+'" aria-label="Valider '+esc(m.n)+', tour '+(t+1)+'" aria-pressed="'+!!q.ok+'">✓</button>'+(q.rpe&&!q.w?'<button class="rbd" data-a="rqo" data-e="'+mi+'" data-s="'+t+'" aria-label="Effort ressenti '+q.rpe+' sur 10, toucher pour modifier">RPE '+q.rpe+'</button>':'')+'</div>'+rqH(m,mi,t)})}
  h+='<p class="m gnt">Le repos démarre après '+L[n-1]+', à la fin de chaque tour.</p><div class="chips"><button class="chip" data-a="gtour" data-e="'+i0+'">+ Un tour</button>'+gi.map((m,k)=>'<button class="chip'+(GFU[m.id]?' on':'')+'" data-a="gfull" data-e="'+A.indexOf(m)+'">⋯ '+L[k]+' · détails</button>').join("")+'<button class="chip" data-a="gdis" data-e="'+i0+'">Dégrouper</button></div></div></div>';return h}
 function rEx(){
  try{fAuto()}catch(_){}
@@ -3273,7 +3273,7 @@ $("#wkp").onclick=()=>{WK--;rSem()};$("#wkn").onclick=()=>{if(WK<0){WK++;rSem()}
 
 function draw(){var L=[banner,secBanners,rLibMy,rReg,rCycRem,rTeam,rRpeD,rGch,rEx,rFchk,rRx,rExos,rProg,rCyc,rWell,rHome,rHcyc,rProf,rRegles,rHisto,rSem,rPoids,rRec,rCharge,rSf,rPain,rTests,rForme,rHub,rWpush,banner];for(var i=0;i<L.length;i++){try{L[i]()}catch(x){try{console.error("draw",L[i].name,x)}catch(_){}window.__de=(window.__de||[]);if(window.__de.length<6)window.__de.push((L[i].name||"?")+" : "+(x&&x.message||x));try{bar("["+(L[i].name||"?")+"] "+(x&&x.message||x))}catch(_){}}}}
 calc();draw();{const h=location.hash.slice(1);if(h&&document.getElementById(h))go(h);else{const d=D();if(d.t0&&!d.t1&&d.edit==null)go("seance")}}
-var BUILD=198,UPW=null,UPGO=false;
+var BUILD=199,UPW=null,UPGO=false;
 function updBar(w){if(document.getElementById("updbar"))return;UPW=w;const d=document.createElement("div");d.id="updbar";d.setAttribute("role","status");d.innerHTML='<span>Nouvelle version disponible</span><button type="button" id="updgo">Mettre à jour</button>';document.body.appendChild(d);
  const b=document.getElementById("updgo");b.onclick=()=>{b.disabled=true;b.textContent="Mise à jour…";if(!UPW){(async()=>{try{if(window.caches){const k=await caches.keys();await Promise.all(k.map(x=>caches.delete(x)))}}catch(e){}location.reload()})();return}UPGO=true;try{UPW.postMessage("skip")}catch(e){location.reload()}setTimeout(()=>location.reload(),4000)}}
 try{document.getElementById("bldv").textContent="Version installée : V"+BUILD}catch(e){}
