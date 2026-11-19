@@ -808,7 +808,7 @@ nav{position:fixed!important;left:0!important;right:0!important;bottom:0!importa
 nav button{flex:1;display:flex!important;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-width:0;height:100%;background:none!important;box-shadow:none!important;border-radius:0!important;border:0;color:var(--mu)!important;font-size:11px!important;font-weight:600;padding:0!important;letter-spacing:0!important}
 nav button svg{width:20px;height:20px}
 nav button[aria-selected=true]{color:var(--ac)!important;background:none!important;font-weight:800}
-body:has(#sact:not([hidden])) nav{display:none!important}
+body:has(#seance.on #sact:not([hidden])) nav{display:none!important}
 #updbar{bottom:calc(74px + env(safe-area-inset-bottom,0px))}
 /* en-têtes de sections */
 .nh{display:flex;align-items:center;justify-content:space-between;margin:6px 0 12px}.nh h2{margin:0;font-size:28px}
@@ -1037,6 +1037,7 @@ body.rb #etb{bottom:calc(150px + env(safe-area-inset-bottom,0px))}
 .lgv{flex:0 0 auto;background:none;border:1px solid var(--ln);color:var(--ac);border-radius:8px;font:700 11.5px/1 inherit;padding:6px 8px;margin-right:4px}.lgv.on{background:var(--ac);color:#0b0d10}.pvp{background:var(--sf);border:1px solid var(--ln);border-radius:10px;padding:6px 8px 8px;margin:0 0 6px}.pvp .vw{margin:6px 0}.pvb{display:flex;gap:8px;margin-top:6px}.pvb .b{flex:1;text-align:center;padding:8px;font-size:13px}.pvb a.b{text-decoration:none}
 .hsum{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:8px 0}.hsum>div{background:var(--bg);border:1px solid var(--ln);border-radius:10px;padding:7px 8px}.hsum b{display:block;font-size:16px}.hsum small{color:var(--mu);font-size:11px}.hex{border-top:1px solid var(--ln);padding:8px 0}.hxh{display:flex;justify-content:space-between;gap:8px;align-items:baseline}.hxh>b{color:var(--ac);white-space:nowrap;font-size:14px}.hxc{display:flex;flex-wrap:wrap;gap:5px;margin:6px 0 2px}.hch{background:var(--bg);border:1px solid var(--ln);border-radius:8px;padding:3px 7px;font-size:12.5px}.hch.w{opacity:.6}.hch i{color:var(--ac);font-style:normal}.hxm{font-size:12px;margin:2px 0 0}
 .nuchs.sc{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}.nuchs.sc::-webkit-scrollbar{display:none}.nuchs.sc .nuch{flex:0 0 auto;white-space:nowrap}.nutl{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:8px 0}.nutl button{background:var(--bg);border:1px solid var(--ln);color:var(--ink);border-radius:12px;padding:6px 2px;font:600 11.5px/1.2 inherit;display:flex;flex-direction:column;align-items:center;gap:3px}.nutl button span{font-size:18px}.nulet{position:sticky;top:0;background:var(--sf);font:800 13px/1 inherit;color:var(--ac);padding:8px 2px 4px;border-bottom:1px solid var(--ln);z-index:1}.nuall{display:flex;justify-content:space-between}.nuall span{opacity:.6}
+.gtl{display:flex;justify-content:space-between;align-items:center}.gtx{background:none;border:0;color:var(--mu);font:600 12px inherit;padding:4px 6px;cursor:pointer}#sact .sbar #ghome{padding:6px 12px;font-size:16px;margin-right:6px}
 </style>
 </head>
 <body>
@@ -1098,7 +1099,7 @@ setTimeout(function(){var s=document.getElementById("spl");if(!s)return;if(m.len
   <div hidden><button id="sgo">Démarrer une séance vide</button><button id="sredo" hidden>Refaire</button><select id="lp" aria-hidden="true"></select><p id="sdone" class="m"></p></div>
  </div>
  <div id="sact" hidden>
-  <div class="sbar"><h2 id="sbt">Entraînement</h2><button class="b" id="gstop">Terminer</button><button class="b g" id="gres" hidden>Reprendre</button></div>
+  <div class="sbar"><h2 id="sbt">Entraînement</h2><button class="b g" id="ghome" type="button" aria-label="Aller à l’accueil">⌂</button><button class="b" id="gstop">Terminer</button><button class="b g" id="gres" hidden>Reprendre</button></div>
   <div id="sdw" style="display:flex;align-items:center;gap:8px;margin:0 2px 10px;flex-wrap:wrap;font-size:14px"><span id="sdl" style="font-weight:700"></span><button class="b g" id="sdm" type="button" style="padding:5px 12px;min-height:0;font-size:13px">modifier</button><span id="sdp" style="display:none;align-items:center;gap:6px;flex-wrap:wrap;width:100%"><button class="b g" id="sdy" type="button" style="padding:6px 12px;min-height:0;font-size:13px">Hier</button><input type="date" id="sdi" aria-label="Date de la séance" style="width:auto;flex:1;min-width:140px"><button class="b g" id="sdt" type="button" style="padding:6px 12px;min-height:0;font-size:13px">Aujourd’hui</button></span></div>
   <div class="c" id="snw" style="padding:10px 12px"><label for="snm" style="margin-top:0">Nom de la séance</label><input id="snm" maxlength="40" placeholder="Ex. Lower, Haut du corps, Séance A…" autocomplete="off"><div class="chips" id="snc"></div></div>
  <div class="sst" id="sst"></div>
@@ -1495,7 +1496,7 @@ function secBanners(){const cur=document.querySelector("section.on");if(!cur||!S
  const h2=cur.querySelector("h2");if(h2)h2.classList.add("sbh-hide")}
 function go(t){if(t==="prog"&&$("#prog"))$("#prog").dataset.v="";const nt=((typeof PAR!=="undefined"&&PAR[t])||t);document.querySelectorAll("nav button").forEach(x=>x.setAttribute("aria-selected",x.dataset.t===nt));
  document.querySelectorAll("section").forEach(s=>s.classList.toggle("on",s.id===t));$("#back").hidden=t==="home";$("#gear").hidden=t!=="home";if(t==="home"){HWK=0;HMO=0;HSEL=null}location.hash=t;backLbl(t);rHome();secBanners();rLive();scrollTo(0,0)}
-document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>go(b.dataset.t));
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>go(b.dataset.t));{const gh=document.getElementById("ghome");if(gh)gh.onclick=()=>go("home")}
 $("#bgo").onclick=()=>go("wellness");$("#bcyg").onclick=()=>go("regles");
 const PAR={seance:"muscu",prog:"muscu",semaine:"muscu",histo:"muscu",rec:"muscu",calc:"muscu",exos:"muscu",wellness:"well",poids:"well",forme:"well",charge:"well",sf:"well",pain:"well",tests:"well",regles:"well"},PARL={muscu:"Musculation",well:"Santé"};
 const parOf=id=>PAR[id]||"home";
@@ -2194,12 +2195,12 @@ function grpCard(gi){const A=D().ex,col=ssCol(gi[0]),n=gi.length,kind=n>=3?"Circ
  let cur=null;for(let t=0;t<T&&!cur;t++)for(const m of gi){const q=m.sets[t];if(q&&!q.ok){cur=[m,t];break}}
  const tn=cur?cur[1]+1:T,names=gi.map(m=>m.n).join(" + "),i0=A.indexOf(gi[0]);
  let h='<div class="c xc gcd" style="border:2px solid '+col+'"><div class="gbn" style="background:'+col+'"><div><small>'+kind+' '+gi.map((m,k)=>L[k]).join(" + ")+'</small><b>'+esc(names)+'</b></div><div class="gtn"><small>Tour</small><b>'+tn+' / '+T+'</b></div></div><div class="gbd">';
- for(let t=0;t<T;t++){const done=gi.every(m=>!m.sets[t]||m.sets[t].ok);h+='<div class="gtl'+(done?' dn':'')+'">Tour '+(t+1)+(done?' · terminé':'')+'</div>';
+ for(let t=0;t<T;t++){const done=gi.every(m=>!m.sets[t]||m.sets[t].ok);h+='<div class="gtl'+(done?' dn':'')+'"><span>Tour '+(t+1)+(done?' · terminé':'')+'</span>'+(T>1?'<button class="gtx" data-a="gtdel" data-e="'+i0+'" data-s="'+t+'" aria-label="Retirer le tour '+(t+1)+'">✕ Retirer</button>':'')+'</div>';
   gi.forEach((m,k)=>{const q=m.sets[t];if(!q)return;const mi=A.indexOf(m),l=lastEx(m.n,kOf(m)),pv=l&&(l.sets[t]||l.sets.filter(z=>!z.w).slice(-1)[0]),isC=cur&&cur[0]===m&&cur[1]===t;
    h+='<div class="sr gtr'+(q.ok?' ok':'')+(isC?' now':'')+(q.pr?' pr':'')+'"><span class="gl" style="background:'+(q.ok?'':col)+'">'+L[k]+'</span><span class="gnm">'+esc(m.n)+(isC?'<em>À faire maintenant</em>':'')+'</span>'
    +["kg","r"].map(f=>f==="kg"&&isPdc(m.n)?'<span class="pdcl" aria-label="Poids de corps">PDC</span>':'<input type="number" inputmode="decimal" data-e="'+mi+'" data-s="'+t+'" data-f="'+f+'" value="'+(q[f]==null?"":q[f])+'"'+(pv&&pv[f]!=null?' placeholder="'+pv[f]+'"':(isBW(m.n)&&f==="kg"?' placeholder="0"':''))+' aria-label="'+(f==="r"?"reps":"kg")+' '+esc(m.n)+', tour '+(t+1)+'">').join("")
    +'<button class="ck" data-a="ok" data-e="'+mi+'" data-s="'+t+'" aria-label="Valider '+esc(m.n)+', tour '+(t+1)+'" aria-pressed="'+!!q.ok+'">✓</button>'+(q.rpe&&!q.w?'<button class="rbd" data-a="rqo" data-e="'+mi+'" data-s="'+t+'" aria-label="Effort ressenti '+q.rpe+' sur 10, toucher pour modifier">RPE '+q.rpe+'</button>':'')+'</div>'+rqH(m,mi,t)})}
- h+='<p class="m gnt">Le repos démarre après '+L[n-1]+', à la fin de chaque tour.</p><div class="chips"><button class="chip" data-a="gtour" data-e="'+i0+'">+ Un tour</button>'+gi.map((m,k)=>'<button class="chip'+(GFU[m.id]?' on':'')+'" data-a="gfull" data-e="'+A.indexOf(m)+'">⋯ '+L[k]+' · détails</button>').join("")+'<button class="chip" data-a="gdis" data-e="'+i0+'">Dégrouper</button></div></div></div>';return h}
+ h+='<p class="m gnt">Le repos démarre après '+L[n-1]+', à la fin de chaque tour.</p><div class="chips"><button class="chip" data-a="gtour" data-e="'+i0+'">+ Un tour</button>'+gi.map((m,k)=>k?'<button class="chip" data-a="gup" data-e="'+A.indexOf(m)+'">↑ '+L[k]+' avant '+L[k-1]+'</button>':'').join("")+gi.map((m,k)=>'<button class="chip'+(GFU[m.id]?' on':'')+'" data-a="gfull" data-e="'+A.indexOf(m)+'">⋯ '+L[k]+' · détails</button>').join("")+'<button class="chip" data-a="gdis" data-e="'+i0+'">Dégrouper</button></div></div></div>';return h}
 function rEx(){
  try{fAuto()}catch(_){}
  $("#exl").innerHTML=names().map(n=>'<option value="'+esc(n)+'">').join("");
@@ -2301,11 +2302,13 @@ $("#ex").onclick=e=>{if(Date.now()-DRX<250)return;const hx=e.target.closest(".xn
    const gg=x.g?D().ex.filter(y=>y.g===x.g):[x];if(gg[gg.length-1]===x&&er(x)>0&&!D().t1)tstart(x,er(x))}}
  else if(a==="gtour"){D().ex.filter(y=>y.g&&y.g===x.g).forEach(y=>{const p=y.sets[y.sets.length-1]||{};y.sets.push({kg:p.kg,k0:p.k0,r:p.r,d:p.d,t:p.t,cal:p.cal,h:p.h,b:p.b,rest:isCar(y)?(p.rest==null?60:p.rest):er(y)})})}
  else if(a==="gfull"){GFU[x.id]=!GFU[x.id]}
+ else if(a==="gup"){const A=D().ex,k=A.indexOf(x),p=A[k-1];if(p&&p.g&&p.g===x.g){A[k-1]=x;A[k]=p}}
+ else if(a==="gtdel"){const gg=D().ex.filter(y=>y.g&&y.g===x.g),T=Math.max(...gg.map(y=>y.sets.length)),t=+b.dataset.s;if(T>1){const chk=gg.some(y=>y.sets[t]&&y.sets[t].ok);if(chk&&!arm(b,"Retirer ?"))return;gg.forEach(y=>{if(y.sets[t])y.sets.splice(t,1)})}}
  else if(a==="gdis"){const g=x.g;D().ex.forEach(z=>{if(z.g===g)z.g=undefined})}
  else if(a==="ssp"){SSO[x.id]=!SSO[x.id]}
  else if(a==="sst"){const y=D().ex[+b.dataset.o];if(y&&y!==x){const A=D().ex,clr=g=>{if(g&&A.filter(z=>z.g===g).length<2)A.forEach(z=>{if(z.g===g)z.g=undefined})};
   if(x.g&&y.g===x.g){const g=x.g;y.g=undefined;clr(g)}
-  else{const og=y.g,g=x.g||Date.now();x.g=g;y.g=g;clr(og);const k=A.indexOf(y);A.splice(k,1);let l=-1;A.forEach((z,q)=>{if(z.g===g)l=q});A.splice(l+1,0,y)}}}
+  else{const og=y.g,g=x.g||Date.now(),yi=A.indexOf(y);let f=A.length;A.forEach((z,q)=>{if(z===x||(x.g&&z.g===x.g))f=Math.min(f,q)});x.g=g;y.g=g;clr(og);A.splice(yi,1);if(yi<f){let f2=A.length;A.forEach((z,q)=>{if(z.g===g&&z!==y)f2=Math.min(f2,q)});A.splice(f2,0,y)}else{let l=-1;A.forEach((z,q)=>{if(z.g===g&&z!==y)l=q});A.splice(l+1,0,y)}}}}
  else if(a==="lk"){const nx=D().ex[i+1];if(nx){if(x.g&&nx.g===x.g){const g=x.g;nx.g=undefined;if(D().ex.filter(y=>y.g===g).length<2)x.g=undefined}else{const g=nx.g||x.g||Date.now();x.g=g;nx.g=g}}}
  else if(a==="pl"){PLO[x.id]=!PLO[x.id]}
  else if(a==="eq"){const o=["barre","halteres","autre"];x.eq=o[(o.indexOf(eqi(x))+1)%3];S.eqm[x.n]={eq:x.eq,bar:barOf(x)}}
@@ -3225,8 +3228,10 @@ const dateInit=id=>{const e=$(id);if(!e.value)e.value=today();e.max=today()};
 /* ===== charge d'entraînement : ratio aigu / chronique ===== */
 function loadMap(){const m={};S.sessions.forEach(s=>{if(s.dur>0&&s.rpe>0)m[s.d]=(m[s.d]||0)+s.rpe*s.dur});return m}
 function sumL(m,d,days){const n=dnum(d);let t=0;for(const k in m){const x=dnum(k);if(x<=n&&x>n-days)t+=m[k]}return t}
-function acwr(m,d){const ks=Object.keys(m).map(dnum);if(!ks.length)return null;const hist=Math.min(28,dnum(d)-Math.min(...ks)+1);
- if(hist<21)return null;const a=sumL(m,d,7),c=sumL(m,d,28)/(hist/7);return c>0?{a,c,r:a/c}:null}
+function monW(d){const w=new Date(d+"T00:00:00Z").getUTCDay();return addD(d,-((w+6)%7))}
+function wkL(m,mon){let t=0;for(let i=0;i<7;i++)t+=m[addD(mon,i)]||0;return t}
+function acwr(m,d){const ks=Object.keys(m);if(!ks.length)return null;const dw=new Date(d+"T00:00:00Z").getUTCDay(),lm=dw===0?monW(d):addD(monW(d),-7),fm=monW(ks.sort()[0]),nW=Math.round((dnum(lm)-dnum(fm))/7)+1;
+ if(nW<3)return null;const n=Math.min(4,nW);let tot=0;for(let i=0;i<n;i++)tot+=wkL(m,addD(lm,-7*i));const a=wkL(m,lm),c=tot/n;return c>0?{a,c,r:a/c}:null}
 const rD=r=>r>1.3?clamp((r-1.3)/.5,0,1):r<.8?.35:0;
 const rLab=r=>r<.8?"Sous-charge":r<=1.3?"Zone idéale":r<=1.5?"Charge en hausse : attention":"Pic de charge : alerte";
 function rRpeD(){const L=S.sessions.filter(s=>s.rpeR>0&&s.rpeM>0);$("#cgd").hidden=!L.length;if(!L.length)return;
@@ -3238,13 +3243,13 @@ function rCharge(){
  const m=loadMap(),ks=Object.keys(m),ign=S.sessions.filter(s=>!(s.dur>0&&s.rpe>0)).length,t=today(),R=acwr(m,t),st=(l,v,s)=>'<div>'+l+'<b>'+v+'</b><span class="m">'+s+'</span></div>';
  if(!ks.length){$("#cgz").innerHTML='<p class="m">Enregistre des séances avec une durée et un RPE : la charge se calcule en multipliant les deux (RPE × minutes).</p>';$("#cgb").innerHTML="";$("#cgr").innerHTML="";return}
  const first=Math.min(...ks.map(dnum)),hist=dnum(t)-first+1;
- const nb7=S.sessions.filter(s=>{const x=dnum(s.d),n=dnum(t);return x<=n&&x>n-7}).length;
- $("#cgz").innerHTML=(R?'<div class="zbig" style="background:'+bgD2(rD(R.r))+'"><b>'+rLab(R.r)+'</b>Ratio '+fnum(R.r)+' (charge 7 jours ÷ moyenne hebdomadaire)</div>'
-  :'<div class="zbig" style="background:var(--bg)"><b>Ratio en construction</b>Il faut au moins 3 semaines de séances avec durée ('+Math.max(0,hist)+' jours pour l’instant).</div>')
-  +'<div class="st">'+st("Charge 7 jours",Math.round(sumL(m,t,7))+" UA",nb7+(nb7>1?" séances":" séance"))+st("Moyenne hebdo",R?Math.round(R.c)+" UA":"—","4 dernières semaines")+'</div>'
+ const mw=monW(t),nb7=S.sessions.filter(s=>s.d>=mw&&s.d<=addD(mw,6)).length;
+ $("#cgz").innerHTML=(R?'<div class="zbig" style="background:'+bgD2(rD(R.r))+'"><b>'+rLab(R.r)+'</b>Ratio '+fnum(R.r)+' (dernière semaine lun → dim ÷ moyenne hebdomadaire)</div>'
+  :'<div class="zbig" style="background:var(--bg)"><b>Ratio en construction</b>Il faut au moins 3 semaines (lundi → dimanche) de séances avec durée ('+Math.max(0,hist)+' jours pour l’instant).</div>')
+  +'<div class="st">'+st("Cette semaine",Math.round(wkL(m,mw))+" UA",nb7+(nb7>1?" séances":" séance")+" · lun → dim")+st("Semaine dernière",Math.round(wkL(m,addD(mw,-7)))+" UA","lun → dim")+st("Moyenne hebdo",R?Math.round(R.c)+" UA":"—","4 dernières semaines")+'</div>'
   +'<p class="m">UA = RPE de la séance × durée en minutes. Zone idéale : ratio de 0,8 à 1,3. Au-delà de 1,5, le risque de blessure augmente nettement.'+(ign?' '+ign+(ign>1?' séances sans durée sont ignorées.':' séance sans durée est ignorée.'):'')+'</p>';
- const wk=[];for(let i=7;i>=0;i--){const e=addD(t,-7*i);wk.push({l:fd(e).slice(0,5),v:sumL(m,e,7)})}
- $("#cgb").innerHTML=bchart(wk)+'<p class="m">Chaque barre cumule les 7 jours qui se terminent à la date indiquée.</p>';
+ const wk=[];for(let i=7;i>=0;i--){const e=addD(mw,-7*i);wk.push({l:fd(e).slice(0,5),v:wkL(m,e)})}
+ $("#cgb").innerHTML=bchart(wk)+'<p class="m">Chaque barre cumule une semaine du lundi au dimanche (date = le lundi). La dernière est la semaine en cours.</p>';
  const ds=[...new Set([...ks,t])].sort(),pts=ds.map(d=>{const r=acwr(m,d);return r&&{x:d,y:Math.round(r.r*100)/100,c:dotD2(rD(r.r))}}).filter(Boolean);
  $("#cgr").innerHTML=chart(pts,pts.length>1?1.3:null)+'<p class="m">Ligne pointillée : 1,3, la limite haute de la zone idéale.</p>'}
 
@@ -3595,7 +3600,7 @@ $("#wkp").onclick=()=>{WK--;rSem()};$("#wkn").onclick=()=>{if(WK<0){WK++;rSem()}
 
 function draw(){var L=[banner,secBanners,rLibMy,rReg,rCycRem,rTeam,rRpeD,rGch,rEx,rFchk,rRx,rExos,rProg,rCyc,rWell,rHome,rHcyc,rProf,rRegles,rHisto,rSem,rPoids,rRec,rCharge,rSf,rPain,rTests,rForme,rHub,rWpush,banner];for(var i=0;i<L.length;i++){try{L[i]()}catch(x){try{console.error("draw",L[i].name,x)}catch(_){}window.__de=(window.__de||[]);if(window.__de.length<6)window.__de.push((L[i].name||"?")+" : "+(x&&x.message||x));try{bar("["+(L[i].name||"?")+"] "+(x&&x.message||x))}catch(_){}}}}
 calc();draw();{const h=location.hash.slice(1);if(h&&document.getElementById(h))go(h);else{const d=D();if(d.t0&&!d.t1&&d.edit==null)go("seance")}}
-var BUILD=205,UPW=null,UPGO=false;
+var BUILD=206,UPW=null,UPGO=false;
 function updBar(w){if(document.getElementById("updbar"))return;UPW=w;const d=document.createElement("div");d.id="updbar";d.setAttribute("role","status");d.innerHTML='<span>Nouvelle version disponible</span><button type="button" id="updgo">Mettre à jour</button>';document.body.appendChild(d);
  const b=document.getElementById("updgo");b.onclick=()=>{b.disabled=true;b.textContent="Mise à jour…";if(!UPW){(async()=>{try{if(window.caches){const k=await caches.keys();await Promise.all(k.map(x=>caches.delete(x)))}}catch(e){}location.reload()})();return}UPGO=true;try{UPW.postMessage("skip")}catch(e){location.reload()}setTimeout(()=>location.reload(),4000)}}
 try{document.getElementById("bldv").textContent="Version installée : V"+BUILD}catch(e){}
@@ -4230,7 +4235,7 @@ var GLO={
  well:["Le wellness du matin","Un petit questionnaire de <b>20 secondes</b> au réveil : sommeil, fatigue, courbatures, stress, humeur.","1 = au plus bas, 5 = au top. Réponds avant de t’entraîner, toujours dans les mêmes conditions.","Ça aide l’appli à repérer quand ton corps est en forme ou fatigué."],
  forme:["La forme du jour","Un indice qui résume ton wellness, ton sommeil et ta fréquence cardiaque, comparé à <b>TA moyenne habituelle</b>, pas à celle des autres.","Plus il est bas, plus ton corps demande de la douceur aujourd’hui.","Il devient fiable après environ une semaine de relevés."],
  ua:["La charge d’entraînement","C’est ce que la séance t’a <b>coûté</b>, pas seulement les kilos soulevés. On la calcule : RPE × durée en minutes.","60 minutes à RPE 7 = 420 unités.","Suivre cette charge aide à éviter la fatigue qui s’accumule."],
- acwr:["Le ratio aigu / chronique","Il compare ta charge <b>de la semaine</b> à ta moyenne des <b>4 dernières semaines</b>.","Entre 0,8 et 1,3 : zone idéale · au-dessus de 1,5 : tu as trop monté d’un coup, le risque de blessure augmente · en dessous de 0,8 : tu t’entraînes moins que d’habitude.","Il apparaît après environ 3 semaines de données."],
+ acwr:["Le ratio aigu / chronique","Il compare ta dernière <b>semaine terminée (lundi → dimanche)</b> à ta moyenne des <b>4 dernières semaines</b>.","Entre 0,8 et 1,3 : zone idéale · au-dessus de 1,5 : tu as trop monté d’un coup, le risque de blessure augmente · en dessous de 0,8 : tu t’entraînes moins que d’habitude.","Il apparaît après environ 3 semaines de données."],
  rm1:["Le 1RM","C’est la charge <b>maximale</b> que tu peux soulever une seule fois. L’appli l’estime à partir de tes séries : pas besoin de le tester.","Si ton 1RM au développé couché est de 100 kg, 70 % de ton max = 70 kg.","Ça sert à calculer des charges de travail en pourcentage."],
  wf0:["Sommeil","Comment tu as dormi cette nuit : durée <b>et</b> qualité (endormissement, réveils).","1 = très mal dormi · 5 = nuit parfaite.","Le sommeil est le premier signal de récupération."],
  wf1:["Énergie","Ton niveau d’énergie <b>ce matin</b>, au réveil.","1 = épuisé·e · 5 = plein·e d’énergie.","Ce n’est pas ta motivation : c’est ce que ton corps ressent."],
