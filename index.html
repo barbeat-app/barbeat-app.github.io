@@ -1038,6 +1038,15 @@ body.rb #etb{bottom:calc(150px + env(safe-area-inset-bottom,0px))}
 .hsum{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:8px 0}.hsum>div{background:var(--bg);border:1px solid var(--ln);border-radius:10px;padding:7px 8px}.hsum b{display:block;font-size:16px}.hsum small{color:var(--mu);font-size:11px}.hex{border-top:1px solid var(--ln);padding:8px 0}.hxh{display:flex;justify-content:space-between;gap:8px;align-items:baseline}.hxh>b{color:var(--ac);white-space:nowrap;font-size:14px}.hxc{display:flex;flex-wrap:wrap;gap:5px;margin:6px 0 2px}.hch{background:var(--bg);border:1px solid var(--ln);border-radius:8px;padding:3px 7px;font-size:12.5px}.hch.w{opacity:.6}.hch i{color:var(--ac);font-style:normal}.hxm{font-size:12px;margin:2px 0 0}
 .nuchs.sc{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}.nuchs.sc::-webkit-scrollbar{display:none}.nuchs.sc .nuch{flex:0 0 auto;white-space:nowrap}.nutl{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:8px 0}.nutl button{background:var(--bg);border:1px solid var(--ln);color:var(--ink);border-radius:12px;padding:6px 2px;font:600 11.5px/1.2 inherit;display:flex;flex-direction:column;align-items:center;gap:3px}.nutl button span{font-size:18px}.nulet{position:sticky;top:0;background:var(--sf);font:800 13px/1 inherit;color:var(--ac);padding:8px 2px 4px;border-bottom:1px solid var(--ln);z-index:1}.nuall{display:flex;justify-content:space-between}.nuall span{opacity:.6}
 .gtl{display:flex;justify-content:space-between;align-items:center}.gtx{background:none;border:0;color:var(--mu);font:600 12px inherit;padding:4px 6px;cursor:pointer}#sact .sbar #ghome{padding:6px 12px;font-size:16px;margin-right:6px}
+.gch{display:grid;grid-template-columns:1fr 1fr;gap:8px;font:700 13px sans-serif;margin:2px 0 6px}.gch span{display:flex;align-items:center;gap:6px;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}.gch .gl{font-style:normal;flex:0 0 22px}
+.gdn,.gfu{display:flex;align-items:center;gap:10px;width:100%;box-sizing:border-box;padding:8px 10px;margin:4px 0;border-radius:12px;background:var(--bg);border:1px solid var(--ln);color:var(--ink);font:600 14px sans-serif;text-align:left}.gdn b,.gfu b{flex:0 0 60px;font-size:13px}.gdn span,.gfu span{flex:1;min-width:0}.gdn i{color:var(--ok);font-style:normal}.gdn em{font-style:normal;color:var(--ac);font-size:12px;font-weight:800}
+.gfu{border-style:dashed;opacity:.55;font-weight:500}
+.gop{border:2px solid var(--ac);border-radius:14px;padding:8px 10px 10px;margin:6px 0;background:color-mix(in srgb,var(--ac) 7%,var(--sf))}.gth{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}.gth b{font-size:14px}.gth em{font-style:normal;color:var(--ac);font-size:12px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}.gcl{display:flex;flex-direction:column;gap:6px;align-items:stretch;padding:4px;border-radius:10px;border:1.5px solid transparent}.gcl.now{border-color:var(--ac)}.gci{display:flex;gap:4px}.gci input,.gci .pdcl{flex:1;min-width:0;font-size:18px;height:40px;box-sizing:border-box;text-align:center;padding:2px}.gcl .ck{width:100%;height:40px}
+.gnw{font-size:12.5px;color:var(--ac);text-align:center;margin:8px 0 0}
+.gbt{display:flex;gap:8px;margin-top:8px}.gbt .big{flex:1;margin:0}.gbt .gmo{width:56px;font-size:20px;padding:0}
+.gmn{margin-top:8px;border:1px solid var(--ln);border-radius:14px;background:var(--bg);overflow:hidden}.gmn>button,.gmr{display:grid;grid-template-columns:28px 1fr;align-items:center;column-gap:8px;width:100%;box-sizing:border-box;padding:10px 12px;background:none;border:0;border-top:1px solid var(--ln);color:var(--ink);text-align:left;font:600 14px sans-serif}.gmn>:first-child{border-top:0}.gmn small{grid-column:2;color:var(--mu);font-size:12px}.gmn span{text-align:center;font-size:17px}.gmr{grid-template-columns:28px auto 1fr;justify-items:start}.gmr button{margin-left:6px;min-width:34px;height:32px;border-radius:8px;border:1px solid var(--ln);background:var(--sf);color:var(--ink);font:700 14px sans-serif}
+.gmn .gmr{display:flex;flex-wrap:wrap;align-items:center;gap:6px}.gmn .gmr span{width:28px}.gmn .gmr b{flex:1 1 auto}.gmn .gmr button{margin:0}
 </style>
 </head>
 <body>
@@ -2190,17 +2199,31 @@ const plsH=(e,s)=>{if(eqi(e)!=="barre"||!(s.kg>0))return"";const b=barOf(e);if(s
  const r=platesFor(s.kg,b);if(!r.used.length)return'<span class="m">Barre seule</span>';
  return'<span class="m">Par côté :</span> '+r.used.map(u=>'<b>'+u.n+' × '+String(u.w).replace(".",",")+'</b>').join(' + ')+(r.rest>0?'<span class="m"> · '+fnum(r.got)+' kg possible</span>':'')+'<span class="pd" aria-hidden="true">'+r.used.flatMap(u=>Array.from({length:u.n},()=>'<i style="background:'+u.c+'"></i>')).join("")+'</span>'};
 const rtxt=s=>Math.floor(s/60)+"min "+(s%60)+"s";
-const GFU={};
-function grpCard(gi){const A=D().ex,col=ssCol(gi[0]),n=gi.length,kind=n>=3?"Circuit":"Superset",L="ABCDEFGH",T=Math.max(...gi.map(m=>m.sets.length));
+const GFU={},GTO={},GMN={};
+function grpCard(gi){const A=D().ex,col=ssCol(gi[0]),n=gi.length,kind=n>=3?"Circuit":"Superset",L="ABCDEFGH",T=Math.max(...gi.map(m=>m.sets.length)),gid=gi[0].g;
  let cur=null;for(let t=0;t<T&&!cur;t++)for(const m of gi){const q=m.sets[t];if(q&&!q.ok){cur=[m,t];break}}
- const tn=cur?cur[1]+1:T,names=gi.map(m=>m.n).join(" + "),i0=A.indexOf(gi[0]);
+ const tn=cur?cur[1]+1:T,names=gi.map(m=>m.n).join(" + "),i0=A.indexOf(gi[0]),ct=cur?cur[1]:-1;
+ const inp=(m,mi,t,q,f)=>{const l=lastEx(m.n,kOf(m)),pv=l&&(l.sets[t]||l.sets.filter(z=>!z.w).slice(-1)[0]);return f==="kg"&&isPdc(m.n)?'<span class="pdcl" aria-label="Poids de corps">PDC</span>':'<input type="number" inputmode="decimal" data-e="'+mi+'" data-s="'+t+'" data-f="'+f+'" value="'+(q[f]==null?"":q[f])+'"'+(pv&&pv[f]!=null?' placeholder="'+pv[f]+'"':(isBW(m.n)&&f==="kg"?' placeholder="0"':''))+' aria-label="'+(f==="r"?"reps":"kg")+' '+esc(m.n)+', tour '+(t+1)+'">'};
+ const ckb=(m,mi,t,q)=>'<button class="ck" data-a="ok" data-e="'+mi+'" data-s="'+t+'" aria-label="Valider '+esc(m.n)+', tour '+(t+1)+'" aria-pressed="'+!!q.ok+'">✓</button>';
  let h='<div class="c xc gcd" style="border:2px solid '+col+'"><div class="gbn" style="background:'+col+'"><div><small>'+kind+' '+gi.map((m,k)=>L[k]).join(" + ")+'</small><b>'+esc(names)+'</b></div><div class="gtn"><small>Tour</small><b>'+tn+' / '+T+'</b></div></div><div class="gbd">';
- for(let t=0;t<T;t++){const done=gi.every(m=>!m.sets[t]||m.sets[t].ok);h+='<div class="gtl'+(done?' dn':'')+'"><span>Tour '+(t+1)+(done?' · terminé':'')+'</span>'+(T>1?'<button class="gtx" data-a="gtdel" data-e="'+i0+'" data-s="'+t+'" aria-label="Retirer le tour '+(t+1)+'">✕ Retirer</button>':'')+'</div>';
-  gi.forEach((m,k)=>{const q=m.sets[t];if(!q)return;const mi=A.indexOf(m),l=lastEx(m.n,kOf(m)),pv=l&&(l.sets[t]||l.sets.filter(z=>!z.w).slice(-1)[0]),isC=cur&&cur[0]===m&&cur[1]===t;
-   h+='<div class="sr gtr'+(q.ok?' ok':'')+(isC?' now':'')+(q.pr?' pr':'')+'"><span class="gl" style="background:'+(q.ok?'':col)+'">'+L[k]+'</span><span class="gnm">'+esc(m.n)+(isC?'<em>À faire maintenant</em>':'')+'</span>'
-   +["kg","r"].map(f=>f==="kg"&&isPdc(m.n)?'<span class="pdcl" aria-label="Poids de corps">PDC</span>':'<input type="number" inputmode="decimal" data-e="'+mi+'" data-s="'+t+'" data-f="'+f+'" value="'+(q[f]==null?"":q[f])+'"'+(pv&&pv[f]!=null?' placeholder="'+pv[f]+'"':(isBW(m.n)&&f==="kg"?' placeholder="0"':''))+' aria-label="'+(f==="r"?"reps":"kg")+' '+esc(m.n)+', tour '+(t+1)+'">').join("")
-   +'<button class="ck" data-a="ok" data-e="'+mi+'" data-s="'+t+'" aria-label="Valider '+esc(m.n)+', tour '+(t+1)+'" aria-pressed="'+!!q.ok+'">✓</button>'+(q.rpe&&!q.w?'<button class="rbd" data-a="rqo" data-e="'+mi+'" data-s="'+t+'" aria-label="Effort ressenti '+q.rpe+' sur 10, toucher pour modifier">RPE '+q.rpe+'</button>':'')+'</div>'+rqH(m,mi,t)})}
- h+='<p class="m gnt">Le repos démarre après '+L[n-1]+', à la fin de chaque tour.</p><div class="chips"><button class="chip" data-a="gtour" data-e="'+i0+'">+ Un tour</button>'+gi.map((m,k)=>k?'<button class="chip" data-a="gup" data-e="'+A.indexOf(m)+'">↑ '+L[k]+' avant '+L[k-1]+'</button>':'').join("")+gi.map((m,k)=>'<button class="chip'+(GFU[m.id]?' on':'')+'" data-a="gfull" data-e="'+A.indexOf(m)+'">⋯ '+L[k]+' · détails</button>').join("")+'<button class="chip" data-a="gdis" data-e="'+i0+'">Dégrouper</button></div></div></div>';return h}
+ if(n===2)h+='<div class="gch">'+gi.map((m,k)=>'<span><i class="gl" style="background:'+col+'">'+L[k]+'</i>'+esc(m.n)+'</span>').join("")+'</div>';
+ for(let t=0;t<T;t++){const done=gi.every(m=>!m.sets[t]||m.sets[t].ok),open=t===ct||(done&&GTO[gid+":"+t]),rp=gi.map(m=>m.sets[t]&&m.sets[t].rpe).filter(Boolean)[0];
+  if(done&&!open){h+='<button class="gdn" data-a="gtog" data-e="'+i0+'" data-s="'+t+'" aria-label="Rouvrir le tour '+(t+1)+'"><b>Tour '+(t+1)+'</b>'+gi.map(m=>'<span>'+(m.sets[t]?sTxt(m.sets[t],m.n)+' <i>✓</i>':'—')+'</span>').join("")+(rp?'<em>RPE '+rp+'</em>':'')+'</button>'+gi.map(m=>rqH(m,A.indexOf(m),t)).join("");continue}
+  if(!open){h+='<div class="gfu"><b>Tour '+(t+1)+'</b>'+gi.map(m=>{const q=m.sets[t];return'<span>'+(q&&q.r!=null?'prévu '+(q.kg!=null&&!isPdc(m.n)?q.kg+' × ':'')+q.r:'—')+'</span>'}).join("")+'</div>';continue}
+  h+='<div class="gop"><div class="gth"><b>Tour '+(t+1)+(t===ct?' <em>· en cours</em>':'')+'</b>'+(T>1?'<button class="gtx" data-a="gtdel" data-e="'+i0+'" data-s="'+t+'" aria-label="Retirer le tour '+(t+1)+'">✕ Retirer</button>':'')+'</div>';
+  if(n===2){h+='<div class="g2">'+gi.map((m,k)=>{const q=m.sets[t],mi=A.indexOf(m),isC=cur&&cur[0]===m&&cur[1]===t;if(!q)return'<div class="gcl"></div>';
+    return'<div class="gcl'+(q.ok?' ok':'')+(isC?' now':'')+'"><div class="gci">'+inp(m,mi,t,q,"kg")+inp(m,mi,t,q,"r")+'</div>'+ckb(m,mi,t,q)+'</div>'}).join("")+'</div>'}
+  else gi.forEach((m,k)=>{const q=m.sets[t];if(!q)return;const mi=A.indexOf(m),isC=cur&&cur[0]===m&&cur[1]===t;
+   h+='<div class="sr gtr'+(q.ok?' ok':'')+(isC?' now':'')+'"><span class="gl" style="background:'+(q.ok?'':col)+'">'+L[k]+'</span><span class="gnm">'+esc(m.n)+(isC?'<em>À faire maintenant</em>':'')+'</span>'+inp(m,mi,t,q,"kg")+inp(m,mi,t,q,"r")+ckb(m,mi,t,q)+'</div>'});
+  if(cur&&cur[1]===t&&cur[0]){h+='<p class="gnw">À faire maintenant : <b>'+L[gi.indexOf(cur[0])]+' · '+esc(cur[0].n)+'</b> — le repos démarre après '+L[n-1]+'</p>'}
+  gi.forEach(m=>{h+=rqH(m,A.indexOf(m),t)});
+  h+='</div>'}
+ h+='<div class="gbt"><button class="b big" data-a="gtour" data-e="'+i0+'">+ Un tour</button><button class="b g gmo" data-a="gmenu" data-e="'+i0+'" aria-label="Options du bloc" aria-expanded="'+!!GMN[gid]+'">⋯</button></div>';
+ if(GMN[gid])h+='<div class="gmn">'+gi.map((m,k)=>k?'<button data-a="gup" data-e="'+A.indexOf(m)+'"><span>↕</span><b>'+L[k]+' avant '+L[k-1]+'</b><small>Changer l’ordre</small></button>':'').join("")
+  +(T>1?'<div class="gmr"><span>−</span><b>Retirer un tour</b>'+Array.from({length:T},(_,t)=>'<button data-a="gtdel" data-e="'+i0+'" data-s="'+t+'">'+(t+1)+'</button>').join("")+'</div>':'')
+  +gi.map((m,k)=>'<button data-a="gfull" data-e="'+A.indexOf(m)+'"><span>⋯</span><b>Détails de '+L[k]+' · '+esc(m.n)+'</b><small>Plaques, notes, schéma, vidéo</small></button>').join("")
+  +'<button data-a="gdis" data-e="'+i0+'"><span>⛓</span><b>Dégrouper</b><small>Les exos redeviennent séparés</small></button></div>';
+ return h+'</div></div>'}
 function rEx(){
  try{fAuto()}catch(_){}
  $("#exl").innerHTML=names().map(n=>'<option value="'+esc(n)+'">').join("");
@@ -2295,13 +2318,15 @@ $("#ex").onclick=e=>{if(Date.now()-DRX<250)return;const hx=e.target.closest(".xn
  else if(a==="sga"){const s=sugOf(x);if(s)x.sets.forEach(q=>{if(!q.ok&&!q.w)q.kg=s.kg})}
  else if(a==="as"){const p=x.sets[x.sets.length-1]||{};x.sets.push({kg:p.kg,k0:p.k0,r:p.r,d:p.d,t:p.t,cal:p.cal,h:p.h,b:p.b,rest:isCar(x)?(p.rest==null?60:p.rest):er(x)})}
  else if(a==="ds")x.sets.pop();
- else if(a==="ok"){const s=x.sets[j];s.ok=!s.ok;RPQ=(s.ok&&!s.w&&!isCar(x)&&!s.rpe&&D().edit==null&&!S.set.nrq)?{e:x.id,j}:null;if(s.ok&&isBW(x.n)&&bwOf())s.bw=bwOf();else delete s.bw;if(s.ok&&isCar(x)){if(s.rest>0&&!D().t1)tstart(x,s.rest)}else if(s.ok){const l=lastEx(x.n,kOf(x)),pv=l&&(l.sets[j]||l.sets.filter(q=>!q.w).slice(-1)[0]);
+ else if(a==="ok"){const s=x.sets[j];s.ok=!s.ok;RPQ=(s.ok&&!s.w&&!isCar(x)&&!s.rpe&&D().edit==null&&!S.set.nrq&&(!x.g||D().ex.filter(y=>y.g===x.g).every(y=>!y.sets[j]||y.sets[j].ok)))?{e:x.id,j}:null;if(s.ok&&isBW(x.n)&&bwOf())s.bw=bwOf();else delete s.bw;if(s.ok&&isCar(x)){if(s.rest>0&&!D().t1)tstart(x,s.rest)}else if(s.ok){const l=lastEx(x.n,kOf(x)),pv=l&&(l.sets[j]||l.sets.filter(q=>!q.w).slice(-1)[0]);
    if(s.kg==null&&pv)s.kg=pv.kg;if(s.r==null&&pv)s.r=pv.r;if(isBW(x.n)&&s.kg==null)s.kg=0;
    s.pr=undefined;if(!s.w&&s.kg>0&&s.r>0&&D().edit==null){const pr=recOf(x.n),best=pr&&pr.b1?pr.b1.v:0,v=e1(s.kg,s.r),cur=Math.max(0,...D().ex.filter(y=>y.n===x.n).flatMap(y=>y.sets.filter(q=>q!==s&&q.ok&&!q.w&&q.kg>0&&q.r>0).map(q=>e1(q.kg,q.r))));
     if(best>0&&v>best+.05&&v>cur+.05){s.pr=true;PRNEW=s;setTimeout(()=>{if(PRNEW===s)PRNEW=null},1800);try{navigator.vibrate&&navigator.vibrate([40,40,80])}catch(_){}toast("Nouveau record ! "+x.n+" : 1RM estimé "+fnum(r1(v))+" kg (+"+fnum(r1(v-best))+" kg)")}}
    const gg=x.g?D().ex.filter(y=>y.g===x.g):[x];if(gg[gg.length-1]===x&&er(x)>0&&!D().t1)tstart(x,er(x))}}
  else if(a==="gtour"){D().ex.filter(y=>y.g&&y.g===x.g).forEach(y=>{const p=y.sets[y.sets.length-1]||{};y.sets.push({kg:p.kg,k0:p.k0,r:p.r,d:p.d,t:p.t,cal:p.cal,h:p.h,b:p.b,rest:isCar(y)?(p.rest==null?60:p.rest):er(y)})})}
  else if(a==="gfull"){GFU[x.id]=!GFU[x.id]}
+ else if(a==="gtog"){const k=x.g+":"+j;GTO[k]=!GTO[k]}
+ else if(a==="gmenu"){GMN[x.g]=!GMN[x.g]}
  else if(a==="gup"){const A=D().ex,k=A.indexOf(x),p=A[k-1];if(p&&p.g&&p.g===x.g){A[k-1]=x;A[k]=p}}
  else if(a==="gtdel"){const gg=D().ex.filter(y=>y.g&&y.g===x.g),T=Math.max(...gg.map(y=>y.sets.length)),t=+b.dataset.s;if(T>1){const chk=gg.some(y=>y.sets[t]&&y.sets[t].ok);if(chk&&!arm(b,"Retirer ?"))return;gg.forEach(y=>{if(y.sets[t])y.sets.splice(t,1)})}}
  else if(a==="gdis"){const g=x.g;D().ex.forEach(z=>{if(z.g===g)z.g=undefined})}
@@ -2325,7 +2350,7 @@ $("#ex").onclick=e=>{if(Date.now()-DRX<250)return;const hx=e.target.closest(".xn
  else if(a==="pcs"){pcOf(x).p=+b.dataset.v}
  else if(a==="pcu"){const s=pcOf(x),m=pnum(s.m),q=pnum(s.p);if(m>0&&q>0){const t=x.sets.find(y=>!y.ok&&!y.w)||x.sets.find(y=>!y.ok);if(t)t.kg=rd(m*q/100,2.5);else x.sets.push({kg:rd(m*q/100,2.5),r:(x.sets[x.sets.length-1]||{}).r,rest:er(x)})}}
  else if(a==="wu"){x.sets[j].w=!x.sets[j].w||undefined}
- else if(a==="rq"){const q=x.sets[j];q.rpe=+b.dataset.v;rqCheck(x,j,q)}
+ else if(a==="rq"){const q=x.sets[j];q.rpe=+b.dataset.v;if(x.g)D().ex.filter(y=>y.g===x.g&&y!==x).forEach(y=>{const z=y.sets[j];if(z&&!z.w&&!z.rpe&&!isCar(y))z.rpe=q.rpe});rqCheck(x,j,q)}
  else if(a==="rqx"||a==="rqn"){RPQ=null}
  else if(a==="pnl"){x.sets.forEach(q=>{if(!q.ok&&q.kg>0){if(q.k0!=null)q.k0=rd(q.k0*.8,2.5);q.kg=Math.max(0,rd(q.kg*.8,2.5))}});x.pna=1;toast("Charges baissées de 20 % sur les séries restantes")}
  else if(a==="pna"){RPI=x.id;doRpl(b.dataset.v);toast("Exercice remplacé")}
@@ -3600,7 +3625,7 @@ $("#wkp").onclick=()=>{WK--;rSem()};$("#wkn").onclick=()=>{if(WK<0){WK++;rSem()}
 
 function draw(){var L=[banner,secBanners,rLibMy,rReg,rCycRem,rTeam,rRpeD,rGch,rEx,rFchk,rRx,rExos,rProg,rCyc,rWell,rHome,rHcyc,rProf,rRegles,rHisto,rSem,rPoids,rRec,rCharge,rSf,rPain,rTests,rForme,rHub,rWpush,banner];for(var i=0;i<L.length;i++){try{L[i]()}catch(x){try{console.error("draw",L[i].name,x)}catch(_){}window.__de=(window.__de||[]);if(window.__de.length<6)window.__de.push((L[i].name||"?")+" : "+(x&&x.message||x));try{bar("["+(L[i].name||"?")+"] "+(x&&x.message||x))}catch(_){}}}}
 calc();draw();{const h=location.hash.slice(1);if(h&&document.getElementById(h))go(h);else{const d=D();if(d.t0&&!d.t1&&d.edit==null)go("seance")}}
-var BUILD=206,UPW=null,UPGO=false;
+var BUILD=207,UPW=null,UPGO=false;
 function updBar(w){if(document.getElementById("updbar"))return;UPW=w;const d=document.createElement("div");d.id="updbar";d.setAttribute("role","status");d.innerHTML='<span>Nouvelle version disponible</span><button type="button" id="updgo">Mettre à jour</button>';document.body.appendChild(d);
  const b=document.getElementById("updgo");b.onclick=()=>{b.disabled=true;b.textContent="Mise à jour…";if(!UPW){(async()=>{try{if(window.caches){const k=await caches.keys();await Promise.all(k.map(x=>caches.delete(x)))}}catch(e){}location.reload()})();return}UPGO=true;try{UPW.postMessage("skip")}catch(e){location.reload()}setTimeout(()=>location.reload(),4000)}}
 try{document.getElementById("bldv").textContent="Version installée : V"+BUILD}catch(e){}
