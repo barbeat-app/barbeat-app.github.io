@@ -1047,6 +1047,14 @@ body.rb #etb{bottom:calc(150px + env(safe-area-inset-bottom,0px))}
 .gbt{display:flex;gap:8px;margin-top:8px}.gbt .big{flex:1;margin:0}.gbt .gmo{width:56px;font-size:20px;padding:0}
 .gmn{margin-top:8px;border:1px solid var(--ln);border-radius:14px;background:var(--bg);overflow:hidden}.gmn>button,.gmr{display:grid;grid-template-columns:28px 1fr;align-items:center;column-gap:8px;width:100%;box-sizing:border-box;padding:10px 12px;background:none;border:0;border-top:1px solid var(--ln);color:var(--ink);text-align:left;font:600 14px sans-serif}.gmn>:first-child{border-top:0}.gmn small{grid-column:2;color:var(--mu);font-size:12px}.gmn span{text-align:center;font-size:17px}.gmr{grid-template-columns:28px auto 1fr;justify-items:start}.gmr button{margin-left:6px;min-width:34px;height:32px;border-radius:8px;border:1px solid var(--ln);background:var(--sf);color:var(--ink);font:700 14px sans-serif}
 .gmn .gmr{display:flex;flex-wrap:wrap;align-items:center;gap:6px}.gmn .gmr span{width:28px}.gmn .gmr b{flex:1 1 auto}.gmn .gmr button{margin:0}
+.gcn{display:flex;align-items:center;gap:6px;font:700 13px sans-serif;min-width:0}.gcn span{overflow:hidden;white-space:nowrap;text-overflow:ellipsis}.gcn .gl{font-style:normal;flex:0 0 22px}
+.gci label{display:flex;flex-direction:column;gap:1px;flex:1;min-width:0}.gci small{font:700 10.5px sans-serif;color:var(--mu);text-transform:uppercase;letter-spacing:.06em;text-align:center}
+.gci input,.gci .pdcl{height:32px!important;font-size:16px!important}.gcl .ck{height:32px!important;font-size:15px}
+.gcl.ok .ck,.gcl .ck[aria-pressed=true],#ex .sr.gtr .ck[aria-pressed=true]{background:var(--ok)!important;border-color:var(--ok)!important;color:#fff!important}
+.gcr{display:grid;grid-template-columns:22px minmax(0,1fr) 54px 46px 36px;gap:5px;padding:0 2px}.gcr small{font:700 10.5px sans-serif;color:var(--mu);text-transform:uppercase;text-align:center}
+.gop{padding:6px 8px 8px!important}.gth{margin-bottom:4px!important}.gcl{gap:4px!important;padding:3px!important}.g2{gap:6px!important}
+.gdn,.gfu{padding:6px 9px!important;font-size:13px!important}.gnw{font-size:11.5px!important;margin-top:6px!important}.gbt .big{padding:10px!important;font-size:15px!important}.gbt .gmo{height:42px!important;width:48px!important}
+.gcl.ok .gl{background:var(--ok)!important;color:#fff!important}.gcl.ok .gcn span{opacity:.7}
 </style>
 </head>
 <body>
@@ -2206,15 +2214,14 @@ function grpCard(gi){const A=D().ex,col=ssCol(gi[0]),n=gi.length,kind=n>=3?"Circ
  const inp=(m,mi,t,q,f)=>{const l=lastEx(m.n,kOf(m)),pv=l&&(l.sets[t]||l.sets.filter(z=>!z.w).slice(-1)[0]);return f==="kg"&&isPdc(m.n)?'<span class="pdcl" aria-label="Poids de corps">PDC</span>':'<input type="number" inputmode="decimal" data-e="'+mi+'" data-s="'+t+'" data-f="'+f+'" value="'+(q[f]==null?"":q[f])+'"'+(pv&&pv[f]!=null?' placeholder="'+pv[f]+'"':(isBW(m.n)&&f==="kg"?' placeholder="0"':''))+' aria-label="'+(f==="r"?"reps":"kg")+' '+esc(m.n)+', tour '+(t+1)+'">'};
  const ckb=(m,mi,t,q)=>'<button class="ck" data-a="ok" data-e="'+mi+'" data-s="'+t+'" aria-label="Valider '+esc(m.n)+', tour '+(t+1)+'" aria-pressed="'+!!q.ok+'">✓</button>';
  let h='<div class="c xc gcd" style="border:2px solid '+col+'"><div class="gbn" style="background:'+col+'"><div><small>'+kind+' '+gi.map((m,k)=>L[k]).join(" + ")+'</small><b>'+esc(names)+'</b></div><div class="gtn"><small>Tour</small><b>'+tn+' / '+T+'</b></div></div><div class="gbd">';
- if(n===2)h+='<div class="gch">'+gi.map((m,k)=>'<span><i class="gl" style="background:'+col+'">'+L[k]+'</i>'+esc(m.n)+'</span>').join("")+'</div>';
- for(let t=0;t<T;t++){const done=gi.every(m=>!m.sets[t]||m.sets[t].ok),open=t===ct||(done&&GTO[gid+":"+t]),rp=gi.map(m=>m.sets[t]&&m.sets[t].rpe).filter(Boolean)[0];
+  for(let t=0;t<T;t++){const done=gi.every(m=>!m.sets[t]||m.sets[t].ok),open=t===ct||(done&&GTO[gid+":"+t]),rp=gi.map(m=>m.sets[t]&&m.sets[t].rpe).filter(Boolean)[0];
   if(done&&!open){h+='<button class="gdn" data-a="gtog" data-e="'+i0+'" data-s="'+t+'" aria-label="Rouvrir le tour '+(t+1)+'"><b>Tour '+(t+1)+'</b>'+gi.map(m=>'<span>'+(m.sets[t]?sTxt(m.sets[t],m.n)+' <i>✓</i>':'—')+'</span>').join("")+(rp?'<em>RPE '+rp+'</em>':'')+'</button>'+gi.map(m=>rqH(m,A.indexOf(m),t)).join("");continue}
   if(!open){h+='<div class="gfu"><b>Tour '+(t+1)+'</b>'+gi.map(m=>{const q=m.sets[t];return'<span>'+(q&&q.r!=null?'prévu '+(q.kg!=null&&!isPdc(m.n)?q.kg+' × ':'')+q.r:'—')+'</span>'}).join("")+'</div>';continue}
   h+='<div class="gop"><div class="gth"><b>Tour '+(t+1)+(t===ct?' <em>· en cours</em>':'')+'</b>'+(T>1?'<button class="gtx" data-a="gtdel" data-e="'+i0+'" data-s="'+t+'" aria-label="Retirer le tour '+(t+1)+'">✕ Retirer</button>':'')+'</div>';
   if(n===2){h+='<div class="g2">'+gi.map((m,k)=>{const q=m.sets[t],mi=A.indexOf(m),isC=cur&&cur[0]===m&&cur[1]===t;if(!q)return'<div class="gcl"></div>';
-    return'<div class="gcl'+(q.ok?' ok':'')+(isC?' now':'')+'"><div class="gci">'+inp(m,mi,t,q,"kg")+inp(m,mi,t,q,"r")+'</div>'+ckb(m,mi,t,q)+'</div>'}).join("")+'</div>'}
-  else gi.forEach((m,k)=>{const q=m.sets[t];if(!q)return;const mi=A.indexOf(m),isC=cur&&cur[0]===m&&cur[1]===t;
-   h+='<div class="sr gtr'+(q.ok?' ok':'')+(isC?' now':'')+'"><span class="gl" style="background:'+(q.ok?'':col)+'">'+L[k]+'</span><span class="gnm">'+esc(m.n)+(isC?'<em>À faire maintenant</em>':'')+'</span>'+inp(m,mi,t,q,"kg")+inp(m,mi,t,q,"r")+ckb(m,mi,t,q)+'</div>'});
+    return'<div class="gcl'+(q.ok?' ok':'')+(isC?' now':'')+'"><div class="gcn"><i class="gl" style="background:'+(q.ok?'':col)+'">'+L[k]+'</i><span>'+esc(m.n)+'</span></div><div class="gci"><label><small>'+(isPdc(m.n)?'poids':'kg')+'</small>'+inp(m,mi,t,q,"kg")+'</label><label><small>reps</small>'+inp(m,mi,t,q,"r")+'</label></div>'+ckb(m,mi,t,q)+'</div>'}).join("")+'</div>'}
+  else{h+='<div class="gcr"><span></span><span></span><small>kg</small><small>reps</small><span></span></div>';gi.forEach((m,k)=>{const q=m.sets[t];if(!q)return;const mi=A.indexOf(m),isC=cur&&cur[0]===m&&cur[1]===t;
+   h+='<div class="sr gtr'+(q.ok?' ok':'')+(isC?' now':'')+'"><span class="gl" style="background:'+(q.ok?'':col)+'">'+L[k]+'</span><span class="gnm">'+esc(m.n)+(isC?'<em>À faire maintenant</em>':'')+'</span>'+inp(m,mi,t,q,"kg")+inp(m,mi,t,q,"r")+ckb(m,mi,t,q)+'</div>'})}
   if(cur&&cur[1]===t&&cur[0]){h+='<p class="gnw">À faire maintenant : <b>'+L[gi.indexOf(cur[0])]+' · '+esc(cur[0].n)+'</b> — le repos démarre après '+L[n-1]+'</p>'}
   gi.forEach(m=>{h+=rqH(m,A.indexOf(m),t)});
   h+='</div>'}
@@ -3625,7 +3632,7 @@ $("#wkp").onclick=()=>{WK--;rSem()};$("#wkn").onclick=()=>{if(WK<0){WK++;rSem()}
 
 function draw(){var L=[banner,secBanners,rLibMy,rReg,rCycRem,rTeam,rRpeD,rGch,rEx,rFchk,rRx,rExos,rProg,rCyc,rWell,rHome,rHcyc,rProf,rRegles,rHisto,rSem,rPoids,rRec,rCharge,rSf,rPain,rTests,rForme,rHub,rWpush,banner];for(var i=0;i<L.length;i++){try{L[i]()}catch(x){try{console.error("draw",L[i].name,x)}catch(_){}window.__de=(window.__de||[]);if(window.__de.length<6)window.__de.push((L[i].name||"?")+" : "+(x&&x.message||x));try{bar("["+(L[i].name||"?")+"] "+(x&&x.message||x))}catch(_){}}}}
 calc();draw();{const h=location.hash.slice(1);if(h&&document.getElementById(h))go(h);else{const d=D();if(d.t0&&!d.t1&&d.edit==null)go("seance")}}
-var BUILD=207,UPW=null,UPGO=false;
+var BUILD=208,UPW=null,UPGO=false;
 function updBar(w){if(document.getElementById("updbar"))return;UPW=w;const d=document.createElement("div");d.id="updbar";d.setAttribute("role","status");d.innerHTML='<span>Nouvelle version disponible</span><button type="button" id="updgo">Mettre à jour</button>';document.body.appendChild(d);
  const b=document.getElementById("updgo");b.onclick=()=>{b.disabled=true;b.textContent="Mise à jour…";if(!UPW){(async()=>{try{if(window.caches){const k=await caches.keys();await Promise.all(k.map(x=>caches.delete(x)))}}catch(e){}location.reload()})();return}UPGO=true;try{UPW.postMessage("skip")}catch(e){location.reload()}setTimeout(()=>location.reload(),4000)}}
 try{document.getElementById("bldv").textContent="Version installée : V"+BUILD}catch(e){}
